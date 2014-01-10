@@ -32,6 +32,24 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+group :development, :test do
+  gem 'pry-rails'
+  gem 'pry-remote'
+  gem 'pry-stack_explorer'
+  gem 'pry-debugger'
+end
+
+group :test do
+  gem 'database_cleaner'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'launchy'
+  gem 'capybara', '~> 2.1'
+  gem "shoulda-matchers"
+  gem 'selenium-webdriver'
+  gem "capybara-webkit", '~> 1.0', require: false
+end
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
