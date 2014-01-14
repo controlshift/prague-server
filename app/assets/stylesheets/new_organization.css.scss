@@ -1,0 +1,53 @@
+.new_organization {
+  margin: 200px auto;
+  width: 300px;
+  h2 {
+    font-family: 'Lucida Grande';
+    font-weight: normal;
+    margin-bottom: 40px;
+    color: #444;
+  }
+  input:focus,
+  select:focus,
+  textarea:focus,
+  button:focus {
+      outline: none;
+  }
+  ::-webkit-input-placeholder { 
+    color: #B6C8CE;
+  }
+  :-moz-placeholder {  
+    color: #B6C8CE;
+  }
+
+  ::-moz-placeholder {
+    color: #B6C8CE;
+  }
+  :-ms-input-placeholder {
+    color: #B6C8CE;
+  }
+  input {
+    width: 300px;
+    &[type="submit"] {
+      border: none;
+      background-color: #D7E8EE;
+      padding: 10px 0px;
+      cursor: pointer;
+      width: 120px;
+      margin: 20px auto;
+      display: block;
+      color: #444;
+      font-size: 14px;
+      border-radius: 4px;
+      box-shadow: 2px 2px 0px #444;
+    }
+    &[type="text"] {
+      width: 278px;
+      padding: 10px 10px;
+      border: 1px solid #AAA;
+      height: 20px;
+      font-size: 14px;
+      background-color: #D7E8EE;
+    }
+  }
+}

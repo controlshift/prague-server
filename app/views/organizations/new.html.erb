@@ -1,2 +1,5 @@
-<h1>Organizations#new</h1>
-<p>Find me in app/views/organizations/new.html.erb</p>
+<%= form_for @organization do |f| %>
+  <h2>Start accepting donations</h2>
+  <%= f.text_field :name, placeholder: "Name of your organization" %><br>
+  <%= f.submit 'Continue &#8594;'.html_safe %>
+<% end %>

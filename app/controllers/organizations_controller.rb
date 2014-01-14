@@ -3,5 +3,6 @@ class OrganizationsController < ApplicationController
   end
 
   def new
+    @organization = Organization.new
   end
 end
