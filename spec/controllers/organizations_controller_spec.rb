@@ -11,8 +11,17 @@ describe OrganizationsController do
       request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:stripe_connect] 
 
       post :create
+      expect(response).to render_template("create")
       Organization.last.stripe_user_id.should == 'X'
       Organization.last.stripe_publishable_key.should == 'X'
+    end
+
+    it 'renders new if something goes wrong' do
+      OmniAuth.config.mock_auth[:stripe_connect] = OmniAuth::AuthHash.new({})
+      request.env["omniauth.auth"] = {}
+
+      post :create
+      expect(response).to render_template("new")
     end
   end
 

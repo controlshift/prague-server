@@ -1,4 +1,9 @@
 <div class="new_organization">
-<h2>Start accepting donations</h2>
-<%= link_to 'Continue &#8594;'.html_safe, '/auth/stripe_connect' %>
+  <h2>Start accepting donations</h2>
+  <% if flash[:notice] %>
+    <div class="notice">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+  <%= link_to 'Continue &#8594;'.html_safe, '/auth/stripe_connect' %>
 </div>

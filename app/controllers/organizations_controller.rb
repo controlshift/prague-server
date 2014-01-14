@@ -2,7 +2,9 @@ class OrganizationsController < ApplicationController
   def create
     @organization = Organization.new
     @organization.apply_omniauth(request.env['omniauth.auth'])
-    flash[:notice] = @organization.save ? "You are signed up!" : "Something went wrong."
+    unless @organization.save
+      render :new, notice: "Something went wrong. Please try again."
+    end
   end
 
   def new
