@@ -15,4 +15,11 @@ describe OrganizationsController do
       Organization.last.stripe_publishable_key.should == 'X'
     end
   end
+
+  describe 'GET new' do
+    it 'renders a new template for an Organization' do
+      get :new
+      expect(response).to render_template("new")
+    end
+  end
 end
