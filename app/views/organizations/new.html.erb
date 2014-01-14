@@ -1,5 +1,4 @@
-<%= form_for @organization, url: "/auth/stripe_connect" do |f| %>
-  <h2>Start accepting donations</h2>
-  <%= f.text_field :name, placeholder: "Name of your organization" %><br>
-  <%= f.submit 'Continue &#8594;'.html_safe %>
-<% end %>
+<div class="new_organization">
+<h2>Start accepting donations</h2>
+<%= link_to 'Continue &#8594;'.html_safe, '/auth/stripe_connect' %>
+</div>
