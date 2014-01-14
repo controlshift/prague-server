@@ -1,10 +1,9 @@
 class CreateOrganizations < ActiveRecord::Migration
   def change
     create_table :organizations do |t|
-      t.string :public_key
-      t.string :private_key
-      t.string :merchant_public_id
-      t.string :client_side_encryption_key
+      t.string :access_token
+      t.string :stripe_publishable_key
+      t.string :stripe_user_id
       t.string :name
 
       t.timestamps

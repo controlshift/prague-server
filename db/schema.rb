@@ -17,10 +17,9 @@ ActiveRecord::Schema.define(version: 20140113223528) do
   enable_extension "plpgsql"
 
   create_table "organizations", force: true do |t|
-    t.string   "public_key"
-    t.string   "private_key"
-    t.string   "merchant_public_id"
-    t.string   "client_side_encryption_key"
+    t.string   "access_token"
+    t.string   "stripe_publishable_key"
+    t.string   "stripe_user_id"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
