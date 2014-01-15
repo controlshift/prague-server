@@ -1,0 +1,14 @@
+development:
+  adapter: 
+  encoding: 
+  database: 
+  pool: 
+  username: 
+  password:
+test:
+  adapter: 
+  encoding: 
+  database: 
+  pool: 
+  username: 
+  password:
