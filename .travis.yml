@@ -9,4 +9,5 @@ script:
   - bundle exec rake
 before_script:
   - cp config/database.travis.yml config/database.yml
+  - cp config/stripe.travis.yml config/stripe.yml
   - psql -c 'create database prague_test' -U postgres
