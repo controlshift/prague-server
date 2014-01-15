@@ -1,5 +1,5 @@
 PragueServer::Application.routes.draw do
-  resources :organizations, only: [:create, :new]
+  resources :organizations, only: [:create, :new, :show]
 
   get '/auth/:provider/callback', to: 'organizations#create'
 

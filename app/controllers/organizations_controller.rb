@@ -2,9 +2,15 @@ class OrganizationsController < ApplicationController
   def create
     @organization = Organization.new
     @organization.apply_omniauth(request.env['omniauth.auth'])
-    unless @organization.save
+    if @organization.save
+      redirect_to @organization
+    else
       render :new, notice: "Something went wrong. Please try again."
     end
+  end
+
+  def show
+    @organization = Organization.find(params[:id])
   end
 
   def new
