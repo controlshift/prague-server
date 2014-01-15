@@ -16,10 +16,15 @@ describe OrganizationsController do
       Organization.last.stripe_publishable_key.should == 'X'
     end
 
-    it 'renders new if something goes wrong' do
+    it 'renders new if something goes wrong with creating an organization' do
       OmniAuth.config.mock_auth[:stripe_connect] = OmniAuth::AuthHash.new({})
       request.env["omniauth.auth"] = {}
+      post :create
+      expect(response).to render_template("new")
+    end
 
+    it 'renders new if some OmniAuth error is raised' do
+      OmniAuth.config.mock_auth[:stripe_connect] = :access_denied
       post :create
       expect(response).to render_template("new")
     end

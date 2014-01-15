@@ -10,4 +10,8 @@ class OrganizationsController < ApplicationController
   def new
     @organization = Organization.new
   end
+
+  def omniauth_failure
+    redirect_to new_organization_path, notice: "Something went wrong. Please try again."
+  end
 end
