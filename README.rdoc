@@ -1,3 +1,5 @@
 == Donation Labs
 
 This will be the API server for the donation widget.
+
+{<img src="https://travis-ci.org/controlshift/prague-server.png?branch=master" alt="Build Status" />}[https://travis-ci.org/controlshift/prague-server]
