@@ -24,5 +24,9 @@ describe Organization do
     specify 'invalid hash' do
       expect { organization.apply_omniauth({}) }.to_not raise_error
     end
+
+    specify 'omniauth hash not provided' do
+      expect { organization.apply_omniauth(nil) }.to_not raise_error
+    end
   end
 end
