@@ -8,4 +8,24 @@ describe "Organization signs up" do
       current_path.should == new_organization_path
     end
   end
+
+  context "when organization fills out the form correctly" do
+    let(:auth_hash) { {
+      'uid' => 'X',
+      'info' => { 'stripe_publishable_key' => 'X' },
+      'credentials' => { 'token' => 'X' }
+    } }
+
+    before do
+      OmniAuth.config.mock_auth[:stripe_connect] = auth_hash
+    end
+
+    it "redirects to the show page and exposes the organization's API slug" do
+      visit new_organization_path
+      click_link 'stripe-connect-link'
+      slug = Organization.last.slug
+      current_path.should == organization_path(slug)
+      page.should have_text(slug)
+    end
+  end
 end

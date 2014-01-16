@@ -10,7 +10,7 @@ class OrganizationsController < ApplicationController
   end
 
   def show
-    @organization = Organization.find(params[:id])
+    @organization = Organization.find_by_slug(params[:id])
   end
 
   def new
