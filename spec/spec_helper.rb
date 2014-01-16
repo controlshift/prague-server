@@ -7,6 +7,7 @@ require 'pry'
 require 'capybara/rspec'
 require 'capybara/rails'
 require 'shoulda/matchers'
+require 'stripe_mock'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -30,6 +31,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
+    StripeMock.start
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
   end

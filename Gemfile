@@ -30,6 +30,9 @@ gem 'jbuilder', '~> 1.2'
 gem 'omniauth'
 gem 'omniauth-stripe-connect'
 gem 'stripe'
+gem 'stripe-ruby-mock'
+
+gem 'sidekiq'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

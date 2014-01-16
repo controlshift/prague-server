@@ -32,12 +32,6 @@ describe OrganizationsController do
       it 'renders new if something goes wrong with creating an organization' do
         expect(response).to render_template("new")
       end
-
-      it 'renders new if some OmniAuth error is raised' do
-        OmniAuth.config.mock_auth[:stripe_connect] = :access_denied
-        visit "/auth/stripe_connect/callback"
-        expect(response).to render_template("new")
-      end
     end
   end
 
