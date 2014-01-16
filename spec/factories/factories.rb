@@ -5,4 +5,12 @@ FactoryGirl.define do
     stripe_publishable_key 'x'
     stripe_user_id 'x'
   end
+
+  factory :customer do
+    first_name 'Rex'
+    last_name 'Tillerson'
+    email 'rex@exxon.com'
+    zip '90004'
+    country 'US'
+  end
 end
