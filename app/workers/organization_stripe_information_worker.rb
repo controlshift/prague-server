@@ -4,6 +4,6 @@ class OrganizationStripeInformationWorker
   def perform(organization_id)
     organization = Organization.find(organization_id)
     account = Stripe::Account.retrieve(organization.access_token)
-    organization.update_attribute(:name, account.name)
+    organization.update_attributes(name: account.name, email: account.email)
   end
 end

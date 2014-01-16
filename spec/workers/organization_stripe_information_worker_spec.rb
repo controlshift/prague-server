@@ -9,14 +9,13 @@ describe OrganizationStripeInformationWorker do
     before do
       Sidekiq::Testing.inline!
       account.name = 'Foo'
+      account.email = 'foo@bar.com'
       Stripe::Account.stub(:retrieve).and_return(account)
     end
 
-    specify 'it should update the organization name' do
-      expect {
-        OrganizationStripeInformationWorker.perform_async(organization.id)
-        organization.reload
-      }.to change(organization, :name).to('Foo')
-    end
+    subject { -> { OrganizationStripeInformationWorker.perform_async(organization.id); organization.reload } }
+
+    it { should change(organization, :name).to('Foo') }
+    it { should change(organization, :email).to('foo@bar.com') }
   end
 end
