@@ -6,9 +6,16 @@ describe Organization do
   it { should validate_presence_of :stripe_publishable_key }
   it { should validate_presence_of :access_token }
 
-  describe '#apply_omniauth' do
-    let(:organization) { build(:organization) }
+  let(:organization) { build(:organization) }
 
+  describe '#update_account_information_from_stripe!' do
+    specify 'it should kick off a job :after_create' do
+      OrganizationStripeInformationWorker.should_receive(:perform_async)
+      organization.save!
+    end
+  end
+
+  describe '#apply_omniauth' do
     specify 'with all valid credentials supplied' do
       organization.apply_omniauth({
         'uid' => 'X',

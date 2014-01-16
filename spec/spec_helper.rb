@@ -6,6 +6,7 @@ require 'capybara-webkit'
 require 'pry'
 require 'capybara/rspec'
 require 'capybara/rails'
+require 'sidekiq/testing'
 require 'shoulda/matchers'
 require 'stripe_mock'
 
@@ -31,7 +32,6 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
-    StripeMock.start
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
   end
