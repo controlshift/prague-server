@@ -37,6 +37,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
+    Sidekiq::Testing.disable!
     DatabaseCleaner.start
   end
 

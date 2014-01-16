@@ -19,5 +19,12 @@ describe ChargesController do
         response.should be_success
       end
     end
+
+    context 'if i don\'t pass the required parameters' do
+      it 'should response with unprocessable entity' do
+        post :create
+        response.should be_unprocessable
+      end
+    end 
   end
 end

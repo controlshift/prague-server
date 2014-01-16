@@ -8,6 +8,8 @@ class ChargesController < ApplicationController
     else
       render json: { error: "Something went wrong. Try again." }, status: :unprocessable_entity 
     end
+  rescue ActionController::ParameterMissing
+    render json: { error: "You must provide all of the required parameters. Check the documentation." }, status: :unprocessable_entity 
   end
 
   private
