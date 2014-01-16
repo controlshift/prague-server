@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CreateCustomerTokenWorker do
   
-  let(:card_token) { StripeMock.generate_card_token(last4: "9191", exp_year: 1984) }
+  let(:card_token) { StripeMock.generate_card_token(last4: "9191", exp_year: 2015) }
   let(:customer) { create(:customer, customer_token: nil) }
 
   describe '#perform' do
