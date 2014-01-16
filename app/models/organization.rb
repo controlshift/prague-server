@@ -1,4 +1,6 @@
 class Organization < ActiveRecord::Base
+  include HasSlug
+  
   validates_presence_of :stripe_user_id, :stripe_publishable_key, :access_token
 
   after_create :update_account_information_from_stripe!
