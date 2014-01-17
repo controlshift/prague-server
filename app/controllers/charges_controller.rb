@@ -3,7 +3,7 @@ class ChargesController < ApplicationController
   def create
     customer = Customer.new(customer_params)
     if customer.save
-      CreateCustomerTokenWorker.perform_async(customer.id, card_token_param)
+      CreateCustomerTokenWorker.perform_async(customer.id, card_token_param, organization_slug_param)
       render json: { customer_id: customer.id }, status: :ok
     else
       render json: { error: "Something went wrong. Try again." }, status: :unprocessable_entity 
@@ -20,5 +20,9 @@ class ChargesController < ApplicationController
 
   def card_token_param
     params.require(:card_token)
+  end
+
+  def organization_slug_param
+    params.require(:organization_slug)
   end
 end

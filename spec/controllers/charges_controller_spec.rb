@@ -13,7 +13,7 @@ describe ChargesController do
 
       it 'should save and process the customer' do
         CreateCustomerTokenWorker.should_receive(:perform_async)
-        post :create, customer: valid_customer_parameters, card_token: valid_card_token
+        post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: 'org'
         customer = Customer.where(email: valid_customer_parameters['email']).first
         customer.should_not be_nil
         response.should be_success

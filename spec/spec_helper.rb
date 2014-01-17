@@ -31,13 +31,9 @@ RSpec.configure do |config|
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = false
 
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.clean_with(:truncation)
-  end
-
   config.before(:each) do
     Sidekiq::Testing.disable!
+    DatabaseCleaner.strategy = example.metadata[:js] ? :truncation : :transaction
     DatabaseCleaner.start
   end
 

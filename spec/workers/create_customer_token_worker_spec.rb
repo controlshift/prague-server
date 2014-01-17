@@ -12,7 +12,7 @@ describe CreateCustomerTokenWorker do
     end
 
     specify 'it should update customer with a token' do
-      CreateCustomerTokenWorker.perform_async(customer.id, card_token)
+      CreateCustomerTokenWorker.perform_async(customer.id, card_token, "org")
       customer.reload
       customer.customer_token.should match(/cus_.*/)
     end
