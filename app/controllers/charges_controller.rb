@@ -2,8 +2,9 @@ class ChargesController < ApplicationController
 
   def create
     customer = Customer.new(customer_params)
+    customer.charges.first.organization = Organization.find_by_slug(organization_slug_param)
     if customer.save
-      CreateCustomerTokenWorker.perform_async(customer.id, card_token_param, organization_slug_param)
+      CreateCustomerTokenWorker.perform_async(customer.id, card_token_param)
       render json: { customer_id: customer.id }, status: :ok
     else
       render json: { error: "Something went wrong. Try again." }, status: :unprocessable_entity 
@@ -15,7 +16,7 @@ class ChargesController < ApplicationController
   private
 
   def customer_params
-    params.require(:customer).permit(:first_name, :last_name, :email, :country, :zip)
+    params.require(:customer).permit(:first_name, :last_name, :email, :country, :zip, charges_attributes: [:currency, :amount])
   end
 
   def card_token_param

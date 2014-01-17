@@ -8,14 +8,28 @@ describe ChargesController do
 
   describe 'POST create' do
     context 'with valid card_token and customer parameters' do
-      let(:valid_customer_parameters) { { 'first_name' => 'Foo', 'last_name' => 'Bar', 'email' => 'foo@bar.com', 'country' => 'US', 'zip' => '90004'} }
+      let(:valid_customer_parameters) { 
+        { 'first_name' => 'Foo', 
+          'last_name' => 'Bar', 
+          'email' => 'foo@bar.com', 
+          'country' => 'US', 
+          'zip' => '90004',
+          'charges_attributes' => [
+            'amount' => '1000',
+            'currency' => 'usd'
+          ]
+        }
+      }
       let(:valid_card_token) { StripeMock.generate_card_token(last4: '9191', exp_year: 2015) }
+      let(:organization) { create(:organization) }
 
       it 'should save and process the customer' do
         CreateCustomerTokenWorker.should_receive(:perform_async)
-        post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: 'org'
+        post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug
         customer = Customer.where(email: valid_customer_parameters['email']).first
         customer.should_not be_nil
+        customer.charges.should_not be_empty
+        customer.charges.first.organization.should == organization
         response.should be_success
       end
     end
