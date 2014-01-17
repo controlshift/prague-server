@@ -32,6 +32,8 @@ gem 'omniauth-stripe-connect'
 gem 'stripe'
 gem 'stripe-ruby-mock'
 
+gem 'pusher'
+
 gem 'sidekiq'
 
 group :doc do

@@ -5,7 +5,7 @@ class ChargesController < ApplicationController
     customer.charges.first.organization = Organization.find_by_slug(organization_slug_param)
     if customer.save
       CreateCustomerTokenWorker.perform_async(customer.id, card_token_param)
-      render json: { customer_id: customer.id }, status: :ok
+      render json: { pusher_channel_token: customer.charges.first.pusher_channel_token }, status: :ok
     else
       render json: { error: "Something went wrong. Try again." }, status: :unprocessable_entity 
     end

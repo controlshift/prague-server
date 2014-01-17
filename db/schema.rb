@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140116224126) do
+ActiveRecord::Schema.define(version: 20140117214246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20140116224126) do
     t.datetime "charged_back_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "pusher_channel_token"
   end
 
   add_index "charges", ["customer_id"], name: "index_charges_on_customer_id", using: :btree
