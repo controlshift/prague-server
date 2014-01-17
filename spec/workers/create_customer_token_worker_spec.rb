@@ -3,7 +3,7 @@ require 'spec_helper'
 describe CreateCustomerTokenWorker do
   
   let(:card_token) { StripeMock.generate_card_token(last4: "9191", exp_year: 2015) }
-  let(:customer) { create(:customer, customer_token: nil) }
+  let(:customer) { create(:customer, customer_token: nil, charges: [ build(:charge) ] ) }
 
   describe '#perform' do
     before do

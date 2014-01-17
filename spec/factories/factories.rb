@@ -12,7 +12,6 @@ FactoryGirl.define do
     email 'rex@exxon.com'
     zip '90004'
     country 'US'
-    charges { [ build(:charge) ] }
   end
 
   factory :charge do
