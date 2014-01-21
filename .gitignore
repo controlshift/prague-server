@@ -16,4 +16,5 @@
 /tmp
 /config/database.yml
 /config/stripe.yml
+/config/pusher.yml
 .idea
