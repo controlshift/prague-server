@@ -17,5 +17,7 @@ FactoryGirl.define do
   factory :charge do
     currency 'usd'
     amount 1000
+    organization
+    customer
   end
 end

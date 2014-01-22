@@ -2,8 +2,7 @@ class Charge < ActiveRecord::Base
   belongs_to :customer
   belongs_to :organization
 
-  validates_presence_of :amount
-  validates_presence_of :currency
+  validates :amount, :currency, :customer, :organization, presence: true
 
   before_create :build_pusher_channel_token
 

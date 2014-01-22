@@ -1,21 +1,22 @@
 require 'spec_helper'
 
 describe OrganizationStripeInformationWorker do
-  let(:organization) { create(:organization) }
-  let(:account) { Stripe::Account.new }
+  let(:organization) { create(:organization, email: nil) }
 
   describe '#perform' do
 
     before do
       Sidekiq::Testing.inline!
-      account.name = 'Foo'
-      account.email = 'foo@bar.com'
-      Stripe::Account.stub(:retrieve).and_return(account)
+      Organization.any_instance.stub(:update_account_information_from_stripe!)
+      StripeMock.start
     end
 
-    subject { -> { OrganizationStripeInformationWorker.perform_async(organization.id); organization.reload } }
+    specify 'it should grab information from the account by id' do
+      expect {
+        OrganizationStripeInformationWorker.perform_async(organization.id)
+        organization.reload
+      }.to change(organization, :email).from(nil)
+    end
 
-    it { should change(organization, :name).to('Foo') }
-    it { should change(organization, :email).to('foo@bar.com') }
   end
 end

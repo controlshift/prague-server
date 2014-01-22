@@ -30,7 +30,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'omniauth'
 gem 'omniauth-stripe-connect'
 gem 'stripe'
-gem 'stripe-ruby-mock'
+gem 'stripe-ruby-mock', git: 'git@github.com:controlshift/stripe-ruby-mock.git'
 
 gem 'pusher'
 
