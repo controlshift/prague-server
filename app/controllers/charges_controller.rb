@@ -1,5 +1,8 @@
 class ChargesController < ApplicationController
 
+  # Necessary for exposing the API
+  skip_before_action :verify_authenticity_token, only: [ :create ]
+
   def create
     customer = Customer.new(customer_params)
     customer.charges.first.organization = Organization.find_by_slug(organization_slug_param)
