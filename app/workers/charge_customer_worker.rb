@@ -11,5 +11,18 @@ class ChargeCustomerWorker
       },
       charge.organization.access_token
     )
+    Pusher[charge.pusher_channel_token].trigger('charge_completed', {
+      status: 'success'
+    })
+  rescue Stripe::CardError => e
+    Pusher[charge.pusher_channel_token].trigger('charge_completed', {
+      status: 'failure',
+      message: e.message
+    })
+  rescue Stripe::StripeError
+    Pusher[charge.pusher_channel_token].trigger('charge_completed', {
+      status: 'failure',
+      message: 'Something went wrong, please try again.'
+    })
   end
 end
