@@ -28,7 +28,7 @@ class ChargeCustomerWorker
   rescue Stripe::StripeError => e
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
-      message: e.message
+      message: "Something went wrong, please try again."
     })
   end
 end

@@ -7,6 +7,7 @@ describe ChargeCustomerWorker do
       charge
       Sidekiq::Testing.inline!
       StripeMock.start
+      Stripe::StripeObject.any_instance.stub(:id).and_return('tok_test')
     end
 
     specify 'it should request a charge from Stripe and push success' do
