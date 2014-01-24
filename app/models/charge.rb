@@ -7,6 +7,6 @@ class Charge < ActiveRecord::Base
   before_create :build_pusher_channel_token
 
   def build_pusher_channel_token
-    self.pusher_channel_token = SecureRandom.base64
+    self.pusher_channel_token = Array.new(24){[*'0'..'9', *'a'..'z', *'A'..'Z'].sample}.join
   end
 end
