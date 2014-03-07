@@ -1,9 +1,45 @@
-<div class="new_organization">
-  <h2>Start accepting donations</h2>
-  <% if flash[:notice] %>
-    <div class="notice">
-      <%= flash[:notice] %>
-    </div>
-  <% end %>
-  <%= link_to 'Continue &#8594;'.html_safe, '/auth/stripe_connect', id: 'stripe-connect-link' %>
-</div>
+
+<div class="wrapper">
+    <header>
+      <div class="new_organization">
+        <% if flash[:notice] %>
+          <div class="notice">
+            <%= flash[:notice] %>
+          </div>
+        <% end %>
+        <%= image_tag "donations-screenshot.png" %>
+        <%= link_to('/auth/stripe_connect', html: {id: 'stripe-connect-link'}) do %>
+          <div class="btn">
+            <div class="btn-header"><%= 'GET STARTED '.html_safe %></div>
+          </div>
+        <% end %>
+      </div>
+    </header>
+    <section>
+      <h1>Donations by ControlShift Labs</h1>
+      <p>Here's an easy solution to your donation problems. </p>
+      <p>Our newest donations product gives you a simple way for you to start accepting donations in a few easy steps, <strong>without needing to code.</strong></p>
+      <p>See a full demo here: <a href="http://www.changesprout.com/prague-client/">http://www.changesprout.com/prague-client/</a></p>
+      <p>Just follow these steps, and you'll be set up in no time with an elegant donations form.</p>
+      <h2>Steps</h2>
+      <p>First we need to create an account with Stripe. This allows us to charge customers. Just:
+      <ul>
+      <li>Click the "CONTINUE" link on the left</li>
+      <li>After you've completed the form you'll be brought to a page with your unique identifier.</li>
+      <li>Go to the <a href="https://github.com/controlshift/prague-server">Github site</a> for the form, and follow the instructions there.</li>
+      <li>Done!</li>
+      </ul>
+      <h3>FAQ</h3>
+      <p><em>How much does this cost?</em></p>
+      <p>There is no upfront cost. Our payment processor Stripe charges a fixed fee of 2.9% + 30&cent; per transaction. We plan to charge a fixed percentage on top of that.</p>
+      <p><em>Do I need to be able to code to do this?</em></p>
+      <p><strong>No.</strong> The only part where you need to touch code is a simple copy-paste, where you paste two lines of code - one to show us where you want the form, and the other to stick at the bottom. As long as you have access to your code it's very straightforward, and remember - you can contact us at any time. We're a small team and happy to help.</p>
+      <p><em>Is ControlShift Labs itself a nonprofit?</em></p>
+      <p>Yes!</p>
+    </section>
+    <footer>
+      <p>This is a project by <a href="http://controlshiftlabs.com">ControlShift Labs</a></p>
+      <p><small>Hosted on GitHub Pages &mdash; at <a href="https://github.com/controlshift/prague-server">Prague Server</a></small></p>
+    </footer>
+  </div>
+</body>
