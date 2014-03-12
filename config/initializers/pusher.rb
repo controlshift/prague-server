@@ -1,6 +1,7 @@
-begin
-  config = YAML::load(File.open("#{Rails.root}/config/pusher.yml"))
-rescue LoadError
+path = "#{Rails.root}/config/pusher.yml"
+if File.exist? path
+  config = YAML::load(File.open(path))
+else
   config = ENV
 end
 

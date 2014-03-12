@@ -1,6 +1,7 @@
-begin
-  CONF = YAML::load(File.open("#{Rails.root}/config/stripe.yml"))
-rescue LoadError
+path = "#{Rails.root}/config/stripe.yml"
+if File.exist? path
+  CONF = YAML::load(File.open(path))
+else
   CONF = ENV
 end
 
