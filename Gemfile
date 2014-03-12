@@ -30,7 +30,6 @@ gem 'jbuilder', '~> 1.2'
 gem 'omniauth'
 gem 'omniauth-stripe-connect'
 gem 'stripe'
-gem 'stripe-ruby-mock', git: 'git@github.com:controlshift/stripe-ruby-mock.git'
 
 gem 'pusher'
 
@@ -51,6 +50,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'stripe-ruby-mock', git: 'git@github.com:controlshift/stripe-ruby-mock.git'
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
