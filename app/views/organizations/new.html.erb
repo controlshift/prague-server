@@ -24,12 +24,21 @@
       <h2>Steps</h2>
       <p>First we need to create an account with Stripe. This allows us to charge customers. Just:
       <ul>
-      <li>Click the "CONTINUE" link on the left</li>
-      <li>After you've completed the form you'll be brought to a page with your unique identifier.</li>
-      <li>Go to the <a href="https://github.com/controlshift/prague-server">Github site</a> for the form, and follow the instructions there.</li>
-      <li>Done!</li>
+        <li>Click the "CONTINUE" link on the left</li>
+        <li>After you've completed the form you'll be brought to a page with your unique identifier.</li>
+        <li>Go to the <a href="https://github.com/controlshift/prague-server">Github site</a> for the form, and follow the instructions there.</li>
+        <li>Done!</li>
       </ul>
-      <h3>FAQ</h3>
+      <h2>Security</h2>
+      <p>To give you an overview of how things work when you install our service:</p>
+      <ul>
+        <li>Your supporter sends his credit card info over HTTPS from you to Stripe, which doesn't touch our servers at all.</li>
+        <li>You get back a credit card token, which you then submit to us.</li>
+        <li>We use that card token to charge the user on your behalf.</li>
+        <li>Once a transaction has been processed, we notify the user whether it was successful or not.</li>
+      </ul>
+      <p>As a part of Donate Lab's partnership with Stripe (and in the spirit of general web safety), we use HTTPS as opposed to HTTP to transmit data. This means you too have to have an HTTPS URL in order to use this service. Why use this? Because it means that we can verify that there isn't a third party causing trouble by intercepting requests.</p>
+      <h2>FAQ</h2>
       <p><em>How much does this cost?</em></p>
       <p>There is no upfront cost. Our payment processor Stripe charges a fixed fee of 2.9% + 30&cent; per transaction. We plan to charge a fixed percentage on top of that.</p>
       <p><em>Do I need to be able to code to do this?</em></p>
