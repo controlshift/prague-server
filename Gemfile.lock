@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:controlshift/stripe-ruby-mock.git
+  remote: https://github.com/controlshift/stripe-ruby-mock.git
   revision: 021276b088153b75e3b5a24ead6d159fd0124e81
   specs:
     stripe-ruby-mock (1.8.7.4)

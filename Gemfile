@@ -50,7 +50,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'stripe-ruby-mock', git: 'git@github.com:controlshift/stripe-ruby-mock.git'
+  gem 'stripe-ruby-mock', git: 'https://github.com/controlshift/stripe-ruby-mock.git'
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
