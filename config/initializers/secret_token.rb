@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-PragueServer::Application.config.secret_key_base = ENV['SECRET_KEY_BASE']
+PragueServer::Application.config.secret_key_base = (Rails.env.development? || Rails.env.test?) ? ('x' * 30) : ENV['SECRET_KEY_BASE']
