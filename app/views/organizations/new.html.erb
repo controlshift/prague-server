@@ -8,7 +8,7 @@
           </div>
         <% end %>
         <%= image_tag "donations-screenshot.png" %>
-        <%= link_to('/auth/stripe_connect', html: {id: 'stripe-connect-link'}) do %>
+        <%= link_to('/auth/stripe_connect', id: 'stripe-connect-link') do %>
           <div class="btn">
             <div class="btn-header"><%= 'GET STARTED '.html_safe %></div>
           </div>
