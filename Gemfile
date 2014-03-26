@@ -35,6 +35,8 @@ gem 'pusher'
 
 gem 'sidekiq'
 
+gem 'sinatra', '>= 1.3.0', :require => nil
+
 gem 'rack-cors', :require => 'rack/cors'
 
 group :doc do
