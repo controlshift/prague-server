@@ -2,6 +2,7 @@ class ChargesController < ApplicationController
 
   # Necessary for exposing the API
   skip_before_action :verify_authenticity_token, only: [ :create ]
+  before_filter :authenticate_organization!, only: [:index]
 
   def create
     customer = Customer.new(customer_params)
