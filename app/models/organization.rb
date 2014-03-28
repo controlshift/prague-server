@@ -17,4 +17,9 @@ class Organization < ActiveRecord::Base
     self.stripe_publishable_key = omniauth_hash['info'].try(:[], 'stripe_publishable_key')
     self.access_token = omniauth_hash['credentials'].try(:[], 'token')
   end
+
+  def code_snippet
+    "<script src=\"https://s3.amazonaws.com/prague-production/jquery.donations.loader.js\" id=\"donation-script\" data-org=\"#{slug}\" 
+      data-pathtoserver=\"https://www.donatelab.com\" data-stripepublickey=\"pk_live_TkBE6KKwIBdNjc3jocHvhyNx\"></script>"
+  end
 end
