@@ -13,9 +13,7 @@ PragueServer::Application.routes.draw do
   end 
   mount Sidekiq::Web => '/sidekiq'
 
+  delete 'sign_out', to: 'sessions#destroy'
+
   devise_for :organizations
-  devise_scope :organizations do
-    get 'sign_in', :to => 'devise/sessions#new', :as => :new_user_session
-    get 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
-  end
 end

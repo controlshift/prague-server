@@ -5,7 +5,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.new
     @organization.apply_omniauth(request.env['omniauth.auth'])
     if @organization.save
-      sign_in organization
+      sign_in @organization
       redirect_to @organization
     else
       render :new, notice: "Something went wrong. Please try again."
@@ -27,7 +27,11 @@ class OrganizationsController < ApplicationController
   def sign_in_if_organization_exists
     organization = Organization.find_for_stripe_oauth(request.env['omniauth.auth'])
     if organization.present?
-      sign_in_and_redirect organization
+      sign_in_and_redirect organization, event: :authentication
     end
+  end
+
+  def after_sign_in_path_for resource
+    organization_path(current_organization)
   end
 end

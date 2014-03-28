@@ -31,6 +31,8 @@ RSpec.configure do |config|
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = false
 
+  config.include Devise::TestHelpers, :type => :controller
+
   config.before(:each) do
     Sidekiq::Testing.disable!
     DatabaseCleaner.strategy = example.metadata[:js] ? :truncation : :transaction

@@ -1,7 +1,8 @@
 class Organization < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :rememberable, :trackable, :omniauthable, :omniauth_providers => [:stripe_connect]
+  devise :rememberable, :trackable
+
   include HasSlug
 
   has_many :charges
