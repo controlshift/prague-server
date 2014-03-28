@@ -81,7 +81,10 @@ describe OrganizationsController do
   describe 'GET show' do
     let(:organization) {create(:organization) }
 
-    before(:each) { get :show, id: organization }
+    before(:each) do 
+      sign_in organization
+      get :show, id: organization 
+    end
 
     it 'should show an organization' do
       expect(response).to render_template(:show)

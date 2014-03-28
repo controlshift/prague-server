@@ -1,5 +1,6 @@
 class OrganizationsController < ApplicationController
   before_filter :sign_in_if_organization_exists, only: [:create]
+  before_filter :authenticate_organization!, only: [:show]
 
   def create
     @organization = Organization.new
