@@ -9,7 +9,7 @@ describe OrganizationsController do
       before(:each) do
         OmniAuth.config.mock_auth[:stripe_connect] = auth_hash_hash
         request.env["omniauth.auth"] = auth_hash
-        post :create
+        StripeMock.start
       end
 
       context 'with credentials' do
@@ -20,6 +20,10 @@ describe OrganizationsController do
         } }
 
         it 'creates an organization' do
+          OrganizationStripeInformationWorker.any_instance.should_receive(:perform)
+          
+          post :create
+
           OmniAuth.config.mock_auth[:stripe_connect] = OmniAuth::AuthHash.new()
           request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:stripe_connect]
 
@@ -34,6 +38,7 @@ describe OrganizationsController do
         let(:auth_hash) { {} }
 
         it 'renders new if something goes wrong with creating an organization' do
+          post :create
           expect(response).to render_template("new")
         end
       end

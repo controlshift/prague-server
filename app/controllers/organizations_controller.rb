@@ -5,6 +5,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.new
     @organization.apply_omniauth(request.env['omniauth.auth'])
     if @organization.save
+      OrganizationStripeInformationWorker.new.perform(@organization.id, true) && @organization.reload
       sign_in @organization
       redirect_to @organization
     else

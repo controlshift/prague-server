@@ -7,7 +7,6 @@ describe OrganizationStripeInformationWorker do
 
     before do
       Sidekiq::Testing.inline!
-      Organization.any_instance.stub(:update_account_information_from_stripe!)
       StripeMock.start
     end
 

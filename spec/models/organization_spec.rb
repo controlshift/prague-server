@@ -9,13 +9,6 @@ describe Organization do
 
   let(:organization) { build(:organization) }
 
-  describe '#update_account_information_from_stripe!' do
-    specify 'it should kick off a job :after_create' do
-      OrganizationStripeInformationWorker.should_receive(:perform_async)
-      organization.save!
-    end
-  end
-
   describe '#apply_omniauth' do
     specify 'with all valid credentials supplied' do
       organization.apply_omniauth({

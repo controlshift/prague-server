@@ -2,6 +2,7 @@ class ChargesController < ApplicationController
 
   # Necessary for exposing the API
   skip_before_action :verify_authenticity_token, only: [ :create ]
+  before_filter :authenticate_organization!, only: [:index]
 
   def create
     customer = Customer.new(customer_params)
@@ -14,6 +15,10 @@ class ChargesController < ApplicationController
     end
   rescue ActionController::ParameterMissing
     render json: { error: "You must provide all of the required parameters. Check the documentation." }, status: :unprocessable_entity 
+  end
+
+  def index
+    render json: current_organization.charges.all
   end
 
   private

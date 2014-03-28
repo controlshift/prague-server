@@ -2,7 +2,7 @@ require 'sidekiq/web'
 PragueServer::Application.routes.draw do
 
   resources :organizations, only: [:create, :new, :show]
-  resources :charges, only: [:create, :destroy]
+  resources :charges, only: [:create, :destroy, :index]
 
   get '/auth/:provider/callback', to: 'organizations#create'
 

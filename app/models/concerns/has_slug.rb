@@ -12,6 +12,10 @@ module HasSlug
   
   def create_slug!
     return slug unless slug.blank?
+    update_slug!
+  end
+
+  def update_slug!
     field =  self.respond_to?(:title) ? title : name
     parameterized_name = field.blank? ? 'default-slug' : field.parameterize
     self.slug = parameterized_name
@@ -22,4 +26,5 @@ module HasSlug
     end
     slug
   end
+
 end
