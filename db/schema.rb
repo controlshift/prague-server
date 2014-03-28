@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140326192414) do
+ActiveRecord::Schema.define(version: 20140328204931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,18 @@ ActiveRecord::Schema.define(version: 20140326192414) do
 
   add_index "charges", ["customer_id"], name: "index_charges_on_customer_id", using: :btree
   add_index "charges", ["organization_id"], name: "index_charges_on_organization_id", using: :btree
+
+  create_table "crms", force: true do |t|
+    t.integer  "organization_id"
+    t.string   "donation_page_name"
+    t.string   "host"
+    t.string   "username"
+    t.string   "encrypted_password"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "crms", ["organization_id"], name: "index_crms_on_organization_id", using: :btree
 
   create_table "customers", force: true do |t|
     t.string   "customer_token"

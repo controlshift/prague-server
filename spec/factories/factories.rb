@@ -20,4 +20,12 @@ FactoryGirl.define do
     organization
     customer
   end
+
+  factory :crm do
+    password 'something'
+    host 'blah.actionkit.com'
+    username 'foo'
+    donation_page_name 'my_special_donation_page'
+    organization
+  end
 end

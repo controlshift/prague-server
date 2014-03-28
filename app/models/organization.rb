@@ -6,6 +6,7 @@ class Organization < ActiveRecord::Base
   include HasSlug
 
   has_many :charges
+  has_one :crm
 
   validates :stripe_user_id, :stripe_publishable_key, :access_token, :slug, presence: true
 
