@@ -17,10 +17,6 @@ class ChargesController < ApplicationController
     render json: { error: "You must provide all of the required parameters. Check the documentation." }, status: :unprocessable_entity 
   end
 
-  def index
-    render json: current_organization.charges.all
-  end
-
   private
 
   def customer_params
