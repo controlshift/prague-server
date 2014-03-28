@@ -2,6 +2,16 @@
   <h2>Congratulations!</h2>
   <p>Your account has been created and will be approved by an admin shortly.</p>
   <p>The slug you will use for your organization is <%= @organization.slug %></p>
+
+  <p>To include the form on your site, please paste the following somewhere below the &lt;body&gt; tag:</p>
+  <div class="highlight">
+    <pre><%= @organization.code_snippet %></pre>
+  </div>
+  <p>And place this wherever you'd like the form to appear:
+  <div class="highlight">
+    <pre><%= "<div class=\"donations-form-anchor\"></div>" %></pre>
+  </div>
+  <p>More instructions and customizations can be found on the documentation <a href="https://github.com/controlshift/prague-client">here.</a></p>
 </div>
 
 <%= link_to "Sign out", sign_out_path, method: :delete %>

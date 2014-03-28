@@ -23,4 +23,9 @@ class Organization < ActiveRecord::Base
       .where(access_token: auth['credentials']['token'])
       .first
   end
+
+  def code_snippet
+    "<script src=\"https://s3.amazonaws.com/prague-production/jquery.donations.loader.js\" id=\"donation-script\" data-org=\"#{slug}\" 
+      data-pathtoserver=\"https://www.donatelab.com\" data-stripepublickey=\"pk_live_TkBE6KKwIBdNjc3jocHvhyNx\"></script>"
+  end
 end

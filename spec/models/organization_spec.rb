@@ -30,4 +30,11 @@ describe Organization do
       expect { organization.apply_omniauth(nil) }.to_not raise_error
     end
   end
+
+  describe "#code_snippet" do
+    it 'should give a snippet that includes the organization\'s slug' do
+      organization.save!
+      organization.code_snippet.should include("script", organization.slug)
+    end
+  end
 end
