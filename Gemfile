@@ -40,7 +40,6 @@ gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'rack-cors', :require => 'rack/cors'
 
 gem 'devise'
-
 gem 'attr_encrypted'
 
 group :doc do

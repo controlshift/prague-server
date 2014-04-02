@@ -3,6 +3,7 @@ PragueServer::Application.routes.draw do
 
   resources :organizations, only: [:create, :new, :show]
   resources :charges, only: [:create, :destroy]
+  resources :crms, only: [:create, :update]
 
   get '/auth/:provider/callback', to: 'organizations#create'
 

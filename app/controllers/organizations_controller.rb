@@ -15,7 +15,7 @@ class OrganizationsController < ApplicationController
   end
 
   def show
-    @organization = Organization.find_by_slug(params[:id])
+    @crm = current_organization.crm || current_organization.build_crm
   end
 
   def new

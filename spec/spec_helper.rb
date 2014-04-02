@@ -9,6 +9,7 @@ require 'capybara/rails'
 require 'sidekiq/testing'
 require 'shoulda/matchers'
 require 'stripe_mock'
+require 'support/helpers.rb'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.

@@ -10,6 +10,8 @@ class Organization < ActiveRecord::Base
 
   validates :stripe_user_id, :stripe_publishable_key, :access_token, :slug, presence: true
 
+  accepts_nested_attributes_for :crm
+
   def apply_omniauth omniauth_hash
     return if omniauth_hash.nil?
     self.stripe_user_id = omniauth_hash['uid']
