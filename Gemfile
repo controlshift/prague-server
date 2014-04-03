@@ -63,7 +63,8 @@ group :test do
   gem 'capybara', '~> 2.1'
   gem "shoulda-matchers"
   gem 'selenium-webdriver'
-  gem "capybara-webkit", '~> 1.0', require: false
+  gem "capybara-webkit", require: false
+  gem "poltergeist"
 end
 
 group :staging, :production do

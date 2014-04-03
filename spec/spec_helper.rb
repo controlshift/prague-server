@@ -3,13 +3,14 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara-webkit'
+require 'capybara/poltergeist'
 require 'pry'
 require 'capybara/rspec'
 require 'capybara/rails'
 require 'sidekiq/testing'
 require 'shoulda/matchers'
 require 'stripe_mock'
-require 'support/helpers.rb'
+Dir[Rails.root.join("spec/support/*.rb")].each {|f| require f}
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -17,6 +18,7 @@ require 'support/helpers.rb'
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
+
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
@@ -40,15 +42,27 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.strategy = :transaction
+  end
+
   config.after(:each) do
     DatabaseCleaner.clean
   end
 
   Capybara.javascript_driver = :webkit
 
+  config.before(:each, :selenium=>true) do
+    Capybara.current_driver = :selenium
+  end
+
   config.include Capybara::DSL, :type => :request
 
   OmniAuth.config.test_mode = true
+
+  config.include Warden::Test::Helpers
+  Warden.test_mode!
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

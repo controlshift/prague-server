@@ -18,14 +18,16 @@ describe "Organization signs up" do
 
     before do
       OmniAuth.config.mock_auth[:stripe_connect] = auth_hash
+      OrganizationStripeInformationWorker.any_instance.stub(:perform)
     end
 
-    it "redirects to the show page and exposes the organization's API slug" do
+    it "redirects to the show page and exposes the organization's API slug", js: true do
       visit new_organization_path
-      click_link 'stripe-connect-link'
+      page.first('#stripe-connect-link').click
+      page.should have_text("Congratulations")
       slug = Organization.last.slug
-      current_path.should == organization_path(slug)
       page.should have_text(slug)
+      current_path.should == organization_path(slug)
     end
   end
 end

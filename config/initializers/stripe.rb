@@ -4,3 +4,7 @@ if File.exist? path
 else
   Stripe.api_key = ENV['STRIPE_SECRET']
 end
+
+if Rails.env.test?
+  Stripe.api_key = "sk_test_xxx"
+end
