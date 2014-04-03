@@ -21,7 +21,7 @@ describe "Organization signs up" do
       OrganizationStripeInformationWorker.any_instance.stub(:perform)
     end
 
-    it "redirects to the show page and exposes the organization's API slug", js: true do
+    it "redirects to the show page and exposes the organization's API slug" do
       visit new_organization_path
       page.first('#stripe-connect-link').click
       page.should have_text("Congratulations")
