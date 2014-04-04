@@ -24,6 +24,7 @@ FactoryGirl.define do
   factory :crm do
     password 'something'
     host 'blah.actionkit.com'
+    platform 'actionkit'
     username 'foo'
     donation_page_name 'my_special_donation_page'
     organization
