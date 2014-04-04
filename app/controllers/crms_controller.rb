@@ -23,7 +23,7 @@ class CrmsController < ApplicationController
   private
 
   def crm_param
-    params.require(:crm).permit(:username, :password, :host, :donation_page_name)
+    params.require(:crm).permit(:username, :password, :host, :donation_page_name, :platform)
   end
 
   def check_if_organization_has_crm

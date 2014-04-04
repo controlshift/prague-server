@@ -14,6 +14,7 @@ describe 'Organization adds CRM credentials' do
     page.find("input[type='submit']").click
     wait_for_ajax
     Organization.last.crm.username.should == 'user'
+    Organization.last.crm.platform.should == 'actionkit'
     Organization.last.crm.host.should == 'host'
     page.first("form")[:id].should match(/edit_crm_/)
   end

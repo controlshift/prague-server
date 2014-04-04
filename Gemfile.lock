@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/controlshift/action_kit_rest.git
+  revision: 04ce481fa46b6ed7ef299855fbf1cc28d6a1d746
+  specs:
+    action_kit_rest (0.2.0)
+      action_kit_rest
+      vertebrae
+
+GIT
   remote: https://github.com/controlshift/stripe-ruby-mock.git
   revision: 021276b088153b75e3b5a24ead6d159fd0124e81
   specs:
@@ -94,6 +102,8 @@ GEM
       railties (>= 3.0.0)
     faraday (0.8.9)
       multipart-post (~> 1.2.0)
+    faraday_middleware (0.9.0)
+      faraday (>= 0.7.4, < 0.9)
     ffi (1.9.3)
     hashie (2.0.5)
     hike (1.2.3)
@@ -271,6 +281,11 @@ GEM
     uglifier (2.4.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    vertebrae (0.2.4)
+      activesupport
+      faraday
+      faraday_middleware
+      hashie
     warden (1.2.3)
       rack (>= 1.0)
     websocket (1.0.7)
@@ -282,6 +297,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  action_kit_rest!
   attr_encrypted
   capybara (~> 2.1)
   capybara-webkit

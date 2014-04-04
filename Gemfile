@@ -42,6 +42,8 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'devise'
 gem 'attr_encrypted'
 
+gem 'action_kit_rest', git: 'https://github.com/controlshift/action_kit_rest.git'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

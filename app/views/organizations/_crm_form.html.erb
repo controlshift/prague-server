@@ -1,4 +1,6 @@
 <%= form_for(@crm, html: { class: 'credentials-form'}, remote: true) do |f| %>
+  <%= f.label :platform %>
+  <%= f.collection_select(:platform, Crm::PLATFORMS, :first, :last) %><br>
   <%= f.label :username %>
   <%= f.text_field :username %><br>
   <%= f.label :password %>
@@ -8,5 +10,5 @@
   <%= f.label :donation_page_name %>
   <%= f.text_field :donation_page_name %><br>
   <label></label>
-  <%= f.submit "Submit", disable_with: "Saving..." %>
+  <%= f.submit "Submit", data: { disable_with: "Saving..."} %>
 <% end %>
