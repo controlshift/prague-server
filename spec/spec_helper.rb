@@ -38,8 +38,6 @@ RSpec.configure do |config|
 
   config.before(:each) do
     Sidekiq::Testing.disable!
-    DatabaseCleaner.strategy = example.metadata[:js] ? :truncation : :transaction
-    DatabaseCleaner.start
   end
 
   config.before(:suite) do
@@ -47,8 +45,14 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :transaction
   end
 
-  config.after(:each) do
-    DatabaseCleaner.clean
+  config.around do |example|
+    DatabaseCleaner.start
+    example.run
+    if example.metadata[:js]
+      DatabaseCleaner.clean_with(:truncation)
+    else
+      DatabaseCleaner.clean_with(:transaction)
+    end
   end
 
   Capybara.javascript_driver = :webkit

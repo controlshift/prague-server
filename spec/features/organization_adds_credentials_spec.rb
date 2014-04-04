@@ -15,6 +15,6 @@ describe 'Organization adds CRM credentials' do
     wait_for_ajax
     Organization.last.crm.username.should == 'user'
     Organization.last.crm.host.should == 'host'
-    page.first("form")[:id].should == "edit_crm_1"
+    page.first("form")[:id].should match(/edit_crm_/)
   end
 end

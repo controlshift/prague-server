@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe "Organization signs up" do
+  before(:each) do |example|
+    Organization.last.try :destroy
+    Crm.last.try :destroy
+  end
   context "when organization denies access to Stripe account" do
     it "redirects to new organization form" do
       OmniAuth.config.mock_auth[:stripe_connect] = :access_denied

@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe OrganizationsController do
+  before(:each) do |example|
+    Organization.last.try :destroy
+    Crm.last.try :destroy
+  end
   describe 'POST create' do
     let(:auth_hash_hash) { OmniAuth::AuthHash.new(auth_hash) }
 
