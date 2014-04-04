@@ -13,6 +13,7 @@ describe ChargeCustomerWorker do
     specify 'it should request a charge from Stripe and push success' do
       Stripe::Charge.should_receive(:create)
       Pusher::Channel.any_instance.should_receive(:trigger).with('charge_completed', { status: 'success' })
+      CrmNotificationWorker.should_receive(:perform_async)
       ChargeCustomerWorker.perform_async(charge.id)
     end
 

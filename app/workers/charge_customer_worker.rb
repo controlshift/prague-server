@@ -20,6 +20,7 @@ class ChargeCustomerWorker
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'success'
     })
+    CrmNotificationWorker.perform_async(charge_id)
   rescue Stripe::CardError => e
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',

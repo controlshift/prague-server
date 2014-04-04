@@ -12,9 +12,11 @@
 </div>
 <p>More instructions and customizations can be found on the documentation <a href="https://github.com/controlshift/prague-client">here.</a></p>
 
-<h3>Getting set up with your CRM</h3>
-<p>Please enter your CRM information below if you'd like us to automatically sync with it.</p>
+<% unless Rails.env.production? %>
+  <h3>Getting set up with your CRM</h3>
+  <p>Please enter your CRM information below if you'd like us to automatically sync with it.</p>
 
-<%= render 'crm_form' %>
+  <%= render 'crm_form' %>
+<% end %>
 
 <%= link_to "Sign out", sign_out_path, method: :delete %>
