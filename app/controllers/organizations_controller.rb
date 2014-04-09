@@ -16,7 +16,7 @@ class OrganizationsController < ApplicationController
 
   def show
     if request.format == :json
-      render json: Organization.global_defaults_for_slug(params[:id])
+      render json: Organization.global_defaults_for_slug(params[:id]), callback: params[:callback]
     else
       @crm = current_organization.crm || current_organization.build_crm
     end
