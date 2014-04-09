@@ -16,10 +16,22 @@ class OrganizationsController < ApplicationController
 
   def show
     @crm = current_organization.crm || current_organization.build_crm
+    respond_to do |format|
+      format.html
+      format.json { render json: current_organization.global_defaults }
+    end
   end
 
   def new
     @organization = Organization.new
+  end
+
+  def update
+    if current_organization.update_attribute(:global_defaults, global_defaults_param[:global_defaults])
+      render :partial => 'organizations/global_defaults_form', :content_type => 'text/html'
+    else
+      render json: current_organization, status: :bad_request
+    end
   end
 
   def omniauth_failure
@@ -35,5 +47,13 @@ class OrganizationsController < ApplicationController
 
   def after_sign_in_path_for resource
     organization_path(current_organization)
+  end
+
+  private 
+
+  def global_defaults_param
+    params.require(:organization).tap do |whitelisted|
+      whitelisted[:global_defaults] = params[:organization][:global_defaults]
+    end
   end
 end

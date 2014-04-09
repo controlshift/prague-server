@@ -1,7 +1,7 @@
 require 'sidekiq/web'
 PragueServer::Application.routes.draw do
 
-  resources :organizations, only: [:create, :new, :show]
+  resources :organizations, only: [:create, :new, :show, :update]
   resources :charges, only: [:create, :destroy]
   resources :crms, only: [:create, :update]
 

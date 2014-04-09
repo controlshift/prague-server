@@ -3,6 +3,10 @@ class Organization < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :rememberable, :trackable
 
+  store_accessor :global_defaults, :currency
+
+  CURRENCIES = ["USD", "EUR", "AUD", "CAN", "GBP"]
+
   include HasSlug
 
   has_many :charges

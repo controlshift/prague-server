@@ -1,0 +1,8 @@
+<%= form_for(current_organization, html: { class: 'global-defaults-form'}, remote: true) do |f| %>
+  <%= f.fields_for :global_defaults do |g| %>
+    <%= g.label :currency %>
+    <%= g.select :currency, Organization::CURRENCIES %><br>
+  <% end %>
+  <label></label>
+  <%= f.submit "Submit", data: { disable_with: "Saving..."} %>
+<% end %>

@@ -83,16 +83,20 @@ describe OrganizationsController do
   end
 
   describe 'GET show' do
-    let(:organization) {create(:organization) }
+    let(:organization) {create(:organization, global_defaults: { currency: 'AUD' }) }
 
     before(:each) do 
       sign_in organization
-      get :show, id: organization 
     end
 
     it 'should show an organization' do
+      get :show, id: organization 
       expect(response).to render_template(:show)
     end
 
+    it 'should respond with default settings for JSON request' do
+      get :show, id: organization, format: :json
+      response.body.should == organization.global_defaults.to_json
+    end
   end
 end

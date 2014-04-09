@@ -42,17 +42,13 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.strategy = :truncation
   end
 
   config.around do |example|
     DatabaseCleaner.start
     example.run
-    if example.metadata[:js]
-      DatabaseCleaner.clean_with(:truncation)
-    else
-      DatabaseCleaner.clean_with(:transaction)
-    end
+    DatabaseCleaner.clean_with(:truncation)
   end
 
   Capybara.javascript_driver = :webkit
