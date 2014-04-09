@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140404160123) do
+ActiveRecord::Schema.define(version: 20140409154703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,5 +70,7 @@ ActiveRecord::Schema.define(version: 20140404160123) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
   end
+
+  add_index "organizations", ["slug"], name: "index_organizations_on_slug", unique: true, using: :btree
 
 end
