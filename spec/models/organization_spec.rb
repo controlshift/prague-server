@@ -37,4 +37,11 @@ describe Organization do
       organization.code_snippet.should include("script", organization.slug)
     end
   end
+
+  describe "#flush_cache_key!" do
+    it 'should delete the cache object on save' do
+      Rails.cache.should_receive(:delete).with("global_defaults_#{organization.name.downcase}")
+      organization.save!
+    end
+  end
 end

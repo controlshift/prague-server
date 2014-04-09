@@ -44,6 +44,9 @@ gem 'attr_encrypted'
 
 gem 'action_kit_rest', git: 'https://github.com/controlshift/action_kit_rest.git'
 
+gem 'rack-cache'
+gem 'dalli'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -73,6 +76,7 @@ group :staging, :production do
   gem 'rails_12factor'
   gem 'newrelic_rpm'
   gem 'honeybadger'
+  gem 'memcachier'
 end
 
 # Use ActiveModel has_secure_password

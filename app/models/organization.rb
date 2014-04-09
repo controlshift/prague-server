@@ -16,6 +16,8 @@ class Organization < ActiveRecord::Base
 
   accepts_nested_attributes_for :crm
 
+  after_save :flush_cache_key!
+
   def apply_omniauth omniauth_hash
     return if omniauth_hash.nil?
     self.stripe_user_id = omniauth_hash['uid']
@@ -34,5 +36,17 @@ class Organization < ActiveRecord::Base
   def code_snippet
     "<script src=\"https://s3.amazonaws.com/prague-production/jquery.donations.loader.js\" id=\"donation-script\" data-org=\"#{slug}\" 
       data-pathtoserver=\"https://www.donatelab.com\" data-stripepublickey=\"pk_live_TkBE6KKwIBdNjc3jocHvhyNx\"></script>"
+  end
+
+  def self.global_defaults_for_slug slug
+    Rails.cache.fetch "global_defaults_#{slug}", expires_in: 24.hours do
+      Organization.find_by_slug(slug).global_defaults.to_json
+    end
+  end
+
+  private
+
+  def flush_cache_key!
+    Rails.cache.delete "global_defaults_#{slug}"
   end
 end

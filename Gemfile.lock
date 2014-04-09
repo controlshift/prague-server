@@ -76,6 +76,7 @@ GEM
     coffee-script-source (1.6.3)
     columnize (0.3.6)
     connection_pool (1.2.0)
+    dalli (2.7.0)
     dante (0.2.0)
     database_cleaner (1.2.0)
     debug_inspector (0.0.2)
@@ -131,6 +132,7 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    memcachier (0.0.2)
     method_source (0.8.2)
     mime-types (1.25.1)
     mini_portile (0.5.3)
@@ -183,6 +185,8 @@ GEM
       multi_json (~> 1.0)
       signature (~> 0.1.6)
     rack (1.5.2)
+    rack-cache (1.2)
+      rack (>= 0.4)
     rack-cors (0.2.9)
     rack-protection (1.5.2)
       rack
@@ -302,6 +306,7 @@ DEPENDENCIES
   capybara (~> 2.1)
   capybara-webkit
   coffee-rails (~> 4.0.0)
+  dalli
   database_cleaner
   devise
   factory_girl_rails
@@ -309,6 +314,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   launchy
+  memcachier
   newrelic_rpm
   omniauth
   omniauth-stripe-connect
@@ -319,6 +325,7 @@ DEPENDENCIES
   pry-remote
   pry-stack_explorer
   pusher
+  rack-cache
   rack-cors
   rails (= 4.0.2)
   rails_12factor

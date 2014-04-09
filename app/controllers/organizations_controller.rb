@@ -15,10 +15,10 @@ class OrganizationsController < ApplicationController
   end
 
   def show
-    @crm = current_organization.crm || current_organization.build_crm
-    respond_to do |format|
-      format.html
-      format.json { render json: current_organization.global_defaults }
+    if request.format == :json
+      render json: Organization.global_defaults_for_slug(params[:id])
+    else
+      @crm = current_organization.crm || current_organization.build_crm
     end
   end
 
