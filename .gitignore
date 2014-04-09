@@ -18,3 +18,4 @@
 /config/stripe.yml
 /config/pusher.yml
 .idea
+.env
