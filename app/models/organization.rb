@@ -5,7 +5,7 @@ class Organization < ActiveRecord::Base
 
   store_accessor :global_defaults, :currency
 
-  CURRENCIES = ["USD", "EUR", "AUD", "CAN", "GBP"]
+  CURRENCIES = ["USD", "EUR", "AUD", "CAN", "GBP", "NZD", "NOK", "DKK", "SEK"]
 
   include HasSlug
 
@@ -35,7 +35,8 @@ class Organization < ActiveRecord::Base
 
   def code_snippet
     "<script src=\"https://s3.amazonaws.com/prague-production/jquery.donations.loader.js\" id=\"donation-script\" data-org=\"#{slug}\" 
-      data-pathtoserver=\"https://www.donatelab.com\" data-stripepublickey=\"pk_live_TkBE6KKwIBdNjc3jocHvhyNx\"></script>"
+      data-pathtoserver=\"https://www.donatelab.com\" data-stripepublickey=\"pk_live_TkBE6KKwIBdNjc3jocHvhyNx\" data-seedamount=\"10\"
+      data-seedvalues=\"50,100,200,300,400,500,600\", data-seedcurrency=\"#{global_defaults['currency'] || "USD"}\"></script>"
   end
 
   def self.global_defaults_for_slug slug
