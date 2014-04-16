@@ -41,7 +41,9 @@ class Organization < ActiveRecord::Base
 
   def self.global_defaults_for_slug slug
     Rails.cache.fetch "global_defaults_#{slug}", expires_in: 24.hours do
-      Organization.find_by_slug(slug).global_defaults.to_json
+      defaults = Organization.find_by_slug(slug).global_defaults
+      defaults[:currencies] = JSON.parse(JSON.load('http://platform.controlshiftlabs.com/cached_url/currencies'))
+      defaults.to_json
     end
   end
 
