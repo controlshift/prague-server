@@ -4,6 +4,7 @@ describe OrganizationsController do
   before(:each) do |example|
     Organization.last.try :destroy
     Crm.last.try :destroy
+    stub_request(:get, 'http://platform.controlshiftlabs.com/cached_url/currencies').to_return(body: "{\"rates\":{\"GBP\":1.1234}}")
   end
   describe 'POST create' do
     let(:auth_hash_hash) { OmniAuth::AuthHash.new(auth_hash) }
@@ -96,7 +97,7 @@ describe OrganizationsController do
 
     it 'should respond with default settings for JSON request' do
       get :show, id: organization, format: :json
-      response.body.should == organization.global_defaults.to_json
+      response.body.should == organization.global_defaults.merge(rates: { 'GBP' => 1.1234}).to_json
     end
   end
 end

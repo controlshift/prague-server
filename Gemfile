@@ -70,6 +70,7 @@ group :test do
   gem 'selenium-webdriver'
   gem "capybara-webkit", require: false
   gem "poltergeist"
+  gem 'webmock'
 end
 
 group :staging, :production do

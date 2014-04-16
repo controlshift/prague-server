@@ -10,6 +10,7 @@ require 'capybara/rails'
 require 'sidekiq/testing'
 require 'shoulda/matchers'
 require 'stripe_mock'
+require 'webmock/rspec'
 Dir[Rails.root.join("spec/support/*.rb")].each {|f| require f}
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -52,6 +53,8 @@ RSpec.configure do |config|
   end
 
   Capybara.javascript_driver = :webkit
+
+  WebMock.disable_net_connect!(:allow_localhost => true)
 
   config.before(:each, :selenium=>true) do
     Capybara.current_driver = :selenium
