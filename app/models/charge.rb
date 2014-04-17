@@ -19,6 +19,8 @@ class Charge < ActiveRecord::Base
 
   validates :amount, :currency, :customer, :organization, presence: true
 
+  validates :currency, inclusion: { in: Organization::CURRENCIES.collect{|c| c.downcase} }
+
   before_create :build_pusher_channel_token
 
   def build_pusher_channel_token

@@ -19,6 +19,10 @@ describe Charge do
   it { should validate_presence_of :amount }
   it { should validate_presence_of :currency }
 
+  it { should allow_value('usd').for(:currency) }
+  it { should_not allow_value('USD').for(:currency) }
+  it { should_not allow_value('zzz').for(:currency) }
+
   describe '#build_pusher_channel_token' do
     subject { build(:charge, pusher_channel_token: nil) }
 
