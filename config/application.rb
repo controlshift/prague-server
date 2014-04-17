@@ -29,8 +29,6 @@ module PragueServer
     # though this platform is an API, we should be using API keys
     # to verify the client if more functionality is added.
 
-    config.cache_store = :dalli_store
-
     config.middleware.use Rack::Cors do
       allow do
         origins '*'
