@@ -88,4 +88,33 @@ describe Organization do
       end
     end
   end
+
+  describe 'has_slug' do
+    let(:organization) { build(:organization, name: 'Title') }
+
+    it 'should set the slug' do
+      organization.create_slug!
+      organization.slug.should == 'title'
+    end
+
+    context 'slug already exits' do
+      let(:organization) { build(:organization, name: 'Title', slug: 'foo') }
+
+      it 'should not set the slug' do
+        organization.create_slug!
+        organization.slug.should == 'foo'
+      end
+    end
+
+    context 'an existing slug' do
+      before(:each) do
+        create(:organization, name: 'Title')
+      end
+
+      it 'should set the slug' do
+        organization.create_slug!
+        organization.slug.should == 'title-1'
+      end
+    end
+  end
 end
