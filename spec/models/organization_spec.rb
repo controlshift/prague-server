@@ -44,4 +44,26 @@ describe Organization do
       organization.save!
     end
   end
+
+  describe 'global_defaults_for_slug' do
+    before(:each) do
+      stub_request(:get, 'http://platform.controlshiftlabs.com/cached_url/currencies').to_return(body: "{\"rates\":{\"GBP\":1.1234}}")
+    end
+
+    let!(:organization) { create(:organization, slug: 'slug', global_defaults: { 'foo' => 'bar' }) }
+
+    it 'should return a json hash' do
+      JSON.parse(Organization.global_defaults_for_slug('slug')).should == { 'foo' => 'bar', 'rates' => { 'GBP' => 1.1234 }}
+    end
+
+    context 'with a cached value' do
+      before(:each) do
+        Rails.cache.write('global_defaults_slug', 'foo')
+      end
+
+      it 'should return the cached value if present' do
+        Organization.global_defaults_for_slug('slug').should == 'foo'
+      end
+    end
+  end
 end
