@@ -16,5 +16,11 @@
 class Customer < ActiveRecord::Base
   has_many :charges, inverse_of: :customer
 
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :country, presence: true
+  validates :email, presence: true, email_format: true
+  validates :zip, presence: true
+
   accepts_nested_attributes_for :charges
 end
