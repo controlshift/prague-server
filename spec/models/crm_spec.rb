@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: crms
+#
+#  id                 :integer          not null, primary key
+#  organization_id    :integer
+#  donation_page_name :string(255)
+#  host               :string(255)
+#  username           :string(255)
+#  encrypted_password :string(255)
+#  created_at         :datetime
+#  updated_at         :datetime
+#  platform           :string(255)
+#
+
 require 'spec_helper'
 
 describe Crm do

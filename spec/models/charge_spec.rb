@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: charges
+#
+#  id                   :integer          not null, primary key
+#  amount               :string(255)
+#  currency             :string(255)
+#  customer_id          :integer
+#  organization_id      :integer
+#  charged_back_at      :datetime
+#  created_at           :datetime
+#  updated_at           :datetime
+#  pusher_channel_token :string(255)
+#
+
 require 'spec_helper'
 
 describe Charge do
