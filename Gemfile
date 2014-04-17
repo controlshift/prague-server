@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.1.0"
+ruby '2.1.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.4'
 
@@ -46,6 +46,7 @@ gem 'action_kit_rest', git: 'https://github.com/controlshift/action_kit_rest.git
 
 gem 'rack-cache'
 gem 'dalli'
+gem 'thin'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -55,12 +56,14 @@ end
 group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-rails'
-  gem 'pry-remote'
   gem 'pry-stack_explorer'
   gem 'pry-debugger'
 end
 
 group :test do
+  gem 'guard'
+  gem 'guard-zeus'
+  gem 'guard-rspec', require: false
   gem 'stripe-ruby-mock', git: 'https://github.com/controlshift/stripe-ruby-mock.git'
   gem 'database_cleaner'
   gem 'rspec-rails'
@@ -80,15 +83,3 @@ group :staging, :production do
   gem 'honeybadger'
   gem 'memcachier'
 end
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
