@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby "2.1.0"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+gem 'rails', '4.0.4'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -53,6 +53,7 @@ group :doc do
 end
 
 group :development, :test do
+  gem 'dotenv-rails'
   gem 'pry-rails'
   gem 'pry-remote'
   gem 'pry-stack_explorer'
