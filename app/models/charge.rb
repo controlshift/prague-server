@@ -1,8 +1,25 @@
+# == Schema Information
+#
+# Table name: charges
+#
+#  id                   :integer          not null, primary key
+#  amount               :string(255)
+#  currency             :string(255)
+#  customer_id          :integer
+#  organization_id      :integer
+#  charged_back_at      :datetime
+#  created_at           :datetime
+#  updated_at           :datetime
+#  pusher_channel_token :string(255)
+#
+
 class Charge < ActiveRecord::Base
   belongs_to :customer
   belongs_to :organization
 
   validates :amount, :currency, :customer, :organization, presence: true
+
+  validates :currency, inclusion: { in: Organization::CURRENCIES.collect{|c| c.downcase} }
 
   before_create :build_pusher_channel_token
 
