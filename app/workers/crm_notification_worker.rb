@@ -13,7 +13,7 @@ class CrmNotificationWorker
   def process_with_actionkit charge
     crm = charge.organization.crm
     ak = ActionKitRest.new(host: crm.host, username: crm.username, password: crm.password )
-    ak.action.create({
+    ak.action.create(charge.config_hash.merge({
       page: crm.donation_page_name,
       email: charge.customer.email,
       name: "#{charge.customer.first_name} #{charge.customer.last_name}",
@@ -26,6 +26,6 @@ class CrmNotificationWorker
       exp_date_month: "#{1.month.from_now.strftime('%m')}",
       exp_date_year: "#{1.month.from_now.strftime('%y')}",
       amount_other: charge.presentation_amount
-    })
+    }))
   end
 end

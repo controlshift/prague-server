@@ -14,4 +14,8 @@ class Charge < ActiveRecord::Base
     larger_unit = '%.2f' % (amount.to_i / 1000.0)
     ['USD', 'AUD', 'EUR', 'CAN', 'GBP'].include?(currency.upcase) ? larger_unit : amount
   end
+
+  def config_hash
+    config.present? ? config : {}
+  end
 end

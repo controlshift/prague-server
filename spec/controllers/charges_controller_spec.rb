@@ -32,6 +32,15 @@ describe ChargesController do
         customer.charges.first.organization.should == organization
         response.should be_success
       end
+
+      let(:config_parameters) { { 'ak_test' => 'foo' } }
+
+      it 'should allow me to pass arbitrary config parameters' do
+        post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug, config: config_parameters
+        customer = Customer.where(email: valid_customer_parameters['email']).first
+        charge = customer.charges.first
+        charge.config['ak_test'].should == 'foo'
+      end
     end
 
     context 'if i don\'t pass the required parameters' do

@@ -7,6 +7,7 @@ class ChargesController < ApplicationController
   def create
     customer = Customer.new(customer_params)
     customer.charges.first.organization = Organization.find_by_slug(organization_slug_param)
+    customer.charges.first.config = config_param
     if customer.save
       CreateCustomerTokenWorker.perform_async(customer.id, card_token_param)
       render json: { pusher_channel_token: customer.charges.first.pusher_channel_token }, status: :ok
@@ -29,5 +30,9 @@ class ChargesController < ApplicationController
 
   def organization_slug_param
     params.require(:organization_slug)
+  end
+
+  def config_param
+    params.require(:config).permit! if params[:config]
   end
 end
