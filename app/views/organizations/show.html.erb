@@ -18,10 +18,8 @@
 
 <%= render 'global_defaults_form' %>
 
-<% unless Rails.env.production? %>
-  <p>Please enter your CRM information below if you'd like us to automatically sync with it.</p>
+<p>Please enter your CRM information below if you'd like us to automatically sync with it.</p>
 
-  <%= render 'crm_form' %>
-<% end %>
+<%= render 'crm_form' %>
 
 <%= link_to "Sign out", sign_out_path, method: :delete %>
