@@ -117,4 +117,37 @@ describe Organization do
       end
     end
   end
+
+  describe 'seedamount' do
+    context 'entered as an integer' do
+      subject { build(:organization, global_defaults: { seedamount: "10"} ) }
+      it { should be_valid }
+    end
+    context 'entered as an illegal value' do
+      subject { build(:organization, global_defaults: { seedamount: "1a0a"} ) }
+      it { should_not be_valid }
+    end
+  end
+
+  describe 'seedvalues' do
+    context 'entered as an integer list' do
+      subject { build(:organization, global_defaults: { seedvalues: "10,20,30"} ) }
+      it { should be_valid }
+    end
+    context 'entered as an illegal value' do
+      subject { build(:organization, global_defaults: { seedvalues: "1234a"} ) }
+      it { should_not be_valid }
+    end
+  end
+
+  describe 'redirectto' do
+    context 'entered as a url' do
+      subject { build(:organization, global_defaults: { redirectto: "www.google.com"} ) }
+      it { should be_valid }
+    end
+    context 'entered as an illegal value' do
+      subject { build(:organization, global_defaults: { redirectto: "1234a"} ) }
+      it { should_not be_valid }
+    end
+  end
 end

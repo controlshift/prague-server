@@ -25,7 +25,7 @@ class Organization < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :rememberable, :trackable
 
-  store_accessor :global_defaults, :currency
+  store_accessor :global_defaults, :currency, :seedamount, :seedvalues, :redirectto
 
   CURRENCIES = ["USD", "EUR", "AUD", "CAN", "GBP", "NZD", "NOK", "DKK", "SEK"]
 
@@ -35,6 +35,9 @@ class Organization < ActiveRecord::Base
   has_one :crm
 
   validates :stripe_user_id, :stripe_publishable_key, :access_token, :slug, presence: true
+  validates :seedamount, format: { with: /\A\d+\z/ }, allow_blank: true
+  validates :seedvalues, format: { with: /\A(\d+\,)*\d+\z/ }, allow_blank: true
+  validates :redirectto, format: { with: /\A(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?\z/ }, allow_blank: true
 
   accepts_nested_attributes_for :crm
 
@@ -54,8 +57,8 @@ class Organization < ActiveRecord::Base
 
   def code_snippet
     "<script src=\"https://s3.amazonaws.com/prague-production/jquery.donations.loader.js\" id=\"donation-script\" data-org=\"#{slug}\" 
-      data-pathtoserver=\"https://www.donatelab.com\" data-stripepublickey=\"pk_live_TkBE6KKwIBdNjc3jocHvhyNx\" data-seedamount=\"10\"
-      data-seedvalues=\"50,100,200,300,400,500,600\", data-seedcurrency=\"#{global_defaults.present? ? global_defaults['currency'] : "USD"}\"></script>"
+      data-pathtoserver=\"https://www.donatelab.com\" data-stripepublickey=\"pk_live_TkBE6KKwIBdNjc3jocHvhyNx\" data-seedamount=\"{ seedamount || '10'}\"
+      data-seedvalues=\"#{ seedvalues || '50,100,200,300,400,500,600' }\" data-seedcurrency=\"#{ currency || "USD"}\"></script>"
   end
 
   def self.global_defaults_for_slug slug

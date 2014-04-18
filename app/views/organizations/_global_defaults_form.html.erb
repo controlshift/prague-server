@@ -1,7 +1,13 @@
 <%= form_for(current_organization, html: { class: 'global-defaults-form'}, remote: true) do |f| %>
   <%= f.fields_for :global_defaults do |g| %>
-    <%= g.label :currency %>
+    <%= g.label :seed_currency %>
     <%= g.select :currency, Organization::CURRENCIES %><br>
+    <%= g.label :seed_amount %>
+    <%= g.text_field :seedamount, placeholder: "E.g. 10" %><br>
+    <%= g.label :seed_percentages %>
+    <%= g.text_field :seedvalues, placeholder: "E.g. 100, 200, 300 ..." %><br>
+    <%= g.label :'Redirect to (optional)' %>
+    <%= g.text_field :redirectto, placeholder: "https://example.com" %><br>
   <% end %>
   <label></label>
   <%= f.submit "Submit", data: { disable_with: "Saving..."} %>
