@@ -49,10 +49,7 @@ class Organization < ActiveRecord::Base
 
   def self.find_for_stripe_oauth auth
     return if auth.nil? || auth['info'].blank? || auth['credentials'].blank?
-    Organization.where(stripe_user_id: auth['uid'])
-      .where(stripe_publishable_key: auth['info']['stripe_publishable_key'])
-      .where(access_token: auth['credentials']['token'])
-      .first
+    Organization.where(stripe_user_id: auth['uid']).first
   end
 
   def code_snippet
