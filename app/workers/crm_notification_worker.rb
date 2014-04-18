@@ -13,8 +13,8 @@ class CrmNotificationWorker
   def process_with_actionkit charge
     crm = charge.organization.crm
     ak = ActionKitRest.new(host: crm.host, username: crm.username, password: crm.password )
-    ak.action.create(charge.config_hash.merge({
-      page: crm.donation_page_name,
+    ak.action.create(charge.actionkit_hash.merge({
+      page: charge.config.try(:[], 'page') || crm.donation_page_name,
       email: charge.customer.email,
       name: "#{charge.customer.first_name} #{charge.customer.last_name}",
       address1: 'Processed by TakeCharge',

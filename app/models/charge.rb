@@ -32,7 +32,11 @@ class Charge < ActiveRecord::Base
     ['USD', 'AUD', 'EUR', 'CAN', 'GBP'].include?(currency.upcase) ? larger_unit : amount
   end
 
-  def config_hash
-    config.present? ? config : {}
+  def actionkit_hash
+    if config.present?
+      config.select { |k,v| k.start_with? "action_" || k == "source" }
+    else
+      {}
+    end
   end
 end
