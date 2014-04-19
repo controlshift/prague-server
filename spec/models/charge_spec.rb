@@ -39,4 +39,11 @@ describe Charge do
       subject.actionkit_hash.should == {'action_foo' => 'bar'}
     end
   end
+
+  describe 'application_fee' do
+    subject { build_stubbed(:charge, amount: 100) }
+    it 'should have a 1 percent application_fee' do
+      subject.application_fee.should == 1
+    end
+  end
 end

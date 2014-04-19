@@ -33,6 +33,10 @@ class Charge < ActiveRecord::Base
     ['USD', 'AUD', 'EUR', 'CAN', 'GBP'].include?(currency.upcase) ? larger_unit : amount
   end
 
+  def application_fee
+    (amount * 0.01).to_i
+  end
+
   def actionkit_hash
     if config.present?
       config.select { |k,v| k.start_with? "action_" || k == "source" }
