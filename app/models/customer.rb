@@ -22,4 +22,13 @@ class Customer < ActiveRecord::Base
   validates :email, presence: true, email_format: true
 
   accepts_nested_attributes_for :charges
+
+  def to_hash
+    {
+      first_name: first_name,
+      last_name: last_name,
+      country: country,
+      zip: zip,
+    }
+  end
 end
