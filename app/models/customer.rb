@@ -20,7 +20,6 @@ class Customer < ActiveRecord::Base
   validates :last_name, presence: true
   validates :country, presence: true
   validates :email, presence: true, email_format: true
-  validates :zip, presence: true
 
   accepts_nested_attributes_for :charges
 end

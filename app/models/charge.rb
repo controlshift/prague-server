@@ -16,6 +16,7 @@
 class Charge < ActiveRecord::Base
   belongs_to :customer
   belongs_to :organization
+  before_validation :downcase_currency
 
   validates :amount, :currency, :customer, :organization, presence: true
 
@@ -38,5 +39,10 @@ class Charge < ActiveRecord::Base
     else
       {}
     end
+  end
+
+  private
+  def downcase_currency
+    self.currency = currency.downcase if currency.present?
   end
 end
