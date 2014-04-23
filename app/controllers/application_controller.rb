@@ -5,7 +5,19 @@ class ApplicationController < ActionController::Base
   
   force_ssl if: :ssl_configured?
 
+  before_filter :configure_permitted_parameters, if: :devise_controller?
+
   def ssl_configured?
     Rails.env.production?
+  end
+
+  def after_sign_in_path_for organization
+    organization_path(current_organization)
+  end
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
   end
 end

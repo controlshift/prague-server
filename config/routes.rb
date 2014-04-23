@@ -1,11 +1,11 @@
 require 'sidekiq/web'
 PragueServer::Application.routes.draw do
 
-  resources :organizations, only: [:create, :new, :show, :update]
+  resources :organizations, only: [:show, :update]
   resources :charges, only: [:create, :destroy]
   resources :crms, only: [:create, :update]
 
-  get '/auth/:provider/callback', to: 'organizations#create'
+  get '/auth/:provider/callback', to: 'authentications#create'
 
   root 'organizations#new'
 
@@ -14,7 +14,5 @@ PragueServer::Application.routes.draw do
   end 
   mount Sidekiq::Web => '/sidekiq'
 
-  delete 'sign_out', to: 'sessions#destroy'
-
-  devise_for :organizations
+  devise_for :organizations, path_prefix: 'accounts', controllers: { confirmations: 'confirmations' }
 end
