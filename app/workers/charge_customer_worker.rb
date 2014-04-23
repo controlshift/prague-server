@@ -12,6 +12,7 @@ class ChargeCustomerWorker
     Stripe::Charge.create({
         amount: charge.amount,
         currency: charge.currency,
+        application_fee: charge.application_fee,
         card: token.id,
         description: "#{Time.zone.now.to_s} - #{charge.customer.id} - #{charge.organization.slug}"
       },

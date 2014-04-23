@@ -21,7 +21,6 @@ describe Charge do
   it { should validate_presence_of :currency }
 
   it { should allow_value('usd').for(:currency) }
-  it { should_not allow_value('USD').for(:currency) }
   it { should_not allow_value('zzz').for(:currency) }
 
   describe '#build_pusher_channel_token' do
@@ -38,6 +37,13 @@ describe Charge do
 
     it 'should only return the key value pairs where the key starts with action_' do
       subject.actionkit_hash.should == {'action_foo' => 'bar'}
+    end
+  end
+
+  describe 'application_fee' do
+    subject { build_stubbed(:charge, amount: 100) }
+    it 'should have a 1 percent application_fee' do
+      subject.application_fee.should == 1
     end
   end
 end

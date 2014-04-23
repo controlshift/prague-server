@@ -9,18 +9,16 @@ describe CreateCustomerTokenWorker do
     before do
       Sidekiq::Testing.inline!
       StripeMock.start
-      ChargeCustomerWorker.stub(:perform_async)
+      ChargeCustomerWorker.should_receive(:perform_async)
     end
 
     specify 'it should update customer with a token and kick off a charge' do
-      ChargeCustomerWorker.should_receive(:perform_async)
       CreateCustomerTokenWorker.perform_async(customer.id, card_token)
       customer.reload
       customer.customer_token.should match(/cus_.*/)
     end
 
     specify 'it should kick off a charge if it already has a customer token' do
-      ChargeCustomerWorker.should_receive(:perform_async)
       CreateCustomerTokenWorker.perform_async(customer.id, card_token)
     end
   end

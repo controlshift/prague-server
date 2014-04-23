@@ -16,6 +16,7 @@
 class Charge < ActiveRecord::Base
   belongs_to :customer
   belongs_to :organization
+  before_validation :downcase_currency
 
   validates :amount, :currency, :customer, :organization, presence: true
 
@@ -32,11 +33,20 @@ class Charge < ActiveRecord::Base
     ['USD', 'AUD', 'EUR', 'CAN', 'GBP'].include?(currency.upcase) ? larger_unit : amount
   end
 
+  def application_fee
+    (amount * 0.01).to_i
+  end
+
   def actionkit_hash
     if config.present?
       config.select { |k,v| k.start_with? "action_" || k == "source" }
     else
       {}
     end
+  end
+
+  private
+  def downcase_currency
+    self.currency = currency.downcase if currency.present?
   end
 end
