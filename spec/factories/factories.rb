@@ -1,9 +1,13 @@
 FactoryGirl.define do
   factory :organization do
     name 'Org'
+    email 'org@org.com'
     access_token 'x'
     stripe_publishable_key 'x'
     stripe_user_id 'x'
+    confirmed_at { Time.now }
+    password 'password'
+    password_confirmation 'password'
   end
 
   factory :customer do

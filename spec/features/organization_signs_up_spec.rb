@@ -40,5 +40,19 @@ describe "Organization signs up" do
       page.should have_text(slug)
       current_path.should == organization_path(slug)
     end
+
+    let(:org) { create(:organization, access_token: nil, stripe_publishable_key: nil, stripe_user_id: nil) }
+    it "allows the organization to fill out credentials" do
+      visit new_organization_path
+      click_link "Sign in"
+      expect(page).to have_content("Sign in")
+      fill_in "organization[email]", with: org.email
+      fill_in "organization[password]", with: "password"
+      click_button "Sign in"
+      expect(page).to have_content("Congratulations")
+      page.find(".stripe-connect").click
+      org.reload
+      org.access_token.should == "X"
+    end
   end
 end
