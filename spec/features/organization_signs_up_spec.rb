@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'scenario_helper'
 
 describe "Organization signs up" do
   before(:each) do |example|

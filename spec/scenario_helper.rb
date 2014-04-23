@@ -2,7 +2,12 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'capybara-webkit'
+require 'capybara/poltergeist'
 require 'pry'
+require 'capybara/rspec'
+require 'capybara/rails'
+require 'capybara/email/rspec'
 require 'sidekiq/testing'
 require 'shoulda/matchers'
 require 'stripe_mock'
@@ -30,7 +35,7 @@ RSpec.configure do |config|
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   config.include Devise::TestHelpers, :type => :controller
 
@@ -39,19 +44,30 @@ RSpec.configure do |config|
   end
 
   config.before(:suite) do
-    DatabaseCleaner.clean_with(:transaction)
-    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.strategy = :truncation
   end
 
   config.around do |example|
     DatabaseCleaner.start
     example.run
-    DatabaseCleaner.clean_with(:transaction)
+    DatabaseCleaner.clean_with(:truncation)
   end
+
+  Capybara.javascript_driver = :webkit
 
   WebMock.disable_net_connect!(:allow_localhost => true)
 
+  config.before(:each, :selenium=>true) do
+    Capybara.current_driver = :selenium
+  end
+
+  config.include Capybara::DSL, :type => :request
+
   OmniAuth.config.test_mode = true
+
+  config.include Warden::Test::Helpers
+  Warden.test_mode!
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

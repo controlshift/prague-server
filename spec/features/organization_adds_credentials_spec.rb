@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'scenario_helper'
 
 describe 'Organization adds CRM credentials' do
   before do
