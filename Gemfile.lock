@@ -60,6 +60,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-email (2.3.0)
+      capybara (~> 2.2.0)
+      mail
     capybara-webkit (1.1.0)
       capybara (~> 2.0, >= 2.0.2)
       json
@@ -368,6 +371,7 @@ DEPENDENCIES
   annotate
   attr_encrypted
   capybara (~> 2.1)
+  capybara-email
   capybara-webkit
   coffee-rails (~> 4.0.0)
   dalli
