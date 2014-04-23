@@ -34,7 +34,7 @@ class Organization < ActiveRecord::Base
   has_many :charges
   has_one :crm
 
-  validates :slug, presence: true
+  validates :slug, :name, presence: true
   validates :seedamount, format: { with: /\A\d+\z/ }, allow_blank: true
   validates :seedvalues, format: { with: /\A(\d+\,)*\d+\z/ }, allow_blank: true
   validates :redirectto, format: { with: /\A(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?\z/ }, allow_blank: true

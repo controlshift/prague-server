@@ -2,9 +2,12 @@ require 'spec_helper'
 
 describe 'Organization adds CRM credentials' do
   before do
-    login
+    org
+    login org
   end
 
+  let(:org) { create(:organization) }
+  
   it 'creates credentials for the first time', js: true do
     select 'AUD', from: 'organization[global_defaults][currency]'
     fill_in 'organization_global_defaults_seedamount', with: '10'
