@@ -1,6 +1,6 @@
-require 'scenario_helper'
+require File.dirname(__FILE__) + '/../scenario_helper.rb'
 
-describe "Organization signs up" do
+feature "Organization signs up" do
   before(:each) do |example|
     Organization.last.try :destroy
     Crm.last.try :destroy

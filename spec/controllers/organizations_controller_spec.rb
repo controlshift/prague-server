@@ -1,4 +1,4 @@
-require 'scenario_helper'
+require 'spec_helper'
 
 describe OrganizationsController do
   before(:each) do |example|

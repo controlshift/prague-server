@@ -1,6 +1,6 @@
-require 'scenario_helper'
+require File.dirname(__FILE__) + '/../scenario_helper.rb'
 
-describe 'Organization adds CRM credentials' do
+feature 'Organization adds CRM credentials' do
   before do
     login org
   end
