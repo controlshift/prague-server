@@ -1,16 +1,11 @@
-%h2 Sign in
-= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  %div
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true
-  %div
-    = f.label :password
-    %br/
-    = f.password_field :password, autocomplete: "off"
+= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: 'form-devise'}) do |f|
+  %h2.form-signin-heading Sign In
+  = f.email_field :email, autofocus: true, placeholder: 'Email', required: true, class: 'form-control first-item'
+  = f.password_field :password, autocomplete: "off", placeholder: 'Password', required: true, class: 'form-control last-item'
   - if devise_mapping.rememberable?
     %div
       = f.check_box :remember_me
       = f.label :remember_me
-  %div= f.submit "Sign in"
-= render "devise/shared/links"
+  = f.submit "Sign in", class: 'btn btn-lg btn-primary btn-block'
+  .shared-links
+    = render "devise/shared/links"

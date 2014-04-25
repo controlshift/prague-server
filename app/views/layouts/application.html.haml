@@ -5,7 +5,7 @@
     = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
-  %body
+  %body{class: "body-#{controller_name} body-#{controller_name}-#{action_name} locale-#{I18n.locale}"}
     .navbar.navbar-default.navbar-fixed-top{:role => "navigation"}
       .container
         .navbar-header
@@ -21,7 +21,7 @@
             - if current_organization
               %li= link_to "Sign out", destroy_organization_session_path, method: :delete
             - else
-              %li= link_to 'Sign in', '/auth/stripe_connect', id: 'stripe-connect-link'
+              %li= link_to 'Sign in', new_organization_session_path
         / /.nav-collapse
     .container-fluid
       = yield
