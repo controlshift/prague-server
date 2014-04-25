@@ -1,0 +1,24 @@
+= form_for(@crm, html: { class: "form-horizontal credentials-form", role: "form"}, remote: true) do |f|
+  .form-group
+    = f.label :platform, class: "col-sm-2 control-label", for: "crm_platform"
+    .col-sm-4
+      = f.collection_select(:platform, Crm::PLATFORMS, :first, :last, class: "form-control")
+  .form-group
+    = f.label :username, class: "col-sm-2 control-label", for: "crm_username"
+    .col-sm-4
+      = f.text_field :username, class: "form-control"
+  .form-group
+    = f.label :password, class: "col-sm-2 control-label", for: "crm_password"
+    .col-sm-4
+      = f.password_field :password, class: "form-control"
+  .form-group
+    = f.label :host, class: "col-sm-2 control-label", for: "crm_host"
+    .col-sm-4
+      = f.text_field :host, class: "form-control"
+  .form-group
+    = f.label :donation_page_name, class: "col-sm-2 control-label", for: "crm_donation_page_name"
+    .col-sm-4
+      = f.text_field :donation_page_name, class: "form-control"
+  .form-group
+    .col-sm-offset-2.col-sm-4
+      = f.submit "Submit", class: "btn btn-default", data: { disable_with: "Saving..."}

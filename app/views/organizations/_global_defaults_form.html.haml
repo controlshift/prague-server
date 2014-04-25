@@ -1,0 +1,26 @@
+= form_for(current_organization, html: { class: 'form-horizontal', id: "global-defaults-form" }, remote: true) do |f|
+  = f.fields_for :global_defaults do |g|
+    .form-group
+      = g.label :seed_currency, class: "col-sm-2 control-label", for: "organization_global_defaults_seedcurrency"
+      .col-sm-4
+        = g.select :currency, Organization::CURRENCIES, selected: current_organization.currency
+        %br/
+    .form-group
+      = g.label :seed_amount, class: "col-sm-2 control-label", for: "organization_global_defaults_seedamount"
+      .col-sm-4
+        = g.text_field :seedamount, placeholder: "E.g. 10", value: current_organization.seedamount
+        %br/
+    .form-group
+      = g.label :seed_percentages, class: "col-sm-2 control-label", for: "organization_global_defaults_seedvalues"
+      .col-sm-4
+        = g.text_field :seedvalues, placeholder: "E.g. 100, 200, 300 ...", value: current_organization.seedvalues
+        %br/
+    .form-group
+      = g.label :'Redirect to (optional)', class: "col-sm-2 control-label", for: "organization_global_defaults_redirectto"
+      .col-sm-4
+        = g.text_field :redirectto, placeholder: "https://example.com", value: current_organization.redirectto
+        %br/
+  %label
+  .form-group
+    .col-sm-offset-2.col-sm-4
+      = f.submit "Submit", data: { disable_with: "Saving..."}, class: "btn btn-default"

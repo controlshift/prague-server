@@ -30,6 +30,8 @@ gem 'jbuilder', '~> 1.2'
 gem 'omniauth'
 gem 'omniauth-stripe-connect'
 gem 'stripe'
+gem 'haml-rails'
+
 
 gem 'pusher'
 
@@ -55,6 +57,7 @@ end
 
 group :development do
   gem 'letter_opener'
+  gem 'quiet_assets'
 end
 
 

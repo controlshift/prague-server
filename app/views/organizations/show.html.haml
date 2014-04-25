@@ -1,0 +1,27 @@
+%br/
+%br/
+%h2
+  = current_organization.name
+  Donations Home
+%p
+  The slug you will use for your organization is #{current_organization.slug}
+- if current_organization.access_token.blank?
+  %p To get started, you first must connect with Stripe, which we use to manage payments.
+  = link_to("/auth/stripe_connect", class: 'stripe-connect') do
+    %span Connect with Stripe
+  %br/
+  %br/
+%p To include the form on your site, please paste the following somewhere below the &lt;body&gt; tag:
+#code-snippet.highlight
+  %pre= current_organization.code_snippet
+%p And place this wherever you'd like the form to appear:
+.highlight
+  %pre= "<div class=\"donations-form-anchor\"></div>"
+%p
+  More instructions and customizations can be found on the documentation
+  %a{:href => "https://github.com/controlshift/prague-client"} here.
+%h3 CRM Integration and Default Settings
+%p Here you can set up the settings on your widget, along with providing us with credentials to integrate with your CRM (coming soon).
+= render 'global_defaults_form'
+%p Please enter your CRM information below if you'd like us to automatically sync with it.
+= render 'crm_form'

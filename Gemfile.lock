@@ -136,6 +136,11 @@ GEM
       zeus (~> 0)
     haml (4.0.5)
       tilt
+    haml-rails (0.5.3)
+      actionpack (>= 4.0.1)
+      activesupport (>= 4.0.1)
+      haml (>= 3.1, < 5.0)
+      railties (>= 4.0.1)
     hashie (2.0.5)
     hike (1.2.3)
     honeybadger (1.10.1)
@@ -230,6 +235,8 @@ GEM
       httpclient (~> 2.3.0)
       multi_json (~> 1.0)
       signature (~> 0.1.6)
+    quiet_assets (1.0.2)
+      railties (>= 3.1, < 5.0)
     rack (1.5.2)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -384,6 +391,7 @@ DEPENDENCIES
   guard
   guard-rspec
   guard-zeus
+  haml-rails
   honeybadger
   jbuilder (~> 1.2)
   jquery-rails
@@ -400,6 +408,7 @@ DEPENDENCIES
   pry-rails
   pry-stack_explorer
   pusher
+  quiet_assets
   rack-cache
   rack-cors
   rails (= 4.0.4)

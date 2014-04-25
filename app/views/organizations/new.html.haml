@@ -1,0 +1,60 @@
+.wrapper
+  %header
+    .new_organization
+      - if flash[:notice]
+        .notice
+          = flash[:notice]
+      = image_tag "donations-screenshot.png"
+      = link_to(new_organization_registration_path, id: 'stripe-connect-link') do
+        .btn1
+          .btn-header= 'GET STARTED '.html_safe
+  %section
+    %p{:style => "float: right"}= link_to 'Sign in', new_organization_session_path, id: 'stripe-connect-link'
+    %h1 Donation Lab
+    %p Here's an easy solution to your donation problems.
+    %p
+      Our newest donations product gives you a simple way for you to start accepting donations in a few easy steps,
+      %strong without needing to code.
+    %p
+      See a full demo here:
+      %a{:href => "http://www.changesprout.com/prague-client/"} http://www.changesprout.com/prague-client/
+    %p Just follow these steps, and you'll be set up in no time with an elegant donations form.
+    %h2 Steps
+    %p
+      First we need to create an account with Stripe. This allows us to charge customers. Just:
+    %ul
+      %li Click the "CONTINUE" link on the left
+      %li After you've completed the form you'll be brought to a page with your unique identifier.
+      %li
+        Go to the
+        %a{:href => "https://github.com/controlshift/prague-server"} Github site
+        for the form, and follow the instructions there.
+      %li Done!
+    %h2 Security
+    %p To give you an overview of how things work when you install our service:
+    %ul
+      %li Your supporter sends his credit card info over HTTPS from you to Stripe, which doesn't touch our servers at all.
+      %li You get back a credit card token, which you then submit to us.
+      %li We use that card token to charge the user on your behalf.
+      %li Once a transaction has been processed, we notify the user whether it was successful or not.
+    %p As a part of Donate Lab's partnership with Stripe (and in the spirit of general web safety), we use HTTPS as opposed to HTTP to transmit data. This means you too have to have an HTTPS URL in order to use this service. Why use this? Because it means that we can verify that there isn't a third party causing trouble by intercepting requests.
+    %h2 FAQ
+    %p
+      %em How much does this cost?
+    %p There is no upfront cost. Our payment processor Stripe charges a fixed fee of 2.9% + 30&cent; per transaction. We plan to charge a fixed percentage on top of that.
+    %p
+      %em Do I need to be able to code to do this?
+    %p
+      %strong No.
+      The only part where you need to touch code is a simple copy-paste, where you paste two lines of code - one to show us where you want the form, and the other to stick at the bottom. As long as you have access to your code it's very straightforward, and remember - you can contact us at any time. We're a small team and happy to help.
+    %p
+      %em Is Changesprout Inc. itself a nonprofit?
+    %p
+      We are a
+      %a{:href => "http://en.wikipedia.org/wiki/New_York_state_public-benefit_corporations"} New York Benefit Corp.
+  %footer
+    %p This is a project by Changesprout Inc.
+    %p
+      %small
+        Hosted on GitHub &mdash; at
+        %a{:href => "https://github.com/controlshift/prague-server"} Prague Server
