@@ -53,6 +53,11 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+group :development do
+  gem 'letter_opener'
+end
+
+
 group :development, :test do
   gem 'annotate'
   gem 'dotenv-rails'
