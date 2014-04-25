@@ -11,11 +11,11 @@ describe 'Organization adds CRM credentials' do
     fill_in 'Password', with: 'password'
     fill_in 'Host', with: 'host'
     fill_in 'Donation page name', with: 'page1'
-    first(".credentials-form").find("input[type='submit']").click
+    first("#credentials-form").find("input[type='submit']").click
     wait_for_ajax
     Organization.last.crm.username.should == 'user'
     Organization.last.crm.platform.should == 'actionkit'
     Organization.last.crm.host.should == 'host'
-    page.first(".credentials-form")[:id].should match(/edit_crm_/)
+    page.first("#credentials-form")[:id].should match(/edit_crm_/)
   end
 end
