@@ -59,6 +59,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-stack_explorer'
   gem 'pry-debugger'
+  gem 'mailcatcher'
 end
 
 group :test do
@@ -74,6 +75,7 @@ group :test do
   gem "shoulda-matchers"
   gem 'selenium-webdriver'
   gem "capybara-webkit", require: false
+  gem "capybara-email"
   gem "poltergeist"
   gem 'webmock'
 end

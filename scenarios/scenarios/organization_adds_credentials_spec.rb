@@ -1,10 +1,11 @@
-require 'spec_helper'
+require File.dirname(__FILE__) + '/../scenario_helper.rb'
 
-describe 'Organization adds CRM credentials' do
+feature 'Organization adds CRM credentials' do
   before do
-    login
+    login org
   end
 
+  let(:org) { create(:organization) }
   it 'creates credentials for the first time', js: true do
     page.first(".credentials-form")[:id].should == "new_crm"
     fill_in 'Username', with: 'user'

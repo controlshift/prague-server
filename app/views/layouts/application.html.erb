@@ -21,7 +21,7 @@
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
           <% if current_organization %>
-            <li><%= link_to "Sign out", sign_out_path, method: :delete %></li>
+            <li><%= link_to "Sign out", destroy_organization_session_path, method: :delete %></li>
           <% else %>
             <li><%= link_to 'Sign in', '/auth/stripe_connect', id: 'stripe-connect-link' %></li>
           <% end %>

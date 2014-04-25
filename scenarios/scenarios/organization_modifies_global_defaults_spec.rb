@@ -1,10 +1,13 @@
-require 'spec_helper'
+require File.dirname(__FILE__) + '/../scenario_helper.rb'
 
-describe 'Organization adds CRM credentials' do
+feature 'Organization adds CRM credentials' do
   before do
-    login
+    org
+    login org
   end
 
+  let(:org) { create(:organization) }
+  
   it 'creates credentials for the first time', js: true do
     select 'AUD', from: 'organization[global_defaults][currency]'
     fill_in 'organization_global_defaults_seedamount', with: '10'
