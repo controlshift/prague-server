@@ -28,7 +28,7 @@ describe "Organization signs up" do
     it "redirects to the show page and exposes the organization's API slug" do
       visit new_organization_path
       page.first('#stripe-connect-link').click
-      page.should have_text("Congratulations")
+      page.should have_text(Organization.last.name)
       slug = Organization.last.slug
       page.should have_text(slug)
       current_path.should == organization_path(slug)
