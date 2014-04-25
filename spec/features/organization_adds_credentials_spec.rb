@@ -6,7 +6,7 @@ describe 'Organization adds CRM credentials' do
   end
 
   it 'creates credentials for the first time', js: true do
-    page.first(".credentials-form")[:id].should == "new_crm"
+    page.first("#credentials-form")[:id].should == "new_crm"
     fill_in 'Username', with: 'user'
     fill_in 'Password', with: 'password'
     fill_in 'Host', with: 'host'
