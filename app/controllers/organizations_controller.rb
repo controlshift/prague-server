@@ -10,7 +10,9 @@ class OrganizationsController < ApplicationController
 
   def update
     if current_organization.update_attribute(:global_defaults, global_defaults_param[:global_defaults])
-      render :partial => 'organizations/global_defaults_form', :content_type => 'text/html'
+      respond_to do |format|
+        format.js
+      end
     else
       render json: current_organization, status: :bad_request
     end
