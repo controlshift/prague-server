@@ -3,6 +3,8 @@ class OrganizationsController < ApplicationController
   before_filter :authenticate_organization!, only: [:update]
   before_filter :authenticate_unless_json, only: [:show]
 
+  layout "stripped", only: [:new]
+  
   def create
     @organization = Organization.new
     @organization.apply_omniauth(request.env['omniauth.auth'])

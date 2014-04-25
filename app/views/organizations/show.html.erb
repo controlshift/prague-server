@@ -1,5 +1,4 @@
-<h2>Congratulations!</h2>
-<p>Your account has been created and will be approved by an admin shortly.</p>
+<br><br>
 <p>The slug you will use for your organization is <%= current_organization.slug %></p>
 
 <p>To include the form on your site, please paste the following somewhere below the &lt;body&gt; tag:</p>
@@ -21,5 +20,3 @@
 <p>Please enter your CRM information below if you'd like us to automatically sync with it.</p>
 
 <%= render 'crm_form' %>
-
-<%= link_to "Sign out", sign_out_path, method: :delete %>
