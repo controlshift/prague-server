@@ -57,13 +57,13 @@ class Organization < ActiveRecord::Base
 
   def code_snippet
     "<script src=\"https://s3.amazonaws.com/prague-production/jquery.donations.loader.js\" id=\"donation-script\" data-org=\"#{slug}\" 
-      data-pathtoserver=\"https://www.donatelab.com\" data-stripepublickey=\"pk_live_TkBE6KKwIBdNjc3jocHvhyNx\" data-seedamount=\"{ seedamount || '10'}\"
+      data-pathtoserver=\"https://www.takecharge.io\" data-stripepublickey=\"pk_live_TkBE6KKwIBdNjc3jocHvhyNx\" data-seedamount=\"{ seedamount || '10'}\"
       data-seedvalues=\"#{ seedvalues || '50,100,200,300,400,500,600' }\" data-seedcurrency=\"#{ currency || "USD"}\"></script>"
   end
 
   def self.global_defaults_for_slug slug
     Rails.cache.fetch "global_defaults_#{slug}", expires_in: 24.hours do
-      defaults = Organization.find_by_slug(slug).global_defaults
+      defaults = Organization.find_by_slug(slug).try(:global_defaults) || {}
       resp = Net::HTTP.get_response(URI.parse('http://platform.controlshiftlabs.com/cached_url/currencies'))
       data = JSON.parse(resp.body)
       defaults[:rates] = data['rates']
