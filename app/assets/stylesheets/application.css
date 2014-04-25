@@ -12,4 +12,6 @@
  *= require_tree .
  *= require minimal
  *= require pygment_trac
+ *= require bootstrap.min.css
+ *= require bootstrap-theme.min.css
  */

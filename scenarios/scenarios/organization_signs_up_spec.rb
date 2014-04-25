@@ -35,7 +35,7 @@ feature "Organization signs up" do
       click_button "Sign up"
       open_email Organization.last.email
       current_email.click_link "Confirm my account"
-      expect(page).to have_content("Congratulations")
+      expect(page).to have_content(Organization.last.name)
       slug = Organization.last.slug
       page.should have_text(slug)
       current_path.should == organization_path(slug)
@@ -49,7 +49,7 @@ feature "Organization signs up" do
       fill_in "organization[email]", with: org.email
       fill_in "organization[password]", with: "password"
       click_button "Sign in"
-      expect(page).to have_content("Congratulations")
+      expect(page).to have_content(org.name)
       page.find(".stripe-connect").click
       org.reload
       org.access_token.should == "X"

@@ -12,7 +12,7 @@ feature 'Organization adds CRM credentials' do
     select 'AUD', from: 'organization[global_defaults][currency]'
     fill_in 'organization_global_defaults_seedamount', with: '10'
     fill_in 'organization_global_defaults_seedvalues', with: '100,200,300'
-    first(".global-defaults-form").find("input[type='submit']").click
+    first("#global-defaults-form").find("input[type='submit']").click
     wait_for_ajax
     organization = Organization.last
     organization.currency.should == 'AUD'

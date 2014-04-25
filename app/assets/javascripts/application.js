@@ -15,3 +15,4 @@
 //= require turbolinks
 //= require_tree .
 //= require scale.fix.js
+//= require bootstrap.min.js

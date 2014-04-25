@@ -1,5 +1,5 @@
-<h2>Congratulations!</h2>
-<p>Your account has been created and will be approved by an admin shortly.</p>
+<br><br>
+<h2><%= current_organization.name %> Donations Home</h2>
 <p>The slug you will use for your organization is <%= current_organization.slug %></p>
 
 <% if current_organization.access_token.blank? %>
@@ -30,5 +30,3 @@
 <p>Please enter your CRM information below if you'd like us to automatically sync with it.</p>
 
 <%= render 'crm_form' %>
-
-<%= link_to "Sign out", destroy_organization_session_path, method: :delete %>

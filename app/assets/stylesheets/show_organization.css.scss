@@ -1,27 +1,3 @@
-.credentials-form, .global-defaults-form {
-  width: 320px;
-  padding: 8px 15px;
-  background: #f8f8f8;
-  border-radius: 5px;
-  border: 1px solid #e5e5e5;
-  margin-bottom: 15px;
-  label {
-    width: 140px;
-    display: inline-block;
-    text-align: right;
-  }
-  label, input {
-    padding: 5px;
-    margin-bottom: 5px;
-  }
-  input {
-    border: 1px solid #eee;
-  }
-  input[type="submit"] {
-    background-color: #39c;
-  }
-}
-
 .stripe-connect {
   display: inline-block;
   margin-bottom: 1px;

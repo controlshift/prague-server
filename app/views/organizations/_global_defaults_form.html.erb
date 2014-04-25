@@ -1,14 +1,34 @@
-<%= form_for(current_organization, html: { class: 'global-defaults-form'}, remote: true) do |f| %>
+<%= form_for(current_organization, html: { class: 'form-horizontal', id: "global-defaults-form" }, remote: true) do |f| %>
   <%= f.fields_for :global_defaults do |g| %>
-    <%= g.label :seed_currency %>
-    <%= g.select :currency, Organization::CURRENCIES %><br>
-    <%= g.label :seed_amount %>
-    <%= g.text_field :seedamount, placeholder: "E.g. 10" %><br>
-    <%= g.label :seed_percentages %>
-    <%= g.text_field :seedvalues, placeholder: "E.g. 100, 200, 300 ..." %><br>
-    <%= g.label :'Redirect to (optional)' %>
-    <%= g.text_field :redirectto, placeholder: "https://example.com" %><br>
+    <div class="form-group">
+      <%= g.label :seed_currency, class: "col-sm-2 control-label", for: "organization_global_defaults_seedcurrency" %>
+      <div class="col-sm-4">
+        <%= g.select :currency, Organization::CURRENCIES, selected: current_organization.currency %><br>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= g.label :seed_amount, class: "col-sm-2 control-label", for: "organization_global_defaults_seedamount" %>
+      <div class="col-sm-4">
+        <%= g.text_field :seedamount, placeholder: "E.g. 10", value: current_organization.seedamount %><br>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= g.label :seed_percentages, class: "col-sm-2 control-label", for: "organization_global_defaults_seedvalues" %>
+      <div class="col-sm-4">
+        <%= g.text_field :seedvalues, placeholder: "E.g. 100, 200, 300 ...", value: current_organization.seedvalues %><br>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= g.label :'Redirect to (optional)', class: "col-sm-2 control-label", for: "organization_global_defaults_redirectto" %>
+      <div class="col-sm-4">
+        <%= g.text_field :redirectto, placeholder: "https://example.com", value: current_organization.redirectto %><br>
+      </div>
+    </div>
   <% end %>
   <label></label>
-  <%= f.submit "Submit", data: { disable_with: "Saving..."} %>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-4">
+      <%= f.submit "Submit", data: { disable_with: "Saving..."}, class: "btn btn-default" %>
+    </div>
+  </div>
 <% end %>

@@ -4,7 +4,7 @@ module HelperMethods
     Warden.test_mode!
     login_as(organization)
     visit organization_path(organization)
-    expect(page).to have_content "Congratulations"
+    expect(page).to have_content organization.name
   end
 end
 

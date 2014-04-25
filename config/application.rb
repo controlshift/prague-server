@@ -25,6 +25,8 @@ module PragueServer
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+    config.assets.paths << "#{Rails.root}/vendor/assets/fonts"
+
     # This seems like it should be a temporary solution. Even
     # though this platform is an API, we should be using API keys
     # to verify the client if more functionality is added.
