@@ -1,3 +1,6 @@
+@import "compass/css3";
+@import "compass/utilities";
+
 .form-devise {
   max-width: 330px;
   padding: 15px;
@@ -10,9 +13,7 @@
   .form-control {
     position: relative;
     height: auto;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+    @include box-sizing('border-box');
     padding: 10px;
     font-size: 16px;
   }
@@ -26,19 +27,15 @@
 
   input.first-item {
     margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+    @include border-bottom-radius(0);
   }
   input.inner-item {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+    margin-bottom: -1px;
+    @include border-radius(0);
   }
   input.last-item {
     margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+    @include border-top-radius(0);
   }
 
   .shared-links {

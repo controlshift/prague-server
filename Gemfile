@@ -7,7 +7,9 @@ gem 'rails', '4.0.4'
 gem 'pg'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails'
+gem 'compass-rails'
+
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -49,6 +51,7 @@ gem 'action_kit_rest', git: 'https://github.com/controlshift/action_kit_rest.git
 gem 'rack-cache'
 gem 'dalli'
 gem 'thin'
+gem 'sprockets', '~> 2.11.0'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
