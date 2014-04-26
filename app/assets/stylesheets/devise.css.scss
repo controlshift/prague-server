@@ -20,6 +20,10 @@
     z-index: 2;
   }
 
+  .field_with_errors input {
+    background-color: #FFE6E6;
+  }
+
   input.first-item {
     margin-bottom: -1px;
     border-bottom-right-radius: 0;
@@ -45,6 +49,6 @@
   }
 }
 
-body.body-sessions, body.body-registrations {
+body.body-sessions, body.body-registrations, body.body-passwords, body.body-confirmations {
   background-color: #eee;
 }
