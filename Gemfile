@@ -52,7 +52,7 @@ gem 'rack-cache'
 gem 'dalli'
 gem 'thin'
 gem 'sprockets', '~> 2.11.0'
-
+gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

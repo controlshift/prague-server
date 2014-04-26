@@ -1,4 +1,4 @@
-= form_for(current_organization, html: { class: 'form-horizontal', id: "global-defaults-form" }, remote: true) do |f|
+= simple_form_for(current_organization, html: { class: 'form-horizontal', id: "global-defaults-form" }, remote: true) do |f|
   = f.fields_for :global_defaults do |g|
     .form-group
       = g.label :seed_currency, class: "col-sm-2 control-label", for: "organization_global_defaults_seedcurrency"

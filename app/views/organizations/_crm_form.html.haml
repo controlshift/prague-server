@@ -1,4 +1,4 @@
-= form_for(@crm, html: { class: "form-horizontal credentials-form", role: "form"}, remote: true) do |f|
+= simple_form_for(@crm, html: { class: "form-horizontal credentials-form", role: "form"}, remote: true) do |f|
   .form-group
     = f.label :platform, class: "col-sm-2 control-label", for: "crm_platform"
     .col-sm-4
