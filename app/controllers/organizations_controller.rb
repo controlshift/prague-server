@@ -3,16 +3,20 @@ class OrganizationsController < ApplicationController
   before_filter :authenticate_unless_json, only: [:show]
 
   def show
+    @organization = current_organization
     @crm = current_organization.crm || current_organization.build_crm
   end
 
   def update
-    if current_organization.update_attribute(:global_defaults, global_defaults_param[:global_defaults])
+    @organization = current_organization
+    if @organization.update_attributes(global_defaults: global_defaults_param[:global_defaults])
       respond_to do |format|
         format.js
       end
     else
-      render json: current_organization, status: :bad_request
+      respond_to do |format|
+        format.js
+      end
     end
   end
 

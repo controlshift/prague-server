@@ -23,5 +23,9 @@
             - else
               %li= link_to 'Sign in', new_organization_session_path
         / /.nav-collapse
-    .container-fluid
+    .container
       = yield
+
+    = yield :end_of_body
+
+
