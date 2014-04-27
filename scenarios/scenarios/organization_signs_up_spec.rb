@@ -50,7 +50,7 @@ feature "Organization signs up" do
       fill_in "organization[password]", with: "password"
       click_button "Sign in"
       expect(page).to have_content(org.name)
-      page.find(".stripe-connect").click
+      page.find("#stripe-connect-modal-link").click
       org.reload
       org.access_token.should == "X"
     end

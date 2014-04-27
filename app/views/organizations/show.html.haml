@@ -21,7 +21,7 @@
                   &times;
               .modal-body
                 %p To get started, you must first connect with Stripe, which we use to manage payments.
-                = link_to("/auth/stripe_connect", class: 'stripe-connect') do
+                = link_to("/auth/stripe_connect", class: 'stripe-connect', id: 'stripe-connect-modal-link') do
                   %span Connect with Stripe
 
     %p To include the form on your site, please paste the following somewhere below the &lt;body&gt; tag:
