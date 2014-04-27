@@ -2,8 +2,6 @@ class OrganizationsController < ApplicationController
   before_filter :authenticate_organization!, only: [:update]
   before_filter :authenticate_unless_json, only: [:show]
 
-  layout "stripped", only: [:new]
-
   def show
     @crm = current_organization.crm || current_organization.build_crm
   end

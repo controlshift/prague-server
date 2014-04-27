@@ -7,7 +7,7 @@ PragueServer::Application.routes.draw do
 
   get '/auth/:provider/callback', to: 'authentications#create'
 
-  root 'organizations#new'
+  root 'home#index'
 
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
     username == ENV["ADMIN_USER"] && password == ENV["ADMIN_PASS"]
