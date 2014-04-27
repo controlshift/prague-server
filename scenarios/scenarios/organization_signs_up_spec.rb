@@ -9,7 +9,7 @@ feature "Organization signs up" do
     it "redirects to new organization form" do
       OmniAuth.config.mock_auth[:stripe_connect] = :access_denied
       visit "/auth/stripe_connect/callback"
-      current_path.should == new_organization_path
+      current_path.should == root_path
     end
   end
 
@@ -25,8 +25,8 @@ feature "Organization signs up" do
     end
 
     it "redirects to the show page and exposes the organization's API slug" do
-      visit new_organization_path
-      page.first('#stripe-connect-link').click
+      visit root_path
+      page.first('#get-started').click
       expect(page).to have_content("Sign up")
       fill_in "organization[name]", with: "Sample"
       fill_in "organization[email]", with: "foo@bar.com"
@@ -43,7 +43,7 @@ feature "Organization signs up" do
 
     let(:org) { create(:organization, access_token: nil, stripe_publishable_key: nil, stripe_user_id: nil) }
     it "allows the organization to fill out credentials" do
-      visit new_organization_path
+      visit root_path
       click_link "Sign in"
       expect(page).to have_content("Sign in")
       fill_in "organization[email]", with: org.email

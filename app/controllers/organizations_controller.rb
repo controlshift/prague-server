@@ -17,7 +17,7 @@ class OrganizationsController < ApplicationController
   end
 
   def omniauth_failure
-    redirect_to new_organization_path, notice: "Something went wrong. Please try again."
+    redirect_to root_path, notice: "Something went wrong. Please try again."
   end
 
   private 

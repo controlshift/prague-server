@@ -11,8 +11,8 @@ class ApplicationController < ActionController::Base
     Rails.env.production?
   end
 
-  def after_sign_in_path_for organization
-    organization_path(current_organization)
+  def after_sign_in_path_for(organization)
+    organization_path(organization)
   end
 
   protected

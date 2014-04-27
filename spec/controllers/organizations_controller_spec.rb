@@ -7,14 +7,6 @@ describe OrganizationsController do
     stub_request(:get, 'http://platform.controlshiftlabs.com/cached_url/currencies').to_return(body: "{\"rates\":{\"GBP\":1.1234}}")
   end
 
-  describe 'GET new' do
-    before(:each) { get :new }
-
-    it 'renders a new template for an Organization' do
-      expect(response).to render_template("new")
-    end
-  end
-
   describe 'GET show' do
     let(:organization) {create(:organization, global_defaults: { currency: 'AUD' }) }
 
