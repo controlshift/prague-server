@@ -14,11 +14,12 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          %a.navbar-brand{:href => "#"}
+          %a.navbar-brand{:href => root_path}
             = image_tag 'logo.png'
         .navbar-collapse.collapse
           %ul.nav.navbar-nav.navbar-right
             - if current_organization
+              %li= link_to 'Dashboard', organization_path(current_organization)
               %li= link_to "Sign out", destroy_organization_session_path, method: :delete
             - else
               %li= link_to 'Sign in', new_organization_session_path
