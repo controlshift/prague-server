@@ -1,16 +1,19 @@
-<h2>Change your password</h2>
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "form", role: "form" }) do |f| %>
+  <div class="form-group"><h2>Change your password</h2></div>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-  <%= f.hidden_field :reset_password_token %>
+  <% if resource.errors.any? %>
+    <div class='alert alert-danger alert-inline'><%= error_messages_for(resource) %></div>
+  <% end %>
 
-  <div><%= f.label :password, "New password" %><br />
+  <div class="form-group"><%= f.hidden_field :reset_password_token %></div>
+
+  <div class="form-group"><%= f.label :password, "New password" %><br />
     <%= f.password_field :password, autofocus: true, autocomplete: "off" %></div>
 
-  <div><%= f.label :password_confirmation, "Confirm new password" %><br />
+  <div class="form-group"><%= f.label :password_confirmation, "Confirm new password" %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
 
-  <div><%= f.submit "Change my password" %></div>
-<% end %>
+  <div class="form-group"><%= f.submit "Change my password" %></div>
 
-<%= render "devise/shared/links" %>
+  <div class="form-group"><%= render "devise/shared/links" %></div>
+<% end %>

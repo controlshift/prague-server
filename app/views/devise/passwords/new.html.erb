@@ -1,12 +1,14 @@
-<h2>Forgot your password?</h2>
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "form", role: "form" }) do |f| %>
+  <div class="form-group"><h2>Forgot your password?</h2></div>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
+  <% if resource.errors.any? %>
+    <div class='alert alert-danger alert-inline'><%= error_messages_for(resource) %></div>
+  <% end %>
 
-  <div><%= f.label :email %><br />
+  <div class="form-group"><%= f.label :email %><br />
   <%= f.email_field :email, autofocus: true %></div>
 
-  <div><%= f.submit "Send me reset password instructions" %></div>
-<% end %>
+  <div class="form-group"><%= f.submit "Send me reset password instructions" %></div>
 
-<%= render "devise/shared/links" %>
+  <div class="form-group"><%= render "devise/shared/links" %></div>
+<% end %>
