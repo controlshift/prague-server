@@ -18,9 +18,13 @@ class CrmsController < ApplicationController
   def create
     @crm = current_organization.build_crm(crm_param)
     if @crm.save
-      render :partial => 'organizations/crm_form', :content_type => 'text/html'
+      respond_to do |format|
+        format.js { render 'update' }
+      end
     else
-      render json: @crm, status: :bad_request
+      respond_to do |format|
+        format.js { render 'update' }
+      end
     end
   end
 
