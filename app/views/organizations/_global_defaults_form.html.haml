@@ -1,7 +1,6 @@
 = simple_form_for(@organization, html: { class: 'form-vertical', id: "global-defaults-form" }, wrapper: :vertical_form, remote: true) do |f|
-  = f.simple_fields_for :global_defaults do |g|
-    = g.input :currency, collection: Organization::CURRENCIES, selected: current_organization.currency
-    = g.input :seedamount, input_html: {placeholder: "E.g. 10"}, label: 'Seed Amount'
-    = g.input :seedvalues, input_html: {placeholder: "E.g. 100, 200, 300 ..."}, label: 'Seed Percentage Values'
-    = g.input :redirectto, input_html: {placeholder: "https://example.com"}, label: 'Redirect to (optional)'
-    = f.button :submit, 'Save', data: { disable_with: 'Saving...' }
+  = f.input :currency, collection: Organization::CURRENCIES, selected: current_organization.currency
+  = f.input :seedamount, input_html: {placeholder: "E.g. 10"}, label: 'Seed Amount'
+  = f.input :seedvalues, input_html: {placeholder: "E.g. 100, 200, 300 ..."}, label: 'Seed Percentage Values'
+  = f.input :redirectto, input_html: {placeholder: "https://example.com"}, label: 'Redirect to (optional)'
+  = f.button :submit, 'Save', data: { disable_with: 'Saving...' }

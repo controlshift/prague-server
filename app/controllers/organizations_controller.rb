@@ -9,7 +9,7 @@ class OrganizationsController < ApplicationController
 
   def update
     @organization = current_organization
-    if @organization.update_attributes(global_defaults: global_defaults_param[:global_defaults])
+    if @organization.update_attributes(global_defaults_param)
       respond_to do |format|
         format.js
       end
@@ -27,9 +27,7 @@ class OrganizationsController < ApplicationController
   private 
 
   def global_defaults_param
-    params.require(:organization).tap do |whitelisted|
-      whitelisted[:global_defaults] = params[:organization][:global_defaults]
-    end
+    params.require(:organization).permit(:currency, :seedamount, :redirectto, :seedvalues)
   end
 
   def authenticate_unless_json
