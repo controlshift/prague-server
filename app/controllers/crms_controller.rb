@@ -5,9 +5,13 @@ class CrmsController < ApplicationController
   def update
     @crm = current_organization.crm
     if @crm.update_attributes(crm_param)
-      render json: @crm, status: :ok
+      respond_to do |format|
+        format.js
+      end
     else
-      render json: @crm, status: :bad_request
+      respond_to do |format|
+        format.js
+      end
     end
   end
 

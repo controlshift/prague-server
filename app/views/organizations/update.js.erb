@@ -1,2 +1,7 @@
-$(".global_defaults_form").replaceWith("<%= escape_javascript(render(:partial => 'global_defaults_form')) %>");
+$("#global-defaults-form").replaceWith("<%= escape_javascript(render(:partial => 'global_defaults_form', locals: {valid: @organization.valid?})) %>");
 $("#code-snippet").html("<pre><%= escape_javascript(current_organization.code_snippet) %></pre>");
+<% if @organization.valid? %>
+ setTimeout( function() {
+   $(".global-defaults-success").fadeOut(500);
+ }, 1000);
+<% end %>

@@ -34,7 +34,7 @@
       More instructions and customizations can be found on the documentation
       %a{:href => "https://github.com/controlshift/prague-client"} here.
     %h3 Default Widget Settings
-    = render 'global_defaults_form'
+    = render partial: 'global_defaults_form', locals: { valid: false}
     %h3 CRM Information
-    = render 'crm_form'
+    = render partial: 'crm_form', locals: { valid: false}
 
