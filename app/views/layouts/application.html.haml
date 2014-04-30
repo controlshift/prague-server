@@ -1,0 +1,33 @@
+!!!
+%html
+  %head
+    %title TakeCharge
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+  %body{class: "body-#{controller_name} body-#{controller_name}-#{action_name} locale-#{I18n.locale}"}
+    .navbar.navbar-default.navbar-fixed-top{:role => "navigation"}
+      .container
+        .navbar-header
+          %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.navbar-brand{:href => root_path}
+            = image_tag 'logo.png'
+        .navbar-collapse.collapse
+          %ul.nav.navbar-nav.navbar-right
+            - if current_organization
+              %li= link_to 'Dashboard', organization_path(current_organization)
+              %li= link_to "Sign out", destroy_organization_session_path, method: :delete
+            - else
+              %li= link_to 'Sign in', new_organization_session_path
+        / /.nav-collapse
+    .container
+      = yield
+    %footer
+
+    = yield :end_of_body
+
+

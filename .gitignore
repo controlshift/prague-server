@@ -19,3 +19,4 @@
 /config/pusher.yml
 .idea
 .env
+.DS_Store

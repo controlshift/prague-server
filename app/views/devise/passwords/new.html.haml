@@ -1,0 +1,9 @@
+= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post },  html: {class: 'form-devise'}) do |f|
+  = devise_error_messages!
+  %h2.form-signin-heading
+    Forgot password?
+  = f.email_field :email, autofocus: true, placeholder: 'Email', required: true, class: 'form-control first-item last-item'
+
+  %div= f.submit "Send me reset instructions", class: 'btn btn-lg btn-primary btn-block'
+  .shared-links
+    = render "devise/shared/links"

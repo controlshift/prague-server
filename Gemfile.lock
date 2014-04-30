@@ -15,6 +15,14 @@ GIT
       jimson-temp
       stripe (>= 1.8.4)
 
+GIT
+  remote: https://github.com/plataformatec/simple_form.git
+  revision: d7306558665d38fe3a0c277ce263e99f635958de
+  specs:
+    simple_form (3.1.0.rc1)
+      actionpack (~> 4.0)
+      activemodel (~> 4.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -53,6 +61,8 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     blankslate (3.1.2)
+    bootstrap-sass (3.1.1.1)
+      sass (~> 3.2)
     builder (3.1.4)
     capybara (2.2.1)
       mime-types (>= 1.16)
@@ -73,6 +83,7 @@ GEM
       nio4r (>= 0.5.0)
     childprocess (0.3.9)
       ffi (~> 1.0, >= 1.0.11)
+    chunky_png (1.3.0)
     cliver (0.3.2)
     coderay (1.1.0)
     coffee-rails (4.0.1)
@@ -83,6 +94,12 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     columnize (0.3.6)
+    compass (0.12.6)
+      chunky_png (~> 1.2)
+      fssm (>= 0.2.7)
+      sass (~> 3.2.19)
+    compass-rails (1.1.6)
+      compass (>= 0.12.2)
     connection_pool (1.2.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
@@ -122,6 +139,7 @@ GEM
       faraday (>= 0.7.4, < 0.9)
     ffi (1.9.3)
     formatador (0.2.4)
+    fssm (0.2.10)
     guard (2.6.0)
       formatador (>= 0.2.4)
       listen (~> 2.7)
@@ -136,6 +154,11 @@ GEM
       zeus (~> 0)
     haml (4.0.5)
       tilt
+    haml-rails (0.5.3)
+      actionpack (>= 4.0.1)
+      activesupport (>= 4.0.1)
+      haml (>= 3.1, < 5.0)
+      railties (>= 4.0.1)
     hashie (2.0.5)
     hike (1.2.3)
     honeybadger (1.10.1)
@@ -159,6 +182,8 @@ GEM
       multi_json (>= 1.5)
     launchy (2.4.2)
       addressable (~> 2.3)
+    letter_opener (1.2.0)
+      launchy (~> 2.2)
     listen (2.7.1)
       celluloid (>= 0.15.2)
       celluloid-io (>= 0.15.0)
@@ -228,6 +253,8 @@ GEM
       httpclient (~> 2.3.0)
       multi_json (~> 1.0)
       signature (~> 0.1.6)
+    quiet_assets (1.0.2)
+      railties (>= 3.1, < 5.0)
     rack (1.5.2)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -283,7 +310,7 @@ GEM
       rspec-mocks (~> 2.14.0)
     rubyzip (1.1.0)
     safe_yaml (1.0.2)
-    sass (3.2.13)
+    sass (3.2.19)
     sass-rails (4.0.1)
       railties (>= 4.0.0, < 5.0)
       sass (>= 3.1.10)
@@ -313,7 +340,7 @@ GEM
       eventmachine (~> 1.0.0)
       thin (~> 1.5.0)
     slop (3.5.0)
-    sprockets (2.12.0)
+    sprockets (2.11.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -370,10 +397,12 @@ DEPENDENCIES
   action_kit_rest!
   annotate
   attr_encrypted
+  bootstrap-sass
   capybara (~> 2.1)
   capybara-email
   capybara-webkit
   coffee-rails (~> 4.0.0)
+  compass-rails
   dalli
   database_cleaner
   devise
@@ -382,10 +411,12 @@ DEPENDENCIES
   guard
   guard-rspec
   guard-zeus
+  haml-rails
   honeybadger
   jbuilder (~> 1.2)
   jquery-rails
   launchy
+  letter_opener
   mailcatcher
   memcachier
   newrelic_rpm
@@ -397,17 +428,20 @@ DEPENDENCIES
   pry-rails
   pry-stack_explorer
   pusher
+  quiet_assets
   rack-cache
   rack-cors
   rails (= 4.0.4)
   rails_12factor
   rspec-rails
-  sass-rails (~> 4.0.0)
+  sass-rails
   sdoc
   selenium-webdriver
   shoulda-matchers
   sidekiq
+  simple_form!
   sinatra (>= 1.3.0)
+  sprockets (~> 2.11.0)
   stripe
   stripe-ruby-mock!
   thin

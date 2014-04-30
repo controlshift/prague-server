@@ -7,7 +7,10 @@ gem 'rails', '4.0.4'
 gem 'pg'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails'
+gem 'compass-rails'
+gem 'bootstrap-sass'
+
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -30,6 +33,8 @@ gem 'jbuilder', '~> 1.2'
 gem 'omniauth'
 gem 'omniauth-stripe-connect'
 gem 'stripe'
+gem 'haml-rails'
+
 
 gem 'pusher'
 
@@ -47,11 +52,18 @@ gem 'action_kit_rest', git: 'https://github.com/controlshift/action_kit_rest.git
 gem 'rack-cache'
 gem 'dalli'
 gem 'thin'
-
+gem 'sprockets', '~> 2.11.0'
+gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
+
+group :development do
+  gem 'letter_opener'
+  gem 'quiet_assets'
+end
+
 
 group :development, :test do
   gem 'annotate'

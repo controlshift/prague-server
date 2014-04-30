@@ -2,32 +2,32 @@ class OrganizationsController < ApplicationController
   before_filter :authenticate_organization!, only: [:update]
   before_filter :authenticate_unless_json, only: [:show]
 
-  layout "stripped", only: [:new]
-
   def show
+    @organization = current_organization
     @crm = current_organization.crm || current_organization.build_crm
   end
 
   def update
-    if current_organization.update_attribute(:global_defaults, global_defaults_param[:global_defaults])
+    @organization = current_organization
+    if @organization.update_attributes(global_defaults_param)
       respond_to do |format|
         format.js
       end
     else
-      render json: current_organization, status: :bad_request
+      respond_to do |format|
+        format.js
+      end
     end
   end
 
   def omniauth_failure
-    redirect_to new_organization_path, notice: "Something went wrong. Please try again."
+    redirect_to root_path, notice: "Something went wrong. Please try again."
   end
 
   private 
 
   def global_defaults_param
-    params.require(:organization).tap do |whitelisted|
-      whitelisted[:global_defaults] = params[:organization][:global_defaults]
-    end
+    params.require(:organization).permit(:currency, :seedamount, :redirectto, :seedvalues)
   end
 
   def authenticate_unless_json

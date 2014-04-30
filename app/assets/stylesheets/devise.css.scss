@@ -1,0 +1,51 @@
+@import "compass/css3";
+@import "compass/utilities";
+
+.form-devise {
+  max-width: 330px;
+  padding: 15px;
+  margin: 60px auto 0px auto;
+  label[for="organization_remember_me"]{
+    margin-top: 10px;
+    font-weight: normal;
+    margin-bottom: 10px;
+  }
+  .form-control {
+    position: relative;
+    height: auto;
+    @include box-sizing('border-box');
+    padding: 10px;
+    font-size: 16px;
+  }
+  .form-control:focus {
+    z-index: 2;
+  }
+
+  .field_with_errors input {
+    background-color: #FFE6E6;
+  }
+
+  input.first-item {
+    margin-bottom: -1px;
+    @include border-bottom-radius(0);
+  }
+  input.inner-item {
+    margin-bottom: -1px;
+    @include border-radius(0);
+  }
+  input.last-item {
+    margin-bottom: 10px;
+    @include border-top-radius(0);
+  }
+
+  .shared-links {
+    margin-top: 30px;
+  }
+  .form-signin-heading {
+    margin-bottom: 10px;
+  }
+}
+
+body.body-sessions, body.body-registrations, body.body-passwords, body.body-confirmations {
+  background-color: #eee;
+}

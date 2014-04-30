@@ -1,0 +1,6 @@
+$("#crm-form").replaceWith("<%= escape_javascript(render(:partial => 'organizations/crm_form', locals: {valid: @crm.valid?})) %>");
+<% if @crm.valid? %>
+setTimeout( function() {
+    $(".crm-form-success").fadeOut(500);
+}, 1000);
+<% end %>

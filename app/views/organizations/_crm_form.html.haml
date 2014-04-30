@@ -1,0 +1,9 @@
+= simple_form_for(@crm, html: { class: "form-vertical credentials-form", role: "form", id: 'crm-form'}, wrapper: :vertical_form, remote: true) do |f|
+  = f.input :platform, collection: Crm::PLATFORMS.collect { |k, v| [v,k] }
+  = f.input :username
+  = f.input :password
+  = f.input :host
+  = f.input :donation_page_name
+  = f.button :submit, 'Save', data: { disable_with: 'Saving...' }
+  - if valid
+    %span{class:"glyphicon glyphicon-ok text-success crm-form-success"}

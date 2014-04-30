@@ -1,0 +1,40 @@
+.row
+  .col-lg-12
+    %h2
+      = current_organization.name
+      Dashboard
+
+    %p
+      The slug you will use for your organization is #{current_organization.slug}
+    - if current_organization.access_token.blank?
+      %p To get started, you first must connect with Stripe, which we use to manage payments.
+      = link_to("/auth/stripe_connect", class: 'stripe-connect') do
+        %span Connect with Stripe
+
+      = content_for :end_of_body do
+        .modal.fade#stripe-connect-modal
+          .modal-dialog
+            .modal-content
+              .modal-header
+                Connect with Stripe
+                %button{type:"button", class: "close", 'data-dismiss' => "modal", 'aria-hidden' =>"true"}
+                  &times;
+              .modal-body
+                %p To get started, you must first connect with Stripe, which we use to manage payments.
+                = link_to("/auth/stripe_connect", class: 'stripe-connect', id: 'stripe-connect-modal-link') do
+                  %span Connect with Stripe
+
+    %p To include the form on your site, please paste the following somewhere below the &lt;body&gt; tag:
+    #code-snippet.highlight
+      %pre= current_organization.code_snippet
+    %p And place this wherever you'd like the form to appear:
+    .highlight
+      %pre= "<div class=\"donations-form-anchor\"></div>"
+    %p
+      More instructions and customizations can be found on the documentation
+      %a{:href => "https://github.com/controlshift/prague-client"} here.
+    %h3 Default Widget Settings
+    = render partial: 'global_defaults_form', locals: { valid: false}
+    %h3 CRM Information
+    = render partial: 'crm_form', locals: { valid: false}
+
