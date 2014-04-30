@@ -33,10 +33,10 @@ describe Charge do
   end
 
   describe '#actionkit_hash' do
-    subject { build(:charge, config: {'action_foo' => 'bar', 'a' => 'b'})}
+    subject { build(:charge, config: {'action_foo' => 'bar', 'a' => 'b', 'akid' => 'XXX'})}
 
     it 'should only return the key value pairs where the key starts with action_' do
-      subject.actionkit_hash.should == {'action_foo' => 'bar'}
+      subject.actionkit_hash.should == {'action_foo' => 'bar', 'orig_akid' => 'XXX'}
     end
   end
 
