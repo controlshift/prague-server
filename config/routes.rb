@@ -1,5 +1,7 @@
 require 'sidekiq/web'
 PragueServer::Application.routes.draw do
+  get 'config/:id', to: ConfigController.action(:index)
+
 
   resources :organizations, only: [:show, :update, :new]
   resources :charges, only: [:create, :destroy]
