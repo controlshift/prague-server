@@ -4,7 +4,6 @@ describe OrganizationsController do
   before(:each) do |example|
     Organization.last.try :destroy
     Crm.last.try :destroy
-    stub_request(:get, 'http://platform.controlshiftlabs.com/cached_url/currencies').to_return(body: "{\"rates\":{\"GBP\":1.1234}}")
   end
 
   describe 'GET show' do
@@ -17,11 +16,6 @@ describe OrganizationsController do
     it 'should show an organization' do
       get :show, id: organization 
       expect(response).to render_template(:show)
-    end
-
-    it 'should respond with default settings for JSON request' do
-      get :show, id: organization, format: :json
-      response.body.should == organization.global_defaults.merge(rates: { 'GBP' => 1.1234}).to_json
     end
   end
 end

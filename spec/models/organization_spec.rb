@@ -75,8 +75,8 @@ describe Organization do
 
     let!(:organization) { create(:organization, slug: 'slug', global_defaults: { 'foo' => 'bar' }) }
 
-    it 'should return a json hash' do
-      JSON.parse(Organization.global_defaults_for_slug('slug')).should == { 'foo' => 'bar', 'rates' => { 'GBP' => 1.1234 }}
+    it 'should return a hash' do
+      Organization.global_defaults_for_slug('slug').should == { :foo => 'bar', :rates => { 'GBP' => 1.1234 }}
     end
 
     context 'with a cached value' do

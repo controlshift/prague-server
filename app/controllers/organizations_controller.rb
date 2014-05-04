@@ -1,6 +1,5 @@
 class OrganizationsController < ApplicationController
-  before_filter :authenticate_organization!, only: [:update]
-  before_filter :authenticate_unless_json, only: [:show]
+  before_filter :authenticate_organization!, only: [:update, :show]
 
   def show
     @organization = current_organization
@@ -28,13 +27,5 @@ class OrganizationsController < ApplicationController
 
   def global_defaults_param
     params.require(:organization).permit(:currency, :seedamount, :redirectto, :seedvalues)
-  end
-
-  def authenticate_unless_json
-    if request.format == :json
-      render json: Organization.global_defaults_for_slug(params[:id]), callback: params[:callback]
-    else
-      authenticate_organization!
-    end
   end
 end

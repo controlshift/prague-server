@@ -69,6 +69,7 @@ class Organization < ActiveRecord::Base
       resp = Net::HTTP.get_response(URI.parse('http://platform.controlshiftlabs.com/cached_url/currencies'))
       data = JSON.parse(resp.body)
       defaults[:rates] = data['rates']
+      defaults
     end
   end
 
