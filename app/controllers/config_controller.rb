@@ -4,7 +4,7 @@ class ConfigController < ActionController::Metal
     hash = Organization.global_defaults_for_slug(params[:id])
     hash['country'] = country
     json = ActiveSupport::JSON.encode(hash)
-    json = "#{options[:callback]}(#{json})" unless params[:callback].blank?
+    json = "#{params[:callback]}(#{json})" unless params[:callback].blank?
     self.content_type ||= Mime::JSON
     self.response_body = json
   end
