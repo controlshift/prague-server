@@ -5,7 +5,7 @@ class ConfigController < ActionController::Metal
     hash['country'] = country
     json = ActiveSupport::JSON.encode(hash)
     json = "#{params[:callback]}(#{json})" unless params[:callback].blank?
-    self.content_type ||= Mime::JSON
+    self.content_type = 'application/javascript'
     self.response_body = json
   end
 

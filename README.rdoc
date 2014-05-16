@@ -3,3 +3,9 @@
 This will be the API server for the donation widget.
 
 {<img src="https://travis-ci.org/controlshift/prague-server.png?branch=master" alt="Build Status" />}[https://travis-ci.org/controlshift/prague-server]
+
+You can download the GeoIP database we use here:
+
+http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz
+
+Be sure to specify `GEOCOUNTRY_LITE_PATH` in your environment somewhere.

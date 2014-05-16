@@ -67,7 +67,7 @@ class Organization < ActiveRecord::Base
     Rails.cache.fetch "global_defaults_#{slug}", expires_in: 24.hours do
       defaults = Organization.find_by_slug(slug).try(:global_defaults) || {}
       resp = Net::HTTP.get_response(URI.parse('http://platform.controlshiftlabs.com/cached_url/currencies'))
-      data = JSON.parse(resp.body)
+      data = JSON.parse(resp.body) rescue ''
       defaults[:rates] = data['rates']
       defaults
     end
