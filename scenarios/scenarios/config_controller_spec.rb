@@ -4,7 +4,7 @@ feature ConfigController do
 
   before(:each) do
     Rails.cache.clear
-    GeoIP.any_instance.stub(:country).and_return(GeoIP::Country.new)
+    ConfigController.any_instance.stub(:country).and_return(nil)
     stub_request(:get, 'http://platform.controlshiftlabs.com/cached_url/currencies').to_return(body: "{\"rates\":{\"GBP\":1.1234}}")
   end
 
