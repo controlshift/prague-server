@@ -22,6 +22,7 @@ class ChargeCustomerWorker
       status: 'success'
     })
     CrmNotificationWorker.perform_async(charge_id)
+    ChargeNotificationMailer.delay.send_receipt(charge_id)
   rescue Stripe::CardError => e
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',

@@ -3,6 +3,7 @@
   = f.input :seedamount, input_html: {placeholder: "E.g. 10"}, label: 'Seed Amount'
   = f.input :seedvalues, input_html: {placeholder: "E.g. 100, 200, 300 ..."}, label: 'Seed Percentage Values'
   = f.input :redirectto, input_html: {placeholder: "https://example.com"}, label: 'Redirect to (optional)'
+  = f.input :thank_you_text, input_html: {placeholder: "Thanks for contributing", label: "Thank you message"}, as: :text
   = f.button :submit, 'Save', data: { disable_with: 'Saving...' }
   - if valid
-    %span{class:"glyphicon glyphicon-ok text-success global-defaults-success"}
+    %span{class: "glyphicon glyphicon-ok text-success global-defaults-success"}

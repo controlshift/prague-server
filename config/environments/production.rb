@@ -81,6 +81,7 @@ PragueServer::Application.configure do
   config.cache_store = :dalli_store
 
   config.action_mailer.default_url_options = { :host => 'takecharge.io' }
+  config.action_mailer.default_options = { from: 'admin@takecharge.io' }
 
   config.action_mailer.smtp_settings = {
     :address   => "smtp.mandrillapp.com",
