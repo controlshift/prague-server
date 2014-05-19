@@ -13,6 +13,7 @@ feature ConfigController do
   it 'should respond with default settings for JSON request' do
     visit "/config/#{organization.slug}"
     page.body.should == organization.global_defaults.merge(rates: { 'GBP' => 1.1234}, country: nil).to_json
+    page.response_headers['Content-Type'].should == 'application/javascript'
   end
 
   it 'should be able to handle a blank external request' do
