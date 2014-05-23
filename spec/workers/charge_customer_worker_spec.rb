@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe ChargeCustomerWorker do
-  let(:charge) { create(:charge, customer: create(:customer), organization: create(:organization))}
+  let(:organization) { create(:organization) }
+  let(:charge) { create(:charge, customer: create(:customer), organization: organization)}
   describe '#perform' do
     before do
       charge
@@ -35,6 +36,20 @@ describe ChargeCustomerWorker do
           message: 'Something went wrong, please try again.'
         })
       expect { ChargeCustomerWorker.perform_async(charge.id) }.to raise_error
+    end
+
+    context 'without a token' do
+      let(:organization) { create(:organization, access_token: '') }
+
+
+      it 'should return an error mesasge' do
+        Pusher::Channel.any_instance.should_receive(:trigger).with('charge_completed',
+                                                                   {
+                                                                     status: 'failure',
+                                                                     message: "#{organization.name} has not been connected to Stripe."
+                                                                   })
+        ChargeCustomerWorker.perform_async(charge.id)
+      end
     end
   end
 end
