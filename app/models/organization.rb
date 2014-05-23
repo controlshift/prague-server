@@ -59,8 +59,8 @@ class Organization < ActiveRecord::Base
 
   def code_snippet
     "<script src=\"https://dlf54o5v49n9c.cloudfront.net/\" id=\"donation-script\" data-org=\"#{slug}\"
-      data-pathtoserver=\"https://www.takecharge.io\" data-stripepublickey=\"pk_live_TkBE6KKwIBdNjc3jocHvhyNx\" data-seedamount=\"#{ seedamount || '10'}\"
-      data-seedvalues=\"#{ seedvalues || '50,100,200,300,400,500,600' }\" data-seedcurrency=\"#{ currency || "USD"}\"></script>".squish
+      data-seedamount=\"#{ seedamount || '10'}\" data-seedvalues=\"#{ seedvalues || '50,100,200,300,400,500,600' }\"
+      data-seedcurrency=\"#{ currency || "USD"}\"></script>".squish
   end
 
   def self.global_defaults_for_slug slug

@@ -34,7 +34,7 @@ describe ChargeCustomerWorker do
           status: 'failure',
           message: 'Something went wrong, please try again.'
         })
-      ChargeCustomerWorker.perform_async(charge.id)
+      expect { ChargeCustomerWorker.perform_async(charge.id) }.to raise_error
     end
   end
 end

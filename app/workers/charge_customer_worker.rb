@@ -28,10 +28,13 @@ class ChargeCustomerWorker
       status: 'failure',
       message: e.message
     })
+    Rails.logger.debug("Stripe::CardError #{e.message}")
   rescue Stripe::StripeError => e
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
       message: "Something went wrong, please try again."
     })
+    Rails.logger.warn("Stripe::Error #{e.message}")
+    raise e
   end
 end
