@@ -6,6 +6,7 @@ describe Org::ChargesController do
 
     before(:each) do
       controller.stub(:current_organization).and_return( organization )
+      sign_in organization
       get :index
     end
 
