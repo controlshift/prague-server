@@ -26,7 +26,6 @@ module ApplicationHelper
     end
   end
 
-
   private
 
   def title_for(page_title, options)
@@ -34,5 +33,4 @@ module ApplicationHelper
     content_for(:title, page_title.to_s + " | " + organisation_name)
     content_tag(:h1, page_title, options)
   end
-
 end
