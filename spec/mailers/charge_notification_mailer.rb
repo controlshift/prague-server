@@ -13,7 +13,7 @@ describe ChargeNotificationMailer do
     end
 
     its(:to){ should == [charge.customer.email] }
-    its(:from){ should == ["admin@takecharge.io"] }
+    its(:from){ should == ["admin@localhost"] }
     its(:subject){ should == "Thanks for donating to #{charge.organization.name}"}
 
     it 'should give the thank you text and other useful info' do
