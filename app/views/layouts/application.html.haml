@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title= content_for?(:title) ? content_for(:title) : current_organization.name
+    %title= content_for?(:title) ? content_for(:title) : (current_organization ? current_organization.name : 'TakeCharge')
     = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
@@ -25,6 +25,10 @@
               %li= link_to 'Sign in', new_organization_session_path
         / /.nav-collapse
     .container
+      - flash.each do |type, message|
+        .div{class:"alert #{bootstrap_class_for(type)} fade in"}
+          %button.close{"data-dismiss"=>"alert"} ×
+          = message
       = yield
     %footer
 
