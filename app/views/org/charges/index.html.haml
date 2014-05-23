@@ -1,0 +1,17 @@
+.row
+  .col-lg-12
+    = title 'Charges'
+
+    %table.table
+      %tr
+        %th Amount
+        %th Currency
+        %th Email
+
+      - @charges.each do |charge|
+        %tr
+          %td= charge.amount
+          %td= charge.amount
+          %td= charge.customer.email
+
+    = will_paginate @charges
