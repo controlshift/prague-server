@@ -58,7 +58,7 @@ class Organization < ActiveRecord::Base
   end
 
   def code_snippet
-    "<script src=\"https://s3.amazonaws.com/prague-production/jquery.donations.loader.js\" id=\"donation-script\" data-org=\"#{slug}\" 
+    "<script src=\"https://dlf54o5v49n9c.cloudfront.net/\" id=\"donation-script\" data-org=\"#{slug}\"
       data-pathtoserver=\"https://www.takecharge.io\" data-stripepublickey=\"pk_live_TkBE6KKwIBdNjc3jocHvhyNx\" data-seedamount=\"#{ seedamount || '10'}\"
       data-seedvalues=\"#{ seedvalues || '50,100,200,300,400,500,600' }\" data-seedcurrency=\"#{ currency || "USD"}\"></script>".squish
   end
