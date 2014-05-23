@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
   def ssl_configured?
-    Rails.env.production?
+    Rails.env.production? || Rails.env.staging?
   end
 
   def after_sign_in_path_for(organization)
