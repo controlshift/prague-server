@@ -3,7 +3,7 @@ class OrganizationsController < ApplicationController
 
   def show
     @organization = current_organization
-    @account = Stripe::Account.retrieve @organization.access_token
+    @account = Stripe::Account.retrieve @organization.access_token if @organization.access_token.present?
     @crm = current_organization.crm || current_organization.build_crm
   end
 

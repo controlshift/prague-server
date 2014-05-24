@@ -33,20 +33,21 @@
     .col-lg-6
       = button_to 'Deauthorize', deauthorize_organization_path(current_organization), method: 'put', class: 'btn btn-warning'
 
-.row
-  .col-lg-12
+- if current_organization.access_token.present?
+  .row
+    .col-lg-12
 
-    %p To include the form on your site, please paste the following somewhere below the &lt;body&gt; tag:
-    #code-snippet.highlight
-      %pre= current_organization.code_snippet
-    %p And place this wherever you'd like the form to appear:
-    .highlight
-      %pre= "<div class=\"donations-form-anchor\"></div>"
-    %p
-      More instructions and customizations can be found on the documentation
-      %a{:href => "https://github.com/controlshift/prague-client"} here.
-    %h3 Default Widget Settings
-    = render partial: 'global_defaults_form', locals: { valid: false}
-    %h3 CRM Information
-    = render partial: 'crm_form', locals: { valid: false}
+      %p To include the form on your site, please paste the following somewhere below the &lt;body&gt; tag:
+      #code-snippet.highlight
+        %pre= current_organization.code_snippet
+      %p And place this wherever you'd like the form to appear:
+      .highlight
+        %pre= "<div class=\"donations-form-anchor\"></div>"
+      %p
+        More instructions and customizations can be found on the documentation
+        %a{:href => "https://github.com/controlshift/prague-client"} here.
+      %h3 Default Widget Settings
+      = render partial: 'global_defaults_form', locals: { valid: false}
+      %h3 CRM Information
+      = render partial: 'crm_form', locals: { valid: false}
 
