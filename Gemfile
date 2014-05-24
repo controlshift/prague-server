@@ -33,6 +33,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'omniauth'
 gem 'omniauth-stripe-connect'
 gem 'stripe'
+gem 'stripe_event', git: 'https://github.com/controlshift/stripe_event.git'
 gem 'haml-rails'
 
 

@@ -21,8 +21,11 @@ feature "Organization signs up" do
     } }
 
     before do
+      StripeMock.start
       OmniAuth.config.mock_auth[:stripe_connect] = auth_hash
     end
+    after { StripeMock.stop }
+
 
     it "redirects to the show page and exposes the organization's API slug" do
       visit root_path

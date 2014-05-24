@@ -1,8 +1,9 @@
 class OrganizationsController < ApplicationController
-  before_filter :authenticate_organization!, only: [:update, :show]
+  before_filter :authenticate_organization!, only: [:update, :show, :deauthorize]
 
   def show
     @organization = current_organization
+    @account = Stripe::Account.retrieve @organization.access_token
     @crm = current_organization.crm || current_organization.build_crm
   end
 
@@ -17,6 +18,12 @@ class OrganizationsController < ApplicationController
         format.js
       end
     end
+  end
+
+  def deauthorize
+    @organization = current_organization
+    @organization.update_attributes(stripe_user_id: nil, stripe_publishable_key: nil, access_token: nil)
+    redirect_to @organization
   end
 
   def omniauth_failure

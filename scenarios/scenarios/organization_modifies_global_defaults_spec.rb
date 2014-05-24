@@ -2,11 +2,15 @@ require File.dirname(__FILE__) + '/../scenario_helper.rb'
 
 feature 'Organization adds CRM credentials' do
   before do
-    org
+    StripeMock.start
     login org
   end
 
-  let(:org) { create(:organization) }
+  after do
+    StripeMock.stop
+  end
+
+  let!(:org) { create(:organization) }
   
   it 'creates credentials for the first time', js: true do
     select 'AUD', from: 'organization[currency]'

@@ -6,7 +6,11 @@ PragueServer::Application.routes.draw do
     resources :charges, controller: 'charges'
   end
 
-  resources :organizations, only: [:show, :update, :new]
+  resources :organizations, only: [:show, :update, :new] do
+    member do
+      put 'deauthorize'
+    end
+  end
   resources :charges, only: [:create, :destroy]
   resources :crms, only: [:create, :update]
 
@@ -18,6 +22,7 @@ PragueServer::Application.routes.draw do
     username == ENV["ADMIN_USER"] && password == ENV["ADMIN_PASS"]
   end 
   mount Sidekiq::Web => '/sidekiq'
+  mount StripeEvent::Engine => '/stripe/event'
 
   devise_for :organizations, path_prefix: 'accounts', controllers: { confirmations: 'confirmations' }
 end
