@@ -9,7 +9,7 @@ before_install:
 services:
   - redis-server
 env:
-  - DB=postgresql PUSER_APP_ID=1234 PUSHER_KEY=123 PUSHER_SECRET=123
+  - DB=postgresql PUSER_APP_ID=1234 PUSHER_KEY=123 PUSHER_SECRET=123 STRIPE_SECRET=bar STRIPE_PUBLIC=foo STRIPE_CONNECT_CLIENT_ID=1234
 before_script:
   - cp config/database.travis.yml config/database.yml
   - cp config/stripe.travis.yml config/stripe.yml
