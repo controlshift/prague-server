@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.1.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.4'
+gem 'rails', '4.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -57,6 +57,8 @@ gem 'sprockets', '~> 2.11.0'
 gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'
 gem 'geoip'
 gem 'will_paginate'
+
+gem 'activeadmin', github: 'gregbell/active_admin'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

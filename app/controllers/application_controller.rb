@@ -10,11 +10,14 @@ class ApplicationController < ActionController::Base
   def ssl_configured?
     Rails.env.production? || Rails.env.staging?
   end
-
-  def after_sign_in_path_for(organization)
-    organization_path(organization)
+  def after_sign_in_path_for(resource)
+    if resource.is_a?(Admin)
+      admin_dashboard_path
+    else
+      organization_path(organization)
+    end
   end
-
+  
   protected
 
   def configure_permitted_parameters
