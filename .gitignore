@@ -22,3 +22,4 @@
 .DS_Store
 GeoIP.dat
 .ultrahook
+/config/secrets.yml
