@@ -11,10 +11,10 @@ class ApplicationController < ActionController::Base
     Rails.env.production? || Rails.env.staging?
   end
   def after_sign_in_path_for(resource)
-    if resource.is_a?(Admin)
+    if resource.is_a?(AdminUser)
       admin_dashboard_path
     else
-      organization_path(organization)
+      organization_path(resource)
     end
   end
   
