@@ -25,7 +25,8 @@ class CrmNotificationWorker
       card_code: '007',
       exp_date_month: "#{1.month.from_now.strftime('%m')}",
       exp_date_year: "#{1.month.from_now.strftime('%y')}",
-      amount_other: charge.presentation_amount
+      amount_other: charge.presentation_amount,
+      action_charge_id: charge.id
     }))
   end
 end

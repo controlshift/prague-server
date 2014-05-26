@@ -15,6 +15,9 @@ class ChargeCustomerWorker
           currency: charge.currency,
           application_fee: charge.application_fee,
           card: token.id,
+          metadata: {
+            'charge_id' => charge_id 
+          },
           description: "#{Time.zone.now.to_s} - #{charge.customer.id} - #{charge.organization.slug}"
         },
         charge.organization.access_token
