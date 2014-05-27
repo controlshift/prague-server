@@ -2,6 +2,8 @@
   .col-lg-12
     = title 'Charges'
 
+    .pull-right
+      =link_to 'Download CSV', org_charges_path(format: 'csv')
     %table.table
       %tr
         %th Amount
