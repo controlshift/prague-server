@@ -5,7 +5,7 @@ class OrganizationsController < ApplicationController
     @organization = current_organization
     begin
       @account = Stripe::Account.retrieve @organization.access_token if @organization.access_token.present?
-    rescue SocketError => e
+    rescue SocketError, Stripe::AuthenticationError => e
       Rails.logger.warn e
 
     end
