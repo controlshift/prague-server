@@ -18,6 +18,13 @@
 #  current_sign_in_ip     :string(255)
 #  last_sign_in_ip        :string(255)
 #  global_defaults        :hstore
+#  encrypted_password     :string(255)      default(""), not null
+#  reset_password_token   :string(255)
+#  reset_password_sent_at :datetime
+#  confirmation_token     :string(255)
+#  confirmed_at           :datetime
+#  confirmation_sent_at   :datetime
+#  unconfirmed_email      :string(255)
 #
 
 class Organization < ActiveRecord::Base
