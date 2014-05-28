@@ -28,8 +28,11 @@
 
   - else
     .col-lg-6
-      = @account.display_name
-      on Stripe is connected to TakeCharge.
+      - if @account.nil?
+        No Stripe connection.
+      - else
+        = @account.display_name
+        on Stripe is connected to TakeCharge.
     .col-lg-6
       = button_to 'Deauthorize', deauthorize_organization_path(current_organization), method: 'put', class: 'btn btn-warning'
 
