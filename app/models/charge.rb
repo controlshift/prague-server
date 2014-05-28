@@ -11,6 +11,7 @@
 #  created_at           :datetime
 #  updated_at           :datetime
 #  pusher_channel_token :string(255)
+#  config               :hstore
 #
 
 class Charge < ActiveRecord::Base

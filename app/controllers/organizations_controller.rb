@@ -3,7 +3,12 @@ class OrganizationsController < ApplicationController
 
   def show
     @organization = current_organization
-    @account = Stripe::Account.retrieve @organization.access_token if @organization.access_token.present?
+    begin
+      @account = Stripe::Account.retrieve @organization.access_token if @organization.access_token.present?
+    rescue SocketError => e
+      Rails.logger.warn e
+
+    end
     @crm = current_organization.crm || current_organization.build_crm
   end
 
