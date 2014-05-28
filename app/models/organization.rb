@@ -67,7 +67,8 @@ class Organization < ActiveRecord::Base
   def code_snippet
     "<script src=\"https://dlf54o5v49n9c.cloudfront.net/\" id=\"donation-script\" data-org=\"#{slug}\"
       data-seedamount=\"#{ seedamount || '10'}\" data-seedvalues=\"#{ seedvalues || '50,100,200,300,400,500,600' }\"
-      data-seedcurrency=\"#{ currency || "USD"}\" data-stripepublickey=\"#{ENV['STRIPE_PUBLIC']}\" ></script>".squish
+      data-seedcurrency=\"#{ currency || "USD"}\" data-stripepublickey=\"#{ENV['STRIPE_PUBLIC']}\"
+      data-pusherpublickey=\"#{ENV['PUSHER_KEY']}\" ></script>".squish
   end
 
   def self.global_defaults_for_slug slug
