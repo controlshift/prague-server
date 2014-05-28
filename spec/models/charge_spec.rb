@@ -32,6 +32,21 @@ describe Charge do
     end
   end
 
+  describe '#presentation_amount' do
+    let(:usd_charge) { build(:charge, currency: 'usd', amount: '1000') }
+    let(:sek_charge) { build(:charge, currency: 'sek', amount: '1000') }
+    let(:jpy_charge) { build(:charge, currency: 'jpy', amount: '1000') }
+
+    it 'should display usd and sek as 10.00' do
+      usd_charge.presentation_amount.should == "10.00"
+      sek_charge.presentation_amount.should == "10.00"
+    end
+
+    it 'should display jpy as its original value' do
+      jpy_charge.presentation_amount.should == "1000"
+    end
+  end
+
   describe '#actionkit_hash' do
     subject { build(:charge, config: {'action_foo' => 'bar', 'a' => 'b', 'akid' => 'XXX'})}
 

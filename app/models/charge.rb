@@ -30,8 +30,8 @@ class Charge < ActiveRecord::Base
   end
 
   def presentation_amount
-    larger_unit = '%.2f' % (amount.to_i / 1000.0)
-    ['USD', 'AUD', 'EUR', 'CAN', 'GBP'].include?(currency.upcase) ? larger_unit : amount
+    larger_unit = '%.2f' % (amount.to_i / 100.0)
+    ['BIF', 'CLP', 'JPY', 'KRW', 'PYG', 'VUV', 'XOF', 'CLP', 'GNF', 'KMF', 'MGA', 'RWF', 'XAF', 'XPF'].include?(currency.upcase) ? amount : larger_unit
   end
 
   def application_fee
