@@ -60,5 +60,10 @@ describe Charge do
     it 'should have a 1 percent application_fee' do
       subject.application_fee.should == 1
     end
+
+    it 'should allow for string values of charge' do
+      subject.amount = "100"
+      subject.application_fee.should == 1
+    end
   end
 end

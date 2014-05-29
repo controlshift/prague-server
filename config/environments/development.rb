@@ -34,3 +34,8 @@ PragueServer::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 end
+
+if ENV['SIDEKIQ_INLINE'].present?
+  require 'sidekiq/testing/inline' 
+  Sidekiq::Testing.inline!
+end

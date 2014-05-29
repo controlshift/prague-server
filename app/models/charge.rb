@@ -23,7 +23,11 @@ class Charge < ActiveRecord::Base
 
   validates :currency, inclusion: { in: Organization::CURRENCIES.collect{|c| c.downcase} }
 
-  before_create :build_pusher_channel_token
+  before_create :build_pusher_channel_token, :ensure_amount_is_number
+
+  def ensure_amount_is_number
+    self.amount = self.amount.to_i
+  end
 
   def build_pusher_channel_token
     self.pusher_channel_token = Array.new(24){[*'0'..'9', *'a'..'z', *'A'..'Z'].sample}.join
@@ -35,7 +39,7 @@ class Charge < ActiveRecord::Base
   end
 
   def application_fee
-    (amount * 0.01).to_i
+    (amount.to_i * 0.01).to_i
   end
 
   def actionkit_hash
