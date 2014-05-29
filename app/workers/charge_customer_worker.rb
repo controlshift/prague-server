@@ -28,7 +28,9 @@ class ChargeCustomerWorker
                             application_fee: charge.application_fee,
                             card: token.id,
                             metadata: {
-                              'charge_id' => charge.id
+                              'charge_id' => charge.id,
+                              'name' => charge.customer.full_name,
+                              'email' => charge.customer.email
                             },
                             description: "#{Time.zone.now.to_s} - #{charge.customer.id} - #{charge.organization.slug}"
                           },

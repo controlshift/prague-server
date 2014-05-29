@@ -23,4 +23,9 @@ describe Customer do
 
   it { should allow_value('george@washington.com').for(:email) }
   it { should_not allow_value('xxx').for(:email) }
+
+  describe '#full_name' do
+    subject { build(:customer, first_name: "Foo", last_name: "Bar") }
+    its(:full_name) { should == "Foo Bar" }
+  end
 end

@@ -16,7 +16,7 @@ class CrmNotificationWorker
     ak.action.create(charge.actionkit_hash.merge({
       page: charge.config.try(:[], 'page') || crm.donation_page_name,
       email: charge.customer.email,
-      name: "#{charge.customer.first_name} #{charge.customer.last_name}",
+      name: charge.customer.full_name,
       address1: 'Processed by TakeCharge',
       state: 'NY',
       city: 'New York',
