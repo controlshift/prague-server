@@ -10,7 +10,7 @@ describe Queries::ChargesForOrganizationExport do
   end
 
   describe 'exporting' do
-    let!(:charge) { create(:charge, organization: organization  ) }
+    let!(:charge) { create(:charge, organization: organization, config: {'foo' => 'bar'}) }
 
     it 'should have a header_row' do
       subject.header_row.should include('first_name')
@@ -34,6 +34,7 @@ describe Queries::ChargesForOrganizationExport do
 
           specify{ header.should include("first_name") }
           specify{ header.should include("email")}
+          specify{ header.should include("config")}
         end
 
         describe "first row" do
@@ -41,6 +42,7 @@ describe Queries::ChargesForOrganizationExport do
 
           specify{ first_row.should include(charge.amount.to_s) }
           specify{ first_row.should include(charge.customer.email)}
+          specify{ first_row.should include('"foo"=>"bar"')}
         end
       end
     end
