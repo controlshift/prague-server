@@ -59,6 +59,7 @@ gem 'geoip'
 gem 'will_paginate'
 
 gem 'activeadmin', github: 'gregbell/active_admin'
+gem 'localeapp'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

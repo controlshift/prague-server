@@ -1,0 +1,4 @@
+es:
+  stripe:
+    card_errors:
+      card_declined: "Spanish."
