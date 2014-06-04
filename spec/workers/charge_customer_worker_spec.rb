@@ -21,7 +21,9 @@ describe ChargeCustomerWorker do
     specify 'it should not request a charge from Stripe if in testmode' do
       organization.update_attribute(:testmode, true)
       Stripe::Charge.should_not_receive(:create)
-      Stripe::Token.should_receive(:create)
+      Stripe::Token.should_not_receive(:create)
+      Pusher::Channel.any_instance.should_receive(:trigger).with('charge_completed', { status: 'success' })
+      CrmNotificationWorker.should_receive(:perform_async)
       ChargeCustomerWorker.perform_async(charge.id)
     end
 
