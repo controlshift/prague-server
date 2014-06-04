@@ -18,6 +18,13 @@ describe ChargeCustomerWorker do
       ChargeCustomerWorker.perform_async(charge.id)
     end
 
+    specify 'it should not request a charge from Stripe if in testmode' do
+      organization.update_attribute(:testmode, true)
+      Stripe::Charge.should_not_receive(:create)
+      Stripe::Token.should_receive(:create)
+      ChargeCustomerWorker.perform_async(charge.id)
+    end
+
     specify 'it should push failure on card declined' do
       StripeMock.prepare_card_error(:card_declined)
       Pusher::Channel.any_instance.should_receive(:trigger).with('charge_completed', 

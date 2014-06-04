@@ -38,6 +38,6 @@ class OrganizationsController < ApplicationController
   private 
 
   def global_defaults_param
-    params.require(:organization).permit(:currency, :seedamount, :redirectto, :seedvalues, :thank_you_text)
+    params.require(:organization).permit(:currency, :seedamount, :redirectto, :seedvalues, :thank_you_text, :testmode)
   end
 end

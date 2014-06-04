@@ -21,5 +21,11 @@ describe CreateCustomerTokenWorker do
     specify 'it should kick off a charge if it already has a customer token' do
       CreateCustomerTokenWorker.perform_async(customer.id, card_token)
     end
+
+    specify 'it should not actually create a customer if in testmode' do
+      customer.charges.first.organization.update_attribute(:testmode, true)
+      Stripe::Customer.should_not_receive(:create)
+      CreateCustomerTokenWorker.perform_async(customer.id, card_token)
+    end
   end
 end
