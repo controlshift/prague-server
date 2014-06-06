@@ -17,7 +17,8 @@ describe ChargesController do
           'zip' => '90004',
           'charges_attributes' => [
             'amount' => '1000',
-            'currency' => 'usd'
+            'currency' => 'usd',
+            'pusher_channel_token' => 'fdsa90df8'
           ]
         }
       }
