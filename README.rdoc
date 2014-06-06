@@ -1,6 +1,6 @@
-== Donation Labs
+== Takecharge Server
 
-This will be the API server for the donation widget.
+This is the API server for the donation widget.
 
 {<img src="https://travis-ci.org/controlshift/prague-server.png?branch=master" alt="Build Status" />}[https://travis-ci.org/controlshift/prague-server]
 {<img src="https://codeclimate.com/github/controlshift/prague-server.png" />}[https://codeclimate.com/github/controlshift/prague-server]
