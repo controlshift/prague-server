@@ -34,8 +34,12 @@ class Charge < ActiveRecord::Base
   end
 
   def presentation_amount
-    larger_unit = '%.2f' % (amount.to_i / 100.0)
-    ['BIF', 'CLP', 'JPY', 'KRW', 'PYG', 'VUV', 'XOF', 'CLP', 'GNF', 'KMF', 'MGA', 'RWF', 'XAF', 'XPF'].include?(currency.upcase) ? amount : larger_unit
+    self.class.presentation_amount(amount, currency)
+  end
+
+  def self.presentation_amount for_amount, for_currency
+    zero_decimal = ['BIF', 'CLP', 'JPY', 'KRW', 'PYG', 'VUV', 'XOF', 'CLP', 'GNF', 'KMF', 'MGA', 'RWF', 'XAF', 'XPF'].include?(for_currency.upcase)
+    zero_decimal ? '%i' % for_amount.to_i.round : '%.2f' % (for_amount.to_i / 100.0) 
   end
 
   def application_fee
@@ -48,6 +52,16 @@ class Charge < ActiveRecord::Base
     else
       {}
     end
+  end
+
+  def rate_conversion_hash
+    Hash[config['rates'].split(",").collect{|c| c.tr('"}{ ', '').split("=>")}] rescue {}
+  end
+
+  def converted_amount to_currency="USD"
+    conversion_hash = rate_conversion_hash
+    return amount if conversion_hash.empty? || conversion_hash[currency.upcase].nil? || conversion_hash[currency.upcase].nil?
+    ((amount.to_f / conversion_hash[currency.upcase].to_f) * conversion_hash[to_currency.upcase].to_f).to_i
   end
 
   private
