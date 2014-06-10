@@ -19,9 +19,16 @@ require 'spec_helper'
 describe Charge do
   it { should validate_presence_of :amount }
   it { should validate_presence_of :currency }
+  it { should validate_presence_of :pusher_channel_token }
 
   it { should allow_value('usd').for(:currency) }
   it { should_not allow_value('zzz').for(:currency) }
+
+  it { should_not allow_value('zzz').for(:amount) }
+  it { should_not allow_value(-100).for(:amount) }
+  it { should allow_value(100).for(:amount) }
+  it { should allow_value('100').for(:amount) }
+
 
   describe '#presentation_amount' do
     let(:usd_charge) { build(:charge, currency: 'usd', amount: '1000') }

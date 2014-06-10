@@ -60,7 +60,8 @@ describe ChargesController do
               [
                 {
                   'currency' => 'USD',
-                  'amount' => 100
+                  'amount' => 100,
+                  'pusher_channel_token' => 'xxx',
                 }
               ],
             'first_name' => 'Nathan',

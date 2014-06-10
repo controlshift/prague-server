@@ -18,16 +18,12 @@ class Charge < ActiveRecord::Base
   belongs_to :customer
   belongs_to :organization
   before_validation :downcase_currency
+  before_validation :ensure_amount_is_number
 
-  validates :amount, :currency, :customer, :organization, presence: true
-
+  validates :amount, :currency, :customer, :organization, :pusher_channel_token, presence: true
+  validates :amount, numericality: { greater_than: 0 }
   validates :currency, inclusion: { in: Organization::CURRENCIES.collect{|c| c.downcase} }
 
-  before_create :ensure_amount_is_number
-
-  def ensure_amount_is_number
-    self.amount = self.amount.to_i
-  end
 
   def presentation_amount
     larger_unit = '%.2f' % (amount.to_i / 100.0)
@@ -47,6 +43,11 @@ class Charge < ActiveRecord::Base
   end
 
   private
+
+  def ensure_amount_is_number
+    self.amount = self.amount.try(:to_i)
+  end
+
   def downcase_currency
     self.currency = currency.downcase if currency.present?
   end
