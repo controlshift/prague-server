@@ -14,8 +14,11 @@
 #
 
 require 'spec_helper'
+require 'support/live_mode_examples'
 
 describe Customer do
+  it_behaves_like 'live mode'
+
   it { should validate_presence_of :first_name }
   it { should validate_presence_of :last_name }
   it { should validate_presence_of :email }

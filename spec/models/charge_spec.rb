@@ -15,8 +15,12 @@
 #
 
 require 'spec_helper'
+require 'support/live_mode_examples'
+
 
 describe Charge do
+  it_behaves_like 'live mode'
+
   it { should validate_presence_of :amount }
   it { should validate_presence_of :currency }
   it { should validate_presence_of :pusher_channel_token }

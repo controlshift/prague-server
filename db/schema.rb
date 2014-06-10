@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140604192625) do
+ActiveRecord::Schema.define(version: 20140606161114) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,8 @@ ActiveRecord::Schema.define(version: 20140604192625) do
     t.datetime "updated_at"
     t.string   "pusher_channel_token"
     t.hstore   "config"
+    t.string   "locale",               default: "en"
+    t.string   "status",               default: "live"
   end
 
   add_index "charges", ["customer_id"], name: "index_charges_on_customer_id", using: :btree
@@ -87,6 +89,7 @@ ActiveRecord::Schema.define(version: 20140604192625) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status",         default: "live"
   end
 
   create_table "organizations", force: true do |t|

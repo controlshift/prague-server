@@ -15,6 +15,8 @@
 #
 
 class Charge < ActiveRecord::Base
+  include LiveMode
+
   belongs_to :customer
   belongs_to :organization
   before_validation :downcase_currency

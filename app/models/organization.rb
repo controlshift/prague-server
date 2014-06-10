@@ -59,6 +59,10 @@ class Organization < ActiveRecord::Base
     self.access_token = omniauth_hash['credentials'].try(:[], 'token')
   end
 
+  def status
+    testmode? ? 'live' : 'test'
+  end
+
   def self.find_for_stripe_oauth auth
     return if auth.nil? || auth['info'].blank? || auth['credentials'].blank?
     Organization.where(stripe_user_id: auth['uid']).first
