@@ -57,6 +57,8 @@ class Organization < ActiveRecord::Base
     self.stripe_user_id = omniauth_hash['uid']
     self.stripe_publishable_key = omniauth_hash['info'].try(:[], 'stripe_publishable_key')
     self.access_token = omniauth_hash['credentials'].try(:[], 'token')
+    self.refresh_token = omniauth_hash['credentials'].try(:[], 'refresh_token')
+    self.stripe_live_mode = omniauth_hash['info'].try(:[], 'livemode')
   end
 
   def status
