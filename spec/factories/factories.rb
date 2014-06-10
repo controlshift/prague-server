@@ -30,6 +30,7 @@ FactoryGirl.define do
     amount 1000
     organization
     customer
+    pusher_channel_token 'xxx'
   end
 
   factory :crm do
