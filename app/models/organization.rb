@@ -54,6 +54,7 @@ class Organization < ActiveRecord::Base
 
   def apply_omniauth omniauth_hash
     return if omniauth_hash.nil?
+    logger.info omniauth_hash.inpsect
     self.stripe_user_id = omniauth_hash['uid']
     self.stripe_publishable_key = omniauth_hash['info'].try(:[], 'stripe_publishable_key')
     self.access_token = omniauth_hash['credentials'].try(:[], 'token')
