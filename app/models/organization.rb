@@ -71,6 +71,10 @@ class Organization < ActiveRecord::Base
     testmode? ? 'live' : 'test'
   end
 
+  def live?
+    !testmode
+  end
+
   def self.find_for_stripe_oauth auth
     return if auth.nil? || auth['info'].blank? || auth['credentials'].blank?
     Organization.where(stripe_user_id: auth['uid']).first
