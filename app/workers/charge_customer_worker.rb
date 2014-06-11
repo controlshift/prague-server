@@ -35,7 +35,7 @@ class ChargeCustomerWorker
                             },
                             description: "#{Time.zone.now.to_s} - #{charge.customer.id} - #{charge.organization.slug}"
                           },
-                          charge.organization.access_token
+                          charge.live? ? charge.organization.access_token : charge.organization.stripe_test_access_token
     )
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'success'
