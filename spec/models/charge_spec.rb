@@ -49,6 +49,16 @@ describe Charge do
     end
   end
 
+  describe '.presentation_amount' do
+    it 'should display usd as 10.00' do
+      Charge.presentation_amount(1000, 'USD').should == '10.00'
+    end
+
+    it 'should accept strings as input' do
+      Charge.presentation_amount('1000', 'USD').should == '10.00'
+    end
+  end
+
   describe '#actionkit_hash' do
     subject { build(:charge, config: {'action_foo' => 'bar', 'a' => 'b', 'akid' => 'XXX'})}
 
@@ -66,6 +76,38 @@ describe Charge do
     it 'should allow for string values of charge' do
       subject.amount = "100"
       subject.application_fee.should == 1
+    end
+  end
+
+  describe '#rate_conversion_hash' do
+    subject { build(:charge, config: { rates: "{\"BBD\"=>2, \"JPY\"=>101.7245}"}) }
+
+    it "should read in the string to a ruby hash" do
+      subject.rate_conversion_hash['BBD'].should == '2'
+    end
+  end
+
+  describe '#converted_amount' do
+    subject { build(:charge, amount: 1000, currency: 'BBD', config: { rates: "{\"BBD\"=>2, \"JPY\"=>101.7245, \"USD\"=>1}"}) }
+
+    it 'should convert the amount to usd by default' do
+      subject.converted_amount.should == 500
+    end
+
+    it 'should convert to another currency on request' do
+      subject.converted_amount("JPY").should == 50862
+    end
+
+    let(:weird_currency_charge) { build(:charge, amount: 1000, currency: 'DOESNOTEXIST') }
+
+    it 'should convert the amount to usd by default' do
+      weird_currency_charge.converted_amount.should == 1000
+    end
+
+    let(:usd_charge) { build(:charge, amount: 1000, currency: "USD") }
+
+    it 'should be able to return the original amount' do
+      usd_charge.converted_amount.should == 1000
     end
   end
 end
