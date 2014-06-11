@@ -2,29 +2,34 @@
 #
 # Table name: organizations
 #
-#  id                     :integer          not null, primary key
-#  access_token           :string(255)
-#  stripe_publishable_key :string(255)
-#  stripe_user_id         :string(255)
-#  name                   :string(255)
-#  created_at             :datetime
-#  updated_at             :datetime
-#  email                  :string(255)
-#  slug                   :string(255)
-#  remember_created_at    :datetime
-#  sign_in_count          :integer          default(0), not null
-#  current_sign_in_at     :datetime
-#  last_sign_in_at        :datetime
-#  current_sign_in_ip     :string(255)
-#  last_sign_in_ip        :string(255)
-#  global_defaults        :hstore
-#  encrypted_password     :string(255)      default(""), not null
-#  reset_password_token   :string(255)
-#  reset_password_sent_at :datetime
-#  confirmation_token     :string(255)
-#  confirmed_at           :datetime
-#  confirmation_sent_at   :datetime
-#  unconfirmed_email      :string(255)
+#  id                          :integer          not null, primary key
+#  access_token                :string(255)
+#  stripe_publishable_key      :string(255)
+#  stripe_user_id              :string(255)
+#  name                        :string(255)
+#  created_at                  :datetime
+#  updated_at                  :datetime
+#  email                       :string(255)
+#  slug                        :string(255)
+#  remember_created_at         :datetime
+#  sign_in_count               :integer          default(0), not null
+#  current_sign_in_at          :datetime
+#  last_sign_in_at             :datetime
+#  current_sign_in_ip          :string(255)
+#  last_sign_in_ip             :string(255)
+#  global_defaults             :hstore
+#  encrypted_password          :string(255)      default(""), not null
+#  reset_password_token        :string(255)
+#  reset_password_sent_at      :datetime
+#  confirmation_token          :string(255)
+#  confirmed_at                :datetime
+#  confirmation_sent_at        :datetime
+#  unconfirmed_email           :string(255)
+#  testmode                    :boolean
+#  refresh_token               :string(255)
+#  stripe_live_mode            :boolean
+#  stripe_publishable_test_key :string(255)
+#  stripe_test_access_token    :string(255)
 #
 
 require 'spec_helper'

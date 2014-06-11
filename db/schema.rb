@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140611051854) do
+ActiveRecord::Schema.define(version: 20140611202649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20140611051854) do
     t.datetime "updated_at"
     t.string   "pusher_channel_token"
     t.hstore   "config"
+    t.string   "locale",               default: "en"
     t.string   "status",               default: "live"
   end
 
@@ -118,6 +119,7 @@ ActiveRecord::Schema.define(version: 20140611051854) do
     t.string   "refresh_token"
     t.boolean  "stripe_live_mode"
     t.string   "stripe_publishable_test_key"
+    t.string   "stripe_test_access_token"
   end
 
   add_index "organizations", ["reset_password_token"], name: "index_organizations_on_reset_password_token", unique: true, using: :btree
