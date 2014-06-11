@@ -14,7 +14,7 @@ class CreateCustomerTokenWorker
           card: card_token,
           description: customer.id
         },
-        ENV['STRIPE_SECRET']
+        organization.live? ? ENV['STRIPE_SECRET'] : ENV['STRIPE_TEST_SECRET']
       )
       customer.update_attribute(:customer_token, stripe_customer.id)
       ChargeCustomerWorker.perform_async(charge.id)
