@@ -54,9 +54,25 @@ class Organization < ActiveRecord::Base
 
   def apply_omniauth omniauth_hash
     return if omniauth_hash.nil?
+    logger.info "omniauth_hash #{omniauth_hash.inspect}"
     self.stripe_user_id = omniauth_hash['uid']
     self.stripe_publishable_key = omniauth_hash['info'].try(:[], 'stripe_publishable_key')
     self.access_token = omniauth_hash['credentials'].try(:[], 'token')
+    self.refresh_token = omniauth_hash['credentials'].try(:[], 'refresh_token')
+    self.stripe_live_mode = omniauth_hash['info'].try(:[], 'livemode')
+
+    # retrieve test key
+    client = OAuth2::Client.new self.stripe_user_id, ENV['STRIPE_SECRET'], site: 'https://connect.stripe.com/'
+    rsp = client.get_token refresh_token: self.refresh_token, grant_type: 'refresh_token', client_secret: ENV['STRIPE_TEST_SECRET']
+    self.stripe_publishable_test_key = rsp.params['stripe_publishable_key']
+  end
+
+  def status
+    testmode? ? 'live' : 'test'
+  end
+
+  def live?
+    !testmode
   end
 
   def self.find_for_stripe_oauth auth
@@ -67,7 +83,7 @@ class Organization < ActiveRecord::Base
   def code_snippet
     "<script src=\"https://dlf54o5v49n9c.cloudfront.net/\" id=\"donation-script\" data-org=\"#{slug}\"
       data-seedamount=\"#{ seedamount || '10'}\" data-seedvalues=\"#{ seedvalues || '50,100,200,300,400,500,600' }\"
-      data-seedcurrency=\"#{ currency || "USD"}\" ></script>".squish
+      data-seedcurrency=\"#{ currency || "USD"}\" data-stripepublickey=\"#{ self.testmode? ? self.stripe_publishable_test_key : ENV['STRIPE_PUBLIC'] }\" ></script>".squish
   end
 
   def self.global_defaults_for_slug slug

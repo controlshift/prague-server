@@ -5,13 +5,17 @@ class ChargesController < ApplicationController
   before_filter :authenticate_organization!, only: [:index]
 
   def create
+    organization = Organization.find_by_slug(organization_slug_param)
     customer = Customer.new(customer_params)
-    customer.charges.first.organization = Organization.find_by_slug(organization_slug_param)
-    customer.charges.first.config = config_param
+    customer.status = organization.status
+    charge = customer.charges.first
+    charge.organization = organization
+    charge.config = config_param
+    charge.status = organization.status
 
     if customer.save
       CreateCustomerTokenWorker.perform_async(customer.id, card_token_param)
-      render json: { pusher_channel_token: customer.charges.first.pusher_channel_token }, status: :ok
+      render json: {}, status: :ok
     else
       render json: { error: customer.errors }, status: :unprocessable_entity
     end
@@ -22,7 +26,7 @@ class ChargesController < ApplicationController
   private
 
   def customer_params
-    params.require(:customer).permit(:first_name, :last_name, :email, :country, :zip, charges_attributes: [:currency, :amount])
+    params.require(:customer).permit(:first_name, :last_name, :email, :country, :zip, charges_attributes: [:currency, :amount, :pusher_channel_token])
   end
 
   def card_token_param

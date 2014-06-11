@@ -1,8 +1,13 @@
 class Org::ChargesController < Org::OrgController
   def index
+    current_organization.charges.live.order('created_at DESC')
     respond_to do | format |
       format.html do
-        @charges = current_organization.charges.order('created_at DESC').paginate(page: params[:page])
+        @charges = if current_organization.testmode?
+          current_organization.charges.test.order('created_at DESC').paginate(page: params[:page])
+        else
+          current_organization.charges.live.order('created_at DESC').paginate(page: params[:page])
+        end
       end
 
       format.csv do

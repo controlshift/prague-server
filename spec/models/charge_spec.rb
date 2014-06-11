@@ -15,22 +15,24 @@
 #
 
 require 'spec_helper'
+require 'support/live_mode_examples'
+
 
 describe Charge do
+  it_behaves_like 'live mode'
+
   it { should validate_presence_of :amount }
   it { should validate_presence_of :currency }
+  it { should validate_presence_of :pusher_channel_token }
 
   it { should allow_value('usd').for(:currency) }
   it { should_not allow_value('zzz').for(:currency) }
 
-  describe '#build_pusher_channel_token' do
-    subject { build(:charge, pusher_channel_token: nil) }
+  it { should_not allow_value('zzz').for(:amount) }
+  it { should_not allow_value(-100).for(:amount) }
+  it { should allow_value(100).for(:amount) }
+  it { should allow_value('100').for(:amount) }
 
-    it 'should generate a random hex string after being created' do
-      subject.save
-      subject.pusher_channel_token.length.should == 24
-    end
-  end
 
   describe '#presentation_amount' do
     let(:usd_charge) { build(:charge, currency: 'usd', amount: '1000') }

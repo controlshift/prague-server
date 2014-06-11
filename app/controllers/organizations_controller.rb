@@ -27,7 +27,7 @@ class OrganizationsController < ApplicationController
 
   def deauthorize
     @organization = current_organization
-    @organization.update_attributes(stripe_user_id: nil, stripe_publishable_key: nil, access_token: nil)
+    @organization.update_attributes(stripe_user_id: nil, stripe_publishable_key: nil, access_token: nil, refresh_token: nil, stripe_live_mode: nil)
     redirect_to @organization
   end
 

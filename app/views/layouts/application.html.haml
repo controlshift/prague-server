@@ -19,6 +19,12 @@
         .navbar-collapse.collapse
           %ul.nav.navbar-nav.navbar-right
             - if current_organization
+              %li
+                - if current_organization.stripe_live_mode?
+                  %input{:type =>"checkbox", :name =>"organization_test_mode", :checked => current_organization.live?, id: 'organization_test_mode', 'data-update-path' => organization_path(current_organization), 'data-on-text' => 'Live', 'data-off-text' => 'Test' }
+                - else
+                  %span
+                    Test Mode (locked by Stripe)
               %li= link_to 'Charges', org_charges_path
               %li= link_to 'Dashboard', organization_path(current_organization)
               %li= link_to "Sign out", destroy_organization_session_path, method: :delete

@@ -15,23 +15,17 @@
 #
 
 class Charge < ActiveRecord::Base
+  include LiveMode
+
   belongs_to :customer
   belongs_to :organization
   before_validation :downcase_currency
+  before_validation :ensure_amount_is_number
 
-  validates :amount, :currency, :customer, :organization, presence: true
-
+  validates :amount, :currency, :customer, :organization, :pusher_channel_token, presence: true
+  validates :amount, numericality: { greater_than: 0 }
   validates :currency, inclusion: { in: Organization::CURRENCIES.collect{|c| c.downcase} }
 
-  before_create :build_pusher_channel_token, :ensure_amount_is_number
-
-  def ensure_amount_is_number
-    self.amount = self.amount.to_i
-  end
-
-  def build_pusher_channel_token
-    self.pusher_channel_token = Array.new(24){[*'0'..'9', *'a'..'z', *'A'..'Z'].sample}.join
-  end
 
   def presentation_amount
     self.class.presentation_amount(amount, currency)
@@ -68,6 +62,11 @@ class Charge < ActiveRecord::Base
   end
 
   private
+
+  def ensure_amount_is_number
+    self.amount = self.amount.try(:to_i)
+  end
+
   def downcase_currency
     self.currency = currency.downcase if currency.present?
   end

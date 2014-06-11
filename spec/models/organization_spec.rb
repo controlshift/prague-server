@@ -158,4 +158,16 @@ describe Organization do
       it { should_not be_valid }
     end
   end
+
+  describe 'testmode' do
+    context 'in testmode' do
+      subject { build(:organization, testmode: true ) }
+      specify { subject.status == 'test' }
+    end
+
+    context 'in live mode' do
+      subject { build(:organization, testmode: true ) }
+      specify { subject.status == 'live' }
+    end
+  end
 end

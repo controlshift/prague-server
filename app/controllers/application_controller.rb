@@ -21,6 +21,10 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def current_status
+    current_organization.status.intern
+  end
+
   def streaming_csv_export(export)
     filename = "#{export.name}-#{Time.now.strftime("%Y%m%d")}.csv"
 

@@ -24,3 +24,4 @@ GeoIP.dat
 .ultrahook
 /config/secrets.yml
 logfile
+.localeapp

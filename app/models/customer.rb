@@ -14,6 +14,8 @@
 #
 
 class Customer < ActiveRecord::Base
+  include LiveMode
+
   has_many :charges, inverse_of: :customer
 
   validates :first_name, presence: true
