@@ -16,7 +16,6 @@ class ChargeCustomerWorker
   private
 
   def run_charge(charge)
-<<<<<<< HEAD
     charge.update_attribute(:paid, true)
     token = Stripe::Token.create(
       {
