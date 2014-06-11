@@ -12,7 +12,7 @@ describe ChargesController do
       let(:valid_customer_parameters) { 
         { 'first_name' => 'Foo', 
           'last_name' => 'Bar', 
-          'email' => 'foo@bar.com', 
+          'email' => generate(:email),
           'country' => 'US', 
           'zip' => '90004',
           'charges_attributes' => [
@@ -28,6 +28,7 @@ describe ChargesController do
         CreateCustomerTokenWorker.should_receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
         post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug
         customer = Customer.where(email: valid_customer_parameters['email']).first
+        Customer.count.should == 1
         customer.should_not be_nil
         customer.charges.should_not be_empty
         customer.charges.first.organization.should == organization
@@ -72,7 +73,7 @@ describe ChargesController do
               ],
             'first_name' => 'Nathan',
             'last_name' => 'Woodhull',
-            'email' => 'woodhull@gmail.com',
+            'email' => generate(:email),
             'country' => 'US'
           },
         'card_token' => 'tok_3srLe8OTLHfbqD',
@@ -185,7 +186,7 @@ describe ChargesController do
       let(:valid_card_token) { StripeMock.generate_card_token(last4: '9191', exp_year: 2015) }
 
       it 'should save and process the customer' do
-        CreateCustomerTokenWorker.should_receive(:perform_async)
+        CreateCustomerTokenWorker.should_receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
         post :create, params
         response.should be_success
 
