@@ -31,4 +31,14 @@ describe Customer do
     subject { build(:customer, first_name: "Foo", last_name: "Bar") }
     its(:full_name) { should == "Foo Bar" }
   end
+
+  describe '.find_or_initialize' do
+    let(:customer) { create(:customer, email: "something@gmail.com") }
+    it 'should find and update an existing customer' do
+      my_id = customer.id
+      customer2 = Customer.find_or_initialize({ first_name: "Foo", last_name: "Bar", 
+        country: "US", email: "sometHIng@gmail.com" }, status: 'live' )
+      customer2.id.should == customer.id
+    end
+  end
 end

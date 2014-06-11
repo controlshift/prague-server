@@ -25,9 +25,19 @@ class Customer < ActiveRecord::Base
 
   accepts_nested_attributes_for :charges
 
+  before_save :downcase_email
+
+  def downcase_email
+    self.email = email.downcase
+  end
+
   def self.find_or_initialize customer_params, status: nil
-    customer = find_by_email(customer_params[:email])
-    customer = customer.present? ? customer.assign_attributes(customer_params) : Customer.new(customer_params.except(:charges_attributes))
+    customer = find_by_email(customer_params[:email].downcase)
+    if customer.present? 
+      customer.assign_attributes(customer_params) 
+    else
+      customer = Customer.new(customer_params.except(:charges_attributes))
+    end
     customer.status = status
     customer
   end
