@@ -38,7 +38,9 @@ class Charge < ActiveRecord::Base
   end
 
   def self.presentation_amount for_amount, for_currency
+    # zero_decimal means that the currency is not represented as XXX.XX, rather its integer amount
     zero_decimal = ['BIF', 'CLP', 'JPY', 'KRW', 'PYG', 'VUV', 'XOF', 'CLP', 'GNF', 'KMF', 'MGA', 'RWF', 'XAF', 'XPF'].include?(for_currency.upcase)
+    # E.g.: If zero_decimal, 12345 => "12345". Else, 12345 => "123.45"
     zero_decimal ? '%i' % for_amount.to_i.round : '%.2f' % (for_amount.to_i / 100.0) 
   end
 
@@ -54,6 +56,7 @@ class Charge < ActiveRecord::Base
     end
   end
 
+  # Converts a string of the form "{\"key\"=>\"val\"}" into a hash.
   def rate_conversion_hash
     Hash[config['rates'].split(",").collect{|c| c.tr('"}{ ', '').split("=>")}] rescue {}
   end
