@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140610211855) do
+ActiveRecord::Schema.define(version: 20140611051854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,13 +102,13 @@ ActiveRecord::Schema.define(version: 20140610211855) do
     t.string   "email"
     t.string   "slug"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",               default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.hstore   "global_defaults"
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "encrypted_password",          default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.string   "confirmation_token"
@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(version: 20140610211855) do
     t.boolean  "testmode"
     t.string   "refresh_token"
     t.boolean  "stripe_live_mode"
+    t.string   "stripe_publishable_test_key"
   end
 
   add_index "organizations", ["reset_password_token"], name: "index_organizations_on_reset_password_token", unique: true, using: :btree
