@@ -16,29 +16,27 @@ class ChargeCustomerWorker
   private
 
   def run_charge(charge)
-    unless charge.organization.testmode?
-      token = Stripe::Token.create(
-        {
-          customer: charge.customer.customer_token
-        },
-        charge.organization.access_token
-      )
-      
-      Stripe::Charge.create({
-                              amount: charge.amount,
-                              currency: charge.currency,
-                              application_fee: charge.application_fee,
-                              card: token.id,
-                              metadata: {
-                                'charge_id' => charge.id,
-                                'name' => charge.customer.full_name,
-                                'email' => charge.customer.email
-                              },
-                              description: "#{Time.zone.now.to_s} - #{charge.customer.id} - #{charge.organization.slug}"
+    token = Stripe::Token.create(
+      {
+        customer: charge.customer.customer_token
+      },
+      charge.organization.access_token
+    )
+
+    Stripe::Charge.create({
+                            amount: charge.amount,
+                            currency: charge.currency,
+                            application_fee: charge.application_fee,
+                            card: token.id,
+                            metadata: {
+                              'charge_id' => charge.id,
+                              'name' => charge.customer.full_name,
+                              'email' => charge.customer.email
                             },
-                            charge.organization.access_token
-      )
-    end
+                            description: "#{Time.zone.now.to_s} - #{charge.customer.id} - #{charge.organization.slug}"
+                          },
+                          charge.organization.access_token
+    )
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'success'
     })
