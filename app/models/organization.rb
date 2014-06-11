@@ -69,10 +69,10 @@ class Organization < ActiveRecord::Base
     # retrieve test key
     client = OAuth2::Client.new self.stripe_user_id, ENV['STRIPE_SECRET'], site: 'https://connect.stripe.com/'
     rsp = client.get_token refresh_token: self.refresh_token, grant_type: 'refresh_token', client_secret: ENV['STRIPE_TEST_SECRET']
-    logger.info "refresh_hash: #{rsp.params.inspect} full object: #{rsp.inspect}"
+    logger.info "refresh_hash: #{rsp.params.inspect}"
 
     self.stripe_publishable_test_key = rsp.params['stripe_publishable_key']
-    self.stripe_test_access_token = rsp.params['access_token']
+    self.stripe_test_access_token = rsp.token
   end
 
   def status
