@@ -162,12 +162,12 @@ describe Organization do
   describe 'testmode' do
     context 'in testmode' do
       subject { build(:organization, testmode: true ) }
-      specify { subject.status == 'test' }
+      specify { subject.status.should == 'test' }
     end
 
     context 'in live mode' do
-      subject { build(:organization, testmode: true ) }
-      specify { subject.status == 'live' }
+      subject { build(:organization, testmode: false ) }
+      specify { subject.status.should == 'live' }
     end
   end
 end

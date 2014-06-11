@@ -68,7 +68,7 @@ class Organization < ActiveRecord::Base
   end
 
   def status
-    testmode? ? 'live' : 'test'
+    testmode? ? 'test' : 'live'
   end
 
   def live?
