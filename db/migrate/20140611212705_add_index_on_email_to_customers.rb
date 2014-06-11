@@ -5,6 +5,11 @@ class AddIndexOnEmailToCustomers < ActiveRecord::Migration
       names
     end
 
+    Customer.find_each do |customer|
+      customer.email = customer.email.downcase
+      customer.save
+    end
+
     duplicate_emails = Customer.select('email, count(email)').group('email').having('count(email) > 1').pluck(:email)
 
     duplicate_emails.each do |email|
