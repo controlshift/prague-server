@@ -61,6 +61,7 @@ RSpec.configure do |config|
 
   config.before(:each, :selenium=>true) do
     Capybara.current_driver = :selenium
+    load "./scenarios/support/stubs.rb"
   end
 
   config.include Capybara::DSL, :type => :request

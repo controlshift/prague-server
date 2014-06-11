@@ -34,6 +34,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     Sidekiq::Testing.disable!
+    load "./spec/support/stubs.rb"
   end
 
   config.before(:suite) do

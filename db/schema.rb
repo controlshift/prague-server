@@ -60,7 +60,6 @@ ActiveRecord::Schema.define(version: 20140611051854) do
     t.datetime "updated_at"
     t.string   "pusher_channel_token"
     t.hstore   "config"
-    t.string   "locale",               default: "en"
     t.string   "status",               default: "live"
   end
 
