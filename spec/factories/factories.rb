@@ -20,7 +20,7 @@ FactoryGirl.define do
   factory :customer do
     first_name 'Rex'
     last_name 'Tillerson'
-    email 'rex@exxon.com'
+    email { generate(:email) }
     zip '90004'
     country 'US'
   end
