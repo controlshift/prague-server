@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20140611212705) do
     t.datetime "updated_at"
     t.string   "pusher_channel_token"
     t.hstore   "config"
+    t.string   "locale",               default: "en"
     t.string   "status",               default: "live"
     t.boolean  "paid",                 default: false,  null: false
   end
@@ -121,6 +122,7 @@ ActiveRecord::Schema.define(version: 20140611212705) do
     t.string   "refresh_token"
     t.boolean  "stripe_live_mode"
     t.string   "stripe_publishable_test_key"
+    t.string   "stripe_test_access_token"
   end
 
   add_index "organizations", ["reset_password_token"], name: "index_organizations_on_reset_password_token", unique: true, using: :btree

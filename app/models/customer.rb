@@ -31,7 +31,7 @@ class Customer < ActiveRecord::Base
     self.email = email.downcase
   end
 
-  def self.find_or_initialize customer_params, status: nil
+  def self.find_or_initialize(customer_params, status: nil)
     customer = find_by_email(customer_params[:email].downcase)
     if customer.present? 
       customer.assign_attributes(customer_params) 
@@ -42,7 +42,7 @@ class Customer < ActiveRecord::Base
     customer
   end
 
-  def build_charge_with_params charges_attributes, config: nil, organization: nil
+  def build_charge_with_params(charges_attributes, config: nil, organization: nil)
     charge = charges.build(charges_attributes.first)
     charge.config = config
     charge.organization = organization
