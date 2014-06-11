@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140611051854) do
+ActiveRecord::Schema.define(version: 20140611192415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20140611051854) do
     t.string   "pusher_channel_token"
     t.hstore   "config"
     t.string   "status",               default: "live"
+    t.boolean  "paid",                 default: false,  null: false
   end
 
   add_index "charges", ["customer_id"], name: "index_charges_on_customer_id", using: :btree

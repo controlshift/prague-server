@@ -4,7 +4,7 @@ class CreateCustomerTokenWorker
   def perform(customer_id, card_token)
     customer = Customer.find(customer_id)
     if customer.customer_token.present?
-      ChargeCustomerWorker.perform_async(customer.charges.first.id)
+      charge_customer(customer)
     else
       stripe_customer = Stripe::Customer.create(
         {
@@ -16,7 +16,13 @@ class CreateCustomerTokenWorker
         ENV['STRIPE_SECRET']
       )
       customer.update_attribute(:customer_token, stripe_customer.id)
-      ChargeCustomerWorker.perform_async(customer.charges.first.id)
+      charge_customer(customer)
+    end
+  end
+
+  def charge_customer customer
+    customer.charges.where.not(paid: true).each do |charge|
+      ChargeCustomerWorker.perform_async(charge.id)
     end
   end
 end

@@ -16,6 +16,8 @@ class ChargeCustomerWorker
   private
 
   def run_charge(charge)
+<<<<<<< HEAD
+    charge.update_attribute(:paid, true)
     token = Stripe::Token.create(
       {
         customer: charge.customer.customer_token
@@ -44,12 +46,14 @@ class ChargeCustomerWorker
     ChargeNotificationMailer.delay.send_receipt(charge.id)
 
   rescue Stripe::CardError => e
+    charge.update_attribute(:paid, false)
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
       message: e.message
     })
     Rails.logger.debug("Stripe::CardError #{e.message}")
   rescue Stripe::StripeError => e
+    charge.update_attribute(:paid, false)
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
       message: "Something went wrong, please try again."

@@ -25,6 +25,21 @@ class Customer < ActiveRecord::Base
 
   accepts_nested_attributes_for :charges
 
+  def self.find_or_initialize customer_params, status: nil
+    customer = find_by_email(customer_params[:email])
+    customer = customer.present? ? customer.assign_attributes(customer_params) : Customer.new(customer_params.except(:charges_attributes))
+    customer.status = status
+    customer
+  end
+
+  def build_charge_with_params charges_attributes, config: nil, organization: nil
+    charge = charges.build(charges_attributes.first)
+    charge.config = config
+    charge.organization = organization
+    charge.status = organization.status
+    charge
+  end
+
   def to_hash
     {
       first_name: first_name,

@@ -6,13 +6,8 @@ class ChargesController < ApplicationController
 
   def create
     organization = Organization.find_by_slug(organization_slug_param)
-    customer = Customer.new(customer_params)
-    customer.status = organization.status
-    charge = customer.charges.first
-    charge.organization = organization
-    charge.config = config_param
-    charge.status = organization.status
-
+    customer = Customer.find_or_initialize(customer_params, status: organization.status)
+    customer.build_charge_with_params(customer_params[:charges_attributes], config: config_param, organization: organization)
     if customer.save
       CreateCustomerTokenWorker.perform_async(customer.id, card_token_param)
       render json: {}, status: :ok
