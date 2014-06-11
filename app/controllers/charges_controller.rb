@@ -6,13 +6,17 @@ class ChargesController < ApplicationController
 
   def create
     organization = Organization.find_by_slug(organization_slug_param)
-    customer = Customer.find_or_initialize(customer_params, status: organization.status)
-    charge = customer.build_charge_with_params(customer_params[:charges_attributes], config: config_param, organization: organization)
-    if customer.save
-      CreateCustomerTokenWorker.perform_async(customer.id, card_token_param, charge.id)
-      render json: {}, status: :ok
+    if organization.present?
+      customer = Customer.find_or_initialize(customer_params, status: organization.status)
+      charge = customer.build_charge_with_params(customer_params[:charges_attributes], config: config_param, organization: organization)
+      if customer.save
+        CreateCustomerTokenWorker.perform_async(customer.id, card_token_param, charge.id)
+        render json: {}, status: :ok
+      else
+        render json: { error: customer.errors }, status: :unprocessable_entity
+      end
     else
-      render json: { error: customer.errors }, status: :unprocessable_entity
+      render json: { error: "Organization: '#{organization_slug_param}' does not exist." }, status: :unprocessable_entity
     end
   rescue ActionController::ParameterMissing
     render json: { error: "You must provide all of the required parameters. Check the documentation." }, status: :unprocessable_entity 
