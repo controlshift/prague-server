@@ -48,6 +48,14 @@ GIT
       actionpack (~> 4.0)
       activemodel (~> 4.0)
 
+GIT
+  remote: https://github.com/todddickerson/omniauth-stripe-connect.git
+  revision: f50158da70a8a2633a3718025c179dc91b6ef08a
+  specs:
+    omniauth-stripe-connect (2.3.0)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (>= 1.0.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -201,7 +209,7 @@ GEM
     hike (1.2.3)
     honeybadger (1.10.1)
       json
-    httpauth (0.2.0)
+    httpauth (0.2.1)
     httpclient (2.3.4.1)
     i18n (0.6.9)
     inherited_resources (1.4.1)
@@ -221,7 +229,7 @@ GEM
     jquery-ui-rails (4.2.1)
       railties (>= 3.2.16)
     json (1.8.1)
-    jwt (0.1.10)
+    jwt (0.1.13)
       multi_json (>= 1.5)
     kaminari (0.15.1)
       actionpack (>= 3.0.0)
@@ -272,9 +280,6 @@ GEM
     omniauth-oauth2 (1.1.1)
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
-    omniauth-stripe-connect (2.3.0)
-      omniauth (~> 1.0)
-      omniauth-oauth2 (>= 1.0.3)
     orm_adapter (0.5.0)
     pg (0.17.1)
     poltergeist (1.5.0)
@@ -483,7 +488,7 @@ DEPENDENCIES
   memcachier
   newrelic_rpm
   omniauth
-  omniauth-stripe-connect
+  omniauth-stripe-connect!
   pg
   poltergeist
   pry-debugger
