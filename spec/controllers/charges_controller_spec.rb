@@ -35,6 +35,18 @@ describe ChargesController do
         response.should be_success
       end
 
+      context 'with a pre-existing customer' do
+        let!(:customer) { create(:customer, email: valid_customer_parameters['email'])}
+
+        it 'should create a charge and link it properly' do
+          CreateCustomerTokenWorker.should_receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
+          post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug
+          response.should be_success
+          customer.charges.should_not be_empty
+          customer.charges.first.organization.should == organization
+        end
+      end
+
       let(:config_parameters) { { 'ak_test' => 'foo' } }
 
       it 'should allow me to pass arbitrary config parameters' do

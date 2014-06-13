@@ -35,7 +35,7 @@ class Customer < ActiveRecord::Base
   def self.find_or_initialize(customer_params, status: nil)
     customer = find_by_email(customer_params[:email].downcase)
     if customer.present? 
-      customer.assign_attributes(customer_params) 
+      customer.assign_attributes(customer_params.except(:charges_attributes))
     else
       customer = Customer.new(customer_params.except(:charges_attributes))
     end
