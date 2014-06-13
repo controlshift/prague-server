@@ -18,7 +18,8 @@ describe ChargesController do
           'charges_attributes' => [
             'amount' => '1000',
             'currency' => 'usd',
-            'pusher_channel_token' => 'fdsa90df8'
+            'pusher_channel_token' => 'fdsa90df8',
+            'status' => 'test'
           ]
         }
       }
@@ -32,6 +33,7 @@ describe ChargesController do
         customer.should_not be_nil
         customer.charges.should_not be_empty
         customer.charges.first.organization.should == organization
+        customer.charges.first.status.should == 'test'
         response.should be_success
       end
 

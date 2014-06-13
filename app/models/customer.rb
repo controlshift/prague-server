@@ -47,7 +47,6 @@ class Customer < ActiveRecord::Base
     charge = charges.build(charges_attributes.first)
     charge.config = config
     charge.organization = organization
-    charge.status = organization.status
     charge
   end
 
