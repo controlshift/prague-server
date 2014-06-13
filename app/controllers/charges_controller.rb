@@ -4,6 +4,16 @@ class ChargesController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [ :create ]
   before_filter :authenticate_organization!, only: [:index]
 
+  after_filter :cors_set_access_control_headers
+
+  def cors_set_access_control_headers
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
+    headers['Access-Control-Allow-Headers'] = '*'
+    headers['Access-Control-Request-Method'] = '*'
+    headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  end
+
   def create
     organization = Organization.find_by_slug(organization_slug_param)
     if organization.present?
