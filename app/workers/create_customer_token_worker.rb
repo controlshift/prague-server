@@ -5,7 +5,7 @@ class CreateCustomerTokenWorker
     customer = Customer.find(customer_id)
     charge = Charge.find(charge_id)
     if customer.customer_token.present?
-      charge_customer(customer)
+      ChargeCustomerWorker.perform_async(charge.id)
     else
       stripe_customer = Stripe::Customer.create(
         {
