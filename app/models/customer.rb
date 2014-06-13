@@ -22,14 +22,14 @@ class Customer < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :country, presence: true
-  validates :email, presence: true, email_format: true
+  validates :email, presence: true, email_format: true, :uniqueness => {:scope => [:status]}
 
   accepts_nested_attributes_for :charges
 
-  before_save :downcase_email
+  before_validation :downcase_email
 
   def downcase_email
-    self.email = email.downcase
+    self.email = email.try(:downcase)
   end
 
   def self.find_or_initialize(customer_params, status: nil)

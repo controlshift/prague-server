@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20140613202342) do
     t.datetime "updated_at"
     t.string   "pusher_channel_token"
     t.hstore   "config"
+    t.string   "locale",               default: "en"
     t.string   "status",               default: "live"
     t.boolean  "paid",                 default: false,  null: false
   end
@@ -93,7 +94,6 @@ ActiveRecord::Schema.define(version: 20140613202342) do
   end
 
   add_index "customers", ["email", "status"], name: "index_customers_on_email_and_status", unique: true, using: :btree
-  add_index "customers", ["email"], name: "index_customers_on_email", unique: true, using: :btree
 
   create_table "organizations", force: true do |t|
     t.string   "access_token"
