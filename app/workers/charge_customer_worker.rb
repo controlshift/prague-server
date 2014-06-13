@@ -21,7 +21,7 @@ class ChargeCustomerWorker
       {
         customer: charge.customer.customer_token
       },
-      charge.organization.access_token
+      charge.live? ? charge.organization.access_token : charge.organization.stripe_test_access_token
     )
 
     Stripe::Charge.create({
