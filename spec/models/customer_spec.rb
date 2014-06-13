@@ -42,4 +42,19 @@ describe Customer do
       customer2.id.should == customer.id
     end
   end
+
+  describe "unique email validation" do
+    let(:customer1) { Customer.new attributes_for(:customer, email: first_customer_email)}
+    let(:customer2) { Customer.new attributes_for(:customer, email: second_customer_email)}
+
+    let(:first_customer_email) { "ANemail@email.com" }
+    let(:second_customer_email) { "ANEMAIL@EMAIL.COM" }
+
+    it "should reject duplicate emails in different case for the same parent" do
+      customer1.save.should be_true
+      customer2.save.should be_false
+      customer2.status = 'test'
+      customer2.save.should be_true
+    end
+  end
 end
