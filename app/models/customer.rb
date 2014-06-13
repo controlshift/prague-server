@@ -45,9 +45,9 @@ class Customer < ActiveRecord::Base
 
   def build_charge_with_params(charges_attributes, config: nil, organization: nil)
     charge = charges.build(charges_attributes.first)
+    charge.status = 'live' unless charges_attributes.first[:status] == 'test'
     charge.config = config
     charge.organization = organization
-    charge.status = organization.status
     charge
   end
 

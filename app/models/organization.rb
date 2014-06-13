@@ -91,7 +91,8 @@ class Organization < ActiveRecord::Base
   def code_snippet
     "<script src=\"#{ENV['CLIENT_CLOUDFRONT_DISTRIBUTION']}\" id=\"donation-script\" data-org=\"#{slug}\"
       data-seedamount=\"#{ seedamount || '10'}\" data-seedvalues=\"#{ seedvalues || '50,100,200,300,400,500,600' }\"
-      data-seedcurrency=\"#{ currency || "USD"}\" data-stripepublickey=\"#{ self.testmode? ? self.stripe_publishable_test_key : self.stripe_publishable_key }\" ></script>".squish
+      data-seedcurrency=\"#{ currency || "USD"}\" data-stripepublickey=\"#{ self.testmode? ? self.stripe_publishable_test_key : self.stripe_publishable_key }\" 
+      #{ "data-chargestatus=\"test\"" if self.testmode? }></script>".squish
   end
 
   def self.global_defaults_for_slug slug

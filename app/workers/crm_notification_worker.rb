@@ -23,6 +23,7 @@ class CrmNotificationWorker
       exp_date_year: "#{1.month.from_now.strftime('%y')}",
       amount_other: Charge.presentation_amount(charge.converted_amount, 'USD'),
       action_charge_id: charge.id,
+      action_charge_status: charge.status,
       action_charge_currency: charge.currency.upcase
     }))
   end
