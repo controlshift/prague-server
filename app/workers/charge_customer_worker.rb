@@ -46,7 +46,7 @@ class ChargeCustomerWorker
 
   rescue Stripe::CardError => e
     charge.update_attribute(:paid, false)
-    message = I18n.t("stripe.success", locale: charge.locale)
+    message = I18n.t("stripe.card_errors.#{e.code}", locale: charge.locale)
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
       message: message
@@ -54,7 +54,7 @@ class ChargeCustomerWorker
     Rails.logger.debug("Stripe::CardError #{e.message}")
   rescue Stripe::StripeError => e
     charge.update_attribute(:paid, false)
-    message = I18n.t("stripe.card_errors.#{e.code}", locale: charge.locale)
+    message = I18n.t("stripe.error", locale: charge.locale)
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
       message: message

@@ -1,6 +1,7 @@
 en:
   stripe:
     success: "The charge has gone through."
+    error: "Something went wrong, please try again."
     card_errors:
       incorrect_number: "The card number is incorrect."
       invalid_number: "The card number is not a valid credit card number."
