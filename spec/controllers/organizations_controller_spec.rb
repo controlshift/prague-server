@@ -33,4 +33,17 @@ describe OrganizationsController do
       assigns(:organization).access_token.should be_nil
     end
   end
+
+  describe 'toggle' do
+    context 'test mode false' do
+      let(:organization) { create(:organization, testmode: false) }
+      before(:each) do
+        put :toggle, id: organization, organization: { testmode: true }, format: 'js'
+      end
+
+      it 'should toggle to true' do
+        assigns(:organization).testmode.should be_true
+      end
+    end
+  end
 end
