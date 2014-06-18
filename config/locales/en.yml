@@ -20,11 +20,10 @@ en:
       email_not_valid: 'is not a valid email address'
 
   fields:
-    section_headers:
-      im_donating: "I'M DONATING"
-      amount: "Amount"
-      my_info: "My Info"
-      payment: "Payment"
+    im_donating: "I'M DONATING"
+    amount: "Amount"
+    my_info: "My Info"
+    payment: "Payment"
     currency: "Currency"
     first_name: "First Name"
     last_name: "Last Name"
@@ -34,6 +33,16 @@ en:
     cvv: "CVV/CVC"
     what_is_this: "What is this?"
     cvv_explanation: "For MasterCard, Visa or Discover, it's the three digits in the signature area on the back of your card. For American Express, it's the four digits on the front of the card."
-    buttons:
-      next: "NEXT"
-      donate: "DONATE"
+    next: "NEXT"
+    donate: "DONATE"
+    success_notification: "Success! You'll receive a notification for your payment."
+    failure_notification: "Something went wrong."
+
+  error_messages:
+    cant_be_blank: "Can't be blank"
+    cant_be_blank_amount: "Please select an amount"
+    greater_than_amount: "Amount must be greater than or equal to 1"
+    invalid_cvc_num: "Invalid CVC number"
+    invalid_cc_num: "Invalid credit card number"
+    invalid_date: "Invalid date"
+    invalid_email: "Invalid email"

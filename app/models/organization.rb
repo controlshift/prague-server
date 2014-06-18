@@ -101,7 +101,7 @@ class Organization < ActiveRecord::Base
       resp = Net::HTTP.get_response(URI.parse('http://platform.controlshiftlabs.com/cached_url/currencies'))
       data = JSON.parse(resp.body) rescue ''
       defaults[:rates] = data['rates']
-      defaults[:errors] = I18n.t('errors', locale: org.locale || 'en')
+      defaults[:error_messages] = I18n.t('error_messages', locale: org.locale || 'en')
       defaults[:fields] = I18n.t('fields', locale: org.locale || 'en')
       defaults
     end
