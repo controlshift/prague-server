@@ -37,7 +37,7 @@ class Organization < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :rememberable, :trackable, :database_authenticatable, :validatable, :confirmable, :recoverable, :registerable
 
-  store_accessor :global_defaults, :currency, :seedamount, :seedvalues, :redirectto, :thank_you_text
+  store_accessor :global_defaults, :currency, :seedamount, :seedvalues, :redirectto, :thank_you_text, :locale
 
   CURRENCIES = ["USD", "EUR", "AUD", "CAN", "GBP", "NZD", "NOK", "DKK", "SEK"]
 
@@ -96,10 +96,13 @@ class Organization < ActiveRecord::Base
 
   def self.global_defaults_for_slug slug
     Rails.cache.fetch "global_defaults_#{slug}", expires_in: 24.hours do
-      defaults = Organization.find_by_slug(slug).try(:global_defaults) || {}
+      org = Organization.find_by_slug(slug)
+      defaults = org.try(:global_defaults) || {}
       resp = Net::HTTP.get_response(URI.parse('http://platform.controlshiftlabs.com/cached_url/currencies'))
       data = JSON.parse(resp.body) rescue ''
       defaults[:rates] = data['rates']
+      defaults[:error_messages] = I18n.t('error_messages', locale: org.locale || 'en')
+      defaults[:fields] = I18n.t('fields', locale: org.locale || 'en')
       defaults
     end
   end

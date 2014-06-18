@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   force_ssl if: :ssl_configured?
 
   before_filter :configure_permitted_parameters, if: :devise_controller?
+  before_filter :set_locale
+
 
   def ssl_configured?
     Rails.env.production? || Rails.env.staging?
@@ -34,8 +36,11 @@ class ApplicationController < ActionController::Base
     self.response_body = export.as_csv_stream
   end
 
-
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
+  end
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
   end
 end

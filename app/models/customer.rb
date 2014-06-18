@@ -47,6 +47,7 @@ class Customer < ActiveRecord::Base
     charge = charges.build(charges_attributes.first)
     charge.status = 'live' unless charges_attributes.first[:status] == 'test'
     charge.config = config
+    charge.locale = I18n.locale
     charge.organization = organization
     charge
   end

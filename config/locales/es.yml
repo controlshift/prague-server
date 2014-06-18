@@ -1,0 +1,6 @@
+es:
+  stripe:
+    success: "Failure"
+    error: "Something went wrong."
+    card_errors:
+      card_declined: "Spanish."

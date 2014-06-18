@@ -88,7 +88,7 @@ describe Organization do
     let!(:organization) { create(:organization, slug: 'slug', global_defaults: { 'foo' => 'bar' }) }
 
     it 'should return a hash' do
-      Organization.global_defaults_for_slug('slug').to_json.should == { :foo => 'bar', :rates => { 'GBP' => 1.1234 }}.to_json
+      Organization.global_defaults_for_slug('slug').except(:error_messages, :fields).to_json.should == { :foo => 'bar', :rates => { 'GBP' => 1.1234 }}.to_json
     end
 
     context 'with a cached value' do

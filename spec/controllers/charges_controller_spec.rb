@@ -207,9 +207,30 @@ describe ChargesController do
         customer = Customer.where(email: params['customer']['email']).first
         customer.should_not be_nil
         customer.charges.should_not be_empty
-        customer.charges.first.organization.should == organization
+        charge = customer.charges.first
+        charge.organization.should == organization
+        charge.locale.should == 'en'
+      end
+
+      context 'locale' do
+        let(:locale) { 'es' }
+        let(:locale_params) { params.update('locale' => locale) }
+
+        it 'should set the locale' do
+          CreateCustomerTokenWorker.should_receive(:perform_async)
+          post :create, locale_params
+          response.should be_success
+
+          customer = Customer.where(email: params['customer']['email']).first
+          customer.should_not be_nil
+          customer.charges.should_not be_empty
+          charge = customer.charges.first
+          charge.organization.should == organization
+          charge.locale.should == locale
+        end
       end
     end
+
 
     context 'without the required parameters' do
       it 'should response with unprocessable entity' do

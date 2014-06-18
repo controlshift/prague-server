@@ -1,26 +1,49 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  stripe:
+    success: "The charge has gone through."
+    error: "Something went wrong, please try again."
+    card_errors:
+      incorrect_number: "The card number is incorrect."
+      invalid_number: "The card number is not a valid credit card number."
+      invalid_expiry_month: "The card's expiration month is invalid."
+      invalid_expiry_year: "The card's expiration year is invalid."
+      invalid_cvc: "The card's security code is invalid."
+      expired_card: "The card has expired."
+      incorrect_cvc: "The card's security code is incorrect."
+      incorrect_zip: "The card's zip code failed validation."
+      card_declined: "The card was declined."
+      missing: "There is no card on a customer that is being charged."
+      processing_error: "An error occurred while processing the card."
+      rate_limit: "An error occurred due to requests hitting the API too quickly. Please let us know if you're consistently running into this error."
+
   errors:
     messages:
       email_not_valid: 'is not a valid email address'
+
+  fields:
+    im_donating: "I'M DONATING"
+    amount: "Amount"
+    my_info: "My Info"
+    payment: "Payment"
+    currency: "Currency"
+    first_name: "First Name"
+    last_name: "Last Name"
+    email: "Email"
+    card_number: "Card Number"
+    expiration: "Expiration"
+    cvv: "CVV/CVC"
+    what_is_this: "What is this?"
+    cvv_explanation: "For MasterCard, Visa or Discover, it's the three digits in the signature area on the back of your card. For American Express, it's the four digits on the front of the card."
+    next: "NEXT"
+    donate: "DONATE"
+    success_notification: "Success! You'll receive a notification for your payment."
+    failure_notification: "Something went wrong."
+
+  error_messages:
+    cant_be_blank: "Can't be blank"
+    cant_be_blank_amount: "Please select an amount"
+    greater_than_amount: "Amount must be greater than or equal to 1"
+    invalid_cvc_num: "Invalid CVC number"
+    invalid_cc_num: "Invalid credit card number"
+    invalid_date: "Invalid date"
+    invalid_email: "Invalid email"
