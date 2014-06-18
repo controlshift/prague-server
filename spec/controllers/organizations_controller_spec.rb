@@ -38,7 +38,7 @@ describe OrganizationsController do
     context 'test mode false' do
       let(:organization) { create(:organization, testmode: false) }
       before(:each) do
-        put :toggle, id: organization, organization: { testmode: true }, format: 'js'
+        put :toggle, id: organization, organization: { testmode: true }, _method: 'PATCH', format: 'js'
       end
 
       it 'should toggle to true' do
