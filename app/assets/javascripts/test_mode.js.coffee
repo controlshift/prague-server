@@ -4,7 +4,7 @@ $(document).on('ready page:load', ->
 
   switchSuccess = ->
     setTimeout( ->
-      location.reload
+      location.reload()
     , 1000)
 
   elem.on('switchChange.bootstrapSwitch', ((event, state) ->
