@@ -20,7 +20,7 @@ class Crm < ActiveRecord::Base
 
   validates :password, :username, :host, :donation_page_name, :platform, :default_currency, presence: true
 
-  accepts_nested_attributes_for :import_stubs
+  accepts_nested_attributes_for :import_stubs, allow_destroy: true
 
   attr_encrypted :password, key: ENV["ENCRYPTOR_SECRET_KEY"]
 

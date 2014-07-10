@@ -24,21 +24,22 @@ describe CrmNotificationWorker do
     specify 'should be able to match an import stub to a currency' do
       charge.update_attribute(:currency, 'JPY')
       charge.organization.crm.import_stubs.last.update_attribute(:donation_currency, 'JPY')
-      ActionKitRest::Action.any_instance.should_receive(:create).with(charge.actionkit_hash.merge({
-        page: crm.donation_page_name,
-        email: charge.customer.email,
-        name: charge.customer.full_name,
-        card_num: '4111111111111111',
-        card_code: '007',
-        exp_date_month: "#{1.month.from_now.strftime('%m')}",
-        exp_date_year: "#{1.month.from_now.strftime('%y')}",
-        amount_other: "#{charge.amount}",
-        action_charge_id: charge.id,
-        action_charge_status: charge.status,
-        action_charge_currency: charge.currency.upcase,
-        payment_account: import_stub.payment_account,
-        currency: import_stub.donation_currency
-      })
+      ActionKitRest::Action.any_instance.should_receive(:create).with(
+        charge.actionkit_hash.merge({
+          page: crm.donation_page_name,
+          email: charge.customer.email,
+          name: charge.customer.full_name,
+          card_num: '4111111111111111',
+          card_code: '007',
+          exp_date_month: "#{1.month.from_now.strftime('%m')}",
+          exp_date_year: "#{1.month.from_now.strftime('%y')}",
+          amount_other: "#{charge.amount}",
+          action_charge_id: charge.id,
+          action_charge_status: charge.status,
+          action_charge_currency: charge.currency.upcase,
+          payment_account: import_stub.payment_account,
+          currency: import_stub.donation_currency
+        })
       )
       CrmNotificationWorker.perform_async(charge.id)
     end
