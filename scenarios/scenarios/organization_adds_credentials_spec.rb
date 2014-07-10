@@ -32,5 +32,12 @@ feature 'Organization adds CRM credentials' do
     crm.host.should == 'host'
     crm.import_stubs.first.payment_account.should == 'GBP Import Stub'
     crm.import_stubs.first.donation_currency.should == 'GBP'
+
+    fill_in 'crm_password', with: 'password'
+    click_link "X"
+    first(".credentials-form").find("input[type='submit']").click
+    wait_for_ajax
+    page.should have_selector('.crm-form-success', visible: true)
+    crm.reload.import_stubs.should be_empty
   end
 end
