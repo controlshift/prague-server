@@ -16,7 +16,11 @@
 class Crm < ActiveRecord::Base
   belongs_to :organization
 
+  has_many :import_stubs
+
   validates :password, :username, :host, :donation_page_name, :platform, presence: true
+
+  accepts_nested_attributes_for :import_stubs
 
   attr_encrypted :password, key: ENV["ENCRYPTOR_SECRET_KEY"]
 

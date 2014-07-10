@@ -4,6 +4,10 @@
   = f.input :password, input_admin: {placeholder: "Your admin password"}
   = f.input :host, input_html: {placeholder: "yourorg.actionkit.com"}
   = f.input :donation_page_name, input_admin: {placeholder: "Short name for donation page"}
+  = f.simple_fields_for :import_stubs do |stub|
+    = render 'import_stubs_fields', :f => stub
+  .link-to-add-import-fields
+    = link_to_add_association 'Add Import Stub', f, :import_stubs, partial: "organizations/import_stubs_fields"
   = f.button :submit, 'Save', data: { disable_with: 'Saving...' }
   - if valid
     %span{class:"glyphicon glyphicon-ok text-success crm-form-success"}
