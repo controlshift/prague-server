@@ -31,7 +31,7 @@ class CrmsController < ApplicationController
   private
 
   def crm_param
-    params.require(:crm).permit(:username, :password, :host, :donation_page_name, :platform, import_stubs_attributes: [ :donation_currency, :payment_account, :_destroy, :id ])
+    params.require(:crm).permit(:username, :password, :host, :donation_page_name, :platform, :default_currency, import_stubs_attributes: [ :donation_currency, :payment_account, :_destroy, :id ])
   end
 
   def check_if_organization_has_crm

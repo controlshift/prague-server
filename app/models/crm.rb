@@ -18,7 +18,7 @@ class Crm < ActiveRecord::Base
 
   has_many :import_stubs
 
-  validates :password, :username, :host, :donation_page_name, :platform, presence: true
+  validates :password, :username, :host, :donation_page_name, :platform, :default_currency, presence: true
 
   accepts_nested_attributes_for :import_stubs
 

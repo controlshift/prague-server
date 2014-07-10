@@ -13,7 +13,16 @@ class CrmNotificationWorker
   def process_with_actionkit charge
     crm = charge.organization.crm
     ak = ActionKitRest.new(host: crm.host, username: crm.username, password: crm.password )
-    ak.action.create(charge.actionkit_hash.merge({
+    if charge.currency == crm.default_currency
+      post_ak_charge_for(crm, charge, ak)
+    else 
+      stub = crm.import_stubs.select { |st| st.donation_currency.upcase == charge.currency.upcase }.first
+      post_ak_charge_for(crm, charge, ak, stub)
+    end
+  end
+
+  def post_ak_charge_for crm, charge, ak, import_stub = nil
+    params = charge.actionkit_hash.merge({
       page: charge.config.try(:[], 'page') || crm.donation_page_name,
       email: charge.customer.email,
       name: charge.customer.full_name,
@@ -21,10 +30,17 @@ class CrmNotificationWorker
       card_code: '007',
       exp_date_month: "#{1.month.from_now.strftime('%m')}",
       exp_date_year: "#{1.month.from_now.strftime('%y')}",
-      amount_other: Charge.presentation_amount(charge.converted_amount, 'USD'),
+      amount_other: Charge.presentation_amount(charge.amount, charge.currency.upcase),
       action_charge_id: charge.id,
       action_charge_status: charge.status,
       action_charge_currency: charge.currency.upcase
-    }))
+    })
+    if import_stub.present?
+      params = params.merge({
+        payment_account: import_stub.payment_account,
+        currency: import_stub.donation_currency
+      })
+    end
+    ak.action.create(params)
   end
 end

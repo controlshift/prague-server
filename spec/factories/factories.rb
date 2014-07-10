@@ -39,6 +39,13 @@ FactoryGirl.define do
     platform 'actionkit'
     username 'foo'
     donation_page_name 'my_special_donation_page'
+    default_currency 'USD'
     organization
+  end
+
+  factory :import_stub do
+    donation_currency 'GBP'
+    payment_account 'GBP Import Stub'
+    crm
   end
 end

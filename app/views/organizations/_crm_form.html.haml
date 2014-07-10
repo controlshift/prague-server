@@ -4,6 +4,7 @@
   = f.input :password, input_admin: {placeholder: "Your admin password"}
   = f.input :host, input_html: {placeholder: "yourorg.actionkit.com"}
   = f.input :donation_page_name, input_admin: {placeholder: "Short name for donation page"}
+  = f.input :default_currency, {placeholder: "USD"}
   = f.simple_fields_for :import_stubs do |stub|
     = render 'import_stubs_fields', :f => stub
   .link-to-add-import-fields
