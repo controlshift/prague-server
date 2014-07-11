@@ -27,4 +27,14 @@ describe Crm do
     crm.reload
     crm.password.should == 'password'
   end
+
+  specify 'it should ignore a blank password on update' do
+    crm.save!
+    crm.update_attribute(:password, "")
+    crm.reload
+    crm.password.should == 'password'
+    crm.update_attribute(:password, "password2")
+    crm.reload
+    crm.password.should == 'password2'
+  end
 end
