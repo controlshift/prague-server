@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140613202342) do
+ActiveRecord::Schema.define(version: 20140710180011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 20140613202342) do
     t.hstore   "config"
     t.string   "status",               default: "live"
     t.boolean  "paid",                 default: false,  null: false
+    t.string   "locale",               default: "en"
   end
 
   add_index "charges", ["customer_id"], name: "index_charges_on_customer_id", using: :btree
@@ -76,6 +77,7 @@ ActiveRecord::Schema.define(version: 20140613202342) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "platform"
+    t.string   "default_currency"
   end
 
   add_index "crms", ["organization_id"], name: "index_crms_on_organization_id", using: :btree
@@ -93,6 +95,16 @@ ActiveRecord::Schema.define(version: 20140613202342) do
   end
 
   add_index "customers", ["email", "status"], name: "index_customers_on_email_and_status", unique: true, using: :btree
+
+  create_table "import_stubs", force: true do |t|
+    t.integer  "crm_id"
+    t.string   "payment_account"
+    t.string   "donation_currency"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "import_stubs", ["crm_id"], name: "index_import_stubs_on_crm_id", using: :btree
 
   create_table "organizations", force: true do |t|
     t.string   "access_token"
