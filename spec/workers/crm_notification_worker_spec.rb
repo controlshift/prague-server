@@ -3,15 +3,14 @@ require 'spec_helper'
 describe CrmNotificationWorker do
   
   let(:crm) { create(:crm) }
-  let(:charge) { create(:charge, 
+  let!(:charge) { create(:charge, 
     customer: create(:customer), 
     organization: create(:organization,
       crm: crm))}
-  let(:import_stub) { create(:import_stub, donation_currency: "JPY", crm: crm )}
+  let!(:import_stub) { create(:import_stub, donation_currency: "JPY", crm: crm )}
 
   describe '#perform' do
     before do
-      charge; import_stub
       ActionKitRest::Action.any_instance.stub(:create)
       Sidekiq::Testing.inline!
     end
