@@ -10,3 +10,4 @@ You can download the GeoIP database we use here:
 http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz
 
 Be sure to specify `GEOCOUNTRY_LITE_PATH` in your environment somewhere.
+ 
