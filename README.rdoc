@@ -1,6 +1,6 @@
 == Takecharge Server
 
-This is the API server for the donation widget.
+This is the API server for the donation widget to be used in conjunction with https://github.com/controlshift/prague-client
 
 {<img src="https://travis-ci.org/controlshift/prague-server.png?branch=master" alt="Build Status" />}[https://travis-ci.org/controlshift/prague-server]
 {<img src="https://codeclimate.com/github/controlshift/prague-server.png" />}[https://codeclimate.com/github/controlshift/prague-server]
