@@ -35,7 +35,7 @@ describe ChargeCustomerWorker do
           status: 'failure',
           message: 'Something went wrong, please try again.'
         })
-      expect { ChargeCustomerWorker.perform_async(charge.id) }.to raise_error
+      expect { ChargeCustomerWorker.perform_async(charge.id) }.to_not raise_error
     end
 
     specify 'it should push failure on something else going wrong with Stripe' do
