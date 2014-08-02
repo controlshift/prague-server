@@ -17,10 +17,9 @@ GIT
 
 GIT
   remote: https://github.com/controlshift/action_kit_rest.git
-  revision: 04ce481fa46b6ed7ef299855fbf1cc28d6a1d746
+  revision: 81b1f8d9da2333483aca18051b2bf8691f23c182
   specs:
-    action_kit_rest (0.2.0)
-      action_kit_rest
+    action_kit_rest (0.2.1)
       vertebrae
 
 GIT
@@ -174,10 +173,10 @@ GEM
     factory_girl_rails (4.3.0)
       factory_girl (~> 4.3.0)
       railties (>= 3.0.0)
-    faraday (0.8.9)
-      multipart-post (~> 1.2.0)
-    faraday_middleware (0.9.0)
-      faraday (>= 0.7.4, < 0.9)
+    faraday (0.9.0)
+      multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.9.1)
+      faraday (>= 0.7.4, < 0.10)
     ffi (1.9.3)
     formatador (0.2.4)
     formtastic (2.3.0.rc3)
@@ -206,13 +205,13 @@ GEM
     has_scope (0.6.0.rc)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
-    hashie (2.0.5)
+    hashie (2.1.2)
     hike (1.2.3)
     honeybadger (1.10.1)
       json
     httpauth (0.2.1)
     httpclient (2.3.4.1)
-    i18n (0.6.9)
+    i18n (0.6.11)
     inherited_resources (1.4.1)
       has_scope (~> 0.6.0.rc)
       responders (~> 1.0.0.rc)
@@ -262,9 +261,9 @@ GEM
     method_source (0.8.2)
     mime-types (1.25.1)
     mini_portile (0.5.3)
-    minitest (5.3.4)
+    minitest (5.4.0)
     multi_json (1.10.1)
-    multipart-post (1.2.0)
+    multipart-post (2.0.0)
     newrelic_rpm (3.7.1.182)
     nio4r (1.0.0)
     nokogiri (1.6.1)
@@ -433,12 +432,12 @@ GEM
       polyglot (>= 0.3.1)
     turbolinks (2.1.0)
       coffee-rails
-    tzinfo (1.2.0)
+    tzinfo (1.2.1)
       thread_safe (~> 0.1)
     uglifier (2.4.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    vertebrae (0.2.4)
+    vertebrae (0.2.8)
       activesupport
       faraday
       faraday_middleware
