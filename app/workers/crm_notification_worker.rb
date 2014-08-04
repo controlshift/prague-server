@@ -7,6 +7,7 @@ class CrmNotificationWorker
     case charge.organization.crm.platform
     when 'actionkit'
       process_with_actionkit(charge)
+      LogEntry.create(charge: charge, message: 'Synchronized to ActionKit')
     end
   end
 

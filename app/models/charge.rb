@@ -21,6 +21,8 @@ class Charge < ActiveRecord::Base
 
   belongs_to :customer
   belongs_to :organization
+  has_many :log_entries
+
   before_validation :downcase_currency
   before_validation :ensure_amount_is_number
 

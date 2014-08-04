@@ -25,7 +25,9 @@ describe ChargeCustomerWorker do
           status: 'failure',
           message: 'The card was declined'
         })
+
       ChargeCustomerWorker.perform_async(charge.id)
+      expect(charge.log_entries.last.message).to eq('Unsuccessful charge: The card was declined')
     end
 
     specify 'it should push failure on something else going wrong with Stripe' do
@@ -46,6 +48,7 @@ describe ChargeCustomerWorker do
           message: 'Blahblah'
         })
       expect { ChargeCustomerWorker.perform_async(charge.id) }.to_not raise_error
+      expect(charge.log_entries.last.message).to eq('Unknown error: Blahblah')
     end
 
     context 'without a token' do

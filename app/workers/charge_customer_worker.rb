@@ -17,7 +17,6 @@ class ChargeCustomerWorker
   private
 
   def run_charge(charge)
-    charge.update_attribute(:paid, true)
     token = Stripe::Token.create(
       {
         customer: charge.customer.customer_token
@@ -39,6 +38,9 @@ class ChargeCustomerWorker
                           },
                           charge.live? ? charge.organization.access_token : charge.organization.stripe_test_access_token
     )
+    charge.update_attribute(:paid, true)
+    LogEntry.create(charge: charge, message: 'Successful charge.')
+
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'success'
     })
@@ -47,12 +49,15 @@ class ChargeCustomerWorker
 
   rescue Stripe::CardError => e
     charge.update_attribute(:paid, false)
+    LogEntry.create(charge: charge, message: "Unsuccessful charge: #{e.message}")
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
       message: e.message
     })
     Rails.logger.debug("Stripe::CardError #{e.message}")
   rescue Stripe::StripeError => e
+    LogEntry.create(charge: charge, message: "Stripe error while processing charge: #{e.message}")
+
     charge.update_attribute(:paid, false)
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
@@ -60,6 +65,7 @@ class ChargeCustomerWorker
     })
     Rails.logger.warn("Stripe::Error #{e.message}")
   rescue StandardError => e
+    LogEntry.create(charge: charge, message: "Unknown error: #{e.message}")
     charge.update_attribute(:paid, false)
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',

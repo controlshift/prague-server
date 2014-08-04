@@ -15,8 +15,10 @@ class CreateCustomerTokenWorker
       charge.organization.live? ? ENV['STRIPE_SECRET'] : ENV['STRIPE_TEST_SECRET']
     )
     customer.update_attribute(:customer_token, stripe_customer.id)
+    LogEntry.create(charge: charge, message: "Customer #{stripe_customer.id} created.")
     ChargeCustomerWorker.perform_async(charge.id)
   rescue Stripe::StripeError => e
+    LogEntry.create(charge: charge, message: 'An error occurred while creating customer: ' + e.message)
     charge.update_attribute(:paid, false)
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
@@ -24,6 +26,7 @@ class CreateCustomerTokenWorker
     })
     Rails.logger.debug("Stripe::StripeError #{e.message}")
   rescue StandardError => e
+    LogEntry.create(charge: charge, message: 'An unknown error occurred while creating customer: ' + e.message)
     charge.update_attribute(:paid, false)
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
