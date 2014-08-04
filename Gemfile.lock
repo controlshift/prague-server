@@ -17,9 +17,9 @@ GIT
 
 GIT
   remote: https://github.com/controlshift/action_kit_rest.git
-  revision: 81b1f8d9da2333483aca18051b2bf8691f23c182
+  revision: b35d5da6605933122bea0d1308b547e9633c1f32
   specs:
-    action_kit_rest (0.2.1)
+    action_kit_rest (0.2.2)
       vertebrae
 
 GIT
@@ -439,7 +439,7 @@ GEM
     uglifier (2.4.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    vertebrae (0.2.8)
+    vertebrae (0.2.11)
       activesupport
       faraday
       faraday_middleware
