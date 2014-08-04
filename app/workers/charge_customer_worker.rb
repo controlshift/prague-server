@@ -1,5 +1,6 @@
 class ChargeCustomerWorker
   include Sidekiq::Worker
+  sidekiq_options retry: false
 
   def perform(charge_id)
     charge = Charge.find(charge_id)
@@ -58,6 +59,17 @@ class ChargeCustomerWorker
       message: "Something went wrong, please try again."
     })
     Rails.logger.warn("Stripe::Error #{e.message}")
-    raise e
+  rescue Exception => e
+    charge.update_attribute(:paid, false)
+    Pusher[charge.pusher_channel_token].trigger('charge_completed', {
+      status: 'failure',
+      message: e.message
+    })
+    Rails.logger.debug("Exception #{e.message}")
+    Honeybadger.notify(
+      :error_class   => "Exception",
+      :error_message => "Exception: #{e.message}",
+      :parameters    => [ charge.id ]
+    ) if defined? Honeybadger
   end
 end

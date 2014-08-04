@@ -35,7 +35,17 @@ describe ChargeCustomerWorker do
           status: 'failure',
           message: 'Something went wrong, please try again.'
         })
-      expect { ChargeCustomerWorker.perform_async(charge.id) }.to raise_error
+      expect { ChargeCustomerWorker.perform_async(charge.id) }.to_not raise_error
+    end
+
+    specify 'it should push failure on something else going wrong with Stripe' do
+      Stripe::Charge.stub(:create).and_raise(Exception.new("Blahblah"))
+      Pusher::Channel.any_instance.should_receive(:trigger).with('charge_completed', 
+        { 
+          status: 'failure',
+          message: 'Blahblah'
+        })
+      expect { ChargeCustomerWorker.perform_async(charge.id) }.to_not raise_error
     end
 
     context 'without a token' do
