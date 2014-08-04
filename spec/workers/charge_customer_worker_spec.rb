@@ -39,7 +39,7 @@ describe ChargeCustomerWorker do
     end
 
     specify 'it should push failure on something else going wrong with Stripe' do
-      Stripe::Charge.stub(:create).and_raise(Exception.new("Blahblah"))
+      Stripe::Charge.stub(:create).and_raise(StandardError.new("Blahblah"))
       Pusher::Channel.any_instance.should_receive(:trigger).with('charge_completed', 
         { 
           status: 'failure',
