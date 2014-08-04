@@ -59,13 +59,13 @@ class ChargeCustomerWorker
       message: "Something went wrong, please try again."
     })
     Rails.logger.warn("Stripe::Error #{e.message}")
-  rescue Exception => e
+  rescue StandardError => e
     charge.update_attribute(:paid, false)
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
       message: e.message
     })
-    Rails.logger.debug("Exception #{e.message}")
+    Rails.logger.debug("StandardError #{e.message}")
     Honeybadger.notify(
       :error_class   => "Exception",
       :error_message => "Exception: #{e.message}",

@@ -23,7 +23,7 @@ class CreateCustomerTokenWorker
       message: e.message
     })
     Rails.logger.debug("Stripe::StripeError #{e.message}")
-  rescue Exception => e
+  rescue StandardError => e
     charge.update_attribute(:paid, false)
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',

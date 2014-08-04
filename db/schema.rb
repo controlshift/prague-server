@@ -62,7 +62,6 @@ ActiveRecord::Schema.define(version: 20140716223152) do
     t.hstore   "config"
     t.string   "status",               default: "live"
     t.boolean  "paid",                 default: false,  null: false
-    t.string   "locale",               default: "en"
   end
 
   add_index "charges", ["customer_id"], name: "index_charges_on_customer_id", using: :btree
