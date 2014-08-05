@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140804224649) do
+ActiveRecord::Schema.define(version: 20140805032507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,8 @@ ActiveRecord::Schema.define(version: 20140804224649) do
     t.hstore   "config"
     t.string   "status",               default: "live"
     t.boolean  "paid",                 default: false,  null: false
+    t.string   "stripe_id"
+    t.hstore   "card"
   end
 
   add_index "charges", ["customer_id"], name: "index_charges_on_customer_id", using: :btree

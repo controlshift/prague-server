@@ -24,7 +24,7 @@ class ChargeCustomerWorker
       charge.live? ? charge.organization.access_token : charge.organization.stripe_test_access_token
     )
 
-    Stripe::Charge.create({
+    stripe_charge = Stripe::Charge.create({
                             amount: charge.amount,
                             currency: charge.currency,
                             application_fee: charge.application_fee,
@@ -38,7 +38,7 @@ class ChargeCustomerWorker
                           },
                           charge.live? ? charge.organization.access_token : charge.organization.stripe_test_access_token
     )
-    charge.update_attribute(:paid, true)
+    charge.update_attributes(paid: true, stripe_id: stripe_charge[:id], card: stripe_charge[:card] )
     LogEntry.create(charge: charge, message: 'Successful charge.')
 
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
@@ -69,7 +69,7 @@ class ChargeCustomerWorker
     charge.update_attribute(:paid, false)
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
-      message: e.message
+      message: "Something went wrong, please try again."
     })
     Rails.logger.debug("StandardError #{e.message}")
     Honeybadger.notify(
