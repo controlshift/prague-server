@@ -37,7 +37,7 @@ class Organization < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :rememberable, :trackable, :database_authenticatable, :validatable, :confirmable, :recoverable, :registerable
 
-  store_accessor :global_defaults, :currency, :seedamount, :seedvalues, :redirectto, :thank_you_text
+  store_accessor :global_defaults, :currency, :seedamount, :seedvalues, :redirectto, :thank_you_text, :country
 
   CURRENCIES = ["USD", "EUR", "AUD", "CAN", "GBP", "NZD", "NOK", "DKK", "SEK"]
 
