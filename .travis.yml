@@ -6,8 +6,7 @@ before_install:
   - "echo '--colour' > ~/.rspec"
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-install:
-  - bin/load_geoip.sh # install geoip library
+  - ./bin/load_geoip.sh # install geoip library
 services:
   - redis-server
 env:
