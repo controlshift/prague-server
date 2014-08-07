@@ -6,10 +6,12 @@ before_install:
   - "echo '--colour' > ~/.rspec"
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+install:
+  - bin/load_geoip.sh # install geoip library
 services:
   - redis-server
 env:
-  - DB=postgresql PUSER_APP_ID=1234 PUSHER_KEY=123 PUSHER_SECRET=123 STRIPE_SECRET=bar STRIPE_PUBLIC=foo STRIPE_CONNECT_CLIENT_ID=1234
+  - DB=postgresql PUSER_APP_ID=1234 PUSHER_KEY=123 PUSHER_SECRET=123 STRIPE_SECRET=bar STRIPE_PUBLIC=foo STRIPE_CONNECT_CLIENT_ID=1234 GEOCOUNTRY_LITE_PATH=tmp/GeoIP.dat
 before_script:
   - cp config/database.travis.yml config/database.yml
   - psql -c 'create database prague_test' -U postgres
