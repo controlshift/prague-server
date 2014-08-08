@@ -72,10 +72,6 @@ class ChargeCustomerWorker
       message: e.message
     })
     Rails.logger.debug("StandardError #{e.message}")
-    Honeybadger.notify(
-      :error_class   => "Exception",
-      :error_message => "Exception: #{e.message}",
-      :parameters    => [ charge.id ]
-    ) if defined? Honeybadger
+    Honeybadger.notify(e, context: {charge_id: charge.id})
   end
 end

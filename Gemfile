@@ -10,7 +10,7 @@ gem 'pg'
 gem 'sass-rails'
 gem 'compass-rails'
 gem 'bootstrap-sass'
-
+gem 'honeybadger'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -103,6 +103,5 @@ end
 group :staging, :production do
   gem 'rails_12factor'
   gem 'newrelic_rpm'
-  gem 'honeybadger'
   gem 'memcachier'
 end

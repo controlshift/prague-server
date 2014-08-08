@@ -33,10 +33,6 @@ class CreateCustomerTokenWorker
       message: e.message
     })
     Rails.logger.warn("Exception #{e.message}")
-    Honeybadger.notify(
-      :error_class   => "Exception",
-      :error_message => "Exception: #{e.message}",
-      :parameters    => [ customer_id, card_token, charge_id ]
-    ) if defined? Honeybadger
+    Honeybadger.notify(e, context: {charge_id: charge.id})
   end
 end
