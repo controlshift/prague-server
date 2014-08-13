@@ -11,6 +11,7 @@
 #  created_at         :datetime
 #  updated_at         :datetime
 #  platform           :string(255)
+#  default_currency   :string(255)      default("USD")
 #
 
 require 'spec_helper'

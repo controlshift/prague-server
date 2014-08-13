@@ -1,5 +1,6 @@
 class ChargeCustomerWorker
   include Sidekiq::Worker
+  sidekiq_options retry: false
 
   def perform(charge_id)
     charge = Charge.find(charge_id)
@@ -16,7 +17,6 @@ class ChargeCustomerWorker
   private
 
   def run_charge(charge)
-    charge.update_attribute(:paid, true)
     token = Stripe::Token.create(
       {
         customer: charge.customer.customer_token
@@ -38,6 +38,9 @@ class ChargeCustomerWorker
                           },
                           charge.live? ? charge.organization.access_token : charge.organization.stripe_test_access_token
     )
+    charge.update_attribute(:paid, true)
+    LogEntry.create(charge: charge, message: 'Successful charge.')
+
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'success'
     })
@@ -46,18 +49,29 @@ class ChargeCustomerWorker
 
   rescue Stripe::CardError => e
     charge.update_attribute(:paid, false)
+    LogEntry.create(charge: charge, message: "Unsuccessful charge: #{e.message}")
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
       message: e.message
     })
     Rails.logger.debug("Stripe::CardError #{e.message}")
   rescue Stripe::StripeError => e
+    LogEntry.create(charge: charge, message: "Stripe error while processing charge: #{e.message}")
+
     charge.update_attribute(:paid, false)
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
       message: "Something went wrong, please try again."
     })
     Rails.logger.warn("Stripe::Error #{e.message}")
-    raise e
+  rescue StandardError => e
+    LogEntry.create(charge: charge, message: "Unknown error: #{e.message}")
+    charge.update_attribute(:paid, false)
+    Pusher[charge.pusher_channel_token].trigger('charge_completed', {
+      status: 'failure',
+      message: e.message
+    })
+    Rails.logger.debug("StandardError #{e.message}")
+    Honeybadger.notify(e, context: {charge_id: charge.id})
   end
 end

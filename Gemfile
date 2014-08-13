@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.1.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1'
+gem 'rails', '4.1.4'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -10,7 +10,7 @@ gem 'pg'
 gem 'sass-rails'
 gem 'compass-rails'
 gem 'bootstrap-sass'
-
+gem 'honeybadger'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -103,7 +103,6 @@ end
 group :staging, :production do
   gem 'rails_12factor'
   gem 'newrelic_rpm'
-  gem 'honeybadger'
   gem 'memcachier'
   gem 'unicorn'
 end

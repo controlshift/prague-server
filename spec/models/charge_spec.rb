@@ -12,8 +12,8 @@
 #  updated_at           :datetime
 #  pusher_channel_token :string(255)
 #  config               :hstore
-#  locale               :string(255)      default("en")
 #  status               :string(255)      default("live")
+#  paid                 :boolean          default(FALSE), not null
 #
 
 require 'spec_helper'

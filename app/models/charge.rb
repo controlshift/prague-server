@@ -12,8 +12,8 @@
 #  updated_at           :datetime
 #  pusher_channel_token :string(255)
 #  config               :hstore
-#  locale               :string(255)      default("en")
 #  status               :string(255)      default("live")
+#  paid                 :boolean          default(FALSE), not null
 #
 
 class Charge < ActiveRecord::Base
@@ -21,6 +21,8 @@ class Charge < ActiveRecord::Base
 
   belongs_to :customer
   belongs_to :organization
+  has_many :log_entries
+
   before_validation :downcase_currency
   before_validation :ensure_amount_is_number
 

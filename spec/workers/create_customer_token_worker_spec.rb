@@ -10,7 +10,7 @@ describe CreateCustomerTokenWorker do
     before do
       Sidekiq::Testing.inline!
       StripeMock.start
-      ChargeCustomerWorker.should_receive(:perform_async)
+      ChargeCustomerWorker.stub(:perform_async)
     end
 
     specify 'it should update customer with a token and kick off a charge' do
@@ -21,6 +21,16 @@ describe CreateCustomerTokenWorker do
 
     specify 'it should kick off a charge if it already has a customer token' do
       CreateCustomerTokenWorker.perform_async(customer.id, card_token, charge.id)
+    end
+
+    specify 'it should push failure on something else going wrong with Stripe' do
+      Stripe::Customer.stub(:create).and_raise(StandardError.new("Blahblah"))
+      Pusher::Channel.any_instance.should_receive(:trigger).with('charge_completed', 
+        { 
+          status: 'failure',
+          message: 'Blahblah'
+        })
+      expect { CreateCustomerTokenWorker.perform_async(customer.id, card_token, charge.id) }.to_not raise_error
     end
   end
 end
