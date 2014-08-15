@@ -52,7 +52,6 @@ gem 'action_kit_rest', git: 'https://github.com/controlshift/action_kit_rest.git
 
 gem 'rack-cache'
 gem 'dalli'
-gem 'thin'
 gem 'sprockets', '~> 2.11.0'
 gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'
 gem 'geoip'
@@ -80,6 +79,7 @@ group :development, :test do
   gem 'pry-stack_explorer'
   gem 'pry-debugger'
   gem 'mailcatcher'
+  gem 'thin'
 end
 
 group :test do
@@ -104,4 +104,5 @@ group :staging, :production do
   gem 'rails_12factor'
   gem 'newrelic_rpm'
   gem 'memcachier'
+  gem 'unicorn'
 end
