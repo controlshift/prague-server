@@ -9,6 +9,11 @@ Doorkeeper.configure do
   end
 
   # If you want to restrict access to the web interface for adding oauth authorized applications, you need to declare the block below.
+
+  admin_authenticator do
+    current_admin_user || warden.authenticate!(:scope => :admin_user)
+  end
+
   # admin_authenticator do
   #   # Put your admin authentication logic here.
   #   # Example implementation:
@@ -20,7 +25,7 @@ Doorkeeper.configure do
 
   # Access token expiration time (default 2 hours).
   # If you want to disable expiration, set this to nil.
-  # access_token_expires_in 2.hours
+  access_token_expires_in nil
 
   # Reuse access token for the same resource owner within an application (disabled by default)
   # Rationale: https://github.com/doorkeeper-gem/doorkeeper/issues/383
