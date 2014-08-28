@@ -1,5 +1,6 @@
 require 'sidekiq/web'
 PragueServer::Application.routes.draw do
+  use_doorkeeper
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   get 'config/:id', to: ConfigController.action(:index)
