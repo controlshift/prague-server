@@ -1,14 +1,8 @@
 development:
-  adapter: 
-  encoding: 
-  database: 
-  pool: 
-  username: 
-  password:
+  adapter: postgresql
+  host: localhost
+  database: prague_development
 test:
-  adapter: 
-  encoding: 
-  database: 
-  pool: 
-  username: 
-  password:
+  adapter: postgresql
+  host: localhost
+  database: prague_test
