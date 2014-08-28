@@ -88,3 +88,8 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.order = "random"
 end
+
+
+def fixture(file)
+  File.new(File.join(Rails.root, 'scenarios', 'support', 'fixtures', file))
+end
