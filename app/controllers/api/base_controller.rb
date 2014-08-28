@@ -1,5 +1,5 @@
 class Api::BaseController < ApplicationController
-  before_action :doorkeeper_authorize! # Require access token for all actions
+  doorkeeper_for :all
 
   private
 

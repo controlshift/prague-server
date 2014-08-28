@@ -9,6 +9,10 @@ PragueServer::Application.routes.draw do
     resources :charges, controller: 'charges'
   end
 
+  namespace :api do
+    resource :config, controller: 'config'
+  end
+
   resources :organizations, only: [:show, :update, :new] do
     member do
       patch 'toggle'
