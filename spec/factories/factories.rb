@@ -48,4 +48,12 @@ FactoryGirl.define do
     payment_account 'GBP Import Stub'
     crm
   end
+
+  sequence :application_name do |n|
+    "app#{n}"
+  end
+
+  factory :doorkeeper_application,  class: Doorkeeper::Application do
+    name { generate(:application_name) }
+  end
 end

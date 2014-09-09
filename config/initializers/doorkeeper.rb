@@ -5,10 +5,15 @@ Doorkeeper.configure do
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
-    current_user || warden.authenticate!(:scope => :user)
+    current_organization || warden.authenticate!(:scope => :organization)
   end
 
   # If you want to restrict access to the web interface for adding oauth authorized applications, you need to declare the block below.
+
+  admin_authenticator do
+    current_admin_user || warden.authenticate!(:scope => :admin_user)
+  end
+
   # admin_authenticator do
   #   # Put your admin authentication logic here.
   #   # Example implementation:
@@ -20,7 +25,7 @@ Doorkeeper.configure do
 
   # Access token expiration time (default 2 hours).
   # If you want to disable expiration, set this to nil.
-  # access_token_expires_in 2.hours
+  access_token_expires_in nil
 
   # Reuse access token for the same resource owner within an application (disabled by default)
   # Rationale: https://github.com/doorkeeper-gem/doorkeeper/issues/383
@@ -70,7 +75,7 @@ Doorkeeper.configure do
   #
   # If not specified, Doorkeeper enables all the four grant flows.
   #
-  # grant_flows %w(authorization_code implicit password client_credentials)
+  grant_flows %w(authorization_code)
 
   # Under some circumstances you might want to have applications auto-approved,
   # so that the user skips the authorization step.

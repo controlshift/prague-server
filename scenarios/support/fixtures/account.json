@@ -1,0 +1,17 @@
+{
+  "id": "acct_1",
+  "email": "foo@bar.com",
+  "statement_descriptor": "CXXX",
+  "display_name": "Display NAME",
+  "timezone": "US/Eastern",
+  "details_submitted": true,
+  "charge_enabled": true,
+  "transfer_enabled": true,
+  "currencies_supported": [
+    "usd",
+    "aed",
+    "afn"  ],
+  "default_currency": "usd",
+  "country": "US",
+  "object": "account"
+}
