@@ -2,6 +2,7 @@ class AuthenticationsController < ApplicationController
   def create
     current_organization.apply_omniauth(request.env['omniauth.auth'])
     if current_organization.save
+      # if we need to return to some other location, for example Agra, do it here.
       stored_loc = stored_location_for(current_organization)
       if stored_loc
         redirect_to stored_loc
