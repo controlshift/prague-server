@@ -42,7 +42,7 @@ feature 'OAuth Client Generates a token' do
   end
 
   context 'while not signed in' do
-    it 'should be redirected to sign in' do
+    it 'should be redirected to sign in and then where you were trying to go' do
       # start the OAuth flow
       url = client.auth_code.authorize_url(:redirect_uri => redirect_uri)
       visit url
@@ -56,6 +56,26 @@ feature 'OAuth Client Generates a token' do
       end
       expect(page).to have_content 'Authorize'
     end
+  end
+
+  context 'without a stripe access_token' do
+    let(:org) { create(:organization, access_token: nil) }
+    it 'should be redirected to sign in and then prompt you to connect to stripe' do
+      # start the OAuth flow
+      url = client.auth_code.authorize_url(:redirect_uri => redirect_uri)
+      visit url
+
+      expect(page).to have_content('Sign In')
+      expect(page.current_path).to eq(new_organization_session_path)
+      within '#new_organization' do
+        fill_in 'organization_email', with: org.email
+        fill_in 'organization_password', with: 'password'
+        click_on 'Sign in'
+      end
+      expect(page).to have_content 'To get started, you first must connect with Stripe'
+    end
 
   end
+
+
 end
