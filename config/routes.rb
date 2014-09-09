@@ -11,6 +11,7 @@ PragueServer::Application.routes.draw do
 
   namespace :api do
     resource :config, controller: 'config'
+    resource :code_snippet, controller: 'code_snippet'
   end
 
   resources :organizations, only: [:show, :update, :new] do
