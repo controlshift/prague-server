@@ -49,6 +49,9 @@ FactoryGirl.define do
     crm
   end
 
+  factory :tag do
+  end
+
   sequence :application_name do |n|
     "app#{n}"
   end

@@ -35,6 +35,8 @@ describe Charge do
   it { should allow_value(100).for(:amount) }
   it { should allow_value('100').for(:amount) }
 
+  it { should have_and_belong_to_many :tags }
+
 
   describe '#presentation_amount' do
     let(:usd_charge) { build(:charge, currency: 'usd', amount: '1000') }

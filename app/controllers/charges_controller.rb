@@ -11,6 +11,12 @@ class ChargesController < ApplicationController
     if organization.present?
       customer = Customer.find_or_initialize(customer_params, status: organization.status)
       charge = customer.build_charge_with_params(customer_params[:charges_attributes], config: config_param, organization: organization)
+      if params[:tags].present?
+        params[:tags].each do |tag|
+          charge.tags << Tag.find_or_create!(organization, tag)
+        end
+      end
+
       if customer.save
         CreateCustomerTokenWorker.perform_async(customer.id, card_token_param, charge.id)
         render json: {}, status: :ok
