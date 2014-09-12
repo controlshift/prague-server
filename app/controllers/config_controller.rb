@@ -12,11 +12,18 @@ class ConfigController < ActionController::Metal
   private
 
   def geoip_country
-    cc = GeoIP.new(ENV['GEOCOUNTRY_LITE_PATH']).country(request.remote_ip).country_code2
-    if cc == '--'
-      nil
-    else
-      cc
+    begin
+      Timeout::timeout(3) do
+        cc = GeoIP.new(ENV['GEOCOUNTRY_LITE_PATH']).country(request.remote_ip).country_code2
+        if cc == '--'
+          nil
+        else
+          cc
+        end
+      end
+    rescue Timeout::Error
+      Rails.logger.warn "GeoIP timed out!"
+      return nil
     end
   end
 end
