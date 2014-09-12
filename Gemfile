@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.1.1'
+ruby '2.1.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.4'
 
@@ -76,9 +76,7 @@ end
 group :development, :test do
   gem 'annotate'
   gem 'dotenv-rails'
-  gem 'pry-rails'
-  gem 'pry-stack_explorer'
-  gem 'pry-debugger'
+  gem 'byebug'
   gem 'mailcatcher'
   gem 'thin'
 end
@@ -106,4 +104,5 @@ group :staging, :production do
   gem 'newrelic_rpm'
   gem 'memcachier'
   gem 'unicorn'
+  gem 'unicorn-worker-killer'
 end

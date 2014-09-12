@@ -94,8 +94,6 @@ GEM
     attr_encrypted (1.3.2)
       encryptor (>= 1.3.0)
     bcrypt (3.1.7)
-    binding_of_caller (0.7.2)
-      debug_inspector (>= 0.0.1)
     blankslate (3.1.2)
     bootstrap-sass (3.1.1.1)
       sass (~> 3.2)
@@ -103,6 +101,9 @@ GEM
       sass (~> 3.2)
       thor
     builder (3.2.2)
+    byebug (3.2.0)
+      columnize (~> 0.8)
+      debugger-linecache (~> 1.2)
     capybara (2.2.1)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -133,7 +134,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
-    columnize (0.3.6)
+    columnize (0.8.9)
     compass (0.12.6)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
@@ -147,13 +148,7 @@ GEM
     dalli (2.7.0)
     dante (0.2.0)
     database_cleaner (1.2.0)
-    debug_inspector (0.0.2)
-    debugger (1.6.6)
-      columnize (>= 0.3.1)
-      debugger-linecache (~> 1.2.0)
-      debugger-ruby_core_source (~> 1.3.2)
     debugger-linecache (1.2.0)
-    debugger-ruby_core_source (1.3.2)
     devise (3.2.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -298,14 +293,6 @@ GEM
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
-    pry-debugger (0.2.2)
-      debugger (~> 1.3)
-      pry (~> 0.9.10)
-    pry-rails (0.3.2)
-      pry (>= 0.9.10)
-    pry-stack_explorer (0.4.9.1)
-      binding_of_caller (>= 0.7)
-      pry (>= 0.9.11)
     pusher (0.12.0)
       httpclient (~> 2.3.0)
       multi_json (~> 1.0)
@@ -447,6 +434,8 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    unicorn-worker-killer (0.4.2)
+      unicorn (~> 4)
     vertebrae (0.2.11)
       activesupport
       faraday
@@ -474,6 +463,7 @@ DEPENDENCIES
   annotate
   attr_encrypted
   bootstrap-sass
+  byebug
   capybara (~> 2.1)
   capybara-email
   capybara-webkit
@@ -503,9 +493,6 @@ DEPENDENCIES
   omniauth-stripe-connect!
   pg
   poltergeist
-  pry-debugger
-  pry-rails
-  pry-stack_explorer
   pusher
   quiet_assets
   rack-cache
@@ -528,5 +515,6 @@ DEPENDENCIES
   turbolinks
   uglifier (>= 1.3.0)
   unicorn
+  unicorn-worker-killer
   webmock
   will_paginate
