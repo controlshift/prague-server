@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - "2.1.1"
+  - "2.1.2"
 before_install:
   - "echo 'gem: --no-document' > ~/.gemrc"
   - "echo '--colour' > ~/.rspec"
