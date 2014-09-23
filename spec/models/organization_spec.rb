@@ -71,6 +71,56 @@ describe Organization do
       organization.save!
       organization.code_snippet.should include("script", organization.slug)
     end
+
+    it 'should default to a seed amount of 10' do
+      organization.save!
+      organization.code_snippet.should include('data-seedamount="10"')
+    end
+
+    it "should use the organization's seed amount" do
+      organization.seedamount = '20'
+      organization.save!
+      organization.code_snippet.should include('data-seedamount="20"')
+    end
+
+    it 'should use default seed values if not specified' do
+      organization.save!
+      organization.code_snippet.should include('data-seedvalues="50,100,200,300,400,500,600"')
+    end
+
+    it "should use the organization's seed values" do
+      organization.seedvalues = '1,2,3,4,5,6,7'
+      organization.save!
+      organization.code_snippet.should include('data-seedvalues="1,2,3,4,5,6,7"')
+    end
+
+    it "should default to USD" do
+      organization.save!
+      organization.code_snippet.should include('data-seedcurrency="USD"')
+    end
+
+    it "should use the organisation's default currency" do
+      organization.currency = 'GBP'
+      organization.save!
+      organization.code_snippet.should include('data-seedcurrency="GBP"')
+    end
+
+    it 'should not be in test mode if not specified' do
+      organization.save!
+      organization.code_snippet.should_not include('data-chargestatus="test"')
+    end
+
+    it 'should not be in test mode if organization is not' do
+      organization.testmode = false
+      organization.save!
+      organization.code_snippet.should_not include('data-chargestatus="test"')
+    end
+
+    it 'should be in test mode if organization is' do
+      organization.testmode = true
+      organization.save!
+      organization.code_snippet.should include('data-chargestatus="test"')
+    end
   end
 
   describe "#flush_cache_key!" do
