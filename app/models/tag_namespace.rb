@@ -18,4 +18,8 @@ class TagNamespace < ActiveRecord::Base
     end
     namespace
   end
+
+  def best_tags_key
+    "most_raised_tags/#{namespace}"
+  end
 end
