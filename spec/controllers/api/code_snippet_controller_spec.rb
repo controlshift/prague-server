@@ -16,7 +16,7 @@ describe Api::CodeSnippetController do
     end
 
     it 'includes the specified tags in the code snippet' do
-      get :show, tags: ['foo', 'bar-1', 'baz-1-2-3']
+      get :show, tags: 'foo,bar-1,baz-1-2-3'
       expect(response.body).to eq(organization.code_snippet(tags: ['foo', 'bar-1', 'baz-1-2-3']))
     end
 
