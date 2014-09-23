@@ -90,7 +90,14 @@ class Organization < ActiveRecord::Base
   end
 
   def code_snippet(options={})
-    serialized_tags = options[:tags] ? options[:tags].join(',') : ''
+    if options[:tags]
+      options[:tags].each do |tag|
+        raise 'Invalid tag format' unless /\A[a-zA-Z0-9-]+\z/.match(tag)
+      end
+      serialized_tags = options[:tags].join(',')
+    else
+      serialized_tags = ''
+    end
 
     "<script src=\"#{ENV['CLIENT_CLOUDFRONT_DISTRIBUTION']}\" id=\"donation-script\" data-org=\"#{slug}\"
       data-seedamount=\"#{ seedamount || '10'}\" data-seedvalues=\"#{ seedvalues || '50,100,200,300,400,500,600' }\"
