@@ -89,9 +89,12 @@ class Organization < ActiveRecord::Base
     Organization.where(stripe_user_id: auth['uid']).first
   end
 
-  def code_snippet
+  def code_snippet(options={})
+    serialized_tags = options[:tags] ? options[:tags].join(',') : ''
+
     "<script src=\"#{ENV['CLIENT_CLOUDFRONT_DISTRIBUTION']}\" id=\"donation-script\" data-org=\"#{slug}\"
       data-seedamount=\"#{ seedamount || '10'}\" data-seedvalues=\"#{ seedvalues || '50,100,200,300,400,500,600' }\"
+      data-tags=\"#{serialized_tags}\"
       data-seedcurrency=\"#{ currency || "USD"}\" #{ "data-chargestatus=\"test\"" if self.testmode? }></script>".squish
   end
 

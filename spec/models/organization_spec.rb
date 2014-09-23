@@ -121,6 +121,16 @@ describe Organization do
       organization.save!
       organization.code_snippet.should include('data-chargestatus="test"')
     end
+
+    it 'should default to no tags if none are specified' do
+      organization.save!
+      organization.code_snippet.should include('data-tags=""')
+    end
+
+    it 'should include tags that are passed in' do
+      organization.save!
+      organization.code_snippet(tags: ['foo', 'bar-1']).should include('data-tags="foo,bar-1"')
+    end
   end
 
   describe "#flush_cache_key!" do

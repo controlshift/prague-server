@@ -25,3 +25,4 @@ GeoIP.dat
 /config/secrets.yml
 logfile
 .localeapp
+*.swp
