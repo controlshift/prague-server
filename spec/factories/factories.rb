@@ -52,6 +52,14 @@ FactoryGirl.define do
   factory :tag do
   end
 
+  factory :tag_namespace do
+    namespace { generate(:namespace) }
+  end
+
+  sequence :namespace do |n|
+    "name#{n}"
+  end
+
   sequence :application_name do |n|
     "app#{n}"
   end

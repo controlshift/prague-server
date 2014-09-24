@@ -9,17 +9,21 @@
 #
 
 class TagNamespace < ActiveRecord::Base
-  has_many :tags, foreign_key: 'namespace_id'
+  validates :namespace, presence: true
+  validates :organization, presence: true
 
-  def self.find_or_create!(name)
-    namespace = where(namespace: name).first
+  has_many :tags, foreign_key: 'namespace_id'
+  belongs_to :organization
+
+  def self.find_or_create!(organization, name)
+    namespace = where(namespace: name, organization: organization).first
     if namespace.nil?
-      namespace = TagNamespace.create!(namespace: name)
+      namespace = TagNamespace.create!(namespace: name, organization: organization)
     end
     namespace
   end
 
-  def best_tags_key
+  def most_raised_key
     "most_raised_tags/#{namespace}"
   end
 end

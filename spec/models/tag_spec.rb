@@ -15,6 +15,8 @@ require 'spec_helper'
 describe Tag do
   it { should have_and_belong_to_many(:charges) }
   it { should validate_presence_of :name }
+  it { should belong_to(:organization) }
+  it { should belong_to(:namespace)}
 
   describe 'find_or_create!' do
     let(:organization) { create(:organization) }
@@ -33,7 +35,7 @@ describe Tag do
     end
 
     it 'should associate an existing namespace with a tag' do
-      n = TagNamespace.create(namespace: 'common-thing')
+      n = TagNamespace.create(namespace: 'common-thing', organization: organization)
       t = Tag.find_or_create!(organization, 'common-thing:tag')
       expect(t.namespace).to eq(n)
       expect(n.tags.first).to eq(t)

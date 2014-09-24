@@ -21,7 +21,7 @@ class Tag < ActiveRecord::Base
   def self.find_or_create!(organization, name)
     tag = organization.tags.where(name: name).first
     if tag.nil?
-      namespace = TagNamespace.find_or_create!(name.split(':').first)
+      namespace = TagNamespace.find_or_create!(organization, name.split(':').first)
       tag = Tag.create!(name: name, organization: organization, namespace: namespace)
     end
     tag

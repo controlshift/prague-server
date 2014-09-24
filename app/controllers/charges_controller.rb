@@ -14,7 +14,7 @@ class ChargesController < ApplicationController
       if params[:tags].present?
         params[:tags].each do |tag|
           charge.tags << Tag.find_or_create!(organization, tag)
-          PragueServer::Application.redis.zadd(tag.namespace.best_tags_key, tag.total_raised, tag.name)
+          PragueServer::Application.redis.zadd(tag.namespace.most_raised_key, tag.total_raised, tag.name)
         end
       end
 

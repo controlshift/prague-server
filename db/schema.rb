@@ -196,10 +196,13 @@ ActiveRecord::Schema.define(version: 20140923203423) do
   add_index "organizations", ["slug"], name: "index_organizations_on_slug", unique: true, using: :btree
 
   create_table "tag_namespaces", force: true do |t|
+    t.integer  "organization_id"
     t.string   "namespace"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "tag_namespaces", ["organization_id", "namespace"], name: "index_tag_namespaces_on_organization_id_and_namespace", using: :btree
 
   create_table "tags", force: true do |t|
     t.string   "name"
