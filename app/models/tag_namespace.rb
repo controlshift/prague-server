@@ -24,6 +24,10 @@ class TagNamespace < ActiveRecord::Base
     namespace
   end
 
+  def total_raised_key
+    "#{organization.to_param}/total_raised_key/#{namespace}"
+  end
+
   def most_raised_key
     "most_raised_tags/#{namespace}"
   end

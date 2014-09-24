@@ -28,7 +28,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.2'
+gem 'jbuilder'
 
 gem 'omniauth'
 gem 'omniauth-stripe-connect', git: 'https://github.com/todddickerson/omniauth-stripe-connect.git'
