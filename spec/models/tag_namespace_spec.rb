@@ -83,4 +83,20 @@ describe TagNamespace do
       PragueServer::Application.redis.flushall
     end
   end
+
+  describe 'charges' do
+    let!(:organization) { create(:organization) }
+    let!(:namespace) { create(:tag_namespace, organization: organization)}
+    let!(:tag) { create(:tag, name: 'foo', organization: organization, namespace: namespace) }
+    let!(:charge) { create(:charge, organization: organization)}
+
+    before(:each) do
+      charge.tags << tag
+    end
+
+    it 'should have charges' do
+      expect(tag.charges).to eq([charge])
+      expect(namespace.charges).to eq([charge])
+    end
+  end
 end

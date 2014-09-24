@@ -33,6 +33,8 @@ class Charge < ActiveRecord::Base
 
   before_save :update_aggregates
 
+  scope :paid, -> { where(paid: true)}
+
   def presentation_amount
     self.class.presentation_amount(amount, currency)
   end

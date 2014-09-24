@@ -15,6 +15,7 @@ class TagNamespace < ActiveRecord::Base
 
   has_many :tags, foreign_key: 'namespace_id'
   belongs_to :organization
+  has_many :charges, through: :tags
 
   def self.find_or_create!(organization, name)
     namespace = where(namespace: name, organization: organization).first
@@ -52,6 +53,10 @@ class TagNamespace < ActiveRecord::Base
 
   def most_raised_key(status='live')
     "#{organization.to_param}/namespaces/#{namespace}/most_raised_tags/#{status}"
+  end
+
+  def to_param
+    namespace
   end
 
   private
