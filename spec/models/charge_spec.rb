@@ -76,7 +76,11 @@ describe Charge do
     after :each do
       # Clean up what we put in redis
       ['live', 'test'].each do |status|
-        PragueServer::Application.redis.zrem(tag.namespace.most_raised_key(status), tag.name)
+        PragueServer::Application.redis.zrem(tag_namespace.most_raised_key(status), tag.name)
+        PragueServer::Application.redis.set(tag_namespace.total_charges_count_key(status), '0')
+        PragueServer::Application.redis.set(tag_namespace.total_raised_amount_key(status), '0')
+        PragueServer::Application.redis.set(tag.total_charges_count_key(status), '0')
+        PragueServer::Application.redis.set(tag.total_raised_amount_key(status), '0')
       end
     end
 
@@ -119,8 +123,16 @@ describe Charge do
       test_charge = create(:charge, tags: [tag], status: 'test', amount: '987')
       test_charge.paid = true
       test_charge.save!
-      expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key('live'), tag.name)).to eq(charge.converted_amount)
-      expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key('test'), tag.name)).to eq(test_charge.converted_amount)
+      expect(tag.total_raised).to eq(charge.converted_amount)
+      expect(tag.total_raised('test')).to eq(test_charge.converted_amount)
+      expect(tag_namespace.total_raised).to eq(charge.converted_amount)
+      expect(tag_namespace.total_raised('test')).to eq(test_charge.converted_amount)
+      expect(tag.total_charges_count).to eq(1)
+      expect(tag.total_charges_count('test')).to eq(1)
+      expect(tag_namespace.total_charges_count).to eq(1)
+      expect(tag_namespace.total_charges_count('test')).to eq(1)
+      expect(tag_namespace.raised_for_tag(tag)).to eq(charge.converted_amount)
+      expect(tag_namespace.raised_for_tag(tag, 'test')).to eq(test_charge.converted_amount)
     end
   end
 

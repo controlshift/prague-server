@@ -81,8 +81,8 @@ describe Tag do
         it 'should increment the amounts appropriately' do
           expect(tag_namespace.total_charges_count).to eq(4)
           expect(tag_namespace.total_raised).to eq(350)
-          expect(tag_namespace.raised_for_tag(tag_name)).to eq(300)
-          expect(tag_namespace.raised_for_tag('bar')).to eq(50)
+          expect(tag_namespace.raised_for_tag(tag)).to eq(300)
+          expect(tag_namespace.raised_for_tag(tag2)).to eq(50)
 
           expect(tag2.total_charges_count).to eq(1)
           expect(tag2.total_raised).to eq(50)

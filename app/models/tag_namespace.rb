@@ -27,25 +27,25 @@ class TagNamespace < ActiveRecord::Base
 
   def incrby(amount, name, status='live')
     redis.zincrby(self.most_raised_key(status), amount, name)
-    redis.incrby(self.total_raised_amount_key, amount)
-    redis.incr(self.total_charges_count_key)
+    redis.incrby(self.total_raised_amount_key(status), amount)
+    redis.incr(self.total_charges_count_key(status))
   end
 
-  def total_raised
-    redis.get(total_raised_amount_key).to_i
+  def total_raised(status='live')
+    redis.get(total_raised_amount_key(status)).to_i
   end
 
-  def raised_for_tag(name, status='live')
-    redis.zscore(most_raised_key(status), name).to_i
+  def raised_for_tag(tag, status='live')
+    redis.zscore(most_raised_key(status), tag.name).to_i
   end
 
-  def most_raised
-    tags_with_scores = redis.zrevrange(most_raised_key, 0, -1, with_scores: true)
+  def most_raised(status='live')
+    tags_with_scores = redis.zrevrange(most_raised_key(status), 0, -1, with_scores: true)
     tags_with_scores.collect{|t| {tag: t.first, raised: t.last.to_i }} # convert the score (amount raised) to integer value.
   end
 
-  def total_charges_count
-    redis.get(total_charges_count_key).to_i
+  def total_charges_count(status='live')
+    redis.get(total_charges_count_key(status)).to_i
   end
 
   def total_charges_count_key(status='live')

@@ -32,22 +32,20 @@ class Tag < ActiveRecord::Base
   end
 
   def incrby(amount, status='live')
-    redis.incr(total_charges_count_key)
-    redis.incrby(total_raised_amount_key, amount)
+    redis.incr(total_charges_count_key(status))
+    redis.incrby(total_raised_amount_key(status), amount)
     if namespace.present?
       namespace.incrby(amount, name, status)
     end
   end
 
-  def total_raised
-    redis.get(total_raised_amount_key).to_i
+  def total_raised(status='live')
+    redis.get(total_raised_amount_key(status)).to_i
   end
 
-  def total_charges_count
-    redis.get(total_charges_count_key).to_i
+  def total_charges_count(status='live')
+    redis.get(total_charges_count_key(status)).to_i
   end
-
-  private
 
   def total_charges_count_key(status='live')
     "#{organization.to_param}/tags/#{name}/total_charges_key/#{status}"
@@ -56,6 +54,8 @@ class Tag < ActiveRecord::Base
   def total_raised_amount_key(status='live')
     "#{organization.to_param}/tags/#{name}/total_raised_key/#{status}"
   end
+
+  private
 
   def redis
     PragueServer::Application.redis
