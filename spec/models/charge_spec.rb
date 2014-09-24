@@ -67,7 +67,7 @@ describe Charge do
     let!(:organization) { create(:organization) }
     let(:tag_namespace) { build(:tag_namespace, namespace: 'color') }
     let(:tag) { build(:tag, name: 'color:green', organization: organization, namespace: tag_namespace) }
-    let(:charge) { build(:charge, tags: [tag]) }
+    let(:charge) { build(:charge, organization: organization, tags: [tag]) }
 
     before :each do
       charge.save!
@@ -98,6 +98,16 @@ describe Charge do
       another_charge.paid = true
       another_charge.save!
       expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to eq(charge.converted_amount + another_charge.converted_amount)
+    end
+
+    it "should keep the total in the organization's currency" do
+      organization.currency = 'XYZ'
+      charge.config = { rates: "{\"XYZ\"=>2, \"JPY\"=>101.7245, \"USD\"=>1}" }
+      charge.currency = 'USD'
+      charge.amount = '100'
+      charge.paid = true
+      charge.save!
+      expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to eq(200)
     end
   end
 
