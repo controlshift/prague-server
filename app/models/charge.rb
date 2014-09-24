@@ -78,7 +78,7 @@ class Charge < ActiveRecord::Base
         # if a charge transitions to being paid, update the associated aggregate
         self.tags.each do |tag|
           if tag.namespace.present?
-            PragueServer::Application.redis.zadd(tag.namespace.most_raised_key, tag.total_raised, tag.name)
+            PragueServer::Application.redis.zincrby(tag.namespace.most_raised_key, self.converted_amount, tag.name)
           end
         end
       end

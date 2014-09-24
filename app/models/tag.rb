@@ -30,10 +30,4 @@ class Tag < ActiveRecord::Base
   def to_param
     name
   end
-
-  def total_raised
-    # TODO this probably will not do the right thing with multiple currencies.
-    # Should convert into the org's currency
-    charges.map { |charge| charge.amount}.sum
-  end
 end
