@@ -31,6 +31,7 @@ class Charge < ActiveRecord::Base
   validates :amount, numericality: { greater_than: 0 }
   validates :currency, inclusion: { in: Organization::CURRENCIES.collect{|c| c.downcase} }
 
+  before_save :update_aggregates
 
   def presentation_amount
     self.class.presentation_amount(amount, currency)
@@ -67,6 +68,22 @@ class Charge < ActiveRecord::Base
   end
 
   private
+
+  def update_aggregates
+    if self.persisted? && self.valid? && self.paid_changed?
+      paid_transition = self.changes[:paid]
+
+      # this detects a state change, since a proper state machine library felt like overkill.
+      if paid_transition.first == false && paid_transition.last == true
+        # if a charge transitions to being paid, update the associated aggregate
+        self.tags.each do |tag|
+          if tag.namespace.present?
+            PragueServer::Application.redis.zadd(tag.namespace.most_raised_key, tag.total_raised, tag.name)
+          end
+        end
+      end
+    end
+  end
 
   def ensure_amount_is_number
     self.amount = self.amount.try(:to_i)
