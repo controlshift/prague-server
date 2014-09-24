@@ -244,6 +244,8 @@ describe Organization do
       expect(organization.currency_changed?).to be_false
       organization.currency = 'GBP'
       expect(organization.currency_changed?).to be_true
+      organization.save!
+      expect(organization.currency_changed?).to be_false
     end
 
     it 'should not be changed if the currency stays the same' do
@@ -277,14 +279,14 @@ describe Organization do
 
       expect(namespace.total_charges_count).to eq(0)
       expect(namespace.total_raised).to eq(0)
-      expect(namespace.raised_for_tag('foo')).to eq(0)
+      expect(namespace.raised_for_tag(tag)).to eq(0)
       expect(namespace.most_raised).to eq([])
     end
 
     it 'should recalculate aggregates in the new currency' do
       expect(namespace.total_charges_count).to eq(1)
       expect(namespace.total_raised).to eq(100)
-      expect(namespace.raised_for_tag('foo')).to eq(100)
+      expect(namespace.raised_for_tag(tag)).to eq(100)
       expect(namespace.most_raised).to eq([{:tag=>"foo", :raised=>100}])
 
       organization.update_attributes(currency: 'GBP')
@@ -292,7 +294,7 @@ describe Organization do
 
       expect(namespace.total_charges_count).to eq(1)
       expect(namespace.total_raised).to eq(50)
-      expect(namespace.raised_for_tag('foo')).to eq(50)
+      expect(namespace.raised_for_tag(tag)).to eq(50)
       expect(namespace.most_raised).to eq([{:tag=>"foo", :raised=>50}])
     end
 

@@ -57,6 +57,7 @@ class Organization < ActiveRecord::Base
 
   before_create :create_slug!
   before_save :on_currency_change
+  after_save :clear_dirty_after_save
 
   after_save :flush_cache_key!
 
@@ -116,6 +117,10 @@ class Organization < ActiveRecord::Base
 
   def currency_changed?
     @currency_changed
+  end
+
+  def clear_dirty_after_save
+    @currency_changed = false
   end
 
   private
