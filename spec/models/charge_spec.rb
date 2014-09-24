@@ -75,7 +75,9 @@ describe Charge do
 
     after :each do
       # Clean up what we put in redis
-      PragueServer::Application.redis.zrem(tag.namespace.most_raised_key, tag.name)
+      ['live', 'test'].each do |status|
+        PragueServer::Application.redis.zrem(tag.namespace.most_raised_key(status), tag.name)
+      end
     end
 
     it 'should update the total for the tag in redis when the charge becomes paid' do
@@ -108,6 +110,17 @@ describe Charge do
       charge.paid = true
       charge.save!
       expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to eq(200)
+    end
+
+    it 'should separate live and test charges totals' do
+      charge.paid = true
+      charge.amount = '123'
+      charge.save!
+      test_charge = create(:charge, tags: [tag], status: 'test', amount: '987')
+      test_charge.paid = true
+      test_charge.save!
+      expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key('live'), tag.name)).to eq(charge.converted_amount)
+      expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key('test'), tag.name)).to eq(test_charge.converted_amount)
     end
   end
 

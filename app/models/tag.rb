@@ -31,11 +31,11 @@ class Tag < ActiveRecord::Base
     name
   end
 
-  def incrby(amount)
+  def incrby(amount, status='live')
     redis.incr(total_charges_count_key)
     redis.incrby(total_raised_amount_key, amount)
     if namespace.present?
-      namespace.incrby(amount, name)
+      namespace.incrby(amount, name, status)
     end
   end
 
