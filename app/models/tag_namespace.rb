@@ -10,7 +10,7 @@
 #
 
 class TagNamespace < ActiveRecord::Base
-  validates :namespace, presence: true
+  validates :namespace, presence: true, uniqueness: {scope: 'organization_id' }
   validates :organization, presence: true
 
   has_many :tags, foreign_key: 'namespace_id'
