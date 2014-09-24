@@ -12,9 +12,13 @@ class ChargesController < ApplicationController
       customer = Customer.find_or_initialize(customer_params, status: organization.status)
       charge = customer.build_charge_with_params(customer_params[:charges_attributes], config: config_param, organization: organization)
       if params[:tags].present?
-        params[:tags].each do |tag|
-          charge.tags << Tag.find_or_create!(organization, tag)
-          PragueServer::Application.redis.zadd(tag.namespace.most_raised_key, tag.total_raised, tag.name)
+        params[:tags].each do |tag_string|
+          charge.tags << Tag.find_or_create!(organization, tag_string)
+          charge.tags.each do |tag|
+            if tag.namespace.present?
+              PragueServer::Application.redis.zadd(tag.namespace.most_raised_key, tag.total_raised, tag.name)
+            end
+          end
         end
       end
 

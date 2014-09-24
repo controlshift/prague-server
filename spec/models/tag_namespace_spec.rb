@@ -25,7 +25,7 @@ describe TagNamespace do
     end
 
     context 'pre-existing namespace' do
-      let!(:space) { create(:tag_namespace, organization: organization, namespace: namespace)}
+      let!(:space) { create(:tag_namespace, organization: organization, namespace: namespace) }
 
       it 'should create a new namespace for the organization' do
         expect(TagNamespace.find_or_create!(organization, namespace)).to eq(space)
