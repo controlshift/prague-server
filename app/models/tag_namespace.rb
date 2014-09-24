@@ -31,6 +31,10 @@ class TagNamespace < ActiveRecord::Base
     redis.incr(self.total_charges_count_key(status))
   end
 
+  def reset_redis_keys!
+    redis.del(total_raised_amount_key, total_charges_count_key, most_raised_key)
+  end
+
   def total_raised(status='live')
     redis.get(total_raised_amount_key(status)).to_i
   end

@@ -56,6 +56,7 @@ class Organization < ActiveRecord::Base
   accepts_nested_attributes_for :crm
 
   before_create :create_slug!
+  before_save :on_currency_change
 
   after_save :flush_cache_key!
 
@@ -107,7 +108,36 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  # hack to support _changed? for store accessor methods.
+  def currency=(value)
+    @currency_changed = true if value != self.currency
+    write_store_attribute(:global_defaults, :currency, value)
+  end
+
+  def currency_changed?
+    @currency_changed
+  end
+
   private
+
+  def on_currency_change
+    if self.persisted? && self.valid? && currency_changed?
+      # recalculate all of the totals in redis.
+      self.tags.find_each do |tag|
+        tag.reset_redis_keys!
+      end
+
+      self.namespaces.find_each do |namespace|
+        namespace.reset_redis_keys!
+      end
+
+      self.charges.paid.find_each do |charge|
+        charge.tags.find_each do |tag|
+          tag.incrby(charge.converted_amount(self.currency), charge.status)
+        end
+      end
+    end
+  end
 
   def flush_cache_key!
     Rails.cache.delete "global_defaults_#{slug}"

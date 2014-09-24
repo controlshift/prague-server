@@ -236,4 +236,68 @@ describe Organization do
       specify { subject.status.should == 'live' }
     end
   end
+
+  describe 'currency dirty tracking' do
+    let(:organization) { create(:organization, global_defaults: { currency: 'USD'}) }
+    it 'should be possible to track dirty hstore' do
+      expect(organization.currency).to eq('USD')
+      expect(organization.currency_changed?).to be_false
+      organization.currency = 'GBP'
+      expect(organization.currency_changed?).to be_true
+    end
+
+    it 'should not be changed if the currency stays the same' do
+      expect(organization.currency_changed?).to be_false
+      organization.currency = 'USD'
+      expect(organization.currency_changed?).to be_false
+    end
+  end
+
+  describe 'currency changes' do
+    let!(:organization) { create(:organization) }
+    let!(:charge) { create(:charge, organization: organization, amount: 100, paid: true, status: 'live') }
+    let!(:tag) { create(:tag, name: 'foo', organization: organization, namespace: namespace) }
+    let!(:namespace) { create(:tag_namespace, organization: organization) }
+
+    before(:each) do
+      Charge.any_instance.stub(:rate_conversion_hash).and_return('GBP' => 1, 'USD' => 2)
+
+      charge.tags << tag
+      tag.incrby(charge.amount)
+    end
+
+    it 'should allow the reset of redis keys' do
+      organization.tags.find_each do |tag|
+        tag.reset_redis_keys!
+      end
+
+      organization.namespaces.find_each do |namespace|
+        namespace.reset_redis_keys!
+      end
+
+      expect(namespace.total_charges_count).to eq(0)
+      expect(namespace.total_raised).to eq(0)
+      expect(namespace.raised_for_tag('foo')).to eq(0)
+      expect(namespace.most_raised).to eq([])
+    end
+
+    it 'should recalculate aggregates in the new currency' do
+      expect(namespace.total_charges_count).to eq(1)
+      expect(namespace.total_raised).to eq(100)
+      expect(namespace.raised_for_tag('foo')).to eq(100)
+      expect(namespace.most_raised).to eq([{:tag=>"foo", :raised=>100}])
+
+      organization.update_attributes(currency: 'GBP')
+      expect(organization.reload.currency).to eq('GBP')
+
+      expect(namespace.total_charges_count).to eq(1)
+      expect(namespace.total_raised).to eq(50)
+      expect(namespace.raised_for_tag('foo')).to eq(50)
+      expect(namespace.most_raised).to eq([{:tag=>"foo", :raised=>50}])
+    end
+
+    after(:each) do
+      PragueServer::Application.redis.flushall
+    end
+  end
 end
