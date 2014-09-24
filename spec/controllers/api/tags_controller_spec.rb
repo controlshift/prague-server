@@ -1,16 +1,26 @@
 require 'spec_helper'
 
 describe Api::TagsController do
-  describe 'show' do
-    let(:organization) { create(:organization) }
-    let(:token) { double :accessible? => true, :acceptable? => true, resource_owner_id: organization.id }
+  render_views
 
-    before do
-      allow(controller).to receive(:doorkeeper_token) {token}
+  let(:organization) { create(:organization) }
+  let(:token) { double :accessible? => true, :acceptable? => true, resource_owner_id: organization.id }
+
+  before do
+    allow(controller).to receive(:doorkeeper_token) {token}
+  end
+
+  let!(:tag) { create(:tag, name: 'foo', organization: organization) }
+
+  describe 'index' do
+    it 'responds with 200' do
+      get :index
+      response.status.should eq(200)
+      expect(JSON.parse(response.body).first).to eq('foo')
     end
+  end
 
-    let!(:tag) { create(:tag, name: 'foo', organization: organization) }
-
+  describe 'show' do
     it 'responds with 200' do
       get :show, id: 'foo'
       response.status.should eq(200)
