@@ -63,6 +63,34 @@ describe Charge do
     end
   end
 
+  describe '#update_aggregates' do
+    let!(:organization) { create(:organization) }
+    let(:tag_namespace) { build(:tag_namespace, namespace: 'color') }
+    let(:tag) { build(:tag, name: 'color:green', organization: organization, namespace: tag_namespace) }
+    let(:charge) { build(:charge, tags: [tag]) }
+
+    after :each do
+      # Clean up what we put in redis
+      PragueServer::Application.redis.zrem(tag.namespace.most_raised_key, tag.name)
+    end
+
+    it 'should update the total for the tag in redis when the charge becomes paid' do
+      charge.save!
+      expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to be_nil
+      charge.paid = true
+      charge.save!
+      expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to eq(charge.converted_amount)
+    end
+
+    it 'should not update the total if the charge is not paid yet' do
+      charge.save!
+      expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to be_nil
+      charge.paid = false
+      charge.save!
+      expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to be_nil
+    end
+  end
+
   describe '#actionkit_hash' do
     subject { build(:charge, config: {'action_foo' => 'bar', 'a' => 'b', 'akid' => 'XXX'})}
 
