@@ -49,12 +49,12 @@ class Tag < ActiveRecord::Base
 
   private
 
-  def total_charges_count_key
-    "#{organization.to_param}/tags/#{name}/total_charges_key"
+  def total_charges_count_key(status='live')
+    "#{organization.to_param}/tags/#{name}/total_charges_key/#{status}"
   end
 
-  def total_raised_amount_key
-    "#{organization.to_param}/tags/#{name}/total_raised_key"
+  def total_raised_amount_key(status='live')
+    "#{organization.to_param}/tags/#{name}/total_raised_key/#{status}"
   end
 
   def redis

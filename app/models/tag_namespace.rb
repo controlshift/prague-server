@@ -48,12 +48,12 @@ class TagNamespace < ActiveRecord::Base
     redis.get(total_charges_count_key).to_i
   end
 
-  def total_charges_count_key
-    "#{organization.to_param}/namespaces/#{namespace}/total_charges_key"
+  def total_charges_count_key(status='live')
+    "#{organization.to_param}/namespaces/#{namespace}/total_charges_key/#{status}"
   end
 
-  def total_raised_amount_key
-    "#{organization.to_param}/namespaces/#{namespace}/total_raised_key"
+  def total_raised_amount_key(status='live')
+    "#{organization.to_param}/namespaces/#{namespace}/total_raised_key/#{status}"
   end
 
   def most_raised_key(status='live')
