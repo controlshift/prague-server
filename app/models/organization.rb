@@ -91,19 +91,10 @@ class Organization < ActiveRecord::Base
   end
 
   def code_snippet(options={})
-    if options[:tags]
-      options[:tags].each do |tag|
-        raise 'Invalid tag format' unless /\A[a-zA-Z0-9-]+\z/.match(tag)
-      end
-      serialized_tags = options[:tags].join(',')
-    else
-      serialized_tags = ''
-    end
+    tags = options.fetch(:tags, []).map { |tag_name| Tag.find_or_create!(self, tag_name) }
 
-    "<script src=\"#{ENV['CLIENT_CLOUDFRONT_DISTRIBUTION']}\" id=\"donation-script\" data-org=\"#{slug}\"
-      data-seedamount=\"#{ seedamount || '10'}\" data-seedvalues=\"#{ seedvalues || '50,100,200,300,400,500,600' }\"
-      data-tags=\"#{serialized_tags}\"
-      data-seedcurrency=\"#{ currency || "USD"}\" #{ "data-chargestatus=\"test\"" if self.testmode? }></script>".squish
+    CodeSnippet.new(organization: self, seedamount: seedamount, seedvalues: seedvalues, tags: tags,
+                    currency: currency, testmode: self.testmode?).to_html
   end
 
   def self.global_defaults_for_slug slug

@@ -16,7 +16,7 @@ class Tag < ActiveRecord::Base
   has_and_belongs_to_many :charges
 
   validates :organization, presence: true
-  validates :name, presence: true
+  validates :name, presence: true, format: { with: /\A[a-zA-Z0-9-]+(:[a-zA-Z0-9-]+)?\z/ }
 
   def self.find_or_create!(organization, name)
     tag = organization.tags.where(name: name).first
