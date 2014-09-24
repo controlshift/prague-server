@@ -77,9 +77,7 @@ class Charge < ActiveRecord::Base
       if paid_transition.first == false && paid_transition.last == true
         # if a charge transitions to being paid, update the associated aggregate
         self.tags.each do |tag|
-          if tag.namespace.present?
-            tag.namespace.incrby(self.converted_amount(self.organization.currency), tag.name)
-          end
+          tag.incrby(self.converted_amount(self.organization.currency))
         end
       end
     end

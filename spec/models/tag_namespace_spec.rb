@@ -19,6 +19,7 @@ describe TagNamespace do
 
   context 'stubbed' do
     subject { build_stubbed(:tag_namespace) }
+    specify { expect(subject.total_raised_amount_key).to_not be_nil }
     specify { expect(subject.most_raised_key).to_not be_nil }
   end
 
@@ -41,6 +42,45 @@ describe TagNamespace do
       it 'should create a new namespace for the organization' do
         expect(TagNamespace.find_or_create!(organization, namespace)).to eq(space)
       end
+    end
+  end
+
+  describe 'incrby' do
+    let(:organization) { create(:organization) }
+    let(:tag_namespace) { create(:tag_namespace, organization: organization) }
+    let(:amount) { 100 }
+    let(:tag_name) { 'foo' }
+
+    context 'with one incrby' do
+      before(:each) do
+        tag_namespace.incrby(amount, tag_name)
+      end
+
+      it 'should increment the amounts appropriately' do
+        expect(tag_namespace.total_charges_count).to eq(1)
+        expect(tag_namespace.total_raised).to eq(100)
+        expect(tag_namespace.raised_for_tag(tag_name)).to eq(100)
+      end
+    end
+
+    context 'with multiple increments' do
+      before(:each) do
+        tag_namespace.incrby(amount, tag_name)
+        tag_namespace.incrby(amount, tag_name)
+        tag_namespace.incrby(amount, tag_name)
+        tag_namespace.incrby(50, 'bar')
+      end
+
+      it 'should increment the amounts appropriately' do
+        expect(tag_namespace.total_charges_count).to eq(4)
+        expect(tag_namespace.total_raised).to eq(350)
+        expect(tag_namespace.raised_for_tag(tag_name)).to eq(300)
+        expect(tag_namespace.raised_for_tag('bar')).to eq(50)
+      end
+    end
+
+    after(:each) do
+      PragueServer::Application.redis.flushall
     end
   end
 end

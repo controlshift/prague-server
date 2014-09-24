@@ -30,4 +30,34 @@ class Tag < ActiveRecord::Base
   def to_param
     name
   end
+
+  def incrby(amount)
+    redis.incr(total_charges_count_key)
+    redis.incrby(total_raised_amount_key, amount)
+    if namespace.present?
+      namespace.incrby(amount, name)
+    end
+  end
+
+  def total_raised
+    redis.get(total_raised_amount_key).to_i
+  end
+
+  def total_charges_count
+    redis.get(total_charges_count_key).to_i
+  end
+
+  private
+
+  def total_charges_count_key
+    "#{organization.to_param}/tags/#{name}/total_charges_key"
+  end
+
+  def total_raised_amount_key
+    "#{organization.to_param}/tags/#{name}/total_raised_key"
+  end
+
+  def redis
+    PragueServer::Application.redis
+  end
 end

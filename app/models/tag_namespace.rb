@@ -26,19 +26,32 @@ class TagNamespace < ActiveRecord::Base
 
   def incrby(amount, name)
     redis.zincrby(self.most_raised_key, amount, name)
-    redis.incrby(self.total_raised_key, amount)
+    redis.incrby(self.total_raised_amount_key, amount)
+    redis.incr(self.total_charges_count_key)
   end
 
   def total_raised
-    redis.get(total_raised_key)
+    redis.get(total_raised_amount_key).to_i
   end
 
-  def total_raised_key
-    "#{organization.to_param}/total_raised_key/#{namespace}"
+  def raised_for_tag(name)
+    redis.zscore(most_raised_key, name).to_i
+  end
+
+  def total_charges_count
+    redis.get(total_charges_count_key).to_i
+  end
+
+  def total_charges_count_key
+    "#{organization.to_param}/namespaces/#{namespace}/total_charges_key"
+  end
+
+  def total_raised_amount_key
+    "#{organization.to_param}/namespaces/#{namespace}/total_raised_key"
   end
 
   def most_raised_key
-    "#{organization.to_param}/most_raised_tags/#{namespace}"
+    "#{organization.to_param}/namespaces/#{namespace}/most_raised_tags"
   end
 
   private
