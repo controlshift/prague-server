@@ -67,11 +67,7 @@ describe Charge do
     let!(:organization) { create(:organization) }
     let(:tag_namespace) { build(:tag_namespace, namespace: 'color') }
     let(:tag) { build(:tag, name: 'color:green', organization: organization, namespace: tag_namespace) }
-    let(:charge) { build(:charge, organization: organization, tags: [tag]) }
-
-    before :each do
-      charge.save!
-    end
+    let(:charge) { create(:charge, organization: organization, tags: [tag]) }
 
     after :each do
       # Clean up what we put in redis
