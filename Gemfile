@@ -74,6 +74,8 @@ end
 
 
 group :development, :test do
+  gem 'spring'
+  gem 'spring-commands-rspec'
   gem 'annotate'
   gem 'dotenv-rails'
   gem 'byebug'
@@ -83,7 +85,7 @@ end
 
 group :test do
   gem 'guard'
-  gem 'guard-zeus'
+  gem 'guard-spring'
   gem 'guard-rspec', require: false
   gem 'stripe-ruby-mock', git: 'https://github.com/controlshift/stripe-ruby-mock.git'
   gem 'database_cleaner'
@@ -91,7 +93,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'launchy'
   gem 'capybara', '~> 2.1'
-  gem "shoulda-matchers"
+  gem 'shoulda-matchers', require: false
   gem 'selenium-webdriver'
   gem "capybara-webkit", require: false
   gem "capybara-email"
