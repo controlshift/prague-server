@@ -10,7 +10,15 @@ PragueServer::Application.routes.draw do
   end
 
   namespace :api do
-    resources :tags, controller: 'tags', only: [:show]
+    resources :namespaces, controller: 'namespaces', only: [:index, :show] do
+      collection do
+        get :raised
+      end
+      resources :charges, only: [:index], controller: 'namespaces/charges'
+    end
+    resources :tags, controller: 'tags', only: [:index, :show] do
+      resources :charges, only: [:index], controller: 'tags/charges'
+    end
     resources :charges, controller: 'charges', only: [:index]
     resource :config, controller: 'config', only: [:show]
     resource :code_snippet, controller: 'code_snippet', only: [:show]

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140911200805) do
+ActiveRecord::Schema.define(version: 20140923203423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,8 +62,6 @@ ActiveRecord::Schema.define(version: 20140911200805) do
     t.hstore   "config"
     t.string   "status",               default: "live"
     t.boolean  "paid",                 default: false,  null: false
-    t.string   "stripe_id"
-    t.hstore   "card"
   end
 
   add_index "charges", ["customer_id"], name: "index_charges_on_customer_id", using: :btree
@@ -195,13 +193,24 @@ ActiveRecord::Schema.define(version: 20140911200805) do
   add_index "organizations", ["reset_password_token"], name: "index_organizations_on_reset_password_token", unique: true, using: :btree
   add_index "organizations", ["slug"], name: "index_organizations_on_slug", unique: true, using: :btree
 
+  create_table "tag_namespaces", force: true do |t|
+    t.integer  "organization_id"
+    t.string   "namespace"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tag_namespaces", ["organization_id", "namespace"], name: "index_tag_namespaces_on_organization_id_and_namespace", using: :btree
+
   create_table "tags", force: true do |t|
     t.string   "name"
     t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "namespace_id"
   end
 
   add_index "tags", ["organization_id", "name"], name: "index_tags_on_organization_id_and_name", using: :btree
+  add_index "tags", ["organization_id", "namespace_id"], name: "index_tags_on_organization_id_and_namespace_id", using: :btree
 
 end

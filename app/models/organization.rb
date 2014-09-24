@@ -46,6 +46,7 @@ class Organization < ActiveRecord::Base
   has_many :charges
   has_one :crm
   has_many :tags
+  has_many :namespaces, class_name: 'TagNamespace'
 
   validates :slug, :name, presence: true
   validates :seedamount, format: { with: /\A\d+\z/ }, allow_blank: true
@@ -55,6 +56,8 @@ class Organization < ActiveRecord::Base
   accepts_nested_attributes_for :crm
 
   before_create :create_slug!
+  before_save :on_currency_change
+  after_save :clear_dirty_after_save
 
   after_save :flush_cache_key!
 
@@ -89,10 +92,11 @@ class Organization < ActiveRecord::Base
     Organization.where(stripe_user_id: auth['uid']).first
   end
 
-  def code_snippet
-    "<script src=\"#{ENV['CLIENT_CLOUDFRONT_DISTRIBUTION']}\" id=\"donation-script\" data-org=\"#{slug}\"
-      data-seedamount=\"#{ seedamount || '10'}\" data-seedvalues=\"#{ seedvalues || '50,100,200,300,400,500,600' }\"
-      data-seedcurrency=\"#{ currency || "USD"}\" #{ "data-chargestatus=\"test\"" if self.testmode? }></script>".squish
+  def code_snippet(options={})
+    tags = options.fetch(:tags, []).map { |tag_name| Tag.find_or_create!(self, tag_name) }
+
+    CodeSnippet.new(organization: self, seedamount: seedamount, seedvalues: seedvalues, tags: tags,
+                    currency: currency, testmode: self.testmode?).to_html
   end
 
   def self.global_defaults_for_slug slug
@@ -105,7 +109,40 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  # hack to support _changed? for store accessor methods.
+  def currency=(value)
+    @currency_changed = true if value != self.currency
+    write_store_attribute(:global_defaults, :currency, value)
+  end
+
+  def currency_changed?
+    @currency_changed
+  end
+
+  def clear_dirty_after_save
+    @currency_changed = false
+  end
+
   private
+
+  def on_currency_change
+    if self.persisted? && self.valid? && currency_changed?
+      # recalculate all of the totals in redis.
+      self.tags.find_each do |tag|
+        tag.reset_redis_keys!
+      end
+
+      self.namespaces.find_each do |namespace|
+        namespace.reset_redis_keys!
+      end
+
+      self.charges.paid.find_each do |charge|
+        charge.tags.find_each do |tag|
+          tag.incrby(charge.converted_amount(self.currency), charge.status)
+        end
+      end
+    end
+  end
 
   def flush_cache_key!
     Rails.cache.delete "global_defaults_#{slug}"

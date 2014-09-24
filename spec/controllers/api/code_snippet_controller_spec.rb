@@ -14,5 +14,16 @@ describe Api::CodeSnippetController do
       response.status.should eq(200)
       expect(response.body).to eq(organization.code_snippet)
     end
+
+    it 'includes the specified tags in the code snippet' do
+      get :show, tags: 'foo,bar-1,baz-1-2-3'
+      expect(response.body).to eq(organization.code_snippet(tags: ['foo', 'bar-1', 'baz-1-2-3']))
+    end
+
+    it 'raises an error if passed invalid tags' do
+      expect {
+        get :show, tags: ['alert("I am doing something unsavoury!");\\\\']
+      }.to raise_error
+    end
   end
 end

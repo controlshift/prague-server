@@ -31,6 +31,9 @@ class Charge < ActiveRecord::Base
   validates :amount, numericality: { greater_than: 0 }
   validates :currency, inclusion: { in: Organization::CURRENCIES.collect{|c| c.downcase} }
 
+  before_save :update_aggregates
+
+  scope :paid, -> { where(paid: true)}
 
   def presentation_amount
     self.class.presentation_amount(amount, currency)
@@ -67,6 +70,20 @@ class Charge < ActiveRecord::Base
   end
 
   private
+
+  def update_aggregates
+    if self.persisted? && self.valid? && self.paid_changed?
+      paid_transition = self.changes[:paid]
+
+      # this detects a state change, since a proper state machine library felt like overkill.
+      if paid_transition.first == false && paid_transition.last == true
+        # if a charge transitions to being paid, update the associated aggregate
+        self.tags.each do |tag|
+          tag.incrby(self.converted_amount(self.organization.currency), self.status)
+        end
+      end
+    end
+  end
 
   def ensure_amount_is_number
     self.amount = self.amount.try(:to_i)

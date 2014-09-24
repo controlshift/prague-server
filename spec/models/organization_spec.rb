@@ -35,11 +35,12 @@
 require 'spec_helper'
 
 describe Organization do
+  it { should have_many :namespaces }
+  it { should have_many :tags }
 
   it { should validate_presence_of :name }
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
-
   it { should validate_uniqueness_of :slug }
 
   let(:organization) { build(:organization) }
@@ -70,6 +71,66 @@ describe Organization do
     it 'should give a snippet that includes the organization\'s slug' do
       organization.save!
       organization.code_snippet.should include("script", organization.slug)
+    end
+
+    it 'should default to a seed amount of 10' do
+      organization.save!
+      organization.code_snippet.should include('data-seedamount="10"')
+    end
+
+    it "should use the organization's seed amount" do
+      organization.seedamount = '20'
+      organization.save!
+      organization.code_snippet.should include('data-seedamount="20"')
+    end
+
+    it 'should use default seed values if not specified' do
+      organization.save!
+      organization.code_snippet.should include('data-seedvalues="50,100,200,300,400,500,600"')
+    end
+
+    it "should use the organization's seed values" do
+      organization.seedvalues = '1,2,3,4,5,6,7'
+      organization.save!
+      organization.code_snippet.should include('data-seedvalues="1,2,3,4,5,6,7"')
+    end
+
+    it "should default to USD" do
+      organization.save!
+      organization.code_snippet.should include('data-seedcurrency="USD"')
+    end
+
+    it "should use the organisation's default currency" do
+      organization.currency = 'GBP'
+      organization.save!
+      organization.code_snippet.should include('data-seedcurrency="GBP"')
+    end
+
+    it 'should not be in test mode if not specified' do
+      organization.save!
+      organization.code_snippet.should_not include('data-chargestatus="test"')
+    end
+
+    it 'should not be in test mode if organization is not' do
+      organization.testmode = false
+      organization.save!
+      organization.code_snippet.should_not include('data-chargestatus="test"')
+    end
+
+    it 'should be in test mode if organization is' do
+      organization.testmode = true
+      organization.save!
+      organization.code_snippet.should include('data-chargestatus="test"')
+    end
+
+    it 'should default to no tags if none are specified' do
+      organization.save!
+      organization.code_snippet.should include('data-tags=""')
+    end
+
+    it 'should include tags that are passed in' do
+      organization.save!
+      organization.code_snippet(tags: ['foo', 'bar-1']).should include('data-tags="foo,bar-1"')
     end
   end
 
@@ -173,6 +234,72 @@ describe Organization do
     context 'in live mode' do
       subject { build(:organization, testmode: false ) }
       specify { subject.status.should == 'live' }
+    end
+  end
+
+  describe 'currency dirty tracking' do
+    let(:organization) { create(:organization, global_defaults: { currency: 'USD'}) }
+    it 'should be possible to track dirty hstore' do
+      expect(organization.currency).to eq('USD')
+      expect(organization.currency_changed?).to be_false
+      organization.currency = 'GBP'
+      expect(organization.currency_changed?).to be_true
+      organization.save!
+      expect(organization.currency_changed?).to be_false
+    end
+
+    it 'should not be changed if the currency stays the same' do
+      expect(organization.currency_changed?).to be_false
+      organization.currency = 'USD'
+      expect(organization.currency_changed?).to be_false
+    end
+  end
+
+  describe 'currency changes' do
+    let!(:organization) { create(:organization) }
+    let!(:charge) { create(:charge, organization: organization, amount: 100, paid: true, status: 'live') }
+    let!(:tag) { create(:tag, name: 'foo', organization: organization, namespace: namespace) }
+    let!(:namespace) { create(:tag_namespace, organization: organization) }
+
+    before(:each) do
+      Charge.any_instance.stub(:rate_conversion_hash).and_return('GBP' => 1, 'USD' => 2)
+
+      charge.tags << tag
+      tag.incrby(charge.amount)
+    end
+
+    it 'should allow the reset of redis keys' do
+      organization.tags.find_each do |tag|
+        tag.reset_redis_keys!
+      end
+
+      organization.namespaces.find_each do |namespace|
+        namespace.reset_redis_keys!
+      end
+
+      expect(namespace.total_charges_count).to eq(0)
+      expect(namespace.total_raised).to eq(0)
+      expect(namespace.raised_for_tag(tag)).to eq(0)
+      expect(namespace.most_raised).to eq([])
+    end
+
+    it 'should recalculate aggregates in the new currency' do
+      expect(namespace.total_charges_count).to eq(1)
+      expect(namespace.total_raised).to eq(100)
+      expect(namespace.raised_for_tag(tag)).to eq(100)
+      expect(namespace.most_raised).to eq([{:tag=>"foo", :raised=>100}])
+
+      organization.update_attributes(currency: 'GBP')
+      expect(organization.reload.currency).to eq('GBP')
+
+      expect(namespace.total_charges_count).to eq(1)
+      expect(namespace.total_raised).to eq(50)
+      expect(namespace.raised_for_tag(tag)).to eq(50)
+      expect(namespace.most_raised).to eq([{:tag=>"foo", :raised=>50}])
+    end
+
+    after(:each) do
+      PragueServer::Application.redis.flushall
     end
   end
 end

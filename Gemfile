@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.1.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.4'
+gem 'rails', '4.1.6'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -28,7 +28,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.2'
+gem 'jbuilder'
 
 gem 'omniauth'
 gem 'omniauth-stripe-connect', git: 'https://github.com/todddickerson/omniauth-stripe-connect.git'
@@ -74,6 +74,8 @@ end
 
 
 group :development, :test do
+  gem 'spring'
+  gem 'spring-commands-rspec'
   gem 'annotate'
   gem 'dotenv-rails'
   gem 'byebug'
@@ -83,7 +85,7 @@ end
 
 group :test do
   gem 'guard'
-  gem 'guard-zeus'
+  gem 'guard-spring'
   gem 'guard-rspec', require: false
   gem 'stripe-ruby-mock', git: 'https://github.com/controlshift/stripe-ruby-mock.git'
   gem 'database_cleaner'
@@ -91,7 +93,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'launchy'
   gem 'capybara', '~> 2.1'
-  gem "shoulda-matchers"
+  gem 'shoulda-matchers', require: false
   gem 'selenium-webdriver'
   gem "capybara-webkit", require: false
   gem "capybara-email"
