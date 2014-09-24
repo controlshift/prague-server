@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Api::NamespacesController do
+  render_views
+
   let(:organization) { create(:organization) }
   let(:token) { double :accessible? => true, :acceptable? => true, resource_owner_id: organization.id }
   let!(:namespace) { create(:tag_namespace, namespace: 'foo', organization: organization) }
@@ -13,6 +15,7 @@ describe Api::NamespacesController do
     it 'responds with 200' do
       get :show, id: 'foo'
       response.status.should eq(200)
+      expect(assigns(:namespace)).to eq(namespace)
       expect(JSON.parse(response.body)['namespace']).to eq('foo')
     end
   end
