@@ -27,4 +27,12 @@ describe Api::NamespacesController do
       expect(JSON.parse(response.body).first).to eq('foo')
     end
   end
+
+  describe 'raised' do
+    it 'responds with 200' do
+      get :raised, id: 'foo'
+      response.status.should eq(200)
+      expect(JSON.parse(response.body)).to eq([])
+    end
+  end
 end

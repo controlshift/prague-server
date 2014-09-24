@@ -39,6 +39,11 @@ class TagNamespace < ActiveRecord::Base
     redis.zscore(most_raised_key(status), name).to_i
   end
 
+  def most_raised
+    tags_with_scores = redis.zrevrange(most_raised_key, 0, -1, with_scores: true)
+    tags_with_scores.collect{|t| {tag: t.first, raised: t.last.to_i }} # convert the score (amount raised) to integer value.
+  end
+
   def total_charges_count
     redis.get(total_charges_count_key).to_i
   end
