@@ -27,7 +27,11 @@ PragueServer::Application.routes.draw do
     end
     resources :charges, controller: 'charges', only: [:index]
     resource :config, controller: 'config', only: [:show]
-    resource :code_snippet, controller: 'code_snippet', only: [:show]
+    resource :code_snippet, controller: 'code_snippet', only: [:show] do
+      member do
+        get 'parameters'
+      end
+    end
   end
 
   resources :organizations, only: [:show, :update, :new] do

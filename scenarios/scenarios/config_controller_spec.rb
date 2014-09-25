@@ -24,7 +24,7 @@ feature ConfigController do
 
   context 'no geoip' do
     context 'a specified country' do
-      let(:organization) {create(:organization, global_defaults: { country: 'AU' }) }
+      let(:organization) {create(:organization, global_defaults: { country: 'AU', currency: 'USD'}) }
 
       it 'should use the supplied country' do
         visit "/config/#{organization.slug}"
