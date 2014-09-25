@@ -101,7 +101,7 @@ class Organization < ActiveRecord::Base
     tags = options.fetch(:tags, []).map { |tag_name| Tag.find_or_create!(self, tag_name) }
 
     CodeSnippet.new(organization: self, seedamount: seedamount, seedvalues: seedvalues, tags: tags,
-                    currency: currency.upcase, testmode: self.testmode?).to_html
+                    currency: currency.upcase, testmode: self.testmode?)
   end
 
   def self.global_defaults_for_slug slug
