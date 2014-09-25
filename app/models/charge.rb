@@ -65,8 +65,8 @@ class Charge < ActiveRecord::Base
 
   def converted_amount to_currency="USD"
     conversion_hash = rate_conversion_hash
-    return amount if conversion_hash.empty? || conversion_hash[currency.upcase].nil? || conversion_hash[currency.upcase].nil?
-    ((amount.to_f / conversion_hash[currency.upcase].to_f) * conversion_hash[to_currency.upcase].to_f).to_i
+    return self.amount if conversion_hash.empty? || conversion_hash[self.currency.upcase].nil?
+    ((amount.to_f / conversion_hash[self.currency.upcase].to_f) * conversion_hash[to_currency.upcase].to_f).to_i
   end
 
   private
