@@ -45,6 +45,10 @@ describe Organization do
 
   let(:organization) { build(:organization) }
 
+  it 'should have a default currency' do
+    expect(organization.currency).to eq('USD')
+  end
+
   describe '#apply_omniauth' do
     specify 'with all valid credentials supplied' do
       organization.apply_omniauth({
@@ -146,10 +150,10 @@ describe Organization do
       stub_request(:get, 'http://platform.controlshiftlabs.com/cached_url/currencies').to_return(body: "{\"rates\":{\"GBP\":1.1234}}")
     end
 
-    let!(:organization) { create(:organization, slug: 'slug', global_defaults: { 'foo' => 'bar' }) }
+    let!(:organization) { create(:organization, slug: 'slug', global_defaults: { 'foo' => 'bar', currency: 'USD' }) }
 
     it 'should return a hash' do
-      Organization.global_defaults_for_slug('slug').to_json.should == { :foo => 'bar', :rates => { 'GBP' => 1.1234 }}.to_json
+      Organization.global_defaults_for_slug('slug').to_json.should == { :foo => 'bar', currency: 'USD', :rates => { 'GBP' => 1.1234 }}.to_json
     end
 
     context 'with a cached value' do
@@ -194,33 +198,33 @@ describe Organization do
 
   describe 'seedamount' do
     context 'entered as an integer' do
-      subject { build(:organization, global_defaults: { seedamount: "10"} ) }
+      subject { build(:organization, global_defaults: { seedamount: "10", currency: 'USD'} ) }
       it { should be_valid }
     end
     context 'entered as an illegal value' do
-      subject { build(:organization, global_defaults: { seedamount: "1a0a"} ) }
+      subject { build(:organization, global_defaults: { seedamount: "1a0a", currency: 'USD'} ) }
       it { should_not be_valid }
     end
   end
 
   describe 'seedvalues' do
     context 'entered as an integer list' do
-      subject { build(:organization, global_defaults: { seedvalues: "10,20,30"} ) }
+      subject { build(:organization, global_defaults: { seedvalues: "10,20,30", currency: 'USD'} ) }
       it { should be_valid }
     end
     context 'entered as an illegal value' do
-      subject { build(:organization, global_defaults: { seedvalues: "1234a"} ) }
+      subject { build(:organization, global_defaults: { seedvalues: "1234a", currency: 'USD'} ) }
       it { should_not be_valid }
     end
   end
 
   describe 'redirectto' do
     context 'entered as a url' do
-      subject { build(:organization, global_defaults: { redirectto: "www.google.com"} ) }
+      subject { build(:organization, global_defaults: { redirectto: "www.google.com", currency: 'USD'} ) }
       it { should be_valid }
     end
     context 'entered as an illegal value' do
-      subject { build(:organization, global_defaults: { redirectto: "1234a"} ) }
+      subject { build(:organization, global_defaults: { redirectto: "1234a", currency: 'USD'} ) }
       it { should_not be_valid }
     end
   end

@@ -52,12 +52,17 @@ class Organization < ActiveRecord::Base
   validates :seedamount, format: { with: /\A\d+\z/ }, allow_blank: true
   validates :seedvalues, format: { with: /\A(\d+\,)*\d+\z/ }, allow_blank: true
   validates :redirectto, format: { with: /\A(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?\z/ }, allow_blank: true
+  validates :currency, inclusion: { in: Organization::CURRENCIES }, presence: true
 
   accepts_nested_attributes_for :crm
 
   before_create :create_slug!
   before_save :on_currency_change
   after_save :clear_dirty_after_save
+
+  after_initialize do
+    self.currency = 'USD' if currency.blank?
+  end
 
   after_save :flush_cache_key!
 
@@ -96,7 +101,7 @@ class Organization < ActiveRecord::Base
     tags = options.fetch(:tags, []).map { |tag_name| Tag.find_or_create!(self, tag_name) }
 
     CodeSnippet.new(organization: self, seedamount: seedamount, seedvalues: seedvalues, tags: tags,
-                    currency: currency, testmode: self.testmode?).to_html
+                    currency: currency.upcase, testmode: self.testmode?).to_html
   end
 
   def self.global_defaults_for_slug slug

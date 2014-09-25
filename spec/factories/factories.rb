@@ -15,6 +15,7 @@ FactoryGirl.define do
     confirmation_token "XXXX"
     password 'password'
     password_confirmation 'password'
+    currency 'USD'
   end
 
   factory :customer do
