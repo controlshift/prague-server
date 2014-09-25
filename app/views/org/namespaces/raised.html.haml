@@ -1,0 +1,14 @@
+.row
+  .col-lg-12
+    = title @namespace.namespace
+
+
+    %table.table
+      %thead
+        %th Namespace
+        %th Raised
+
+      - @namespaces.raised.each do |tag|
+        %tr
+          %td= tag[:tag]
+          %td= tag[:raised]

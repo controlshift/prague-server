@@ -1,0 +1,15 @@
+.row
+  .col-lg-12
+    = title "Tags"
+
+    %table.table
+      %thead
+        %th Tag
+        %th Raised
+        %th Charges
+
+      - @tags.each do |tag|
+        %tr
+          %td= tag.name
+          %td= tag.total_raised
+          %td= tag.total_charges_count

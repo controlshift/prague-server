@@ -1,0 +1,15 @@
+.row
+  .col-lg-12
+    = title 'Namespaces'
+
+    %table.table
+      %thead
+        %th Namespace
+        %th Raised
+
+      - @namespaces.each do |namespace|
+        %tr
+          %td= namespace['namespace']
+          %td= namespace['raised']
+
+    = will_paginate @namespaces
