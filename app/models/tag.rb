@@ -51,6 +51,15 @@ class Tag < ActiveRecord::Base
     redis.get(total_charges_count_key(status)).to_i
   end
 
+  def average_charge_amount(status='live')
+    count = total_charges_count
+    if count == 0
+      nil
+    else
+      total_raised / count
+    end
+  end
+
   def total_charges_count_key(status='live')
     "#{organization.to_param}/tags/#{name}/total_charges_key/#{status}"
   end

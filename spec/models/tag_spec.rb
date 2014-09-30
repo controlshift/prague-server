@@ -63,6 +63,7 @@ describe Tag do
         it 'should increment the amounts appropriately' do
           expect(tag.total_charges_count).to eq(1)
           expect(tag.total_raised).to eq(100)
+          expect(tag.average_charge_amount).to eq(100)
         end
       end
 
@@ -89,6 +90,11 @@ describe Tag do
 
           expect(tag.total_charges_count).to eq(3)
           expect(tag.total_raised).to eq(300)
+        end
+
+        it 'should have the correct average charge size' do
+          expect(tag.average_charge_amount).to eq(100)
+          expect(tag2.average_charge_amount).to eq(50)
         end
       end
 
