@@ -31,5 +31,11 @@ describe Api::TagsController do
       get :show, id: 'foo'
       expect(JSON.parse(response.body)).to have_key('total_raised_display_amount')
     end
+
+    it 'should include the base and display average charge amount' do
+      get :show, id: 'foo'
+      expect(JSON.parse(response.body)).to have_key('average_charge_amount')
+      expect(JSON.parse(response.body)).to have_key('average_charge_display_amount')
+    end
   end
 end
