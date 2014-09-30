@@ -26,5 +26,10 @@ describe Api::TagsController do
       response.status.should eq(200)
       expect(JSON.parse(response.body)['name']).to eq('foo')
     end
+
+    it 'should include the display amount for the total' do
+      get :show, id: 'foo'
+      expect(JSON.parse(response.body)).to have_key('total_raised_display_amount')
+    end
   end
 end

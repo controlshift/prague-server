@@ -5,5 +5,6 @@ class Api::TagsController < Api::BaseController
 
   def show
     @tag = current_resource_owner.tags.where(name: params[:id]).first!
+    @currency = current_resource_owner.currency
   end
 end
