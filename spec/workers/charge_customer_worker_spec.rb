@@ -20,12 +20,12 @@ describe ChargeCustomerWorker do
       expect(charge.paid?).to be_true
       expect(charge.id).not_to be_nil
       expect(charge.card).not_to be_nil
-      expect(charge.card['brand']).to eq('Visa')
+      expect(charge.card['type']).to eq('Visa')
     end
 
     context 'mock id' do
       before(:each) do
-        Stripe::StripeObject.any_instance.stub(:id).and_return('tok_test')
+        Stripe::Token.any_instance.stub(:id).and_return('tok_test')
       end
 
       specify 'it should push failure on card declined' do
@@ -40,7 +40,7 @@ describe ChargeCustomerWorker do
         expect(charge.log_entries.last.message).to eq('Unsuccessful charge: The card was declined')
       end
 
-      specify 'it should push failure on something else going wrong with Stripe' do
+      specify 'it should push failure on something internal going wrong with Stripe' do
         StripeMock.prepare_error(Stripe::StripeError.new, :new_charge)
         Pusher::Channel.any_instance.should_receive(:trigger).with('charge_completed',
                                                                    {
