@@ -15,6 +15,7 @@ FactoryGirl.define do
     confirmation_token "XXXX"
     password 'password'
     password_confirmation 'password'
+    currency 'USD'
   end
 
   factory :customer do
@@ -48,5 +49,26 @@ FactoryGirl.define do
     donation_currency 'GBP'
     payment_account 'GBP Import Stub'
     crm
+  end
+
+  factory :tag do
+    organization
+  end
+
+  factory :tag_namespace do
+    namespace { generate(:namespace) }
+    organization
+  end
+
+  sequence :namespace do |n|
+    "name#{n}"
+  end
+
+  sequence :application_name do |n|
+    "app#{n}"
+  end
+
+  factory :doorkeeper_application,  class: Doorkeeper::Application do
+    name { generate(:application_name) }
   end
 end

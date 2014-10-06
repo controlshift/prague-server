@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140805032507) do
+ActiveRecord::Schema.define(version: 20140923203423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,13 @@ ActiveRecord::Schema.define(version: 20140805032507) do
   add_index "charges", ["customer_id"], name: "index_charges_on_customer_id", using: :btree
   add_index "charges", ["organization_id"], name: "index_charges_on_organization_id", using: :btree
 
+  create_table "charges_tags", force: true do |t|
+    t.integer "tag_id"
+    t.integer "charge_id"
+  end
+
+  add_index "charges_tags", ["tag_id", "charge_id"], name: "index_charges_tags_on_tag_id_and_charge_id", using: :btree
+
   create_table "crms", force: true do |t|
     t.integer  "organization_id"
     t.string   "donation_page_name"
@@ -116,6 +123,45 @@ ActiveRecord::Schema.define(version: 20140805032507) do
 
   add_index "log_entries", ["charge_id"], name: "index_log_entries_on_charge_id", using: :btree
 
+  create_table "oauth_access_grants", force: true do |t|
+    t.integer  "resource_owner_id", null: false
+    t.integer  "application_id",    null: false
+    t.string   "token",             null: false
+    t.integer  "expires_in",        null: false
+    t.text     "redirect_uri",      null: false
+    t.datetime "created_at",        null: false
+    t.datetime "revoked_at"
+    t.string   "scopes"
+  end
+
+  add_index "oauth_access_grants", ["token"], name: "index_oauth_access_grants_on_token", unique: true, using: :btree
+
+  create_table "oauth_access_tokens", force: true do |t|
+    t.integer  "resource_owner_id"
+    t.integer  "application_id"
+    t.string   "token",             null: false
+    t.string   "refresh_token"
+    t.integer  "expires_in"
+    t.datetime "revoked_at"
+    t.datetime "created_at",        null: false
+    t.string   "scopes"
+  end
+
+  add_index "oauth_access_tokens", ["refresh_token"], name: "index_oauth_access_tokens_on_refresh_token", unique: true, using: :btree
+  add_index "oauth_access_tokens", ["resource_owner_id"], name: "index_oauth_access_tokens_on_resource_owner_id", using: :btree
+  add_index "oauth_access_tokens", ["token"], name: "index_oauth_access_tokens_on_token", unique: true, using: :btree
+
+  create_table "oauth_applications", force: true do |t|
+    t.string   "name",         null: false
+    t.string   "uid",          null: false
+    t.string   "secret",       null: false
+    t.text     "redirect_uri", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
+
   create_table "organizations", force: true do |t|
     t.string   "access_token"
     t.string   "stripe_publishable_key"
@@ -148,5 +194,25 @@ ActiveRecord::Schema.define(version: 20140805032507) do
 
   add_index "organizations", ["reset_password_token"], name: "index_organizations_on_reset_password_token", unique: true, using: :btree
   add_index "organizations", ["slug"], name: "index_organizations_on_slug", unique: true, using: :btree
+
+  create_table "tag_namespaces", force: true do |t|
+    t.integer  "organization_id"
+    t.string   "namespace"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tag_namespaces", ["organization_id", "namespace"], name: "index_tag_namespaces_on_organization_id_and_namespace", using: :btree
+
+  create_table "tags", force: true do |t|
+    t.string   "name"
+    t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "namespace_id"
+  end
+
+  add_index "tags", ["organization_id", "name"], name: "index_tags_on_organization_id_and_name", using: :btree
+  add_index "tags", ["organization_id", "namespace_id"], name: "index_tags_on_organization_id_and_namespace_id", using: :btree
 
 end

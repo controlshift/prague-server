@@ -35,6 +35,8 @@ describe Charge do
   it { should allow_value(100).for(:amount) }
   it { should allow_value('100').for(:amount) }
 
+  it { should have_and_belong_to_many :tags }
+
 
   describe '#presentation_amount' do
     let(:usd_charge) { build(:charge, currency: 'usd', amount: '1000') }
@@ -58,6 +60,75 @@ describe Charge do
 
     it 'should accept strings as input' do
       Charge.presentation_amount('1000', 'USD').should == '10.00'
+    end
+  end
+
+  describe '#update_aggregates' do
+    let!(:organization) { create(:organization) }
+    let(:tag_namespace) { build(:tag_namespace, namespace: 'color') }
+    let(:tag) { build(:tag, name: 'color:green', organization: organization, namespace: tag_namespace) }
+    let(:charge) { create(:charge, organization: organization, tags: [tag]) }
+
+    after :each do
+      # Clean up what we put in redis
+      ['live', 'test'].each do |status|
+        PragueServer::Application.redis.zrem(tag_namespace.most_raised_key(status), tag.name)
+        PragueServer::Application.redis.set(tag_namespace.total_charges_count_key(status), '0')
+        PragueServer::Application.redis.set(tag_namespace.total_raised_amount_key(status), '0')
+        PragueServer::Application.redis.set(tag.total_charges_count_key(status), '0')
+        PragueServer::Application.redis.set(tag.total_raised_amount_key(status), '0')
+      end
+    end
+
+    it 'should update the total for the tag in redis when the charge becomes paid' do
+      charge.paid = true
+      charge.save!
+      expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to eq(charge.converted_amount)
+    end
+
+    it 'should not update the total if the charge is not paid yet' do
+      charge.paid = false
+      charge.save!
+      expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to be_nil
+    end
+
+    it 'should handle multiple charges' do
+      charge.paid = true
+      charge.save!
+      expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to eq(charge.converted_amount)
+      another_charge = create(:charge, tags: [tag])
+      another_charge.paid = true
+      another_charge.save!
+      expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to eq(charge.converted_amount + another_charge.converted_amount)
+    end
+
+    it "should keep the total in the organization's currency" do
+      organization.currency = 'XYZ'
+      charge.config = { rates: "{\"XYZ\"=>2, \"JPY\"=>101.7245, \"USD\"=>1}" }
+      charge.currency = 'USD'
+      charge.amount = '100'
+      charge.paid = true
+      charge.save!
+      expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to eq(200)
+    end
+
+    it 'should separate live and test charges totals' do
+      charge.paid = true
+      charge.amount = '123'
+      charge.save!
+      test_charge = create(:charge, tags: [tag], status: 'test', amount: '987')
+      test_charge.paid = true
+      test_charge.save!
+      expect(tag.total_raised).to eq(charge.converted_amount)
+      expect(tag.total_raised('test')).to eq(test_charge.converted_amount)
+      expect(tag_namespace.total_raised).to eq(charge.converted_amount)
+      expect(tag_namespace.total_raised('test')).to eq(test_charge.converted_amount)
+      expect(tag.total_charges_count).to eq(1)
+      expect(tag.total_charges_count('test')).to eq(1)
+      expect(tag_namespace.total_charges_count).to eq(1)
+      expect(tag_namespace.total_charges_count('test')).to eq(1)
+      expect(tag_namespace.raised_for_tag(tag)).to eq(charge.converted_amount)
+      expect(tag_namespace.raised_for_tag(tag, 'test')).to eq(test_charge.converted_amount)
     end
   end
 

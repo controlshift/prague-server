@@ -48,7 +48,7 @@ class ChargeCustomerWorker
     ChargeNotificationMailer.delay.send_receipt(charge.id)
 
   rescue Stripe::CardError => e
-    charge.update_attribute(:paid, false)
+    charge.update_attributes(paid: false)
     LogEntry.create(charge: charge, message: "Unsuccessful charge: #{e.message}")
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
@@ -58,7 +58,7 @@ class ChargeCustomerWorker
   rescue Stripe::StripeError => e
     LogEntry.create(charge: charge, message: "Stripe error while processing charge: #{e.message}")
 
-    charge.update_attribute(:paid, false)
+    charge.update_attributes(paid: false)
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
       message: "Something went wrong, please try again."
@@ -66,16 +66,12 @@ class ChargeCustomerWorker
     Rails.logger.warn("Stripe::Error #{e.message}")
   rescue StandardError => e
     LogEntry.create(charge: charge, message: "Unknown error: #{e.message}")
-    charge.update_attribute(:paid, false)
+    charge.update_attributes(paid: false)
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'failure',
       message: "Something went wrong, please try again."
     })
     Rails.logger.debug("StandardError #{e.message}")
-    Honeybadger.notify(
-      :error_class   => "Exception",
-      :error_message => "Exception: #{e.message}",
-      :parameters    => [ charge.id ]
-    ) if defined? Honeybadger
+    Honeybadger.notify(e, context: {charge_id: charge.id})
   end
 end

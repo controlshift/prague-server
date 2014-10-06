@@ -35,14 +35,19 @@
 require 'spec_helper'
 
 describe Organization do
+  it { should have_many :namespaces }
+  it { should have_many :tags }
 
   it { should validate_presence_of :name }
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
-
   it { should validate_uniqueness_of :slug }
 
   let(:organization) { build(:organization) }
+
+  it 'should have a default currency' do
+    expect(organization.currency).to eq('USD')
+  end
 
   describe '#apply_omniauth' do
     specify 'with all valid credentials supplied' do
@@ -67,9 +72,54 @@ describe Organization do
   end
 
   describe "#code_snippet" do
-    it 'should give a snippet that includes the organization\'s slug' do
+    it 'should set the organization for the snippet' do
       organization.save!
-      organization.code_snippet.should include("script", organization.slug)
+      expect(organization.code_snippet.organization).to eq(organization)
+    end
+
+    it "should use the organization's seed amount" do
+      organization.seedamount = '20'
+      organization.save!
+      expect(organization.code_snippet.seedamount).to eq('20')
+    end
+
+    it "should use the organization's seed values" do
+      organization.seedvalues = '1,2,3,4,5,6,7'
+      organization.save!
+      expect(organization.code_snippet.seedvalues).to eq('1,2,3,4,5,6,7')
+    end
+
+    it "should use the organisation's default currency" do
+      organization.currency = 'GBP'
+      organization.save!
+      expect(organization.code_snippet.currency).to eq('GBP')
+    end
+
+    it 'should not be in test mode if not specified' do
+      organization.save!
+      expect(organization.code_snippet.testmode).to be_false
+    end
+
+    it 'should not be in test mode if organization is not' do
+      organization.testmode = false
+      organization.save!
+      expect(organization.code_snippet.testmode).to be_false
+    end
+
+    it 'should be in test mode if organization is' do
+      organization.testmode = true
+      organization.save!
+      expect(organization.code_snippet.testmode).to be_true
+    end
+
+    it 'should default to no tags if none are specified' do
+      organization.save!
+      expect(organization.code_snippet.tags).to be_empty
+    end
+
+    it 'should include tags that are passed in' do
+      organization.save!
+      expect(organization.code_snippet(tags: ['foo', 'bar-1']).tag_names).to eq(['foo', 'bar-1'])
     end
   end
 
@@ -85,10 +135,10 @@ describe Organization do
       stub_request(:get, 'http://platform.controlshiftlabs.com/cached_url/currencies').to_return(body: "{\"rates\":{\"GBP\":1.1234}}")
     end
 
-    let!(:organization) { create(:organization, slug: 'slug', global_defaults: { 'foo' => 'bar' }) }
+    let!(:organization) { create(:organization, slug: 'slug', global_defaults: { 'foo' => 'bar', currency: 'USD' }) }
 
     it 'should return a hash' do
-      Organization.global_defaults_for_slug('slug').to_json.should == { :foo => 'bar', :rates => { 'GBP' => 1.1234 }}.to_json
+      Organization.global_defaults_for_slug('slug').to_json.should == { :foo => 'bar', currency: 'USD', :rates => { 'GBP' => 1.1234 }}.to_json
     end
 
     context 'with a cached value' do
@@ -133,33 +183,33 @@ describe Organization do
 
   describe 'seedamount' do
     context 'entered as an integer' do
-      subject { build(:organization, global_defaults: { seedamount: "10"} ) }
+      subject { build(:organization, global_defaults: { seedamount: "10", currency: 'USD'} ) }
       it { should be_valid }
     end
     context 'entered as an illegal value' do
-      subject { build(:organization, global_defaults: { seedamount: "1a0a"} ) }
+      subject { build(:organization, global_defaults: { seedamount: "1a0a", currency: 'USD'} ) }
       it { should_not be_valid }
     end
   end
 
   describe 'seedvalues' do
     context 'entered as an integer list' do
-      subject { build(:organization, global_defaults: { seedvalues: "10,20,30"} ) }
+      subject { build(:organization, global_defaults: { seedvalues: "10,20,30", currency: 'USD'} ) }
       it { should be_valid }
     end
     context 'entered as an illegal value' do
-      subject { build(:organization, global_defaults: { seedvalues: "1234a"} ) }
+      subject { build(:organization, global_defaults: { seedvalues: "1234a", currency: 'USD'} ) }
       it { should_not be_valid }
     end
   end
 
   describe 'redirectto' do
     context 'entered as a url' do
-      subject { build(:organization, global_defaults: { redirectto: "www.google.com"} ) }
+      subject { build(:organization, global_defaults: { redirectto: "www.google.com", currency: 'USD'} ) }
       it { should be_valid }
     end
     context 'entered as an illegal value' do
-      subject { build(:organization, global_defaults: { redirectto: "1234a"} ) }
+      subject { build(:organization, global_defaults: { redirectto: "1234a", currency: 'USD'} ) }
       it { should_not be_valid }
     end
   end
@@ -173,6 +223,72 @@ describe Organization do
     context 'in live mode' do
       subject { build(:organization, testmode: false ) }
       specify { subject.status.should == 'live' }
+    end
+  end
+
+  describe 'currency dirty tracking' do
+    let(:organization) { create(:organization, global_defaults: { currency: 'USD'}) }
+    it 'should be possible to track dirty hstore' do
+      expect(organization.currency).to eq('USD')
+      expect(organization.currency_changed?).to be_false
+      organization.currency = 'GBP'
+      expect(organization.currency_changed?).to be_true
+      organization.save!
+      expect(organization.currency_changed?).to be_false
+    end
+
+    it 'should not be changed if the currency stays the same' do
+      expect(organization.currency_changed?).to be_false
+      organization.currency = 'USD'
+      expect(organization.currency_changed?).to be_false
+    end
+  end
+
+  describe 'currency changes' do
+    let!(:organization) { create(:organization) }
+    let!(:charge) { create(:charge, organization: organization, amount: 100, paid: true, status: 'live') }
+    let!(:tag) { create(:tag, name: 'foo', organization: organization, namespace: namespace) }
+    let!(:namespace) { create(:tag_namespace, organization: organization) }
+
+    before(:each) do
+      Charge.any_instance.stub(:rate_conversion_hash).and_return('GBP' => 1, 'USD' => 2)
+
+      charge.tags << tag
+      tag.incrby(charge.amount)
+    end
+
+    it 'should allow the reset of redis keys' do
+      organization.tags.find_each do |tag|
+        tag.reset_redis_keys!
+      end
+
+      organization.namespaces.find_each do |namespace|
+        namespace.reset_redis_keys!
+      end
+
+      expect(namespace.total_charges_count).to eq(0)
+      expect(namespace.total_raised).to eq(0)
+      expect(namespace.raised_for_tag(tag)).to eq(0)
+      expect(namespace.most_raised).to eq([])
+    end
+
+    it 'should recalculate aggregates in the new currency' do
+      expect(namespace.total_charges_count).to eq(1)
+      expect(namespace.total_raised).to eq(100)
+      expect(namespace.raised_for_tag(tag)).to eq(100)
+      expect(namespace.most_raised).to eq([{:tag=>"foo", :raised=>100}])
+
+      organization.update_attributes(currency: 'GBP')
+      expect(organization.reload.currency).to eq('GBP')
+
+      expect(namespace.total_charges_count).to eq(1)
+      expect(namespace.total_raised).to eq(50)
+      expect(namespace.raised_for_tag(tag)).to eq(50)
+      expect(namespace.most_raised).to eq([{:tag=>"foo", :raised=>50}])
+    end
+
+    after(:each) do
+      PragueServer::Application.redis.flushall
     end
   end
 end

@@ -1,0 +1,15 @@
+.row
+  .col-lg-12
+    = title "Tag: #{@tag.name}"
+
+    %table.table
+      %thead
+        %th Amount
+        %th Currency
+        %th Email
+
+      - @tag.charges.each do |charge|
+        %tr
+          %td= charge.amount
+          %td= charge.currency
+          %td= charge.customer.email

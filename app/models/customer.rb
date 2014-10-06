@@ -33,7 +33,7 @@ class Customer < ActiveRecord::Base
   end
 
   def self.find_or_initialize(customer_params, status: nil)
-    customer = where(status: status, email: customer_params[:email].downcase).first
+    customer = where(status: status, email: customer_params[:email].try(:downcase)).first
     if customer.present? 
       customer.assign_attributes(customer_params.except(:charges_attributes))
     else

@@ -201,6 +201,11 @@ ActiveAdmin.setup do |config|
   #     end
   #   end
 
+  config.namespace :admin do |admin|
+    admin.build_menu do |menu|
+      menu.add :label => "OAuth Apps", :url => "/oauth/applications", :priority => 0
+    end
+  end
 
   # == Download Links
   #
