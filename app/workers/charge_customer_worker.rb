@@ -18,10 +18,11 @@ class ChargeCustomerWorker
 
   def run_charge(charge)
     token = Stripe::Token.create(
-      {
+      card: {
+        number: charge.card['id'],
         customer: charge.customer.customer_token
       },
-      charge.live? ? charge.organization.access_token : charge.organization.stripe_test_access_token
+      api_key: charge.live? ? charge.organization.access_token : charge.organization.stripe_test_access_token
     )
 
     stripe_charge = Stripe::Charge.create({
@@ -38,7 +39,7 @@ class ChargeCustomerWorker
                           },
                           charge.live? ? charge.organization.access_token : charge.organization.stripe_test_access_token
     )
-    charge.update_attributes(paid: true, stripe_id: stripe_charge[:id], card: stripe_charge[:card] )
+    charge.update_attributes(paid: true, stripe_id: stripe_charge[:id], card: stripe_charge[:card].to_hash )
     LogEntry.create(charge: charge, message: 'Successful charge.')
 
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
