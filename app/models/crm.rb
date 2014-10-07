@@ -21,6 +21,7 @@ class Crm < ActiveRecord::Base
 
   validates :username, :host, :donation_page_name, :platform, :default_currency, presence: true
   validates :password, presence: true, on: :create
+  validates :organization, presence: true
 
   accepts_nested_attributes_for :import_stubs, allow_destroy: true
 

@@ -3,7 +3,10 @@ class CrmNotificationWorker
 
   def perform(charge_id)
     charge = Charge.includes(:customer, organization: [:crm]).find(charge_id)
-    return if charge.organization.crm.nil?
+    if charge.organization.crm.nil?
+      Rails.logger.debug("No CRM configured for #{charge.organization.slug}")
+      return true
+    end
     case charge.organization.crm.platform
       when 'actionkit'
         ActionKitNotifier.new.process(charge)
@@ -12,7 +15,7 @@ class CrmNotificationWorker
         BlueStateNotifier.new.process(charge)
         LogEntry.create(charge: charge, message: 'Synchronized to Blue State Digital')
       else
-        Rails.log.warn("No notifier for #{charge.organization.crm.platform}")
+        Rails.logger.warn("No notifier for #{charge.organization.crm.platform}")
     end
   end
 end
