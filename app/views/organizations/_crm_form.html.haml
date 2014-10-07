@@ -1,13 +1,7 @@
-= simple_form_for(@crm, html: { class: "form-vertical credentials-form", role: "form", id: 'crm-form'}, wrapper: :vertical_form, remote: true) do |f|
-  = f.input :platform, collection: Crm::PLATFORMS.collect { |k, v| [v,k] }
-  - Crm::PLATFORMS.keys.each do |platform|
-    .crm-specific-fields{id: "crm-specific-fields-#{platform}", style: "#{'display:none;' unless platform == @crm.platform}"}
-      = render "organizations/crm_fields_#{platform}", :f => f
-  = f.input :default_currency, {placeholder: "USD"}
-  = f.simple_fields_for :import_stubs do |stub|
-    = render 'organizations/import_stub_fields', :f => stub
-  .link-to-add-import-fields
-    = link_to_add_association 'Add Import Stub', f, :import_stubs, partial: "organizations/import_stub_fields"
-  = f.button :submit, 'Save', data: { disable_with: 'Saving...' }
-  - if valid
-    %span{class:"glyphicon glyphicon-ok text-success crm-form-success"}
+.form-group
+  %label.control-label= t('.platform')
+  = select :crm, :platform, [['', '']] + Crm::PLATFORMS.collect { |k, v| [v,k] }, {}, {class: 'select form-control'}
+
+- Crm::PLATFORMS.keys.each do |platform|
+  .crm-attributes{id: "crm-attributes-#{platform}", style: "#{'display:none;' unless platform == @crm.platform}"}
+    = render "organizations/crm_form_#{platform}", valid: valid

@@ -1,0 +1,13 @@
+= simple_form_for(@crm, html: { class: "form-vertical credentials-form", role: "form", id: 'crm-form'}, wrapper: :vertical_form, remote: true) do |f|
+  = f.input :platform, as: :hidden, input_html: {value: 'bluestate'}
+  = f.input :username, label: 'API ID', input_html: {placeholder: "your API ID"}
+  = f.input :password, label: 'API secret', input_html: {placeholder: "your API secret"}
+  = f.input :host, input_html: {placeholder: "yourorg.bluestate.com"}
+  = f.input :default_currency, {placeholder: "USD"}
+  = f.simple_fields_for :import_stubs do |stub|
+    = render 'organizations/import_stub_fields', :f => stub
+  .link-to-add-import-fields
+    = link_to_add_association 'Add Import Stub', f, :import_stubs, partial: "organizations/import_stub_fields"
+  = f.button :submit, 'Save', data: { disable_with: 'Saving...' }
+  - if valid
+    %span{class:"glyphicon glyphicon-ok text-success crm-form-success"}
