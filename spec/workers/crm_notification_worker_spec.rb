@@ -11,7 +11,7 @@ describe CrmNotificationWorker do
     describe 'without a crm' do
       let(:crm) { nil }
       it 'should log and return' do
-        expect( CrmNotificationWorker.new.perform(charge.id) ).to eq(true)
+        expect( subject.perform(charge.id) ).to eq(true)
       end
     end
 
@@ -50,7 +50,7 @@ describe CrmNotificationWorker do
               currency: import_stub.donation_currency
             })
           )
-          CrmNotificationWorker.new.perform(charge.id)
+          subject.perform(charge.id)
         end
       end
     end
@@ -60,7 +60,7 @@ describe CrmNotificationWorker do
 
       it 'should notify bsd' do
         BlueStateDigital::Contribution.any_instance.should_receive(:save)
-        CrmNotificationWorker.new.perform(charge.id)
+        subject.perform(charge.id)
       end
     end
   end
