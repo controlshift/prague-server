@@ -11,9 +11,9 @@ feature 'Organization adds CRM credentials' do
   end
 
   let(:org) { create(:organization) }
-  it 'creates credentials for the first time', js: true do
-    page.first(".credentials-form")[:id].should == "crm-form"
+  it 'creates AK credentials for the first time', js: true do
     select 'ActionKit', from: 'crm_platform'
+    page.first(".credentials-form", visible: true)[:id].should == "crm-form-actionkit"
     fill_in 'crm_username', with: 'user'
     fill_in 'crm_password', with: 'password'
     fill_in 'crm_host', with: 'host'
@@ -22,7 +22,7 @@ feature 'Organization adds CRM credentials' do
     click_link "Add Import Stub"
     fill_in 'Payment account', with: "GBP Import Stub"
     fill_in 'Donation currency', with: "GBP"
-    first(".credentials-form").find("input[type='submit']").click
+    first(".credentials-form", visible: true).find("input[type='submit']").click
     wait_for_ajax
     page.should have_selector('.crm-form-success', visible: true)
 
@@ -35,7 +35,7 @@ feature 'Organization adds CRM credentials' do
 
     fill_in 'crm_password', with: 'password'
     click_link "X"
-    first(".credentials-form").find("input[type='submit']").click
+    first(".credentials-form", visible: true).find("input[type='submit']").click
     wait_for_ajax
     page.should have_selector('.crm-form-success', visible: true)
     crm.reload.import_stubs.should be_empty

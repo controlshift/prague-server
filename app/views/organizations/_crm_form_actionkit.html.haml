@@ -1,4 +1,4 @@
-= simple_form_for(@crm, html: { class: "form-vertical credentials-form", role: "form", id: 'crm-form'}, wrapper: :vertical_form, remote: true) do |f|
+= simple_form_for(@crm, html: { class: "form-vertical credentials-form", role: "form", id: 'crm-form-actionkit'}, wrapper: :vertical_form, remote: true) do |f|
   = f.input :platform, as: :hidden, input_html: {value: 'actionkit'}
   = f.input :username, input_html: {placeholder: "Your admin username"}
   = f.input :password, input_html: {placeholder: "Your admin password"}
