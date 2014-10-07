@@ -1,9 +1,8 @@
 = simple_form_for(@crm, html: { class: "form-vertical credentials-form", role: "form", id: 'crm-form'}, wrapper: :vertical_form, remote: true) do |f|
   = f.input :platform, collection: Crm::PLATFORMS.collect { |k, v| [v,k] }
-  = f.input :username, input_admin: {placeholder: "Your admin username"}
-  = f.input :password, input_admin: {placeholder: "Your admin password"}
-  = f.input :host, input_html: {placeholder: "yourorg.actionkit.com"}
-  = f.input :donation_page_name, input_admin: {placeholder: "Short name for donation page"}
+  - Crm::PLATFORMS.keys.each do |platform|
+    .crm-specific-fields{id: "crm-specific-fields-#{platform}", style: "#{'display:none;' unless platform == @crm.platform}"}
+      = render "organizations/crm_fields_#{platform}", :f => f
   = f.input :default_currency, {placeholder: "USD"}
   = f.simple_fields_for :import_stubs do |stub|
     = render 'organizations/import_stub_fields', :f => stub

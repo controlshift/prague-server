@@ -1,3 +1,6 @@
-$(document).on('ready page:load', ->
-  $('#stripe-connect-modal').modal(show: true)
-)
+//= require jquery
+$ ->
+  $('#crm_platform').change ->
+    platform = $(this).val()
+    $('.crm-specific-fields').hide()
+    $('#crm-specific-fields-' + platform).show()

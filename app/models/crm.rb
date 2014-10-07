@@ -27,7 +27,7 @@ class Crm < ActiveRecord::Base
 
   attr_encrypted :password, key: ENV["ENCRYPTOR_SECRET_KEY"]
 
-  PLATFORMS = { 'actionkit' => 'ActionKit' }
+  PLATFORMS = { 'actionkit' => 'ActionKit', 'bluestate' => 'Blue State Digital'}
 
   before_save :ignore_password_if_not_given, on: :update
 

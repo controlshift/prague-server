@@ -54,3 +54,5 @@
       %h3 CRM Information
       = render partial: 'crm_form', locals: { valid: false}
 
+- content_for :end_of_body do
+  = javascript_include_tag 'dashboard'
