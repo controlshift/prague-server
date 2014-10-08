@@ -29,11 +29,11 @@ feature 'Organization adds CRM credentials' do
 
     # Check that the settings got set correctly
     crm = Organization.last.crm
-    crm.username.should == 'user'
-    crm.platform.should == 'actionkit'
-    crm.host.should == 'host'
-    crm.import_stubs.first.payment_account.should == 'GBP Import Stub'
-    crm.import_stubs.first.donation_currency.should == 'GBP'
+    expect(crm.username).to eq('user')
+    expect(crm.platform).to eq('actionkit')
+    expect(crm.host).to eq('host')
+    expect(crm.import_stubs.first.payment_account).to eq('GBP Import Stub')
+    expect(crm.import_stubs.first.donation_currency).to eq('GBP')
 
     # Remove the import stub
     fill_in 'crm_password', with: 'password'
@@ -44,5 +44,26 @@ feature 'Organization adds CRM credentials' do
     wait_for_ajax
     page.should have_selector('.crm-form-success', visible: true)
     crm.reload.import_stubs.should be_empty
+  end
+
+  it 'creates BSD credentials for the first time', js: true do
+    # Set up BSD
+    select 'Blue State Digital', from: 'crm_platform'
+    bsd_form = page.first(".credentials-form", visible: true)
+    expect(bsd_form[:id]).to eq("crm-form-bluestate")
+    bsd_form.fill_in 'crm_username', with: 'API Key'
+    bsd_form.fill_in 'crm_password', with: 'API Secret'
+    bsd_form.fill_in 'crm_host', with: 'host'
+    bsd_form.fill_in 'crm_default_currency', with: 'USD'
+    bsd_form.find("input[type='submit']").click
+    wait_for_ajax
+    expect(page).to have_selector('.crm-form-success', visible: true)
+
+    # Check that the settings got set correctly
+    crm = Organization.last.crm
+    expect(crm.username).to eq('API Key')
+    expect(crm.platform).to eq('bluestate')
+    expect(crm.host).to eq('host')
+    expect(crm.import_stubs).to be_empty
   end
 end
