@@ -1,4 +1,3 @@
-//= require jquery
 $ ->
   $('#crm_platform').change ->
     platform = $(this).val()
