@@ -2,7 +2,7 @@ class Api::Tags::ChargesController < Api::BaseController
   before_filter :load_tag
 
   def index
-    render json: @tag.charges.live.paid.order('created_at DESC').paginate(per_page: 100, page: params[:page]).to_json
+    @charges = @tag.charges.live.paid.order('created_at DESC').paginate(per_page: 100, page: params[:page])
   end
 
   private
