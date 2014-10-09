@@ -50,6 +50,7 @@ gem 'devise'
 gem 'attr_encrypted'
 
 gem 'action_kit_rest', git: 'https://github.com/controlshift/action_kit_rest.git'
+gem 'blue_state_digital', git: 'https://github.com/controlshift/blue_state_digital.git'
 
 gem 'rack-cache'
 gem 'dalli'
@@ -78,6 +79,7 @@ group :development, :test do
   gem 'spring-commands-rspec'
   gem 'annotate'
   gem 'dotenv-rails'
+  gem 'pry-byebug'
   gem 'byebug'
   gem 'mailcatcher'
   gem 'thin'

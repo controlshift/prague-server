@@ -1,3 +1,5 @@
-$(document).on('ready page:load', ->
-  $('#stripe-connect-modal').modal(show: true)
-)
+$ ->
+  $('#crm_platform').change ->
+    platform = $(this).val()
+    $('.crm-attributes').hide()
+    $('#crm-attributes-' + platform).show()

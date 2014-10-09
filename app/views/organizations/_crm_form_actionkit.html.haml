@@ -1,0 +1,14 @@
+= simple_form_for(@crm, html: { class: "form-vertical credentials-form", role: "form", id: 'crm-form-actionkit'}, wrapper: :vertical_form, remote: true) do |f|
+  = f.input :platform, as: :hidden, input_html: {value: 'actionkit'}
+  = f.input :username, input_html: {placeholder: "Your admin username"}
+  = f.input :password, input_html: {placeholder: "Your admin password"}
+  = f.input :host, input_html: {placeholder: "yourorg.actionkit.com"}
+  = f.input :donation_page_name, input_html: {placeholder: "Short name for donation page"}
+  = f.input :default_currency, {placeholder: "USD"}
+  = f.simple_fields_for :import_stubs do |stub|
+    = render 'organizations/import_stub_fields', :f => stub
+  .link-to-add-import-fields
+    = link_to_add_association 'Add Import Stub', f, :import_stubs, partial: "organizations/import_stub_fields"
+  = f.button :submit, 'Save', data: { disable_with: 'Saving...' }
+  - if valid
+    %span{class:"glyphicon glyphicon-ok text-success crm-form-success"}

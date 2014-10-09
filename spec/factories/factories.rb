@@ -31,6 +31,7 @@ FactoryGirl.define do
     amount 1000
     organization
     customer
+    card { {id: '123', brand: 'visa'} }
     pusher_channel_token 'xxx'
   end
 
