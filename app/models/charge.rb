@@ -70,7 +70,11 @@ class Charge < ActiveRecord::Base
   end
 
   def stripe_url
-    "https://dashboard.stripe.com#{'/test' if status == 'test'}/payments/#{stripe_id}"
+    if stripe_id
+      "https://dashboard.stripe.com#{'/test' if status == 'test'}/payments/#{stripe_id}"
+    else
+      nil
+    end
   end
 
   private

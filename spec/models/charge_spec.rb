@@ -194,5 +194,10 @@ describe Charge do
       charge = build_stubbed(:charge, stripe_id: 'ch_23423134', status: 'test')
       expect(charge.stripe_url).to eq('https://dashboard.stripe.com/test/payments/ch_23423134')
     end
+
+    it "should return nil if we don't know the stripe ID" do
+      charge = build_stubbed(:charge, stripe_id: nil, status: 'live')
+      expect(charge.stripe_url).to be_nil
+    end
   end
 end
