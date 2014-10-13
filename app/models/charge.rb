@@ -69,6 +69,10 @@ class Charge < ActiveRecord::Base
     ((amount.to_f / conversion_hash[self.currency.upcase].to_f) * conversion_hash[to_currency.upcase].to_f).to_i
   end
 
+  def stripe_url
+    "https://dashboard.stripe.com#{'/test' if status == 'test'}/payments/#{stripe_id}"
+  end
+
   private
 
   def update_aggregates

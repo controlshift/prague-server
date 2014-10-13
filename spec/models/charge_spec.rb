@@ -183,4 +183,16 @@ describe Charge do
       usd_charge.converted_amount.should == 1000
     end
   end
+
+  describe '#stripe_url' do
+    it 'should link to the charge in stripe' do
+      charge = build_stubbed(:charge, stripe_id: 'ch_23423134', status: 'live')
+      expect(charge.stripe_url).to eq('https://dashboard.stripe.com/payments/ch_23423134')
+    end
+
+    it 'should use the testmode URL if appropriate' do
+      charge = build_stubbed(:charge, stripe_id: 'ch_23423134', status: 'test')
+      expect(charge.stripe_url).to eq('https://dashboard.stripe.com/test/payments/ch_23423134')
+    end
+  end
 end
