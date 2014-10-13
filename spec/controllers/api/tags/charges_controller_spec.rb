@@ -34,5 +34,10 @@ describe Api::Tags::ChargesController do
       json_response = JSON.parse(response.body)
       expect(json_response.first['tags']).to eq(['foo'])
     end
+
+    it 'should include the stripe dashboard url' do
+      get :index, tag_id: tag.name
+      expect(JSON.parse(response.body).first).to have_key('stripe_url')
+    end
   end
 end
