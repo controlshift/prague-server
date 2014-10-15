@@ -42,7 +42,7 @@
 
       %p To include the form on your site, please paste the following somewhere below the &lt;body&gt; tag:
       #code-snippet.highlight
-        %pre= current_organization.code_snippet.to_html
+        %pre= escape_once(current_organization.code_snippet.to_html)
       %p And place this wherever you'd like the form to appear:
       .highlight
         %pre= "<div class=\"donations-form-anchor\"></div>"
