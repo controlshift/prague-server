@@ -10,16 +10,33 @@ describe CreateCustomerTokenWorker do
     before do
       Sidekiq::Testing.inline!
       StripeMock.start
-      ChargeCustomerWorker.stub(:perform_async)
     end
 
-    specify 'it should update customer with a token and kick off a charge' do
+    specify 'it should update customer with a token' do
+      allow(ChargeCustomerWorker).to receive(:perform_async)
       CreateCustomerTokenWorker.perform_async(customer.id, card_token, charge.id)
       customer.reload
       customer.customer_token.should match(/cus_.*/)
     end
 
-    specify 'it should kick off a charge if it already has a customer token' do
+    specify 'it should kick off ChargeCustomerWorker on a success' do
+      expect(ChargeCustomerWorker).to receive(:perform_async)
+      CreateCustomerTokenWorker.perform_async(customer.id, card_token, charge.id)
+    end
+
+    specify 'it should update the token if it already has a customer token from a previous donation' do
+      allow(ChargeCustomerWorker).to receive(:perform_async)
+      customer.customer_token = 'i_donated_before'
+      customer.save!
+      CreateCustomerTokenWorker.perform_async(customer.id, card_token, charge.id)
+      customer.reload
+      customer.customer_token.should match(/cus_.*/)
+    end
+
+    specify 'it should succeed and kick off ChargeCustomerWorker for a repeat donater' do
+      expect(ChargeCustomerWorker).to receive(:perform_async)
+      customer.customer_token = 'cus_i_donated_before'
+      customer.save!
       CreateCustomerTokenWorker.perform_async(customer.id, card_token, charge.id)
     end
 
@@ -31,6 +48,13 @@ describe CreateCustomerTokenWorker do
           message: 'Blahblah'
         })
       expect { CreateCustomerTokenWorker.perform_async(customer.id, card_token, charge.id) }.to_not raise_error
+    end
+
+    specify 'it should not kick off ChargeCustomerWorker if customer creation fails' do
+      allow_any_instance_of(Pusher::Channel).to receive(:trigger)
+      StripeMock.prepare_error(StandardError.new('something went wrong!'), :new_customer)
+      expect(ChargeCustomerWorker).not_to receive(:perform_async)
+      CreateCustomerTokenWorker.perform_async(customer.id, card_token, charge.id)
     end
   end
 end
