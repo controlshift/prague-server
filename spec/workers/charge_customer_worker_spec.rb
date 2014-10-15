@@ -4,7 +4,7 @@ describe ChargeCustomerWorker do
   let(:organization) { create(:organization) }
   let(:stripe_customer) { Stripe::Customer.create(card: 'tok_testcard') }
   let(:customer) { create(:customer, customer_token: stripe_customer.id) }
-  let(:charge) { create(:charge, customer: customer, organization: organization)}
+  let(:charge) { create(:charge, customer: customer, organization: organization, card: nil)}
 
   describe '#perform' do
     before do
