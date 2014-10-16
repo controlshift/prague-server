@@ -17,6 +17,10 @@ class ChargeCustomerWorker
   private
 
   def run_charge(charge)
+    # Get a single-use Stripe token that we will use to run the charge.
+    # Since we just pass in a Stripe customer identifier, it will use the customer's default card.
+    # Fortunately, we just created this Stripe customer, with the card the donor entered as the default card.
+    # So it will charge the card the donor entered.
     token = Stripe::Token.create(
       {
         customer: charge.customer.customer_token
@@ -24,6 +28,7 @@ class ChargeCustomerWorker
       charge.live? ? charge.organization.access_token : charge.organization.stripe_test_access_token
     )
 
+    # This is where we actually charge the customer.
     stripe_charge = Stripe::Charge.create({
                             amount: charge.amount,
                             currency: charge.currency,
@@ -38,12 +43,16 @@ class ChargeCustomerWorker
                           },
                           charge.live? ? charge.organization.access_token : charge.organization.stripe_test_access_token
     )
+
+    # Sweet, it worked!  Mark everything as successfully paid.
     charge.update_attributes(paid: true, stripe_id: stripe_charge[:id], card: stripe_charge[:card].to_hash )
     LogEntry.create(charge: charge, message: 'Successful charge.')
 
     Pusher[charge.pusher_channel_token].trigger('charge_completed', {
       status: 'success'
     })
+
+    # Schedule jobs to update the organization's CRM and send the customer a receipt.
     CrmNotificationWorker.perform_async(charge.id)
     ChargeNotificationMailer.delay.send_receipt(charge.id)
 
