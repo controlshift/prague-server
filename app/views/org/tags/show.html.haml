@@ -3,6 +3,10 @@
     = title "Tag: #{@tag.name}"
 
     .pull-right
-      = link_to 'All tags', org_tags_path
+      %ul.horizontal-links
+        %li
+          = link_to 'Download CSV', org_tag_charges_path(@tag, format: 'csv')
+        %li
+          = link_to 'All tags', org_tags_path
 
     = render partial: 'org/charges/charges_table', locals: {charges: @tag.charges}
