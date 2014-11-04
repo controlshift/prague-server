@@ -16,7 +16,7 @@ module Queries
         JOIN customers ON customers.id = charges.customer_id
         LEFT JOIN charges_tags ON charges_tags.charge_id = charges.id
         LEFT JOIN tags ON tags.id = charges_tags.tag_id
-        WHERE charges.organization_id = 1
+        WHERE charges.organization_id = organization.id
         GROUP BY charges.id, customers.id
         )
       SELECT customers.first_name, customers.last_name, customers.email, charges.amount, charges.currency, charges.config, charges.status, charges.created_at, charges_customers.tags
