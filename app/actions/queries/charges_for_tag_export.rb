@@ -13,8 +13,7 @@ module Queries
                charges.customer_id
         FROM charges
         JOIN charges_tags ON charges_tags.charge_id = charges.id
-        JOIN tags ON tags.id = charges_tags.tag_id
-        WHERE tags.id = #{ActiveRecord::Base.sanitize(tag.id)}
+        WHERE charges_tags.tag_id = #{ActiveRecord::Base.sanitize(tag.id)}
         AND charges.organization_id = #{ActiveRecord::Base.sanitize(tag.organization.id)}
       ),
       charges_customers AS (
