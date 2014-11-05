@@ -6,7 +6,7 @@ describe Queries::ChargesForOrganizationExport do
   subject { Queries::ChargesForOrganizationExport.new organization: organization }
 
   describe 'initialization' do
-    specify { subject.organization.should == organization }
+    specify { expect(subject.organization).to eq(organization) }
   end
 
   describe 'exporting' do
@@ -21,7 +21,7 @@ describe Queries::ChargesForOrganizationExport do
     end
 
     it 'should have a header_row' do
-      subject.header_row.should include('first_name')
+      expect(subject.header_row).to include('first_name')
     end
 
     context 'stream as string' do
@@ -40,29 +40,29 @@ describe Queries::ChargesForOrganizationExport do
         describe "header" do
           let(:header) { @parsed[0] }
 
-          specify{ header.should include("first_name") }
-          specify{ header.should include("last_name") }
-          specify{ header.should include("email")}
-          specify{ header.should include("amount")}
-          specify{ header.should include("currency")}
-          specify{ header.should include("config")}
-          specify{ header.should include("status")}
-          specify{ header.should include("created_at")}
-          specify{ header.should include("tags")}
+          specify{ expect(header).to include("first_name") }
+          specify{ expect(header).to include("last_name") }
+          specify{ expect(header).to include("email") }
+          specify{ expect(header).to include("amount") }
+          specify{ expect(header).to include("currency") }
+          specify{ expect(header).to include("config") }
+          specify{ expect(header).to include("status") }
+          specify{ expect(header).to include("created_at") }
+          specify{ expect(header).to include("tags") }
         end
 
         describe "first row" do
           let(:first_row) { @parsed[1] }
 
-          specify{ first_row.should include(charge.customer.first_name)}
-          specify{ first_row.should include(charge.customer.last_name)}
-          specify{ first_row.should include(charge.customer.email)}
-          specify{ first_row.should include(charge.amount.to_s) }
-          specify{ first_row.should include(charge.currency) }
-          specify{ first_row.should include('"foo"=>"bar"')}
-          specify{ first_row.should include('live') }
-          specify{ first_row.should include(charge.created_at.strftime("%F %H:%M:%S.%6N")) }
-          specify{ first_row.should include('whales,food:cookies') }
+          specify{ expect(first_row).to include(charge.customer.first_name) }
+          specify{ expect(first_row).to include(charge.customer.last_name) }
+          specify{ expect(first_row).to include(charge.customer.email) }
+          specify{ expect(first_row).to include(charge.amount.to_s) }
+          specify{ expect(first_row).to include(charge.currency) }
+          specify{ expect(first_row).to include('"foo"=>"bar"') }
+          specify{ expect(first_row).to include('live') }
+          specify{ expect(first_row).to include(charge.created_at.strftime("%F %H:%M:%S.%6N")) }
+          specify{ expect(first_row).to include('whales,food:cookies') }
         end
       end
     end
