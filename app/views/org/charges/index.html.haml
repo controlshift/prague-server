@@ -4,16 +4,7 @@
 
     .pull-right
       =link_to 'Download CSV', org_charges_path(format: 'csv')
-    %table.table
-      %thead
-        %th Amount
-        %th Currency
-        %th Email
 
-      - @charges.each do |charge|
-        %tr
-          %td= charge.amount
-          %td= charge.currency
-          %td= charge.customer.email
+    = render partial: 'charges_table', locals: {charges: @charges}
 
     = will_paginate @charges

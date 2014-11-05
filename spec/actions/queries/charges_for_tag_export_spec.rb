@@ -1,23 +1,20 @@
 require 'spec_helper'
 
-describe Queries::ChargesForOrganizationExport do
+describe Queries::ChargesForTagExport do
   let(:organization) { create(:organization) }
+  let(:tag) { create(:tag, name: 'foo', organization: organization) }
 
-  subject { Queries::ChargesForOrganizationExport.new organization: organization }
+  subject { Queries::ChargesForTagExport.new tag: tag }
 
   describe 'initialization' do
-    specify { expect(subject.organization).to eq(organization) }
+    specify { expect(subject.tag).to eq(tag) }
   end
 
   describe 'exporting' do
     let!(:charge) { create(:charge, organization: organization, config: {'foo' => 'bar'}) }
-    let!(:tag) { create(:tag, name: 'whales', organization: organization) }
-    let!(:namespace) { create(:tag_namespace, namespace: 'food', organization: organization)}
-    let!(:namespaced_tag) { create(:tag, name: 'food:cookies', organization: organization, namespace: namespace) }
 
     before :each do
       charge.tags << tag
-      charge.tags << namespaced_tag
     end
 
     it 'should have a header_row' do
@@ -62,7 +59,19 @@ describe Queries::ChargesForOrganizationExport do
           specify{ expect(first_row).to include('"foo"=>"bar"') }
           specify{ expect(first_row).to include('live') }
           specify{ expect(first_row).to include(charge.created_at.strftime("%F %H:%M:%S.%-6N")) }
-          specify{ expect(first_row).to include('whales,food:cookies') }
+          specify{ expect(first_row).to include('foo') }
+        end
+
+        describe 'another charge with the specified tag' do
+          let!(:another_charge) { create(:charge, organization: organization, config: {'foo' => 'bar'}) }
+
+          before :each do
+            another_charge.tags << tag
+          end
+
+          it 'should be included' do
+            expect(subject.total_rows).to eq(2)
+          end
         end
 
         describe 'a charge from a difference organization' do
@@ -71,6 +80,19 @@ describe Queries::ChargesForOrganizationExport do
 
           before :each do
             another_charge.tags << tag
+          end
+
+          it 'should not be included' do
+            expect(subject.total_rows).to eq(1)
+          end
+        end
+
+        describe 'a charge without the specified tag' do
+          let(:tag_2) { create(:tag, name: 'bar', organization: organization) }
+          let!(:another_charge) { create(:charge, organization: organization, config: {'foo' => 'bar'}) }
+
+          before :each do
+            another_charge.tags << tag_2
           end
 
           it 'should not be included' do

@@ -2,14 +2,11 @@
   .col-lg-12
     = title "Tag: #{@tag.name}"
 
-    %table.table
-      %thead
-        %th Amount
-        %th Currency
-        %th Email
+    .pull-right
+      %ul.horizontal-links
+        %li
+          = link_to 'Download CSV', org_tag_charges_path(@tag, format: 'csv')
+        %li
+          = link_to 'All tags', org_tags_path
 
-      - @tag.charges.each do |charge|
-        %tr
-          %td= charge.amount
-          %td= charge.currency
-          %td= charge.customer.email
+    = render partial: 'org/charges/charges_table', locals: {charges: @tag.charges}

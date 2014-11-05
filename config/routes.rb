@@ -7,7 +7,9 @@ PragueServer::Application.routes.draw do
 
   namespace :org do
     resources :charges, controller: 'charges'
-    resources :tags, controller: 'tags'
+    resources :tags, controller: 'tags' do
+      resources :charges, only: [:index], controller: 'tags/charges'
+    end
     resources :namespaces, controller: 'namespaces' do
       collection do
         get :raised
