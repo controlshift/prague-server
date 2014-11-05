@@ -58,7 +58,7 @@ describe Queries::ChargesForTagExport do
           specify{ expect(first_row).to include(charge.currency) }
           specify{ expect(first_row).to include('"foo"=>"bar"') }
           specify{ expect(first_row).to include('live') }
-          specify{ expect(first_row).to include(charge.created_at.strftime("%F %H:%M:%S.%6N")) }
+          specify{ expect(first_row).to include(charge.created_at.strftime("%F %H:%M:%S.%-6N")) }
           specify{ expect(first_row).to include('foo') }
         end
       end
