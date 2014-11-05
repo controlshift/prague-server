@@ -61,6 +61,44 @@ describe Queries::ChargesForTagExport do
           specify{ expect(first_row).to include(charge.created_at.strftime("%F %H:%M:%S.%-6N")) }
           specify{ expect(first_row).to include('foo') }
         end
+
+        describe 'another charge with the specified tag' do
+          let!(:another_charge) { create(:charge, organization: organization, config: {'foo' => 'bar'}) }
+
+          before :each do
+            another_charge.tags << tag
+          end
+
+          it 'should be included' do
+            expect(subject.total_rows).to eq(2)
+          end
+        end
+
+        describe 'a charge from a difference organization' do
+          let!(:another_org) { create(:organization) }
+          let!(:another_charge) { create(:charge, organization: another_org, config: {'foo' => 'bar'}) }
+
+          before :each do
+            another_charge.tags << tag
+          end
+
+          it 'should not be included' do
+            expect(subject.total_rows).to eq(1)
+          end
+        end
+
+        describe 'a charge without the specified tag' do
+          let(:tag_2) { create(:tag, name: 'bar', organization: organization) }
+          let!(:another_charge) { create(:charge, organization: organization, config: {'foo' => 'bar'}) }
+
+          before :each do
+            another_charge.tags << tag_2
+          end
+
+          it 'should not be included' do
+            expect(subject.total_rows).to eq(1)
+          end
+        end
       end
     end
   end

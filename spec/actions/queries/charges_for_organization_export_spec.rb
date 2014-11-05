@@ -64,6 +64,19 @@ describe Queries::ChargesForOrganizationExport do
           specify{ expect(first_row).to include(charge.created_at.strftime("%F %H:%M:%S.%-6N")) }
           specify{ expect(first_row).to include('whales,food:cookies') }
         end
+
+        describe 'a charge from a difference organization' do
+          let!(:another_org) { create(:organization) }
+          let!(:another_charge) { create(:charge, organization: another_org, config: {'foo' => 'bar'}) }
+
+          before :each do
+            another_charge.tags << tag
+          end
+
+          it 'should not be included' do
+            expect(subject.total_rows).to eq(1)
+          end
+        end
       end
     end
   end
