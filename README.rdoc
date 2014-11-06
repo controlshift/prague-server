@@ -5,6 +5,10 @@ This is the API server for the donation widget to be used in conjunction with ht
 {<img src="https://travis-ci.org/controlshift/prague-server.png?branch=master" alt="Build Status" />}[https://travis-ci.org/controlshift/prague-server]
 {<img src="https://codeclimate.com/github/controlshift/prague-server.png" />}[https://codeclimate.com/github/controlshift/prague-server]
 
+We operate a hosted version at takecharge.io. 
+
+The application uses the Stripe API to provide server side account management and API glue to allow people to make donations to organisations that they care about. It also allows organisations to sign up for the donation processing service. 
+
 You can download the GeoIP database we use here:
 
 http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz
