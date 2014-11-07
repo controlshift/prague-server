@@ -19,6 +19,7 @@ class Tag < ActiveRecord::Base
   validates :name, presence: true, format: { with: /\A[a-zA-Z0-9-]+(:[a-zA-Z0-9-]+)?\z/ }, uniqueness: {scope: 'organization_id' }
 
   def self.find_or_create!(organization, name)
+    return nil if name.blank?
     tag = organization.tags.where(name: name).first
     if tag.nil?
       namespace = TagNamespace.find_or_create!(organization, name.split(':').first)

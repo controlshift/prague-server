@@ -230,6 +230,18 @@ describe ChargesController do
         customer.charges.should_not be_empty
         customer.charges.first.organization.should == organization
       end
+
+      context 'with a blank empty string tag' do
+        before(:each) do
+          params['tags'] = [""]
+        end
+
+        it 'should save and process the customer' do
+          CreateCustomerTokenWorker.should_receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
+          post :create, params
+          response.should be_success
+        end
+      end
     end
 
     context 'without the required parameters' do

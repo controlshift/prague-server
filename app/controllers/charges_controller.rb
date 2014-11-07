@@ -13,7 +13,7 @@ class ChargesController < ApplicationController
       charge = customer.build_charge_with_params(customer_params[:charges_attributes], config: config_param, organization: organization)
       if params[:tags].present?
         params[:tags].each do |tag_string|
-          charge.tags << Tag.find_or_create!(organization, tag_string)
+          charge.tags << Tag.find_or_create!(organization, tag_string) if tag_string.present?
         end
       end
 
