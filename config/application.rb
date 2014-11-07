@@ -13,7 +13,7 @@ Bundler.require(:default, Rails.env)
 
 module PragueServer
   class Application < Rails::Application
-    config.autoload_paths += Dir[Rails.root.join('app', 'actions')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'actions', 'services')]
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
