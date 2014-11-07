@@ -14,6 +14,8 @@
 #  config               :hstore
 #  status               :string(255)      default("live")
 #  paid                 :boolean          default(FALSE), not null
+#  stripe_id            :string(255)
+#  card                 :hstore
 #
 
 class Charge < ActiveRecord::Base

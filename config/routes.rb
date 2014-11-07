@@ -1,5 +1,6 @@
 require 'sidekiq/web'
 PragueServer::Application.routes.draw do
+  devise_for :users
   use_doorkeeper
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
