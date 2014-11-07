@@ -47,6 +47,7 @@ class Organization < ActiveRecord::Base
   has_one :crm
   has_many :tags
   has_many :namespaces, class_name: 'TagNamespace'
+  has_many :users
 
   validates :slug, :name, presence: true
   validates :seedamount, format: { with: /\A\d+\z/ }, allow_blank: true
