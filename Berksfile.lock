@@ -1,0 +1,19 @@
+DEPENDENCIES
+  apt
+  postgresql
+  redisio
+
+GRAPH
+  apt (2.6.0)
+  build-essential (2.1.2)
+  chef-sugar (2.4.1)
+  openssl (2.0.0)
+    chef-sugar (>= 0.0.0)
+  postgresql (3.4.12)
+    apt (>= 1.9.0)
+    build-essential (>= 0.0.0)
+    openssl (>= 0.0.0)
+  redisio (2.2.4)
+    build-essential (>= 0.0.0)
+    ulimit (>= 0.1.2)
+  ulimit (0.3.2)

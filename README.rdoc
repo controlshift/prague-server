@@ -9,9 +9,34 @@ We operate a hosted version at takecharge.io.
 
 The application uses the Stripe API to provide server side account management and API glue to allow people to make donations to organisations that they care about. It also allows organisations to sign up for the donation processing service. 
 
+=== Setup
+
+Running a development environment requires ruby and vagrant to be preinstalled. We run vagrant with virtualbox.
+
+Verify the base dependencies, install additional components:
+  ./bin/bootstrap
+
+Boot vagrant, provision the virtual machine and setup the application
+  vagrant up
+
+Wait a *very* long time. Go get a few cups of coffee. The script is busy installing postgres, ruby and the
+bundle in your VM using chef. If things seem stalled, ssh into the vagrant box and check what it is working on.
+
+Run the application
+  vagrant ssh
+  cd /home/vagrant/code
+  rake db:create
+  rake db:migrate
+  rails server
+
+The application will now be running at localhost:3030
+
+=== GeoIP
+
 You can download the GeoIP database we use here:
 
 http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz
 
 Be sure to specify `GEOCOUNTRY_LITE_PATH` in your environment somewhere.
  
+This is automatically setup in ~/tmp by the bootstrap script

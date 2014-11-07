@@ -17,7 +17,6 @@
 /config/database.yml
 /config/stripe.yml
 /config/pusher.yml
-.idea
 .env
 .DS_Store
 GeoIP.dat
@@ -26,3 +25,8 @@ GeoIP.dat
 logfile
 .localeapp
 *.swp
+
+/.idea
+/cookbooks
+/.vagrant
+
