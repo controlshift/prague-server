@@ -23,6 +23,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string   :confirmation_token
       t.datetime :confirmed_at
       t.datetime :confirmation_sent_at
+      t.string   :unconfirmed_email
 
       # Associated with organization
       t.integer :organization_id

@@ -2,7 +2,7 @@ require 'sidekiq/web'
 PragueServer::Application.routes.draw do
   devise_for :users
   use_doorkeeper
-  devise_for :admin_users, ActiveAdmin::Devise.config
+  # devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   get 'config/:id', to: ConfigController.action(:index)
 
@@ -52,9 +52,9 @@ PragueServer::Application.routes.draw do
 
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
     username == ENV["ADMIN_USER"] && password == ENV["ADMIN_PASS"]
-  end 
+  end
   mount Sidekiq::Web => '/sidekiq'
   mount StripeEvent::Engine => '/stripe/event'
 
-  devise_for :organizations, path_prefix: 'accounts', controllers: { confirmations: 'confirmations' }
+  # devise_for :organizations, path_prefix: 'accounts', controllers: { confirmations: 'confirmations' }
 end

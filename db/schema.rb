@@ -229,6 +229,7 @@ ActiveRecord::Schema.define(version: 20141107224403) do
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
     t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"

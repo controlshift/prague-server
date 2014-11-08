@@ -7,6 +7,7 @@ require 'sidekiq/testing'
 require 'shoulda/matchers'
 require 'stripe_mock'
 require 'webmock/rspec'
+require 'support/features/session_helpers'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -30,7 +31,8 @@ RSpec.configure do |config|
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true
 
-  config.include Devise::TestHelpers, :type => :controller  
+  config.include Devise::TestHelpers, type: :controller
+  config.include Features::SessionHelpers, type: :feature
 
   config.before(:each) do
     Sidekiq::Testing.disable!
