@@ -80,6 +80,7 @@ group :development, :test do
   gem 'byebug'
   gem 'mailcatcher'
   gem 'thin'
+  gem 'faker'
 end
 
 group :test do
