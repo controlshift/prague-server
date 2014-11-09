@@ -7,6 +7,10 @@ FactoryGirl.define do
     factory :confirmed_user do
       confirmed_at { Time.now }
       confirmation_sent_at { Time.now - 1.day }
+
+      factory :user_with_organization do
+        organization
+      end
     end
   end
 end

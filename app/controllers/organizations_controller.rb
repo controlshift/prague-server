@@ -1,15 +1,30 @@
 class OrganizationsController < ApplicationController
-  before_filter :authenticate_organization!, only: [:update, :show, :deauthorize]
+  # before_filter :authenticate_organization!, only: [:update, :show, :deauthorize]
 
   def show
-    @organization = current_organization
-    begin
-      @account = Stripe::Account.retrieve @organization.access_token if @organization.access_token.present?
-    rescue SocketError, Stripe::AuthenticationError => e
-      Rails.logger.warn e
+    @organization = Organization.find_by_slug(params[:id])
+    # @organization = current_organization
+    # begin
+    #   @account = Stripe::Account.retrieve @organization.access_token if @organization.access_token.present?
+    # rescue SocketError, Stripe::AuthenticationError => e
+    #   Rails.logger.warn e
 
+    # end
+    # @crm = current_organization.crm || current_organization.build_crm
+  end
+
+  def new
+    @organization = Organization.new
+  end
+
+  def create
+    @organization = Organization.new(organization_params)
+    @organization.users << current_user
+    if @organization.save
+      redirect_to @organization
+    else
+      render :new
     end
-    @crm = current_organization.crm || current_organization.build_crm
   end
 
   def update
@@ -49,6 +64,10 @@ class OrganizationsController < ApplicationController
   end
 
   private
+
+  def organization_params
+    params.require(:organization).permit(:name)
+  end
 
   def toggle_params
     params.require(:organization).permit(:testmode)

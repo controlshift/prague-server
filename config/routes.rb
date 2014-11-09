@@ -37,7 +37,7 @@ PragueServer::Application.routes.draw do
     end
   end
 
-  resources :organizations, only: [:show, :update, :new] do
+  resources :organizations, only: [:show, :new, :create, :update] do
     member do
       patch 'toggle'
       put 'deauthorize'

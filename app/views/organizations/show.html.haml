@@ -1,13 +1,13 @@
 .row
   .col-lg-12
-    = title "#{h(current_organization.name)} Dashboard"
+    / = title "#{h(@organization.name)} Dashboard"
 
     %p
-      The slug you will use for your organization is #{current_organization.slug}
+      The slug you will use for your organization is #{@organization.slug}
 
 
 .row.stripe-connect-status
-  - if current_organization.access_token.blank?
+  - if @organization.access_token.blank?
     .col-lg-12
       %p To get started, you first must connect with Stripe, which we use to manage payments.
       = link_to("/auth/stripe_connect", class: 'stripe-connect') do
@@ -34,15 +34,15 @@
         = @account.display_name
         on Stripe is connected to TakeCharge.
     .col-lg-6
-      = button_to 'Deauthorize', deauthorize_organization_path(current_organization), method: 'put', class: 'btn btn-warning'
+      = button_to 'Deauthorize', deauthorize_organization_path(@organization), method: 'put', class: 'btn btn-warning'
 
-- if current_organization.access_token.present?
+- if @organization.access_token.present?
   .row
     .col-lg-12
 
       %p To include the form on your site, please paste the following somewhere below the &lt;body&gt; tag:
       #code-snippet.highlight
-        %pre= escape_once(current_organization.code_snippet.to_html)
+        %pre= escape_once(@organization.code_snippet.to_html)
       %p And place this wherever you'd like the form to appear:
       .highlight
         %pre= "<div class=\"donations-form-anchor\"></div>"

@@ -12,7 +12,8 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    edit_user_registration_path
+    organization = current_user.organization
+    organization.nil? ? new_organization_path : organization_path(organization)
     # if resource.is_a?(AdminUser)
     #   admin_dashboard_path
     # else

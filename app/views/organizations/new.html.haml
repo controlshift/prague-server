@@ -1,0 +1,13 @@
+.row
+  .span12
+
+    %h1 Create your organization
+
+    = simple_form_for(@organization) do |f|
+      = f.error_notification
+
+      .form-inputs
+        = f.input :name
+
+      .form-actions
+        = f.button :submit
