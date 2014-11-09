@@ -1,4 +1,4 @@
-# Charge customer assosiated with the charge passed to the service
+# Charge customer associated with the charge passed to the service
 
 class ChargeCustomerService
   def initialize(charge)
@@ -24,7 +24,7 @@ class ChargeCustomerService
 
   private
 
-    def stripe_token
-      CreateCustomerTokenService.new(@charge.customer.customer_token, @access_token).call
-    end
+  def stripe_token
+    CreateCustomerTokenService.new(@charge.customer.customer_token, @access_token).call
+  end
 end

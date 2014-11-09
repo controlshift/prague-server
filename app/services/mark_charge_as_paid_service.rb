@@ -1,4 +1,4 @@
-# Marek charge as paied, insert new entry and push notification to the user
+# Mark charge as paid, insert new entry and push notification to the user
 
 class MarkChargeAsPaidService
   def initialize(charge, stripe_charge)
