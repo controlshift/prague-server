@@ -17,6 +17,7 @@
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
 #  unconfirmed_email      :string(255)
+#  organization_id        :integer
 #  created_at             :datetime
 #  updated_at             :datetime
 #
