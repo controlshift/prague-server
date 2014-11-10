@@ -25,21 +25,9 @@ class CreateCustomerTokenWorker
     # Schedule a job to actually run the charge.
     ChargeCustomerWorker.perform_async(charge.id)
   rescue Stripe::StripeError => e
-    LogEntry.create(charge: charge, message: 'An error occurred while creating customer: ' + e.message)
-    charge.update_attribute(:paid, false)
-    Pusher[charge.pusher_channel_token].trigger('charge_completed', {
-      status: 'failure',
-      message: e.message
-    })
-    Rails.logger.debug("Stripe::StripeError #{e.message}")
+    ErrorService.new(charge, e, "An error occurred while creating customer: #{e.message}", e.message).call
   rescue StandardError => e
-    LogEntry.create(charge: charge, message: 'An unknown error occurred while creating customer: ' + e.message)
-    charge.update_attribute(:paid, false)
-    Pusher[charge.pusher_channel_token].trigger('charge_completed', {
-      status: 'failure',
-      message: e.message
-    })
-    Rails.logger.warn("Exception #{e.message}")
+    ErrorService.new(charge, e, "An unknown error occurred while creating customer: #{e.message}", e.message).call
     Honeybadger.notify(e, context: {charge_id: charge.id})
   end
 end

@@ -35,6 +35,10 @@ RSpec.configure do |config|
   config.before(:each) do
     Sidekiq::Testing.disable!
     load "./spec/support/stubs.rb"
+
+    stub_request(:post, /api.pusherapp.com/).
+      with(headers: {'Accept'=>'*/*'}).
+      to_return(status: 201, body: "stubbed response", headers: {})
   end
 
   config.before(:suite) do
