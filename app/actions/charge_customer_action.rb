@@ -1,6 +1,6 @@
 # Charge customer associated with the charge passed to the service
 
-class ChargeCustomerService
+class ChargeCustomerAction
   def initialize(charge)
     @charge = charge
     @access_token = charge.live? ? charge.organization.access_token : charge.organization.stripe_test_access_token
@@ -25,6 +25,6 @@ class ChargeCustomerService
   private
 
   def stripe_token
-    CreateCustomerTokenService.new(@charge.customer.customer_token, @access_token).call
+    CreateCustomerTokenAction.new(@charge.customer.customer_token, @access_token).call
   end
 end

@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe MarkChargeAsPaidService do
+describe MarkChargeAsPaidAction do
   let(:charge) { create(:charge, card: nil, paid: false)}
   let(:stripe_charge) { { id: 1, card: JSON.parse('{"test": "test"}') }}
 
   describe '#call' do
-    before(:each) { MarkChargeAsPaidService.new(charge, stripe_charge).call }
+    before(:each) { MarkChargeAsPaidAction.new(charge, stripe_charge).call }
 
     it 'sets charge.paid to be true' do
       expect(charge.paid).to eq(true)

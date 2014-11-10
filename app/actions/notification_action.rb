@@ -1,6 +1,6 @@
 # Schedule jobs to update the organization's CRM and send the customer a receipt.
 
-class NotificationService
+class NotificationAction
   def initialize(charge)
     @charge = charge
   end

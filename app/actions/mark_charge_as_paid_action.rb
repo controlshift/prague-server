@@ -1,6 +1,6 @@
 # Mark charge as paid, insert new entry and push notification to the user
 
-class MarkChargeAsPaidService
+class MarkChargeAsPaidAction
   def initialize(charge, stripe_charge)
     @charge = charge
     @stripe_charge = stripe_charge
