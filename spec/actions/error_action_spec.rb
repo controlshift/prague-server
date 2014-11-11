@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe ErrorService do
+describe ErrorAction do
   let(:charge) { create(:charge, paid: true) }
   let(:exception) { Stripe::CardError.new('Lorem', {}, {}) }
-  let(:error) { ErrorService.new(charge, exception, 'Test') }
+  let(:error) { ErrorAction.new(charge, exception, 'Test') }
 
   it 'returns TRUE' do
     expect(error.call).to eq(true);

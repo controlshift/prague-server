@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ChargeCustomerService do
+describe ChargeCustomerAction do
   let(:organization) { create(:organization) }
   let(:customer) { create(:customer, customer_token: 'xxx') }
   let(:charge) { build(:charge, customer: customer, organization: organization, card: nil)}
@@ -8,7 +8,7 @@ describe ChargeCustomerService do
   describe '#initialize' do
     it 'raises an exception when initialized with organization without access token' do
       charge.organization.access_token = nil
-      expect { ChargeCustomerService.new(charge) }.to raise_error(ArgumentError)
+      expect { ChargeCustomerAction.new(charge) }.to raise_error(ArgumentError)
     end
   end
 end

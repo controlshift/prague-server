@@ -18,16 +18,16 @@ class ChargeCustomerWorker
 
   def run_charge(charge)
     begin
-      stripe_charge = ChargeCustomerService.new(charge).call
-      MarkChargeAsPaidService.new(charge, stripe_charge).call
-      NotificationService.new(charge).call
+      stripe_charge = ChargeCustomerAction.new(charge).call
+      MarkChargeAsPaidAction.new(charge, stripe_charge).call
+      NotificationAction.new(charge).call
 
     rescue Stripe::CardError => e
-      ErrorService.new(charge, e, "Unsuccessful charge: #{e.message}", e.message).call
+      ErrorAction.new(charge, e, "Unsuccessful charge: #{e.message}", e.message).call
     rescue Stripe::StripeError => e
-      ErrorService.new(charge, e, "Stripe error while processing charge: #{e.message}").call
+      ErrorAction.new(charge, e, "Stripe error while processing charge: #{e.message}").call
     rescue StandardError => e
-      ErrorService.new(charge, e, "Unknown error: #{e.message}").call
+      ErrorAction.new(charge, e, "Unknown error: #{e.message}").call
       Honeybadger.notify(e, context: {charge_id: charge.id})
     end
   end

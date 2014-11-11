@@ -1,4 +1,4 @@
-class ErrorService
+class ErrorAction
   def initialize(charge, e, log_entry_message, pusher_entry_message = "Something went wrong, please try again.")
     @charge = charge
     @e = e
