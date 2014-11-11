@@ -25,7 +25,7 @@ class ChargesController < ApplicationController
       render json: { error: "Organization: '#{organization_slug_param}' does not exist." }, status: :unprocessable_entity
     end
   rescue ActionController::ParameterMissing
-    render json: { error: "You must provide all of the required parameters. Check the documentation." }, status: :unprocessable_entity 
+    render json: { error: "You must provide all of the required parameters. Check the documentation." }, status: :unprocessable_entity
   end
 
   private

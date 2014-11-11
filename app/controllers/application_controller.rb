@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Pundit
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -13,25 +14,22 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    if resource.is_a?(AdminUser)
-      admin_dashboard_path
-    else
-      organization = current_user.organization
-      stored_location = stored_location_for(resource)
-      if stored_location && organization
-        # There's somewhere we should redirect back to
-        if organization.access_token.blank?
-          # Before we go back there, we need to prompt the organization to connect to stripe.
+    return admin_dashboard_path if resource.is_a?(AdminUser)
 
-          # Jot down that we should go back to that place after we've connected to stripe
-          session['return_to'] = stored_location
-
-          # Go to the org page, where we'll prompt them to connect to stripe
-          organization_path(organization)
-      else
-        # user doesn't have organization yet. Redirect him to a new organiztion page
-        new_organization_path
+    organization = current_user.organization
+    stored_location = stored_location_for(resource)
+    if stored_location && organization
+      # There's somewhere we should redirect back to
+      if organization.access_token.blank?
+        # Before we go back there, we need to prompt the organization to connect to stripe.
+        # Jot down that we should go back to that place after we've connected to stripe
+        session['return_to'] = stored_location
+        # Go to the org page, where we'll prompt them to connect to stripe
+        organization_path(organization)
       end
+    else
+      # user doesn't have organization yet. Redirect him to a new organiztion page
+      new_organization_path
     end
   end
 

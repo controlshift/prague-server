@@ -1,7 +1,9 @@
 class OrganizationsController < ApplicationController
+  after_action :verify_authorized
 
   def show
     @organization = Organization.find_by_slug(params[:id])
+    authorize @organization
     begin
       @account = Stripe::Account.retrieve @organization.access_token if @organization.access_token.present?
     rescue SocketError, Stripe::AuthenticationError => e
@@ -12,10 +14,12 @@ class OrganizationsController < ApplicationController
 
   def new
     @organization = Organization.new
+    authorize @organization
   end
 
   def create
     @organization = Organization.new(organization_params)
+    authorize @organization
     @organization.users << current_user
     if @organization.save
       redirect_to @organization
@@ -26,6 +30,7 @@ class OrganizationsController < ApplicationController
 
   def update
     @organization = current_organization
+    authorize @organization
     if @organization.update_attributes(global_defaults_param)
       respond_to do |format|
         format.js
@@ -39,6 +44,7 @@ class OrganizationsController < ApplicationController
 
   def toggle
     @organization = current_organization
+    authorize @organization
     if @organization.update_attributes(toggle_params)
       respond_to do |format|
         format.js
@@ -52,11 +58,13 @@ class OrganizationsController < ApplicationController
 
   def deauthorize
     @organization = current_organization
+    authorize @organization
     @organization.update_attributes(stripe_user_id: nil, stripe_publishable_key: nil, access_token: nil, refresh_token: nil, stripe_live_mode: nil)
     redirect_to @organization
   end
 
   def omniauth_failure
+    authorize Organization.new
     redirect_to root_path, notice: "Something went wrong. Please try again."
   end
 

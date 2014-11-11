@@ -33,6 +33,7 @@ gem 'stripe'
 gem 'stripe_event', git: 'https://github.com/controlshift/stripe_event.git'
 gem 'haml-rails'
 gem 'doorkeeper'
+gem 'pundit'
 
 
 gem 'pusher'
