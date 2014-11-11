@@ -11,6 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.omnibus.chef_version = :latest
   config.cache.auto_detect = true
 
+  config.ssh.forward_agent = true
   config.vm.network :private_network, type: 'dhcp'
   config.vm.network "forwarded_port", guest: 3000, host: 3030
   config.vm.synced_folder '.', '/home/vagrant/code', nfs: true
