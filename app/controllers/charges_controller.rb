@@ -1,9 +1,7 @@
 class ChargesController < ApplicationController
 
   # Necessary for exposing the API
-  skip_before_action :verify_authenticity_token, only: [ :create ]
-  before_filter :authenticate_organization!, only: [:index]
-
+  skip_before_action :verify_authenticity_token, only: [:create]
   after_filter :cors_set_access_control_headers, only: [:create]
 
   def create

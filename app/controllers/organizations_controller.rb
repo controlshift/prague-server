@@ -1,16 +1,13 @@
 class OrganizationsController < ApplicationController
-  # before_filter :authenticate_organization!, only: [:update, :show, :deauthorize]
 
   def show
     @organization = Organization.find_by_slug(params[:id])
-    # @organization = current_organization
-    # begin
-    #   @account = Stripe::Account.retrieve @organization.access_token if @organization.access_token.present?
-    # rescue SocketError, Stripe::AuthenticationError => e
-    #   Rails.logger.warn e
-
-    # end
-    # @crm = current_organization.crm || current_organization.build_crm
+    begin
+      @account = Stripe::Account.retrieve @organization.access_token if @organization.access_token.present?
+    rescue SocketError, Stripe::AuthenticationError => e
+      Rails.logger.warn e
+    end
+    @crm = current_organization.crm || current_organization.build_crm
   end
 
   def new

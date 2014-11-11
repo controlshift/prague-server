@@ -6,43 +6,39 @@ class ApplicationController < ActionController::Base
   force_ssl if: :ssl_configured?
 
   before_filter :configure_permitted_parameters, if: :devise_controller?
+  before_filter :authenticate_user!
 
   def ssl_configured?
     Rails.env.production? || Rails.env.staging?
   end
 
   def after_sign_in_path_for(resource)
-    organization = current_user.organization
-    organization.nil? ? new_organization_path : organization_path(organization)
-    # if resource.is_a?(AdminUser)
-    #   admin_dashboard_path
-    # else
-    #   # The resource is an organization
-    #   stored_loc = stored_location_for(resource)
-    #   if stored_loc
-    #     # There's somewhere we should redirect back to
-    #     if current_organization.access_token.blank?
-    #       # Before we go back there, we need to prompt the organization to connect to stripe.
+    if resource.is_a?(AdminUser)
+      admin_dashboard_path
+    else
+      organization = current_user.organization
+      stored_location = stored_location_for(resource)
+      if stored_location && organization
+        # There's somewhere we should redirect back to
+        if organization.access_token.blank?
+          # Before we go back there, we need to prompt the organization to connect to stripe.
 
-    #       # Jot down that we should go back to that place after we've connected to stripe
-    #       session['organization_return_to'] = stored_loc
+          # Jot down that we should go back to that place after we've connected to stripe
+          session['return_to'] = stored_location
 
-    #       # Go to the org page, where we'll prompt them to connect to stripe
-    #       organization_path(resource)
-    #     else
-    #       stored_loc
-    #     end
-    #   else
-    #     # Nowhere to redirect to, so go to the organization dashboard
-    #     organization_path(resource)
-    #   end
-    # end
+          # Go to the org page, where we'll prompt them to connect to stripe
+          organization_path(organization)
+      else
+        # user doesn't have organization yet. Redirect him to a new organiztion page
+        new_organization_path
+      end
+    end
   end
 
   protected
 
   def current_status
-    current_organization.status.intern
+    current_user.organization.status.intern
   end
 
   def streaming_csv_export(export)
@@ -56,6 +52,6 @@ class ApplicationController < ActionController::Base
 
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:email, :password, :password_confirmation) }
   end
 end

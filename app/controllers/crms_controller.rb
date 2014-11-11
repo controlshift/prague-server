@@ -1,5 +1,4 @@
 class CrmsController < ApplicationController
-  before_filter :authenticate_organization!
   before_filter :check_if_organization_has_crm, only: [:create]
 
   def update
