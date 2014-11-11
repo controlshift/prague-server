@@ -9,7 +9,7 @@ class OrganizationsController < ApplicationController
     rescue SocketError, Stripe::AuthenticationError => e
       Rails.logger.warn e
     end
-    @crm = current_organization.crm || current_organization.build_crm
+    @crm = @organization.crm || @organization.build_crm
   end
 
   def new
@@ -69,6 +69,10 @@ class OrganizationsController < ApplicationController
   end
 
   private
+
+  def current_organization
+    current_user.organization
+  end
 
   def organization_params
     params.require(:organization).permit(:name)
