@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
       end
     else
       # user doesn't have organization yet. Redirect him to a new organiztion page
-      new_organization_path
+      organization ? organization_path(organization) : new_organization_path
     end
   end
 
