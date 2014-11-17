@@ -2,6 +2,7 @@ class CrmsController < ApplicationController
   before_filter :check_if_organization_has_crm, only: [:create]
 
   def update
+    authorize Crm.new
     @crm = current_organization.crm
     if @crm.update_attributes(crm_param)
       respond_to do |format|
@@ -15,6 +16,7 @@ class CrmsController < ApplicationController
   end
 
   def create
+    authorize Crm.new
     @crm = current_organization.build_crm(crm_param)
     if @crm.save
       respond_to do |format|

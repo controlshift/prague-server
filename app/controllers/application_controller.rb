@@ -6,8 +6,8 @@ class ApplicationController < ActionController::Base
 
   force_ssl if: :ssl_configured?
 
-  before_filter :configure_permitted_parameters, if: :devise_controller?
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
+  after_action :verify_authorized
 
   def ssl_configured?
     Rails.env.production? || Rails.env.staging?
@@ -16,27 +16,30 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     return admin_dashboard_path if resource.is_a?(AdminUser)
 
-    organization = current_user.organization
     stored_location = stored_location_for(resource)
-    if stored_location && organization
+    if stored_location && current_organization
       # There's somewhere we should redirect back to
-      if organization.access_token.blank?
+      if current_organization.access_token.blank?
         # Before we go back there, we need to prompt the organization to connect to stripe.
         # Jot down that we should go back to that place after we've connected to stripe
         session['return_to'] = stored_location
         # Go to the org page, where we'll prompt them to connect to stripe
-        organization_path(organization)
+        organization_path(current_organization)
       end
     else
       # user doesn't have organization yet. Redirect him to a new organiztion page
-      organization ? organization_path(organization) : new_organization_path
+      current_organization ? organization_path(current_organization) : new_organization_path
     end
   end
 
   protected
 
+  def current_organization
+    current_user.organization if current_user
+  end
+
   def current_status
-    current_user.organization.status.intern
+    current_organization.status.intern
   end
 
   def streaming_csv_export(export)
@@ -46,10 +49,5 @@ class ApplicationController < ActionController::Base
     self.response.headers['Last-Modified'] = Time.now.ctime.to_s
     self.response.headers['Content-Disposition'] = "attachment; filename=#{filename}"
     self.response_body = export.as_csv_stream
-  end
-
-
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:email, :password, :password_confirmation) }
   end
 end

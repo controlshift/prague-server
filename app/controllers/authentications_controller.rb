@@ -1,5 +1,6 @@
 class AuthenticationsController < ApplicationController
   def create
+    authorize :authentication, :create?
     current_organization.apply_omniauth(request.env['omniauth.auth'])
     if current_organization.save
       # if we need to return to some other location, for example Agra, do it here.

@@ -1,4 +1,6 @@
 class UsersController < Devise::RegistrationsController
+  skip_after_action :verify_authorized
+
   # GET /resource/sign_up
   def new
     if params[:invitation_token]

@@ -4,6 +4,8 @@ class InvitationsController < ApplicationController
     @invitation.sender = current_user
     @invitation.organization = current_user.organization
 
+    authorize @invitation
+
     respond_to do |format|
       if @invitation.save
         format.json do
@@ -13,7 +15,6 @@ class InvitationsController < ApplicationController
       else
         format.json { render json: @invitation.errors.full_messages, status: :unprocessable_entity }
       end
-      # format.js { }
     end
   end
 

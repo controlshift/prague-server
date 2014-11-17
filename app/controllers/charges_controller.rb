@@ -2,13 +2,14 @@ class ChargesController < ApplicationController
 
   # Necessary for exposing the API
   skip_before_action :verify_authenticity_token, only: [:create]
-  after_filter :cors_set_access_control_headers, only: [:create]
+  after_action :cors_set_access_control_headers, only: [:create]
 
   def create
     organization = Organization.find_by_slug(organization_slug_param)
     if organization.present?
       customer = Customer.find_or_initialize(customer_params, status: organization.status)
       charge = customer.build_charge_with_params(customer_params[:charges_attributes], config: config_param, organization: organization)
+      authorize charge
       if params[:tags].present?
         params[:tags].each do |tag_string|
           charge.tags << Tag.find_or_create!(organization, tag_string) if tag_string.present?

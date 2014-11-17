@@ -35,7 +35,7 @@ class Charge < ActiveRecord::Base
 
   before_save :update_aggregates
 
-  scope :paid, -> { where(paid: true)}
+  scope :paid, -> { where(paid: true) }
 
   def presentation_amount
     self.class.presentation_amount(amount, currency)
@@ -45,7 +45,7 @@ class Charge < ActiveRecord::Base
     # zero_decimal means that the currency is not represented as XXX.XX, rather its integer amount
     zero_decimal = ['BIF', 'CLP', 'JPY', 'KRW', 'PYG', 'VUV', 'XOF', 'CLP', 'GNF', 'KMF', 'MGA', 'RWF', 'XAF', 'XPF'].include?(for_currency.upcase)
     # E.g.: If zero_decimal, 12345 => "12345". Else, 12345 => "123.45"
-    zero_decimal ? '%i' % for_amount.to_i.round : '%.2f' % (for_amount.to_i / 100.0) 
+    zero_decimal ? '%i' % for_amount.to_i.round : '%.2f' % (for_amount.to_i / 100.0)
   end
 
   def application_fee

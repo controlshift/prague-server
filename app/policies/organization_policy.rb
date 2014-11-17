@@ -6,38 +6,38 @@ class OrganizationPolicy < ApplicationPolicy
     @organization = organization
   end
 
+  # Only a member of an organization can see it
   def show?
-    # Only a member of an organization can see it
     user.organization == organization
   end
 
+  # Only user without an organization can create new one
   def new?
-    # Only user without an organization can create new one
     user.organization.nil?
   end
 
+  # Only user without an organization can create new one
   def create?
-    # Only user without an organization can create new one
     user.organization.nil?
   end
 
+  # Only a member of organization can update it
   def update?
-    # Only a member of organization can update it
     user.organization == organization
   end
 
+  # Only a member of organization can toggle it
   def toggle?
-    # Only a member of organization can toggle it
     user.organization == organization
   end
 
+  # Only a member of organization can deauthorize it
   def deauthorize?
-    # Only a member of organization can deauthorize it
     user.organization == organization
   end
 
+  # Only a member of organization can see omniauth failure
   def omniauth_failure?
-    # Only a member of organization can see omniauth failure
     user.organization == organization
   end
 end
