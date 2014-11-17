@@ -3,6 +3,7 @@ class OrganizationsController < ApplicationController
 
   def show
     @organization = Organization.find_by_slug(params[:id])
+    @invitation = Invitation.new
     authorize @organization
     begin
       @account = Stripe::Account.retrieve @organization.access_token if @organization.access_token.present?

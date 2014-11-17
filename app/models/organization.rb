@@ -19,10 +19,6 @@
 #
 
 class Organization < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  # devise :rememberable, :trackable, :database_authenticatable, :validatable, :confirmable, :recoverable, :registerable
-
   store_accessor :global_defaults, :currency, :seedamount, :seedvalues, :redirectto, :thank_you_text, :country
 
   CURRENCIES = ["USD", "EUR", "AUD", "CAN", "GBP", "NZD", "NOK", "DKK", "SEK"]
@@ -36,6 +32,7 @@ class Organization < ActiveRecord::Base
   has_many :users
 
   validates :slug, :name, presence: true
+  validates :name, uniqueness: true
   validates :seedamount, format: { with: /\A\d+\z/ }, allow_blank: true
   validates :seedvalues, format: { with: /\A(\d+\,)*\d+\z/ }, allow_blank: true
   validates :redirectto, format: { with: /\A(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?\z/ }, allow_blank: true

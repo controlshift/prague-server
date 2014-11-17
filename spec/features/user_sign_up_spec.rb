@@ -4,6 +4,7 @@ feature 'User signs up' do
   scenario 'with valid creadentials' do
     sign_up_with(email: 'user@example.com', password: '12345678', password_confirmation: '12345678')
     expect(page).to have_content('A message with a confirmation link has been sent to your email address.')
+    expect(page).to have_content('Smart Donations Done Right')
   end
 
   scenario 'without email' do
@@ -30,5 +31,38 @@ feature 'User signs up' do
   scenario 'with password not matching password confirmation' do
     sign_up_with(email: 'user@example.com', password: '12345678', password_confirmation: '87654321')
     expect(page).to have_content('Password confirmation doesn\'t match Password')
+  end
+
+  context 'creates an organization' do
+    scenario 'with valid name' do
+      sign_up_with(email: 'user@example.com', password: '12345678', password_confirmation: '12345678', organization: 'Umbrella Corp.')
+      expect(page).to have_content('A message with a confirmation link has been sent to your email address.')
+      expect(page).to have_content('Smart Donations Done Right')
+    end
+
+    scenario 'with already taken name' do
+      organization = create(:organization)
+      sign_up_with(email: 'user@example.com', password: '12345678', password_confirmation: '12345678', organization: organization.name)
+      expect(page).to have_content('Organization name has already been taken')
+    end
+  end
+
+  context 'after being invited to the organization' do
+    let(:sender) { create(:user_with_organization) }
+    let(:invitation) { create(:invitation, sender: sender, organization: sender.organization, recipient_email: 'rec@mail.com') }
+
+    scenario 'with valid credentials' do
+      visit new_user_registration_path(invitation_token: invitation.token)
+      fill_in 'Password', with: '12345678'
+      fill_in 'Password Confirmation', with: '12345678'
+      click_button 'Sign up'
+      expect(page).to have_content("The slug you will use for your organization is #{invitation.organization.slug}")
+    end
+
+    scenario 'with invalid token' do
+      visit new_user_registration_path(invitation_token: 'invalidtoken')
+      expect(page).to have_content('Couldn\'t find invitation')
+      expect(page).to have_content('Sign up')
+    end
   end
 end

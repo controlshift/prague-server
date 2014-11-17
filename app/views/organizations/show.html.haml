@@ -1,10 +1,16 @@
 .row
   .col-lg-12
     / = title "#{h(@organization.name)} Dashboard"
-
     %p
-      The slug you will use for your organization is #{@organization.slug}
+      The slug you will use for your organization is <b>#{@organization.slug}</b>.
 
+.row
+  .col-lg-12
+    %p You can invite new users to join your organization:
+    = form_for(@invitation, remote: true, html: { class: 'form-inline' }) do |f|
+      .form-group
+        = f.email_field :recipient_email, class: 'form-control', placeholder: 'Email'
+      = f.submit 'Send', class: 'btn btn-default'
 
 .row.stripe-connect-status
   - if @organization.access_token.blank?

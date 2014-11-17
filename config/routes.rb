@@ -1,6 +1,6 @@
 require 'sidekiq/web'
 PragueServer::Application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { registrations: :users }
   use_doorkeeper
   # devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -45,6 +45,7 @@ PragueServer::Application.routes.draw do
   end
   resources :charges, only: [:create, :destroy]
   resources :crms, only: [:create, :update]
+  resources :invitations, only: [:create]
 
   get '/auth/:provider/callback', to: 'authentications#create'
 

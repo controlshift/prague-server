@@ -35,7 +35,7 @@
             - else
               %li= link_to 'Sign in', new_user_session_path
 
-    .container
+    .container#main
       - flash.each do |type, message|
         .div{class:"alert #{bootstrap_class_for(type)} fade in"}
           %button.close{"data-dismiss"=>"alert"} ×

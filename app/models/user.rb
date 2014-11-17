@@ -24,5 +24,10 @@
 
 class User < ActiveRecord::Base
   devise :rememberable, :trackable, :database_authenticatable, :validatable, :confirmable, :recoverable, :registerable
+
   belongs_to :organization
+  has_many :sent_invitations, class_name: 'Invitation', foreign_key: 'sender_id'
+  has_one :invitation, foreign_key: 'recipient_id'
+
+  accepts_nested_attributes_for :organization
 end

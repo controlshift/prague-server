@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141109031729) do
+ActiveRecord::Schema.define(version: 20141117005606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,16 @@ ActiveRecord::Schema.define(version: 20141109031729) do
   end
 
   add_index "import_stubs", ["crm_id"], name: "index_import_stubs_on_crm_id", using: :btree
+
+  create_table "invitations", force: true do |t|
+    t.integer  "sender_id",       null: false
+    t.integer  "recipient_id"
+    t.string   "recipient_email", null: false
+    t.integer  "organization_id", null: false
+    t.string   "token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "log_entries", force: true do |t|
     t.integer  "charge_id"
