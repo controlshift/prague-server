@@ -16,6 +16,7 @@ class ActionKitNotifier
                                            page: charge.config.try(:[], 'page') || crm.donation_page_name,
                                            email: charge.customer.email,
                                            name: charge.customer.full_name,
+                                           country: charge.customer.country,
                                            card_num: '4111111111111111',
                                            card_code: '007',
                                            exp_date_month: "#{1.month.from_now.strftime('%m')}",
