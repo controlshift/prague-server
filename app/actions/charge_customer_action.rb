@@ -1,6 +1,8 @@
 # Charge customer associated with the charge passed to the service
 
 class ChargeCustomerAction
+  attr_accessor :charge, :access_token
+
   def initialize(charge)
     @charge = charge
     @access_token = charge.live? ? charge.organization.access_token : charge.organization.stripe_test_access_token
@@ -9,22 +11,22 @@ class ChargeCustomerAction
 
   def call
     Stripe::Charge.create({
-      amount: @charge.amount,
-      currency: @charge.currency,
-      application_fee: @charge.application_fee,
+      amount: charge.amount,
+      currency: charge.currency,
+      application_fee: charge.application_fee,
       card: stripe_token.id,
       metadata: {
-        'charge_id' => @charge.id,
-        'name' => @charge.customer.full_name,
-        'email' => @charge.customer.email
+        'charge_id' => charge.id,
+        'name' => charge.customer.full_name,
+        'email' => charge.customer.email
       },
-      description: "#{Time.zone.now.to_s} - #{@charge.customer.id} - #{@charge.organization.slug}"
-    }, @access_token)
+      description: "#{Time.zone.now.to_s} - #{charge.customer.id} - #{charge.organization.slug}"
+    }, access_token)
   end
 
   private
 
   def stripe_token
-    CreateCustomerTokenAction.new(@charge.customer.customer_token, @access_token).call
+    CreateCustomerTokenAction.new(charge.customer.customer_token, access_token).call
   end
 end
