@@ -12,6 +12,7 @@ class CreateCustomerTokenWorker
         email: customer.email,
         metadata: customer.to_hash,
         card: card_token,
+        validate: false,
         description: customer.id
       },
       charge.organization.live? ? ENV['STRIPE_SECRET'] : ENV['STRIPE_TEST_SECRET']
