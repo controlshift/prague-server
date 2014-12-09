@@ -274,7 +274,7 @@ GEM
     minitest (5.4.2)
     multi_json (1.10.1)
     multipart-post (2.0.0)
-    netrc (0.7.8)
+    netrc (0.9.0)
     newrelic_rpm (3.9.6.257)
     nio4r (1.0.0)
     nokogiri (1.6.1)
