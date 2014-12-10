@@ -33,6 +33,8 @@ class Tag < ActiveRecord::Base
   end
 
   def incrby(amount, status='live')
+    DateAggregation.new(total_charges_count_key).increment
+    DateAggregation.new(total_raised_amount_key).increment(amount)
     redis.incr(total_charges_count_key(status))
     redis.incrby(total_raised_amount_key(status), amount)
     if namespace.present?
@@ -59,6 +61,14 @@ class Tag < ActiveRecord::Base
     else
       total_raised / count
     end
+  end
+
+  def raised_last_7_days
+    DateAggregation.new(total_raised_amount_key).last_7_days
+  end
+
+  def charges_count_last_7_days
+    DateAggregation.new(total_charges_count_key).last_7_days
   end
 
   def total_charges_count_key(status='live')

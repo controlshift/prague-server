@@ -85,9 +85,12 @@ class Charge < ActiveRecord::Base
 
       # this detects a state change, since a proper state machine library felt like overkill.
       if paid_transition.first == false && paid_transition.last == true
+        amt = self.converted_amount(self.organization.currency)
         # if a charge transitions to being paid, update the associated aggregate
+        DateAggregation.new(organization.total_raised_key).increment(amt)
+        DateAggregation.new(organization.total_charges_count_key).increment
         self.tags.each do |tag|
-          tag.incrby(self.converted_amount(self.organization.currency), self.status)
+          tag.incrby(amt, self.status)
         end
       end
     end

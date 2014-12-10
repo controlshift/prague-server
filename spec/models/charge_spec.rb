@@ -72,6 +72,7 @@ describe Charge do
     after :each do
       # Clean up what we put in redis
       ['live', 'test'].each do |status|
+        PragueServer::Application.redis.flushall
         PragueServer::Application.redis.zrem(tag_namespace.most_raised_key(status), tag.name)
         PragueServer::Application.redis.set(tag_namespace.total_charges_count_key(status), '0')
         PragueServer::Application.redis.set(tag_namespace.total_raised_amount_key(status), '0')
@@ -84,12 +85,18 @@ describe Charge do
       charge.paid = true
       charge.save!
       expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to eq(charge.converted_amount)
+      expect(tag.charges_count_last_7_days.to_a.last[1]).to eq(1)
+      expect(tag.raised_last_7_days.to_a.last[1]).to eq(1000)
+      expect(organization.charges_count_last_7_days.to_a.last[1]).to eq(1)
+      expect(organization.raised_last_7_days.to_a.last[1]).to eq(1000)
     end
 
     it 'should not update the total if the charge is not paid yet' do
       charge.paid = false
       charge.save!
       expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to be_nil
+      expect(organization.charges_count_last_7_days.to_a.last[1]).to eq(0)
+      expect(organization.raised_last_7_days.to_a.last[1]).to eq(0)
     end
 
     it 'should handle multiple charges' do
@@ -99,6 +106,8 @@ describe Charge do
       another_charge = create(:charge, tags: [tag])
       another_charge.paid = true
       another_charge.save!
+      expect(tag.charges_count_last_7_days.to_a.last[1]).to eq(2)
+      expect(tag.raised_last_7_days.to_a.last[1]).to eq(charge.converted_amount + another_charge.converted_amount)
       expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to eq(charge.converted_amount + another_charge.converted_amount)
     end
 
@@ -109,6 +118,7 @@ describe Charge do
       charge.amount = '100'
       charge.paid = true
       charge.save!
+      expect(organization.raised_last_7_days.to_a.last[1]).to eq(200)
       expect(PragueServer::Application.redis.zscore(tag.namespace.most_raised_key, tag.name)).to eq(200)
     end
 
@@ -123,6 +133,8 @@ describe Charge do
       expect(tag.total_raised('test')).to eq(test_charge.converted_amount)
       expect(tag_namespace.total_raised).to eq(charge.converted_amount)
       expect(tag_namespace.total_raised('test')).to eq(test_charge.converted_amount)
+      expect(tag_namespace.charges_count_last_7_days.to_a.last[1]).to eq(1)
+      expect(tag_namespace.raised_last_7_days.to_a.last[1]).to eq(123)
       expect(tag.total_charges_count).to eq(1)
       expect(tag.total_charges_count('test')).to eq(1)
       expect(tag_namespace.total_charges_count).to eq(1)

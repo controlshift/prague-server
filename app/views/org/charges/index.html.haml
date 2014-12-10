@@ -2,6 +2,20 @@
   .col-lg-12
     = title 'Charges'
 
+.row.mt20.mb20
+  .col-lg-2
+
+  .col-lg-12
+    %h4 This Week
+    - current_organization.charges_count_last_7_days.each do |day, charge_count|
+      .admin_minor_stat.pull-left
+        .number
+          = number_with_delimiter(charge_count, :delimiter => ',')
+        .sublte
+          = day.strftime "%d/%b/%Y"
+
+.row.mt20
+  .col-lg-12
     .pull-right
       =link_to 'Download CSV', org_charges_path(format: 'csv')
 
