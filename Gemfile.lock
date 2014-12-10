@@ -24,7 +24,7 @@ GIT
 
 GIT
   remote: https://github.com/controlshift/blue_state_digital.git
-  revision: de3344b6012887484cc8ffb12f3e6b73bf2472c1
+  revision: 19dc16aa8e89a3889e146784e978a8c15785b393
   specs:
     blue_state_digital (0.5.4)
       activemodel
@@ -270,15 +270,15 @@ GEM
     memcachier (0.0.2)
     method_source (0.8.2)
     mime-types (2.4.3)
-    mini_portile (0.5.3)
-    minitest (5.4.2)
+    mini_portile (0.6.1)
+    minitest (5.4.3)
     multi_json (1.10.1)
     multipart-post (2.0.0)
     netrc (0.9.0)
     newrelic_rpm (3.9.6.257)
     nio4r (1.0.0)
-    nokogiri (1.6.1)
-      mini_portile (~> 0.5.0)
+    nokogiri (1.6.5)
+      mini_portile (~> 0.6.0)
     oauth2 (0.8.1)
       faraday (~> 0.8)
       httpauth (~> 0.1)
@@ -379,7 +379,7 @@ GEM
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
     rubyzip (1.1.0)
-    safe_yaml (1.0.2)
+    safe_yaml (1.0.4)
     sass (3.2.19)
     sass-rails (4.0.1)
       railties (>= 4.0.0, < 5.0)
