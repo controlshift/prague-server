@@ -1,5 +1,5 @@
 class UsersController < Devise::RegistrationsController
-  skip_after_action :verify_authorized
+  skip_after_action :verify_authorized, only: [:new, :create]
 
   # GET /resource/sign_up
   def new
