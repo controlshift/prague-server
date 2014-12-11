@@ -12,6 +12,7 @@ class CreateCustomerTokenWorker
         email: customer.email,
         metadata: customer.to_hash,
         card: card_token,
+        validate: false,
         description: customer.id
       },
       charge.organization.live? ? ENV['STRIPE_SECRET'] : ENV['STRIPE_TEST_SECRET']
@@ -25,9 +26,9 @@ class CreateCustomerTokenWorker
     # Schedule a job to actually run the charge.
     ChargeCustomerWorker.perform_async(charge.id)
   rescue Stripe::StripeError => e
-    ErrorService.new(charge, e, "An error occurred while creating customer: #{e.message}", e.message).call
+    ErrorAction.new(charge, e, "An error occurred while creating customer: #{e.message}", e.message).call
   rescue StandardError => e
-    ErrorService.new(charge, e, "An unknown error occurred while creating customer: #{e.message}", e.message).call
+    ErrorAction.new(charge, e, "An unknown error occurred while creating customer: #{e.message}", e.message).call
     Honeybadger.notify(e, context: {charge_id: charge.id})
   end
 end

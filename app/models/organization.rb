@@ -112,6 +112,22 @@ class Organization < ActiveRecord::Base
     @currency_changed = false
   end
 
+  def total_raised_key
+    "charges/#{self.slug}/raised"
+  end
+
+  def total_charges_count_key
+    "charges/#{self.slug}/count"
+  end
+
+  def raised_last_7_days
+    DateAggregation.new(total_raised_key).last_7_days
+  end
+
+  def charges_count_last_7_days
+    DateAggregation.new(total_charges_count_key).last_7_days
+  end
+
   private
 
   def on_currency_change

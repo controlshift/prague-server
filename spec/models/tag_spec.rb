@@ -85,6 +85,9 @@ describe Tag do
           expect(tag_namespace.raised_for_tag(tag)).to eq(300)
           expect(tag_namespace.raised_for_tag(tag2)).to eq(50)
 
+          expect(tag_namespace.charges_count_last_7_days.to_a.last[1]).to eq(4)
+          expect(tag_namespace.raised_last_7_days.to_a.last[1]).to eq(350)
+
           expect(tag2.total_charges_count).to eq(1)
           expect(tag2.total_raised).to eq(50)
 

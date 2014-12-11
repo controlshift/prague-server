@@ -6,14 +6,5 @@ package 'libqt4-dev'
 execute 'sudo bundle install' do
   cwd '/home/vagrant/code'
   user 'vagrant'
+  not_if 'cd /home/vagrant/code && bundle check' # This is not run inside /myapp
 end
-
-# execute 'bundle exec rake db:create' do
-#   cwd '/home/vagrant/code'
-#   user 'vagrant'
-# end
-#
-# execute 'bundle exec rake db:migrate' do
-#   cwd '/home/vagrant/code'
-#   user 'vagrant'
-# end

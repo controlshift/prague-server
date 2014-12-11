@@ -77,6 +77,9 @@ describe TagNamespace do
         expect(tag_namespace.total_charges_count).to eq(4)
         expect(tag_namespace.total_raised).to eq(350)
         expect(tag_namespace.raised_for_tag(tag)).to eq(300)
+        expect(tag_namespace.charges_count_last_7_days.to_a.first[1]).to eq(0)
+        expect(tag_namespace.charges_count_last_7_days.to_a.last[1]).to eq(4)
+        expect(tag_namespace.raised_last_7_days.to_a.last[1]).to eq(350)
         expect(tag_namespace.raised_for_tag(Tag.find_or_create!(organization, 'bar'))).to eq(50)
         expect(tag_namespace.most_raised).to eq([{:tag=>"foo", :raised=>300}, {:tag=>"bar", :raised=>50}])
       end

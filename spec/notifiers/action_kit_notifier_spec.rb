@@ -28,6 +28,7 @@ describe ActionKitNotifier do
                                       name: charge.customer.full_name,
                                       card_num: '4111111111111111',
                                       card_code: '007',
+                                      country: 'US',
                                       exp_date_month: "#{1.month.from_now.strftime('%m')}",
                                       exp_date_year: "#{1.month.from_now.strftime('%y')}",
                                       amount_other: "#{charge.amount}",
