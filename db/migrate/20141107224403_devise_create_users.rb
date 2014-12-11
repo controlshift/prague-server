@@ -1,9 +1,4 @@
 class DeviseCreateUsers < ActiveRecord::Migration
-  class User < ActiveRecord::Base
-    attr_accessor :email, :confirmation_token, :confirmed_at, :confirmation_sent_at, :unconfirmed_email, :reset_password_token,
-                  :reset_password_sent_at, :encrypted_password
-  end
-
   def change
     create_table(:users) do |t|
       ## Database authenticatable
