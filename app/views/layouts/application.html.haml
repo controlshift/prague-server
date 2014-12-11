@@ -30,8 +30,13 @@
                     Test Mode (locked by Stripe)
                 %li= link_to 'Charges', org_charges_path
                 %li= link_to 'Dashboard', organization_path(current_user.organization)
-
-              %li= link_to "Sign out", destroy_user_session_path, method: :delete
+                %li
+                  %a{class: "dropdown-toggle", type: 'button', id:'userMenu', 'data-toggle' => 'dropdown', 'aria-expanded' => 'false'}
+                    = current_user.email
+                    %span{class: 'caret'}
+                  %ul{class:'dropdown-menu', role:'menu', 'aria-labelledby' => "userMenu"}
+                    %li= link_to 'My Account',
+                    %li= link_to "Sign out", destroy_user_session_path, method: :delete
             - else
               %li= link_to 'Sign in', new_user_session_path
 
