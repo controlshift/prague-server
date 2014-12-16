@@ -17,7 +17,7 @@
 .row.mt20
   .col-lg-12
     .pull-right
-      =link_to 'Download CSV', org_charges_path(format: 'csv')
+      =link_to 'Download CSV', organization_charges_path(current_organization, format: 'csv')
 
     = render partial: 'charges_table', locals: {charges: @charges}
 

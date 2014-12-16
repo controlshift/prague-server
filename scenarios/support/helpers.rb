@@ -1,12 +1,13 @@
 module HelperMethods
   include Warden::Test::Helpers
-  def login organization
+
+  def login(user)
     Warden.test_mode!
-    visit new_organization_session_path
-    fill_in "organization[email]", with: organization.email
-    fill_in "organization[password]", with: "password"
+    visit new_user_session_path
+    fill_in "user[email]", with: user.email
+    fill_in "user[password]", with: "password"
     click_button "Sign in"
-    expect(page).to have_content organization.name
+    expect(page).to have_content user.organization.name
   end
 end
 

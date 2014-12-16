@@ -1,22 +1,10 @@
 require 'sidekiq/web'
 PragueServer::Application.routes.draw do
-  devise_for :users, controllers: { registrations: :users, confirmations: :confirmations, sessions: :sessions, passwords: :passwords }
+  devise_for :users, controllers: { registrations: :users, confirmations: :confirmations, sessions: :sessions, passwords: :passwords, omniauth_callbacks: :omniauth_callbacks }
   use_doorkeeper
   # devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   get 'config/:id', to: ConfigController.action(:index)
-
-  namespace :org do
-    resources :charges, controller: 'charges'
-    resources :tags, controller: 'tags' do
-      resources :charges, only: [:index], controller: 'tags/charges'
-    end
-    resources :namespaces, controller: 'namespaces' do
-      collection do
-        get :raised
-      end
-    end
-  end
 
   namespace :api do
     resources :namespaces, controller: 'namespaces', only: [:index, :show] do
@@ -37,15 +25,27 @@ PragueServer::Application.routes.draw do
     end
   end
 
-  resources :organizations, only: [:show, :new, :create, :update] do
+  resources :orgs, only: [:show, :new, :create, :update], controller: 'organizations', :as => 'organizations' do
     member do
       patch 'toggle'
       put 'deauthorize'
     end
+
+    resources :crms, only: [:create, :update], controller: 'org/crms'
+    resources :invitations, only: [:create], controller: 'org/invitations'
+    resources :users, controller: 'org/users'
+    resources :charges, controller: 'org/charges'
+    resources :tags, controller: 'org/tags' do
+      resources :charges, only: [:index], controller: 'org/tags/charges'
+    end
+    resources :namespaces, controller: 'org/namespaces' do
+      collection do
+        get :raised
+      end
+    end
   end
+
   resources :charges, only: [:create, :destroy]
-  resources :crms, only: [:create, :update]
-  resources :invitations, only: [:create]
 
   get '/auth/:provider/callback', to: 'authentications#create'
 
@@ -57,5 +57,4 @@ PragueServer::Application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
   mount StripeEvent::Engine => '/stripe/event'
 
-  # devise_for :organizations, path_prefix: 'accounts', controllers: { confirmations: 'confirmations' }
 end

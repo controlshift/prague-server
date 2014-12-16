@@ -26,6 +26,10 @@ module ApplicationHelper
     end
   end
 
+  def current_organization
+    current_user.organization
+  end
+
   private
 
   def title_for(page_title, options)

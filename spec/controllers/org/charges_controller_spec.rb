@@ -3,11 +3,12 @@ require 'spec_helper'
 describe Org::ChargesController do
   describe 'index' do
     let(:organization) { create(:organization) }
+    let(:user) { create(:confirmed_user, organization: organization)}
 
     before(:each) do
       controller.stub(:current_organization).and_return( organization )
-      sign_in organization
-      get :index
+      sign_in user
+      get :index, organization_id: organization
     end
 
     it 'should return a list of charges' do

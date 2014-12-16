@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../scenario_helper.rb'
 feature 'Organization adds CRM credentials' do
   before do
     StripeMock.start
-    login org
+    login user
   end
 
   after do
@@ -11,6 +11,8 @@ feature 'Organization adds CRM credentials' do
   end
 
   let(:org) { create(:organization) }
+  let(:user) { create(:confirmed_user, organization: org)}
+
   it 'creates AK credentials for the first time', js: true do
     # Set up AK
     select 'ActionKit', from: 'crm_platform'

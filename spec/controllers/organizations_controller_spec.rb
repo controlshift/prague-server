@@ -1,12 +1,13 @@
 require 'spec_helper'
 
 describe OrganizationsController do
-  let(:organization) {create(:organization, global_defaults: { currency: 'AUD' }) }
+  let(:organization) { create(:organization, global_defaults: { currency: 'AUD' }) }
+  let(:user) { create(:confirmed_user, organization: organization)}
 
   before(:each) do
     Organization.last.try :destroy
     Crm.last.try :destroy
-    sign_in organization
+    sign_in user
   end
 
   describe 'GET show' do

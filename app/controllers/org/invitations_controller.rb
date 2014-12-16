@@ -1,10 +1,8 @@
-class InvitationsController < ApplicationController
+class Org::InvitationsController < ApplicationController
   def create
     @invitation = Invitation.new(invitation_params)
     @invitation.sender = current_user
     @invitation.organization = current_user.organization
-
-    authorize @invitation
 
     respond_to do |format|
       if @invitation.save

@@ -7,7 +7,7 @@
 .row
   .col-lg-12
     %p You can invite new users to join your organization:
-    = form_for(@invitation, remote: true, html: { class: 'form-inline' }) do |f|
+    = form_for([@organization, @invitation], remote: true, html: { class: 'form-inline' }) do |f|
       .form-group
         = f.email_field :recipient_email, class: 'form-control', placeholder: 'Email'
       = f.submit 'Send', class: 'btn btn-default'

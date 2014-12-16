@@ -1,10 +1,9 @@
 class AuthenticationsController < ApplicationController
   def create
-    authorize :authentication, :create?
     current_organization.apply_omniauth(request.env['omniauth.auth'])
     if current_organization.save
       # if we need to return to some other location, for example Agra, do it here.
-      stored_loc = stored_location_for(current_organization)
+      stored_loc = stored_location_for(current_user)
       if stored_loc
         redirect_to stored_loc
       else

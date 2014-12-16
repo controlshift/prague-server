@@ -8,7 +8,6 @@ require 'shoulda/matchers'
 require 'stripe_mock'
 require 'webmock/rspec'
 require 'support/features/user_helpers'
-require 'pundit/rspec'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.

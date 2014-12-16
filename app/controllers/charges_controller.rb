@@ -1,4 +1,6 @@
 class ChargesController < ApplicationController
+  # create method does not require a user to be signed in.
+  skip_before_action :authenticate_user!
 
   # Necessary for exposing the API
   skip_before_action :verify_authenticity_token, only: [:create]
@@ -9,7 +11,6 @@ class ChargesController < ApplicationController
     if organization.present?
       customer = Customer.find_or_initialize(customer_params, status: organization.status)
       charge = customer.build_charge_with_params(customer_params[:charges_attributes], config: config_param, organization: organization)
-      authorize charge
       if params[:tags].present?
         params[:tags].each do |tag_string|
           charge.tags << Tag.find_or_create!(organization, tag_string) if tag_string.present?

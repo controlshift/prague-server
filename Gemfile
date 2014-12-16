@@ -28,12 +28,12 @@ gem 'turbolinks'
 gem 'jbuilder'
 
 gem 'omniauth'
-gem 'omniauth-stripe-connect', git: 'https://github.com/todddickerson/omniauth-stripe-connect.git'
+gem 'omniauth-stripe-connect'
 gem 'stripe'
 gem 'stripe_event', git: 'https://github.com/controlshift/stripe_event.git'
 gem 'haml-rails'
 gem 'doorkeeper'
-gem 'pundit'
+gem 'cancan'
 
 
 gem 'pusher'

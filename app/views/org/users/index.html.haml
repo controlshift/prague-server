@@ -1,0 +1,13 @@
+.row
+  .col-lg-12
+    = title "User Accounts"
+
+    %table.table
+      %thead
+        %th Email
+        %th Actions
+
+      - @users.each do |user|
+        %tr
+          %td= user.email
+          %td

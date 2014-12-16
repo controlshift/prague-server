@@ -3,7 +3,9 @@ require File.dirname(__FILE__) + '/../scenario_helper.rb'
 feature 'OAuth Client Generates a token' do
   let(:redirect_uri) { 'urn:ietf:wg:oauth:2.0:oob' }
   let!(:app) { create(:doorkeeper_application, redirect_uri: redirect_uri) }
-  let!(:org) { create(:organization) }
+  let(:org) { create(:organization) }
+  let(:user) { create(:confirmed_user, organization: org)}
+
   let(:client) do
     OAuth2::Client.new(app.uid, app.secret) do |b|
       b.request :url_encoded
@@ -17,7 +19,7 @@ feature 'OAuth Client Generates a token' do
 
   context 'while signed in' do
     before do
-      login org
+      login user
     end
 
     specify 'auth ok' do
@@ -48,10 +50,11 @@ feature 'OAuth Client Generates a token' do
       visit url
 
       expect(page).to have_content('Sign In')
-      expect(page.current_path).to eq(new_organization_session_path)
-      within '#new_organization' do
-        fill_in 'organization_email', with: org.email
-        fill_in 'organization_password', with: 'password'
+      expect(page.current_path).to eq(new_user_session_path)
+      save_and_open_page
+      within '#new_user' do
+        fill_in 'user_email', with: user.email
+        fill_in 'user_password', with: 'password'
         click_on 'Sign in'
       end
       expect(page).to have_content 'Authorize'
@@ -66,16 +69,13 @@ feature 'OAuth Client Generates a token' do
       visit url
 
       expect(page).to have_content('Sign In')
-      expect(page.current_path).to eq(new_organization_session_path)
-      within '#new_organization' do
-        fill_in 'organization_email', with: org.email
-        fill_in 'organization_password', with: 'password'
+      expect(page.current_path).to eq(new_user_session_path)
+      within '#new_user' do
+        fill_in 'user_email', with: user.email
+        fill_in 'user_password', with: 'password'
         click_on 'Sign in'
       end
       expect(page).to have_content 'To get started, you first must connect with Stripe'
     end
-
   end
-
-
 end
