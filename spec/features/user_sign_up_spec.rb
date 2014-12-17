@@ -56,7 +56,7 @@ feature 'User signs up' do
       fill_in 'Password', with: '12345678'
       fill_in 'Password Confirmation', with: '12345678'
       click_button 'Sign up'
-      expect(page).to have_content("The slug you will use for your organization is #{invitation.organization.slug}")
+      expect(page).to have_content(organization.name)
     end
 
     scenario 'with invalid token' do

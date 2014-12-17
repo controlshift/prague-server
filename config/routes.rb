@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 PragueServer::Application.routes.draw do
-  devise_for :users, controllers: { registrations: :users, confirmations: :confirmations, sessions: :sessions, passwords: :passwords }
+  devise_for :users, controllers: { registrations: :users, confirmations: :confirmations }
+
   use_doorkeeper
   # devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
