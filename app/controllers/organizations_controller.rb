@@ -3,7 +3,6 @@ class OrganizationsController < ApplicationController
 
   def show
     @organization = Organization.find_by_slug(params[:id])
-    @invitation = Invitation.new(organization: @organization)
     begin
       @account = Stripe::Account.retrieve @organization.access_token if @organization.access_token.present?
     rescue SocketError, Stripe::AuthenticationError => e

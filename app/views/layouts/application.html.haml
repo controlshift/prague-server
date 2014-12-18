@@ -35,6 +35,7 @@
                   %ul{class:'dropdown-menu', role:'menu', 'aria-labelledby' => "orgMenu"}
                     %li= link_to 'Dashboard', organization_path(current_organization)
                     %li= link_to 'Charges', organization_charges_path(current_organization)
+                    %li= link_to 'Users', organization_users_path(current_organization)
 
                 %li
                   %a{class: "dropdown-toggle", type: 'button', id:'userMenu', 'data-toggle' => 'dropdown', 'aria-expanded' => 'false'}
