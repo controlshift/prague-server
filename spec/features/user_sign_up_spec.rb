@@ -51,12 +51,21 @@ feature 'User signs up' do
     let(:sender) { create(:user_with_organization) }
     let(:invitation) { create(:invitation, sender: sender, organization: sender.organization, recipient_email: 'rec@mail.com') }
 
+    before(:each) do
+      StripeMock.start
+    end
+
+    after(:each) do
+      StripeMock.stop
+    end
+
+
     scenario 'with valid credentials' do
       visit new_user_registration_path(invitation_token: invitation.token)
       fill_in 'Password', with: '12345678'
       fill_in 'Password Confirmation', with: '12345678'
       click_button 'Sign up'
-      expect(page).to have_content(organization.name)
+      expect(page).to have_content(sender.organization.name)
     end
 
     scenario 'with invalid token' do

@@ -51,7 +51,6 @@ feature 'OAuth Client Generates a token' do
 
       expect(page).to have_content('Sign In')
       expect(page.current_path).to eq(new_user_session_path)
-      save_and_open_page
       within '#new_user' do
         fill_in 'user_email', with: user.email
         fill_in 'user_password', with: 'password'

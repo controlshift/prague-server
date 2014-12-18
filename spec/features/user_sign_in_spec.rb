@@ -39,6 +39,14 @@ feature 'User signs in' do
       let(:user) { create(:user_with_organization) }
       let(:organization) { user.organization }
 
+      before(:each) do
+        StripeMock.start
+      end
+
+      after(:each) do
+        StripeMock.stop
+      end
+
       scenario 'sees dashboard' do
         sign_in_with(email: user.email, password: user.password)
         expect(page).to have_content("The slug you will use for your organization is #{organization.slug}")
