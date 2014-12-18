@@ -14,6 +14,8 @@ feature 'Organization adds CRM credentials' do
   let(:user) { create(:confirmed_user, organization: org)}
 
   it 'creates credentials for the first time', js: true do
+    click_on 'orgMenu'
+    click_on 'Settings'
     select 'AUD', from: 'organization[currency]'
     fill_in 'organization_seedamount', with: '10'
     fill_in 'organization_seedvalues', with: '100,200,300'

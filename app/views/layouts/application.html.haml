@@ -29,16 +29,16 @@
                     %a{'data-toggle'=>'tooltip', 'data-placement'=>'bottom', 'title'=>"Must complete Stripe setup before using TakeCharge"}
                       Test Mode (locked by Stripe)
                 %li
-                  %a{class: "dropdown-toggle", type: 'button', id:'orgMenu', 'data-toggle' => 'dropdown', 'aria-expanded' => 'false'}
+                  %a{class: "dropdown-toggle", href:'#', type:'button', id:'orgMenu', 'data-toggle' => 'dropdown', 'aria-expanded' => 'false'}
                     = current_organization.name
                     %span{class: 'caret'}
                   %ul{class:'dropdown-menu', role:'menu', 'aria-labelledby' => "orgMenu"}
                     %li= link_to 'Dashboard', organization_path(current_organization)
                     %li= link_to 'Charges', organization_charges_path(current_organization)
                     %li= link_to 'Users', organization_users_path(current_organization)
-
+                    %li= link_to 'Settings', organization_settings_path(current_organization)
                 %li
-                  %a{class: "dropdown-toggle", type: 'button', id:'userMenu', 'data-toggle' => 'dropdown', 'aria-expanded' => 'false'}
+                  %a{class: "dropdown-toggle", href: '#', type: 'button', id:'userMenu', 'data-toggle' => 'dropdown', 'aria-expanded' => 'false'}
                     = current_user.email
                     %span{class: 'caret'}
                   %ul{class:'dropdown-menu', role:'menu', 'aria-labelledby' => "userMenu"}

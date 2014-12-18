@@ -31,7 +31,7 @@ PragueServer::Application.routes.draw do
       patch 'toggle'
       put 'deauthorize'
     end
-
+    resource  :settings, only: [:show], controller: 'org/settings'
     resources :crms, only: [:create, :update], controller: 'org/crms'
     resources :invitations, only: [:create], controller: 'org/invitations'
     resources :users, controller: 'org/users'

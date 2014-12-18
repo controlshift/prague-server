@@ -8,7 +8,6 @@ class OrganizationsController < ApplicationController
     rescue SocketError, Stripe::AuthenticationError => e
       Rails.logger.warn e
     end
-    @crm = @organization.crm || @organization.build_crm
   end
 
   def new

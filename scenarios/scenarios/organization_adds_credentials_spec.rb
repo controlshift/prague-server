@@ -14,6 +14,8 @@ feature 'Organization adds CRM credentials' do
   let(:user) { create(:confirmed_user, organization: org)}
 
   it 'creates AK credentials for the first time', js: true do
+    click_on 'orgMenu'
+    click_on 'Settings'
     # Set up AK
     select 'ActionKit', from: 'crm_platform'
     page.first(".credentials-form", visible: true)[:id].should == "crm-form-actionkit"
@@ -42,13 +44,16 @@ feature 'Organization adds CRM credentials' do
     click_link "X"
     expect(page).not_to have_content('Payment accout')
     first(".credentials-form", visible: true).find("input[type='submit']").click
-    sleep 1  # for some reason wait_for_ajax isn't doing it
+    sleep 0.5  # for some reason wait_for_ajax isn't doing it
     wait_for_ajax
     page.should have_selector('.crm-form-success', visible: true)
     crm.reload.import_stubs.should be_empty
   end
 
   it 'creates BSD credentials for the first time', js: true do
+    click_on 'orgMenu'
+    click_on 'Settings'
+
     # Set up BSD
     select 'Blue State Digital', from: 'crm_platform'
     bsd_form = page.first(".credentials-form", visible: true)
