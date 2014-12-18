@@ -93,7 +93,7 @@ group :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'launchy'
-  gem 'capybara', '~> 2.1'
+  gem 'capybara'
   gem 'shoulda-matchers', require: false
   gem 'selenium-webdriver'
   gem "capybara-webkit", require: false
