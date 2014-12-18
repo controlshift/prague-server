@@ -5,8 +5,8 @@
     .pull-right
       %ul.horizontal-links
         %li
-          = link_to 'Download CSV', org_tag_charges_path(@tag, format: 'csv')
+          = link_to 'Download CSV', organization_tag_charges_path(current_organization, @tag, format: 'csv')
         %li
-          = link_to 'All tags', org_tags_path
+          = link_to 'All tags', organization_tags_path(current_organization)
 
     = render partial: 'org/charges/charges_table', locals: {charges: @tag.charges}
