@@ -1,5 +1,5 @@
 class InvitationMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: ENV['ADMIN_EMAIL']
 
   def invitation_email(invitation_id)
     @invitation = Invitation.includes(:sender, :organization).find(invitation_id)
