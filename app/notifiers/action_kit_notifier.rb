@@ -32,6 +32,7 @@ class ActionKitNotifier
                               currency: import_stub.donation_currency
                             })
     end
+    Rails.logger.debug "Synchronizing #{charge.id} to AK with #{params}"
     ak.action.create(params)
   end
 end

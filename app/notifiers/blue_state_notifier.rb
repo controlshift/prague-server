@@ -18,6 +18,7 @@ class BlueStateNotifier
                                        email: charge.customer.email,
                                        connection: connection)
 
+    Rails.logger.debug "Synchronizing #{charge.id} to BSD."
     contribution.save
   end
 end
