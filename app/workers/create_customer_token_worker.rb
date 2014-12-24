@@ -21,7 +21,7 @@ class CreateCustomerTokenWorker
     # Store the Stripe customer ID on the prague customer.
     customer.update_attribute(:customer_token, stripe_customer.id)
 
-    LogEntry.create(charge: charge, message: "Customer #{stripe_customer.id} created.")
+    LogEntry.create!(charge: charge, message: "Customer #{stripe_customer.id} created.")
 
     # Schedule a job to actually run the charge.
     ChargeCustomerWorker.perform_async(charge.id)
