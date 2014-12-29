@@ -54,10 +54,10 @@ PragueServer::Application.routes.draw do
 
   root 'home#index'
 
-  Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-    username == ENV["ADMIN_USER"] && password == ENV["ADMIN_PASS"]
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
   end
-  mount Sidekiq::Web => '/sidekiq'
+
   mount StripeEvent::Engine => '/stripe/event'
 
 end
