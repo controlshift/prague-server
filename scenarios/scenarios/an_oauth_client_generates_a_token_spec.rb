@@ -4,7 +4,9 @@ feature 'OAuth Client Generates a token' do
   let(:redirect_uri) { 'urn:ietf:wg:oauth:2.0:oob' }
   let!(:app) { create(:doorkeeper_application, redirect_uri: redirect_uri) }
   let(:org) { create(:organization) }
-  let(:user) { create(:confirmed_user, organization: org)}
+  let(:org2) { create(:organization) }
+  let!(:user) { create(:confirmed_user, organization: org)}
+  let!(:user2) { create(:confirmed_user, organization: org2)}
 
   let(:client) do
     OAuth2::Client.new(app.uid, app.secret) do |b|
@@ -40,6 +42,30 @@ feature 'OAuth Client Generates a token' do
       response = OAuth2::AccessToken.new(client, token).get('/api/config')
       json = JSON.parse(response.body)
       expect(json['slug']).to eq(org.slug)
+
+      # sign in as the other user.
+      logout user
+      login user2
+
+      # start the OAuth flow
+      url = client.auth_code.authorize_url(:redirect_uri => redirect_uri)
+      visit url
+
+      # authorize the app, and grab the token. Ordinarily this would be a redirect, but we're running in test mode.
+      click_on 'Authorize'
+      code = page.find("#authorization_code").text
+
+      # we need to do this hack, because I'm not sure how to tell OAuth2::Client to use the rack adapter on this step.
+      page.driver.post('/oauth/token', { :client_id => app.uid, client_secret: app.secret, code: code, grant_type: 'authorization_code', redirect_uri: redirect_uri  })
+      page.driver.status_code.should eql 200
+      token = JSON.parse(page.body)['access_token']
+
+      # use the api token to get the organization's config
+      response = OAuth2::AccessToken.new(client, token).get('/api/config')
+      json = JSON.parse(response.body)
+
+      # verify that we now get the other user's configuration
+      expect(json['slug']).to eq(org2.slug)
     end
   end
 

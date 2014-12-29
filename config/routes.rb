@@ -2,8 +2,10 @@ require 'sidekiq/web'
 PragueServer::Application.routes.draw do
   devise_for :users, controllers: { registrations: :users, confirmations: :confirmations }
 
-  use_doorkeeper
-  # devise_for :admin_users, ActiveAdmin::Devise.config
+  use_doorkeeper do
+    controllers :applications => 'oauth/applications'
+  end
+
   ActiveAdmin.routes(self)
   get 'config/:id', to: ConfigController.action(:index)
 

@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    return admin_dashboard_path if resource.is_a?(AdminUser)
+    return admin_dashboard_path if resource.admin?
 
     stored_location = stored_location_for(resource)
     if stored_location && current_organization
@@ -23,11 +23,18 @@ class ApplicationController < ActionController::Base
         session['return_to'] = stored_location
         # Go to the org page, where we'll prompt them to connect to stripe
         organization_path(current_organization)
+      else
+        stored_location
       end
     else
-      # user doesn't have organization yet. Redirect him to a new organiztion page
+      # user doesn't have organization yet. Redirect them to a new organization page
       current_organization ? organization_path(current_organization) : new_organization_path
     end
+  end
+
+  def authenticate_admin_user!
+    authenticate_user!
+    authorize! :manage, :all
   end
 
   protected

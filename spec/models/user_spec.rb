@@ -26,4 +26,11 @@ require 'spec_helper'
 
 describe User do
   it { should belong_to :organization }
+  it { should validate_presence_of(:email)}
+
+  describe "email addresses" do
+    it { should allow_value('george@washington.com').for(:email) }
+    it { should allow_value('george@ul.we.you.us').for(:email) }
+    it { should_not allow_value('fooooooo bar bar gooooof   fooooof fofofofoosd fooooooo bar bar gooooof   fooooof fofofofoosd fooooooo bar bar gooooof   fooooof fofofofoosd fooooooo bar bar gooooof   fooooof fofofofoosd').for(:email) }
+  end
 end

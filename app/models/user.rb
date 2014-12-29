@@ -30,4 +30,6 @@ class User < ActiveRecord::Base
   has_one :invitation, foreign_key: 'recipient_id'
 
   accepts_nested_attributes_for :organization
+
+  validates :email, presence: true, email_format: true
 end

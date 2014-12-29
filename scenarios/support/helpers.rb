@@ -9,6 +9,12 @@ module HelperMethods
     click_button "Sign in"
     expect(page).to have_content user.organization.name
   end
+
+  def logout(user)
+    visit root_path
+    click_on user.email
+    click_on 'Sign out'
+  end
 end
 
 RSpec.configure do |config|

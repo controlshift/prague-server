@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 feature 'User signs in' do
-  let(:user) { create(:user) }
+  let(:user) { create(:user, organization: organization) }
+  let(:organization) { create(:organization) }
 
   scenario 'with invalid email' do
     sign_in_with(email: 'invalid@example.com', password: user.password)
