@@ -8,9 +8,10 @@ class ActionKitNotifier
       stub = crm.import_stubs.select { |st| st.donation_currency.upcase == charge.currency.upcase }.first
       post_ak_charge_for(crm, charge, ak, stub, stub.blank?)
     end
+    LogEntry.create(charge: charge, message: 'Synchronization to ActionKit Complete')
   end
 
-  def post_ak_charge_for crm, charge, ak, import_stub = nil, currency_not_found = false
+  def post_ak_charge_for(crm, charge, ak, import_stub = nil, currency_not_found = false)
     charge_amount = currency_not_found ? charge.converted_amount(crm.default_currency) : charge.amount
     params = charge.actionkit_hash.merge({
                                            page: charge.config.try(:[], 'page') || crm.donation_page_name,
@@ -32,6 +33,10 @@ class ActionKitNotifier
                               currency: import_stub.donation_currency
                             })
     end
-    ak.action.create(params)
+    action = ak.action.create(params)
+
+    charge.external_id = action.id
+    charge.external_new_member = action.created_user
+    charge.save!
   end
 end

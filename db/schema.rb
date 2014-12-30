@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140923203423) do
+ActiveRecord::Schema.define(version: 20141230161847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,24 +32,6 @@ ActiveRecord::Schema.define(version: 20140923203423) do
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
-  create_table "admin_users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
-  add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
-
   create_table "charges", force: true do |t|
     t.string   "amount"
     t.string   "currency"
@@ -64,6 +46,8 @@ ActiveRecord::Schema.define(version: 20140923203423) do
     t.boolean  "paid",                 default: false,  null: false
     t.string   "stripe_id"
     t.hstore   "card"
+    t.string   "external_id"
+    t.boolean  "external_new_member"
   end
 
   add_index "charges", ["customer_id"], name: "index_charges_on_customer_id", using: :btree
@@ -114,6 +98,16 @@ ActiveRecord::Schema.define(version: 20140923203423) do
 
   add_index "import_stubs", ["crm_id"], name: "index_import_stubs_on_crm_id", using: :btree
 
+  create_table "invitations", force: true do |t|
+    t.integer  "sender_id",       null: false
+    t.integer  "recipient_id"
+    t.string   "recipient_email", null: false
+    t.integer  "organization_id", null: false
+    t.string   "token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "log_entries", force: true do |t|
     t.integer  "charge_id"
     t.text     "message"
@@ -152,12 +146,13 @@ ActiveRecord::Schema.define(version: 20140923203423) do
   add_index "oauth_access_tokens", ["token"], name: "index_oauth_access_tokens_on_token", unique: true, using: :btree
 
   create_table "oauth_applications", force: true do |t|
-    t.string   "name",         null: false
-    t.string   "uid",          null: false
-    t.string   "secret",       null: false
-    t.text     "redirect_uri", null: false
+    t.string   "name",                      null: false
+    t.string   "uid",                       null: false
+    t.string   "secret",                    null: false
+    t.text     "redirect_uri",              null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "scopes",       default: "", null: false
   end
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
@@ -214,5 +209,31 @@ ActiveRecord::Schema.define(version: 20140923203423) do
 
   add_index "tags", ["organization_id", "name"], name: "index_tags_on_organization_id_and_name", using: :btree
   add_index "tags", ["organization_id", "namespace_id"], name: "index_tags_on_organization_id_and_namespace_id", using: :btree
+
+  create_table "users", force: true do |t|
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,     null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "admin",                  default: false
+  end
+
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["organization_id"], name: "index_users_on_organization_id", using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end
