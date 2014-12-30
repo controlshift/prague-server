@@ -10,8 +10,12 @@ class DateAggregation
   end
 
   def last_7_days
+   history(7)
+  end
+
+  def history(days_to_display = 7)
     stats = {}
-    (6.days.ago.to_date..Time.zone.today).each do |day|
+    ((days_to_display-1).days.ago.to_date..Time.zone.today).each do |day|
       stats[day] = redis.get(day_key(day.day, day.month, day.year)).to_i
     end
     stats

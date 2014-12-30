@@ -50,6 +50,14 @@ class TagNamespace < ActiveRecord::Base
     tags_with_scores.collect{|t| {tag: t.first, raised: t.last.to_i }} # convert the score (amount raised) to integer value.
   end
 
+  def raised_history(days)
+    DateAggregation.new(total_raised_amount_key).history(days)
+  end
+
+  def charges_history(days)
+    DateAggregation.new(total_charges_count_key).history(days)
+  end
+
   def raised_last_7_days
     DateAggregation.new(total_raised_amount_key).last_7_days
   end
