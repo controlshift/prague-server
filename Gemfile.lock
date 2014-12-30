@@ -193,6 +193,7 @@ GEM
       actionpack (>= 3.0)
     fssm (0.2.10)
     geoip (1.4.0)
+    going_postal (0.1.5)
     guard (2.6.0)
       formatador (>= 0.2.4)
       listen (~> 2.7)
@@ -490,6 +491,7 @@ DEPENDENCIES
   dotenv-rails
   factory_girl_rails
   geoip
+  going_postal
   guard
   guard-rspec
   guard-spring
