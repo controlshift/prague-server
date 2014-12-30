@@ -6,6 +6,6 @@ class Api::BaseController < ApplicationController
 
   # Find the user that owns the access token
   def current_resource_owner
-    User.find(doorkeeper_token.resource_owner_id).organization if doorkeeper_token
+    Organization.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
   end
 end

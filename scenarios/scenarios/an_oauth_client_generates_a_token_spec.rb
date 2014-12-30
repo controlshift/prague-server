@@ -66,6 +66,19 @@ feature 'OAuth Client Generates a token' do
 
       # verify that we now get the other user's configuration
       expect(json['slug']).to eq(org2.slug)
+
+      # the token authenticates access to the organization, not the user, so deleting the users should have no effect.
+      logout user2
+
+      user.destroy
+      user2.destroy
+
+      # use the api token to get the organization's config
+      response = OAuth2::AccessToken.new(client, token).get('/api/config')
+      json = JSON.parse(response.body)
+
+      # verify that we now get the other user's configuration
+      expect(json['slug']).to eq(org2.slug)
     end
   end
 
