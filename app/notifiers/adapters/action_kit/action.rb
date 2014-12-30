@@ -35,7 +35,7 @@ module Adapters
 
       def config_hash
         if charge.config.present?
-          charge.config.select { |k,v| k.start_with? "action_" || k == "source" }.merge({ 'orig_akid' => config['akid'] })
+          charge.config.select { |k,v| k.start_with? "action_" || k == "source" }.merge({ 'orig_akid' => charge.config['akid'] })
         else
           {}
         end
