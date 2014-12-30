@@ -63,6 +63,14 @@ class Tag < ActiveRecord::Base
     end
   end
 
+  def raised_history(days)
+    DateAggregation.new(total_raised_amount_key).history(days)
+  end
+
+  def charges_history(days)
+    DateAggregation.new(total_charges_count_key).history(days)
+  end
+
   def raised_last_7_days
     DateAggregation.new(total_raised_amount_key).last_7_days
   end

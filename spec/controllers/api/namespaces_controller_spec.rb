@@ -20,6 +20,21 @@ describe Api::NamespacesController do
     end
   end
 
+  describe 'history' do
+    it 'responds with 200' do
+      get :history, id: 'foo', days: 7
+      response.status.should eq(200)
+      expect(JSON.parse(response.body)['namespace']).to eq('foo')
+    end
+
+    it 'should include historical data' do
+      get :history, id: 'foo'
+      json = JSON.parse(response.body)
+      expect(json).to have_key('charges_count')
+      expect(json).to have_key('raised_amount')
+    end
+  end
+
   describe 'index' do
     it 'responds with 200' do
       get :index

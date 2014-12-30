@@ -46,6 +46,8 @@ ActiveRecord::Schema.define(version: 20141224015625) do
     t.boolean  "paid",                 default: false,  null: false
     t.string   "stripe_id"
     t.hstore   "card"
+    t.string   "external_id"
+    t.boolean  "external_new_member"
   end
 
   add_index "charges", ["customer_id"], name: "index_charges_on_customer_id", using: :btree

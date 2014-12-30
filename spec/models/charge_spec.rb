@@ -146,14 +146,6 @@ describe Charge do
     end
   end
 
-  describe '#actionkit_hash' do
-    subject { build(:charge, config: {'action_foo' => 'bar', 'a' => 'b', 'akid' => 'XXX'})}
-
-    it 'should only return the key value pairs where the key starts with action_' do
-      subject.actionkit_hash.should == {'action_foo' => 'bar', 'orig_akid' => 'XXX'}
-    end
-  end
-
   describe 'application_fee' do
     subject { build_stubbed(:charge, amount: 100) }
     it 'should have a 1 percent application_fee' do

@@ -38,4 +38,20 @@ describe Api::TagsController do
       expect(JSON.parse(response.body)).to have_key('average_charge_display_amount')
     end
   end
+
+
+  describe 'history' do
+    it 'responds with 200' do
+      get :history, id: 'foo', days: 7
+      response.status.should eq(200)
+      expect(JSON.parse(response.body)['name']).to eq('foo')
+    end
+
+    it 'should include historical data' do
+      get :history, id: 'foo'
+      json = JSON.parse(response.body)
+      expect(json).to have_key('charges_count')
+      expect(json).to have_key('raised_amount')
+    end
+  end
 end

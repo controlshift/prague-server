@@ -52,14 +52,6 @@ class Charge < ActiveRecord::Base
     (amount.to_i * 0.01).to_i
   end
 
-  def actionkit_hash
-    if config.present?
-      config.select { |k,v| k.start_with? "action_" || k == "source" }.merge({ 'orig_akid' => config['akid'] })
-    else
-      {}
-    end
-  end
-
   # Converts a string of the form "{\"key\"=>\"val\"}" into a hash.
   def rate_conversion_hash
     Hash[config['rates'].split(",").collect{|c| c.tr('"}{ ', '').split("=>")}] rescue {}

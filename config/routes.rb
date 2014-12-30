@@ -14,9 +14,17 @@ PragueServer::Application.routes.draw do
       collection do
         get :raised
       end
+
+      member do
+        get :history
+      end
+
       resources :charges, only: [:index], controller: 'namespaces/charges'
     end
     resources :tags, controller: 'tags', only: [:index, :show] do
+      member do
+        get :history
+      end
       resources :charges, only: [:index], controller: 'tags/charges'
     end
     resources :charges, controller: 'charges', only: [:index]
