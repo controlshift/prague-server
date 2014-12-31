@@ -22,7 +22,7 @@ describe BlueStateNotifier do
     charge.amount = 123
     expect(charge).to receive(:converted_amount).with('XYZ').and_return(23456)
     expect(BlueStateDigital::Contribution).to receive(:new) do |options|
-      expect(options[:transaction_amt]).to eq(23456)
+      expect(options[:transaction_amt]).to eq(234.56)
       double().as_null_object
     end
     BlueStateNotifier.new.process(charge)
