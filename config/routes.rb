@@ -3,7 +3,6 @@ PragueServer::Application.routes.draw do
   devise_for :users, controllers: { registrations: :users, confirmations: :confirmations }
 
   use_doorkeeper do
-    controllers :applications => 'oauth/applications'
   end
 
   ActiveAdmin.routes(self)
