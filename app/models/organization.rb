@@ -26,7 +26,7 @@ class Organization < ActiveRecord::Base
   include HasSlug
 
   has_many :charges
-  has_one :crm
+  has_one  :crm
   has_many :tags
   has_many :namespaces, class_name: 'TagNamespace'
   has_many :users

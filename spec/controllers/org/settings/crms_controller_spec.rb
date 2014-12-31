@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Org::CrmsController do
+describe Org::Settings::CrmController do
   let(:organization) { create(:organization)}
   let(:user) { create(:confirmed_user, organization: organization)}
 

@@ -40,8 +40,12 @@ PragueServer::Application.routes.draw do
       patch 'toggle'
       put 'deauthorize'
     end
-    resource  :settings, only: [:show], controller: 'org/settings'
-    resources :crms, only: [:create, :update], controller: 'org/crms'
+    resource  :settings, only: [:show], controller: 'org/settings' do
+      resources :applications, only: [:index], controller: 'org/settings/applications'
+      resource :crm, controller: 'org/settings/crm' do
+        resources :import_stubs, controller: 'org/settings/crm/import_stubs'
+      end
+    end
     resources :invitations, only: [:create], controller: 'org/invitations'
     resources :users, controller: 'org/users'
     resources :charges, controller: 'org/charges'

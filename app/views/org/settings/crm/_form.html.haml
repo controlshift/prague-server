@@ -1,0 +1,4 @@
+#crm-form
+  %h4= "#{@crm.persisted? ?  'Edit' : 'Add' } #{@crm.platform_display_name} Integration"
+
+  = render partial: "org/settings/crm/crm_form_#{@crm.platform}"

@@ -1,4 +1,4 @@
-class Org::InvitationsController < ApplicationController
+class Org::InvitationsController < Org::OrgController
   def create
     @invitation = Invitation.new(invitation_params)
     @invitation.sender = current_user

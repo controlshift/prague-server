@@ -61,3 +61,29 @@ footer {
 .dropdown-toggle {
  cursor: pointer;
 }
+
+
+
+ul.choice-list {
+  padding-left: 0;
+  list-style: none;
+
+  li {
+    float: left;
+    width: 25%;
+    height: 115px;
+    padding: 10px;
+    font-size: 20px;
+    line-height: 1.4;
+    text-align: center;
+    background-color: #f9f9f9;
+    border: 1px solid #fff;
+  }
+  li:hover {
+    color: white;
+    background-color:#4C8FFF;
+    a {
+      color: white;
+    }
+  }
+}

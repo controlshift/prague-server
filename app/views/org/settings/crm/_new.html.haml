@@ -1,0 +1,6 @@
+%h4 Add CRM Integration
+
+%ul.choice-list
+  - Crm::PLATFORMS.each do |platform, label|
+    = link_to new_organization_settings_crm_path(current_organization, crm: {platform: platform}), remote: true do
+      %li=label

@@ -3,7 +3,16 @@
     = breadcrumbs [[current_organization.name, organization_path(current_organization)],
                    ['Settings']]
 
-    %h3 Default Widget Settings
+    %h3 Settings
+
+    %ul.nav.nav-tabs.mb30
+      %li{role: 'presentation', class: 'active'}
+        %a{href:'#'}
+          Widget
+      %li{role: 'presentation'}
+        = link_to 'CRM', organization_settings_crm_path(current_organization)
+      %li{role: 'presentation'}
+        = link_to 'Applications', organization_settings_applications_path(current_organization)
+
+
     = render partial: 'organizations/global_defaults_form', locals: { valid: false}
-    %h3 CRM Information
-    = render partial: 'organizations/crm_form', locals: { valid: false}

@@ -1,0 +1,4 @@
+= simple_form_for([current_organization, @stub], url: organization_settings_crm_import_stubs_path(current_organization), html: { class: "form-vertical", role: "form"}, wrapper: :vertical_form, remote: true) do |f|
+  = f.input :payment_account
+  = f.input :donation_currency
+  = f.button :submit, 'Add', data: { disable_with: 'Adding...' }
