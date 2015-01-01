@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  before_action :load_organization, except: [:new, :create]
+  before_action :load_organization, except: [:new, :create, :omniauth_failure]
 
   def show
     begin
