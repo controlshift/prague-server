@@ -37,6 +37,10 @@ class ApplicationController < ActionController::Base
     authorize! :manage, :all
   end
 
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_path, alert: exception.to_s
+  end
+
   protected
 
   def current_organization

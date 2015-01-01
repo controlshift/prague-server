@@ -1,8 +1,7 @@
 class OrganizationsController < ApplicationController
-  before_action :verify_organization, except: [:new, :create]
+  before_action :load_organization, except: [:new, :create]
 
   def show
-    @organization = Organization.find_by_slug(params[:id])
     begin
       @account = Stripe::Account.retrieve @organization.access_token if @organization.access_token.present?
     rescue SocketError, Stripe::AuthenticationError => e
@@ -62,12 +61,12 @@ class OrganizationsController < ApplicationController
 
   private
 
-  def verify_organization
+  def load_organization
     authorize! :manage, current_organization
   end
 
   def current_organization
-    current_user.organization
+    @organization ||= Organization.where(slug: params[:id]).first!
   end
 
   def organization_params

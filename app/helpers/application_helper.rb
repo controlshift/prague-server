@@ -48,7 +48,7 @@ module ApplicationHelper
   end
 
   def current_organization
-    current_user.organization
+    @organization ||= current_user.organization
   end
 
   private
