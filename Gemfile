@@ -59,8 +59,6 @@ gem 'will_paginate'
 
 gem 'activeadmin', github: 'gregbell/active_admin'
 
-gem 'cocoon'
-
 gem 'going_postal'
 
 group :doc do

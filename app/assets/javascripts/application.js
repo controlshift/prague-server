@@ -17,4 +17,3 @@
 //= require scale.fix.js
 //= require bootstrap
 //= require bootstrap_switch
-//= require cocoon
