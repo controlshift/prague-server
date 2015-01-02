@@ -15,6 +15,12 @@ describe Invitation do
     end
   end
 
+  describe "email addresses" do
+    it { should allow_value('george@washington.com').for(:recipient_email) }
+    it { should allow_value('george@ul.we.you.us').for(:recipient_email) }
+    it { should_not allow_value('fooooooo bar bar gooooof   fooooof fofofofoosd fooooooo bar bar gooooof   fooooof fofofofoosd fooooooo bar bar gooooof   fooooof fofofofoosd fooooooo bar bar gooooof   fooooof fofofofoosd').for(:recipient_email) }
+  end
+
   describe '#recipient_is_not_member' do
     let(:invitation) { build(:invitation) }
     let(:user) { create(:confirmed_user, email: invitation.recipient_email, organization: organization)}

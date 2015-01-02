@@ -18,7 +18,7 @@ class Invitation < ActiveRecord::Base
   has_one :recipient, class_name: 'User'
 
   validates :sender, presence: true
-  validates :recipient_email, presence: true
+  validates :recipient_email, presence: true, email_format: true
   validates :organization, presence: true
   validate :recipient_is_not_member
   validate :sender_is_member
@@ -29,8 +29,10 @@ class Invitation < ActiveRecord::Base
 
   # Check if recipient isn't already a member of some organization
   def recipient_is_not_member
-    recipient = User.where(email: recipient_email).first if recipient_email.present?
-    errors.add :recipient_email, 'is already member of an organization' if !recipient.nil? && !recipient.organization.nil?
+    if recipient_email.present?
+      recipient = User.where(email: recipient_email).first
+      errors.add :recipient_email, 'is already member of an organization' if recipient.present? && recipient.organization.present?
+    end
   end
 
   # Check if sender is member of the organization
