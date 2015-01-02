@@ -24,6 +24,7 @@ describe Organization do
   it { should have_many :namespaces }
   it { should have_many :tags }
   it { should have_many :users }
+  it { should have_many :invitations }
 
   it { should validate_presence_of :name }
   it { should validate_uniqueness_of :slug }

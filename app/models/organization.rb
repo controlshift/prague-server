@@ -30,6 +30,7 @@ class Organization < ActiveRecord::Base
   has_many :tags
   has_many :namespaces, class_name: 'TagNamespace'
   has_many :users
+  has_many :invitations
 
   validates :slug, :name, presence: true
   validates :name, uniqueness: true
