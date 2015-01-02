@@ -37,8 +37,8 @@ class Invitation < ActiveRecord::Base
 
   # Check if sender is member of the organization
   def sender_is_member
-    if sender_id.present?
-      errors.add :sender_id, 'only members of the organization can invite new users' if User.find(sender_id).organization_id != organization_id
+    if sender.present?
+      errors.add :sender_id, 'only members of the organization can invite new users' if sender.organization != organization
     end
   end
 
