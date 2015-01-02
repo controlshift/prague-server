@@ -22,6 +22,9 @@ class Invitation < ActiveRecord::Base
   validates :organization, presence: true
   validate :recipient_is_not_member
   validate :sender_is_member
+  validates :token, presence: true, uniqueness: true
+
+  attr_readonly :token
 
   before_validation :generate_token!
 
@@ -43,6 +46,6 @@ class Invitation < ActiveRecord::Base
   end
 
   def generate_token!
-    self.token = Digest::SHA1.hexdigest([Time.now, rand].join)
+    self.token = Digest::SHA1.hexdigest([Time.now, rand].join) if token.blank?
   end
 end

@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Invitation do
   let(:organization) { create(:organization) }
+  let(:user) { create(:confirmed_user, organization: organization) }
 
   it { should validate_presence_of :sender }
   it { should validate_presence_of :organization }
@@ -12,6 +13,22 @@ describe Invitation do
       expect(subject.token).to be_nil
       subject.valid?
       expect(subject.token).to be_present
+    end
+
+
+    context 'with a token' do
+      let!(:invitation) { create(:invitation, token: 'foo', organization: organization, sender: user) }
+
+      it 'should not change once set' do
+        invitation.valid? # trigger callback
+        expect(invitation.token).to eq('foo')
+      end
+
+      it 'should not allow a second invitation with the same token' do
+        inv = build(:invitation, token: 'foo', organization: organization, sender: user)
+        inv.valid?
+        expect(inv.errors.messages[:token]).to be_present
+      end
     end
   end
 
