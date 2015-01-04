@@ -24,6 +24,7 @@ class UsersController < Devise::RegistrationsController
       @invitation = Invitation.includes(:sender, :organization).find_by(token: params[:invitation_token])
       resource.organization = @invitation.organization
       resource.email = @invitation.recipient_email
+      @invitation.update_attribute(:invitation_accepted_at, Time.now)
       resource.skip_confirmation!
       resource.confirm!
     end
