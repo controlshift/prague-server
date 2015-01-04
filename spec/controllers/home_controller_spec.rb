@@ -6,7 +6,7 @@ describe HomeController do
       get :index
     end
 
-    it 'should render success' do
+    it 'should render success, even when not logged in' do
       response.should be_success
     end
   end
