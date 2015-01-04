@@ -14,7 +14,8 @@
         %tr
           %td= user.email
           %td
-            = link_to 'Delete', organization_user_path(current_organization, user), method: :delete, class: 'btn btn-warning'
+            - if user != current_user
+              = link_to 'Delete', organization_user_path(current_organization, user), method: :delete, class: 'btn btn-warning'
 .row
   .col-lg-12
     %p Invite new users to join your organization:
