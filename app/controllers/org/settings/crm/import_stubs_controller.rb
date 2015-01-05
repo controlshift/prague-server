@@ -31,6 +31,8 @@ class Org::Settings::Crm::ImportStubsController < Org::OrgController
     end
   end
 
+  private
+
   def import_stub_params
     params.require(:import_stub).permit(:donation_currency, :payment_account)
   end

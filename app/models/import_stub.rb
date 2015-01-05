@@ -13,5 +13,7 @@
 class ImportStub < ActiveRecord::Base
   belongs_to :crm
 
-  validates :payment_account, :donation_currency, presence: true
+  validates :payment_account, presence: true
+  validates :donation_currency, presence: true
+  validates :crm, presence: true
 end
