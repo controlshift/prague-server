@@ -9,8 +9,19 @@ describe Org::Settings::CrmController do
     sign_in user
   end
 
-  describe 'create' do
+  it 'should render new' do
+    xhr :get, :new, organization_id: organization, crm: {platform: 'actionkit'}
+    expect(response).to be_success
+    expect(assigns(:crm)).to_not be_nil
+  end
 
+  it 'should render edit' do
+    xhr :get, :edit, organization_id: organization
+    expect(response).to be_success
+  end
 
+  it 'should render show' do
+    xhr :get, :show, organization_id: organization
+    expect(response).to be_success
   end
 end
