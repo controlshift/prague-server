@@ -20,6 +20,7 @@
 #  organization_id        :integer
 #  created_at             :datetime
 #  updated_at             :datetime
+#  admin                  :boolean          default(FALSE)
 #
 
 class User < ActiveRecord::Base

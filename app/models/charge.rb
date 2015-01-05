@@ -16,6 +16,8 @@
 #  paid                 :boolean          default(FALSE), not null
 #  stripe_id            :string(255)
 #  card                 :hstore
+#  external_id          :string(255)
+#  external_new_member  :boolean
 #
 
 class Charge < ActiveRecord::Base
