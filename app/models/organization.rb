@@ -65,7 +65,7 @@ class Organization < ActiveRecord::Base
 
   after_save :flush_cache_key!
 
-  def apply_omniauth omniauth_hash
+  def apply_omniauth(omniauth_hash)
     return if omniauth_hash.nil?
     logger.info "omniauth_hash #{omniauth_hash.inspect}"
     self.stripe_user_id = omniauth_hash['uid']
@@ -91,7 +91,7 @@ class Organization < ActiveRecord::Base
     !testmode
   end
 
-  def self.find_for_stripe_oauth auth
+  def self.find_for_stripe_oauth(auth)
     return if auth.nil? || auth['info'].blank? || auth['credentials'].blank?
     Organization.where(stripe_user_id: auth['uid']).first
   end
@@ -103,7 +103,7 @@ class Organization < ActiveRecord::Base
                     currency: currency.upcase, testmode: self.testmode?)
   end
 
-  def self.global_defaults_for_slug slug
+  def self.global_defaults_for_slug(slug)
     Rails.cache.fetch "global_defaults_#{slug}", expires_in: 24.hours do
       defaults = Organization.find_by_slug(slug).try(:global_defaults) || {}
       resp = Net::HTTP.get_response(URI.parse('http://platform.controlshiftlabs.com/cached_url/currencies'))
