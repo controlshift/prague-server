@@ -1,0 +1,13 @@
+= breadcrumbs [[current_organization.name, organization_path(current_organization)],
+               ['Settings']]
+
+%h3 Settings
+
+%ul.nav.nav-tabs.mb30
+  %li{role: 'presentation'}
+    = link_to 'Widget', organization_settings_path(current_organization)
+  %li{role: 'presentation', class: 'active'}
+    %a{href:'#'}
+      CRM
+  %li{role: 'presentation'}
+    = link_to 'Applications', organization_settings_applications_path(current_organization)

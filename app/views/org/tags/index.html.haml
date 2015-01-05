@@ -1,5 +1,9 @@
 .row
   .col-lg-12
+    = breadcrumbs [[current_organization.name, organization_path(current_organization)],
+                   ['Charges', organization_charges_path(current_organization)],
+                   ['Tags']]
+
     = title "Tags"
 
     %table.table
@@ -10,6 +14,6 @@
 
       - @tags.each do |tag|
         %tr
-          %td= link_to(tag.name, org_tag_path(tag.name))
+          %td= link_to(tag.name, organization_tag_path(current_organization, tag.name))
           %td= tag.total_raised
           %td= tag.total_charges_count

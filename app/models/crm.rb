@@ -17,13 +17,13 @@
 class Crm < ActiveRecord::Base
   belongs_to :organization
 
-  has_many :import_stubs
+  has_many :import_stubs, dependent: :destroy
 
   validates :username, :host, :platform, :default_currency, presence: true
   validates :donation_page_name, presence: true, if: :requires_donation_page?
   validates :password, presence: true, on: :create
   validates :organization, presence: true
-
+  validates :platform, presence: true, inclusion: {in: ['actionkit', 'bluestate']}
   accepts_nested_attributes_for :import_stubs, allow_destroy: true
 
   attr_encrypted :password, key: ENV["ENCRYPTOR_SECRET_KEY"]
@@ -32,9 +32,20 @@ class Crm < ActiveRecord::Base
 
   before_save :ignore_password_if_not_given, on: :update
 
+  def platform_display_name
+    PLATFORMS[platform]
+  end
+
   def requires_donation_page?
-    # TODO this is beginning to suggest that subclasses would make sense?
+    action_kit?
+  end
+
+  def action_kit?
     self.platform == 'actionkit'
+  end
+
+  def blue_state_digital?
+    self.platform == 'bluestate'
   end
 
   private

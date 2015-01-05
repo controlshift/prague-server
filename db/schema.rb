@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141230161847) do
+ActiveRecord::Schema.define(version: 20150104210036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,14 +99,19 @@ ActiveRecord::Schema.define(version: 20141230161847) do
   add_index "import_stubs", ["crm_id"], name: "index_import_stubs_on_crm_id", using: :btree
 
   create_table "invitations", force: true do |t|
-    t.integer  "sender_id",       null: false
+    t.integer  "sender_id",              null: false
     t.integer  "recipient_id"
-    t.string   "recipient_email", null: false
-    t.integer  "organization_id", null: false
+    t.string   "recipient_email",        null: false
+    t.integer  "organization_id",        null: false
     t.string   "token"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "invitation_accepted_at"
   end
+
+  add_index "invitations", ["organization_id"], name: "index_invitations_on_organization_id", using: :btree
+  add_index "invitations", ["sender_id"], name: "index_invitations_on_sender_id", using: :btree
+  add_index "invitations", ["token"], name: "index_invitations_on_token", unique: true, using: :btree
 
   create_table "log_entries", force: true do |t|
     t.integer  "charge_id"
@@ -164,22 +169,8 @@ ActiveRecord::Schema.define(version: 20141230161847) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "email"
     t.string   "slug"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",               default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
     t.hstore   "global_defaults"
-    t.string   "encrypted_password",          default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
     t.boolean  "testmode"
     t.string   "refresh_token"
     t.boolean  "stripe_live_mode"
@@ -187,7 +178,6 @@ ActiveRecord::Schema.define(version: 20141230161847) do
     t.string   "stripe_test_access_token"
   end
 
-  add_index "organizations", ["reset_password_token"], name: "index_organizations_on_reset_password_token", unique: true, using: :btree
   add_index "organizations", ["slug"], name: "index_organizations_on_slug", unique: true, using: :btree
 
   create_table "tag_namespaces", force: true do |t|

@@ -28,11 +28,12 @@ gem 'turbolinks'
 gem 'jbuilder'
 
 gem 'omniauth'
-gem 'omniauth-stripe-connect', git: 'https://github.com/todddickerson/omniauth-stripe-connect.git'
+gem 'omniauth-stripe-connect'
 gem 'stripe'
 gem 'stripe_event', git: 'https://github.com/controlshift/stripe_event.git'
 gem 'haml-rails'
 gem 'doorkeeper'
+gem 'cancan'
 
 
 gem 'pusher'
@@ -58,8 +59,6 @@ gem 'will_paginate'
 
 gem 'activeadmin', github: 'gregbell/active_admin'
 
-gem 'cocoon'
-
 gem 'going_postal'
 
 group :doc do
@@ -82,6 +81,7 @@ group :development, :test do
   gem 'byebug'
   gem 'mailcatcher'
   gem 'thin'
+  gem 'faker'
 end
 
 group :test do
@@ -93,7 +93,7 @@ group :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'launchy'
-  gem 'capybara', '~> 2.1'
+  gem 'capybara'
   gem 'shoulda-matchers', require: false
   gem 'selenium-webdriver'
   gem "capybara-webkit", require: false

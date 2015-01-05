@@ -1,10 +1,10 @@
 class ChargesController < ApplicationController
+  # create method does not require a user to be signed in.
+  skip_before_action :authenticate_user!
 
   # Necessary for exposing the API
-  skip_before_action :verify_authenticity_token, only: [ :create ]
-  before_filter :authenticate_organization!, only: [:index]
-
-  after_filter :cors_set_access_control_headers, only: [:create]
+  skip_before_action :verify_authenticity_token, only: [:create]
+  after_action :cors_set_access_control_headers, only: [:create]
 
   def create
     organization = Organization.find_by_slug(organization_slug_param)
@@ -27,7 +27,7 @@ class ChargesController < ApplicationController
       render json: { error: "Organization: '#{organization_slug_param}' does not exist." }, status: :unprocessable_entity
     end
   rescue ActionController::ParameterMissing
-    render json: { error: "You must provide all of the required parameters. Check the documentation." }, status: :unprocessable_entity 
+    render json: { error: "You must provide all of the required parameters. Check the documentation." }, status: :unprocessable_entity
   end
 
   private

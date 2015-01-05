@@ -13,7 +13,9 @@ class ActionKitNotifier
   end
 
   def post_ak_charge_for(charge, ak, import_stub = nil)
-    action = ak.action.create(Adapters::ActionKit::Action.new(charge: charge, import_stub: import_stub).to_hash)
+    params = Adapters::ActionKit::Action.new(charge: charge, import_stub: import_stub).to_hash
+    action = ak.action.create(params)
+    Rails.logger.debug "Synchronizing #{charge.id} to AK with #{params}"
 
     charge.external_id = action.id
     charge.external_new_member = action.created_user

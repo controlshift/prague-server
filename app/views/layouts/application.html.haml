@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title= content_for?(:title) ? content_for(:title) : (current_organization ? current_organization.name : 'TakeCharge')
+    %title= content_for?(:title) ? content_for(:title) : (current_user && current_user.organization ? current_user.organization.name : 'TakeCharge')
     = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
@@ -18,19 +18,36 @@
             = image_tag 'logo.png'
         .navbar-collapse.collapse
           %ul.nav.navbar-nav.navbar-right
-            - if current_organization
-              %li
-                - if current_organization.stripe_live_mode?
-                  %input{:type =>"checkbox", :name =>"organization_test_mode", :checked => current_organization.live?, id: 'organization_test_mode', 'data-update-path' => toggle_organization_path(current_organization), 'data-on-text' => 'Live', 'data-off-text' => 'Test' }
-                - else
-                  %span
-                    Test Mode (locked by Stripe)
-              %li= link_to 'Charges', org_charges_path
-              %li= link_to 'Dashboard', organization_path(current_organization)
-              %li= link_to "Sign out", destroy_organization_session_path, method: :delete
+
+            - if current_user
+
+              - if current_user.organization
+                %li
+                  - if current_user.organization.stripe_live_mode?
+                    %input{:type =>"checkbox", :name =>"organization_test_mode", :checked => current_user.organization.live?, id: 'organization_test_mode', 'data-update-path' => toggle_organization_path(current_user.organization), 'data-on-text' => 'Live', 'data-off-text' => 'Test' }
+                  - else
+                    %a{'data-toggle'=>'tooltip', 'data-placement'=>'bottom', 'title'=>"Must complete Stripe setup before using TakeCharge"}
+                      Test Mode (locked by Stripe)
+                %li
+                  %a{class: "dropdown-toggle", href:'#', type:'button', id:'orgMenu', 'data-toggle' => 'dropdown', 'aria-expanded' => 'false'}
+                    = current_organization.name
+                    %span{class: 'caret'}
+                  %ul{class:'dropdown-menu', role:'menu', 'aria-labelledby' => "orgMenu"}
+                    %li= link_to 'Dashboard', organization_path(current_organization)
+                    %li= link_to 'Charges', organization_charges_path(current_organization)
+                    %li= link_to 'Users', organization_users_path(current_organization)
+                    %li= link_to 'Settings', organization_settings_path(current_organization)
+                %li
+                  %a{class: "dropdown-toggle", href: '#', type: 'button', id:'userMenu', 'data-toggle' => 'dropdown', 'aria-expanded' => 'false'}
+                    = current_user.email
+                    %span{class: 'caret'}
+                  %ul{class:'dropdown-menu', role:'menu', 'aria-labelledby' => "userMenu"}
+                    %li= link_to 'Admin', admin_root_path if can? :manage, :all
+                    %li= link_to "Sign out", destroy_user_session_path, method: :delete
             - else
-              %li= link_to 'Sign in', new_organization_session_path
-    .container
+              %li= link_to 'Sign in', new_user_session_path
+
+    .container#main
       - flash.each do |type, message|
         .div{class:"alert #{bootstrap_class_for(type)} fade in"}
           %button.close{"data-dismiss"=>"alert"} ×

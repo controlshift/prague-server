@@ -1,6 +1,5 @@
 class Org::ChargesController < Org::OrgController
   def index
-    current_organization.charges.live.order('created_at DESC')
     respond_to do | format |
       format.html do
         @charges = if current_organization.testmode?

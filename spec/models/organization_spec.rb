@@ -37,10 +37,10 @@ require 'spec_helper'
 describe Organization do
   it { should have_many :namespaces }
   it { should have_many :tags }
+  it { should have_many :users }
+  it { should have_many :invitations }
 
   it { should validate_presence_of :name }
-  it { should validate_presence_of :email }
-  it { should validate_presence_of :password }
   it { should validate_uniqueness_of :slug }
 
   let(:organization) { build(:organization) }
@@ -124,8 +124,12 @@ describe Organization do
   end
 
   describe "#flush_cache_key!" do
+    before(:each) do
+      organization.save
+    end
+
     it 'should delete the cache object on save' do
-      Rails.cache.should_receive(:delete).with("global_defaults_#{organization.name.downcase}")
+      Rails.cache.should_receive(:delete).with("global_defaults_#{organization.slug.downcase}")
       organization.save!
     end
   end

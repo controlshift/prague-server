@@ -1,0 +1,25 @@
+.row
+  = breadcrumbs [[current_organization.name, organization_path(current_organization)],
+                 ['Users']]
+
+  .col-lg-12
+    = title "User Accounts"
+
+    %table.table
+      %thead
+        %th Email
+        %th Actions
+
+      - @users.each do |user|
+        %tr
+          %td= user.email
+          %td
+            - if user != current_user
+              = link_to 'Delete', organization_user_path(current_organization, user), method: :delete, class: 'btn btn-warning'
+.row
+  .col-lg-12
+    %p Invite new users to join your organization:
+    = form_for([current_organization, @invitation], remote: true, html: { class: 'form-inline' }) do |f|
+      .form-group
+        = f.email_field :recipient_email, class: 'form-control', placeholder: 'Email'
+      = f.submit 'Send', class: 'btn btn-default'

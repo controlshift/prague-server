@@ -1,6 +1,7 @@
 .row
   .col-lg-12
-    = title 'Charges'
+    = breadcrumbs [[current_organization.name, organization_path(current_organization)],
+                   ['Charges']]
 
 .row.mt20.mb20
   .col-lg-2
@@ -17,7 +18,13 @@
 .row.mt20
   .col-lg-12
     .pull-right
-      =link_to 'Download CSV', org_charges_path(format: 'csv')
+      .ul{class: 'nav nav-pills'}
+        %li
+          = link_to 'Namespaces', organization_namespaces_path(current_organization)
+        %li
+          = link_to 'Tags', organization_tags_path(current_organization)
+        %li
+          = link_to 'Download CSV', organization_charges_path(current_organization, format: 'csv')
 
     = render partial: 'charges_table', locals: {charges: @charges}
 

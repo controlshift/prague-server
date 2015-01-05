@@ -11,6 +11,27 @@ module ApplicationHelper
     end
   end
 
+  def breadcrumbs(paths)
+    content_tag(:ol, class: 'breadcrumb') do
+      paths.collect do |path|
+        li_options = if paths.last == path
+          {class: 'active'}
+        else
+          {}
+        end
+
+        content_tag(:li, li_options) do
+          if path[1].present?
+            link_to(path[0], path[1])
+          else
+            path[0]
+          end
+        end
+      end.join(' ').html_safe
+    end
+
+  end
+
   def bootstrap_class_for flash_type
     case flash_type.try(:to_sym)
       when :success
@@ -24,6 +45,10 @@ module ApplicationHelper
       else
         flash_type.to_s
     end
+  end
+
+  def current_organization
+    @organization ||= current_user.organization
   end
 
   private

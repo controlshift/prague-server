@@ -1,11 +1,24 @@
 require File.dirname(__FILE__) + '/../scenario_helper.rb'
 
 feature "Organization signs up" do
-  before(:each) do |example|
+  before(:each) do
     Organization.last.try :destroy
     Crm.last.try :destroy
+    StripeMock.start
   end
+
+  after(:each) do
+    StripeMock.stop
+  end
+
+  let(:org) { create(:organization, access_token: nil, stripe_publishable_key: nil, stripe_user_id: nil) }
+  let(:user) { create(:confirmed_user, organization: org)}
+
   context "when organization denies access to Stripe account" do
+    before do
+      login user
+    end
+
     it "redirects to new organization form" do
       OmniAuth.config.mock_auth[:stripe_connect] = :access_denied
       visit "/auth/stripe_connect/callback"
@@ -21,22 +34,19 @@ feature "Organization signs up" do
     } }
 
     before do
-      StripeMock.start
       OmniAuth.config.mock_auth[:stripe_connect] = auth_hash
     end
-    after { StripeMock.stop }
-
 
     it "redirects to the show page and exposes the organization's API slug" do
       visit root_path
       page.first('#get-started').click
       expect(page).to have_content("Sign up")
-      fill_in "organization[name]", with: "Sample"
-      fill_in "organization[email]", with: "foo@bar.com"
-      fill_in "organization[password]", with: "password"
-      fill_in "organization[password_confirmation]", with: "password"
+      fill_in "user[organization_attributes][name]", with: "Sample"
+      fill_in "user[email]", with: "foo@bar.com"
+      fill_in "user[password]", with: "password"
+      fill_in "user[password_confirmation]", with: "password"
       click_button "Sign up"
-      open_email Organization.last.email
+      open_email User.last.email
       current_email.click_link "Confirm my account"
       expect(page).to have_content(Organization.last.name)
       slug = Organization.last.slug
@@ -44,15 +54,15 @@ feature "Organization signs up" do
       current_path.should == organization_path(slug)
     end
 
-    let(:org) { create(:organization, access_token: nil, stripe_publishable_key: nil, stripe_user_id: nil) }
     it "allows the organization to fill out credentials" do
       visit root_path
       click_link "Sign in"
       expect(page).to have_content("Sign in")
-      fill_in "organization[email]", with: org.email
-      fill_in "organization[password]", with: "password"
+      fill_in "user[email]", with: user.email
+      fill_in "user[password]", with: "password"
       click_button "Sign in"
       expect(page).to have_content(org.name)
+      current_path.should == organization_path(org.slug)
       page.find("#stripe-connect-modal-link").click
       org.reload
       org.access_token.should == "X"

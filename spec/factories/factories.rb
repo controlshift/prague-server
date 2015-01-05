@@ -1,20 +1,17 @@
-
 FactoryGirl.define do
   sequence :email do |n|
     "person#{n}@example.com"
   end
 
+  sequence :organization_name do |n|
+    "Org #{n}"
+  end
+
   factory :organization do
-    name 'Org'
-    email { generate(:email) }
+    name { generate(:organization_name) }
     access_token 'x'
     stripe_publishable_key 'x'
     stripe_user_id 'x'
-    confirmed_at { Time.now }
-    confirmation_sent_at { Time.now - 1.day }
-    confirmation_token "XXXX"
-    password 'password'
-    password_confirmation 'password'
     currency 'USD'
   end
 

@@ -1,8 +1,0 @@
-#crm-form
-  .form-group
-    %label.control-label= "Platform"
-    = select :crm, :platform, [['', '']] + Crm::PLATFORMS.collect { |k, v| [v,k] }, {}, {class: 'select form-control'}
-
-  - Crm::PLATFORMS.keys.each do |platform|
-    .crm-attributes{id: "crm-attributes-#{platform}", style: "#{'display:none;' unless platform == @crm.platform}"}
-      = render "organizations/crm_form_#{platform}", valid: valid

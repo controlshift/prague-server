@@ -1,0 +1,44 @@
+.row
+  .col-lg-2
+    %b Host:
+    = @crm.host
+  .col-lg-2
+    %b Username:
+    = @crm.username
+
+  - if @crm.action_kit?
+    .col-lg-2
+      %b Page Name:
+      = @crm.donation_page_name
+  - else
+    .col-lg-2
+
+  .col-lg-2.col-lg-offset-4
+    = link_to edit_organization_settings_crm_path(current_organization), class: 'btn', remote: true do
+      %span.glyphicon.glyphicon-pencil{'aria-hidden' => "true"}
+    = link_to organization_settings_crm_path(current_organization), class: 'btn', remote: true, method: 'delete' do
+      %span.glyphicon.glyphicon-trash{'aria-hidden' => "true"}
+
+- if @crm.action_kit?
+  .row
+    .col-lg-12#import-stubs
+      %h5
+        Import Stubs
+      #import-stubs-body
+        - if @crm.import_stubs.any?
+          %table.table
+            %thead
+              %th Payment Account
+              %th Currency
+              %th Action
+            %tbody
+              - @crm.import_stubs.each do |stub|
+                %tr
+                  %td
+                    = stub.payment_account
+                  %td
+                    = stub.donation_currency
+                  %td
+                    = link_to organization_settings_crm_import_stub_path(current_organization, stub), class: 'btn', remote: true, method: 'delete' do
+                      %span.glyphicon.glyphicon-trash{'aria-hidden' => "true"}
+        = link_to 'Add Stub', new_organization_settings_crm_import_stub_path, remote: true

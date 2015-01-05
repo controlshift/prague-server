@@ -1,0 +1,11 @@
+.row
+  .col-lg-12
+    = render partial: 'nav'
+
+    CRM integration automatically synchronizes contributions and other data with your database of record.
+
+    #crm-settings-body
+      - if @crm.present?
+        = render partial: 'show'
+      - else
+        = render partial: 'new'

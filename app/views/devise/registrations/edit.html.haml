@@ -2,10 +2,10 @@
   Edit #{resource_name.to_s.humanize}
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   = devise_error_messages!
-  %div
-    = f.label :organization_name
-    %br/
-    = f.text_field :name, autofocus: true
+  / %div
+  /   = f.label :organization_name
+  /   %br/
+  /   = f.text_field :name, autofocus: true
   %div
     = f.label :email
     %br/

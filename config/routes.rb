@@ -1,21 +1,12 @@
 require 'sidekiq/web'
 PragueServer::Application.routes.draw do
-  use_doorkeeper
-  devise_for :admin_users, ActiveAdmin::Devise.config
+  devise_for :users, controllers: { registrations: :users, confirmations: :confirmations }
+
+  use_doorkeeper do
+  end
+
   ActiveAdmin.routes(self)
   get 'config/:id', to: ConfigController.action(:index)
-
-  namespace :org do
-    resources :charges, controller: 'charges'
-    resources :tags, controller: 'tags' do
-      resources :charges, only: [:index], controller: 'tags/charges'
-    end
-    resources :namespaces, controller: 'namespaces' do
-      collection do
-        get :raised
-      end
-    end
-  end
 
   namespace :api do
     resources :namespaces, controller: 'namespaces', only: [:index, :show] do
@@ -44,24 +35,40 @@ PragueServer::Application.routes.draw do
     end
   end
 
-  resources :organizations, only: [:show, :update, :new] do
+  resources :orgs, only: [:show, :new, :create, :update], controller: 'organizations', :as => 'organizations' do
     member do
       patch 'toggle'
       put 'deauthorize'
     end
+    resource  :settings, only: [:show], controller: 'org/settings' do
+      resources :applications, only: [:index], controller: 'org/settings/applications'
+      resource :crm, controller: 'org/settings/crm' do
+        resources :import_stubs, controller: 'org/settings/crm/import_stubs'
+      end
+    end
+    resources :invitations, only: [:create], controller: 'org/invitations'
+    resources :users, controller: 'org/users'
+    resources :charges, controller: 'org/charges'
+    resources :tags, controller: 'org/tags' do
+      resources :charges, only: [:index], controller: 'org/tags/charges'
+    end
+    resources :namespaces, controller: 'org/namespaces' do
+      collection do
+        get :raised
+      end
+    end
   end
+
   resources :charges, only: [:create, :destroy]
-  resources :crms, only: [:create, :update]
 
   get '/auth/:provider/callback', to: 'authentications#create'
 
   root 'home#index'
 
-  Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-    username == ENV["ADMIN_USER"] && password == ENV["ADMIN_PASS"]
-  end 
-  mount Sidekiq::Web => '/sidekiq'
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
   mount StripeEvent::Engine => '/stripe/event'
 
-  devise_for :organizations, path_prefix: 'accounts', controllers: { confirmations: 'confirmations' }
 end

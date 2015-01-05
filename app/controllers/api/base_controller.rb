@@ -1,5 +1,6 @@
 class Api::BaseController < ApplicationController
-  doorkeeper_for :all
+  before_action :doorkeeper_authorize!
+  skip_before_action :authenticate_user!
 
   private
 
