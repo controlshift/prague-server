@@ -39,6 +39,7 @@ describe Organization do
   it { should have_many :tags }
   it { should have_many :users }
   it { should have_many :invitations }
+  it { should have_many :webhook_endpoints }
 
   it { should validate_presence_of :name }
   it { should validate_uniqueness_of :slug }

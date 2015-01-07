@@ -57,6 +57,16 @@ FactoryGirl.define do
     organization
   end
 
+  factory :webhook_endpoint do
+    name { generate(:name) }
+    url 'http://www.google.com/'
+    organization
+  end
+
+  sequence :name do |n|
+    "name#{n}"
+  end
+
   sequence :namespace do |n|
     "name#{n}"
   end

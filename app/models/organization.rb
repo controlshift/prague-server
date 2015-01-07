@@ -45,6 +45,7 @@ class Organization < ActiveRecord::Base
   has_many :namespaces, class_name: 'TagNamespace'
   has_many :users
   has_many :invitations
+  has_many :webhook_endpoints
 
   validates :slug, :name, presence: true
   validates :name, uniqueness: true
@@ -166,5 +167,6 @@ class Organization < ActiveRecord::Base
 
   def flush_cache_key!
     Rails.cache.delete "global_defaults_#{slug}"
+    OrganizationUpdatedWorker.perform_async(id)
   end
 end
