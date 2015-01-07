@@ -8,8 +8,10 @@ class OrganizationUpdatedWorker
     event = { kind: KIND }
     organization.webhook_endpoints.each do |hook|
       Rails.logger.debug "Notifying #{hook.url} of #{KIND}"
-      HTTParty.post(hook.url, body: {event: event})
+      response = HTTParty.post(hook.url, body: {event: event})
+      unless response.body =~ /OK/
+        Rails.logger.warn "#{KIND} #{response.body}"
+      end
     end
   end
-
 end
