@@ -14,7 +14,7 @@ class OrganizationUpdatedWorker
       # parse the uri to get auth
       uri = URI.parse(hook.url)
       if uri.userinfo.present?
-        params.merge!(basic_auth: {:username => uri.password, :password => uri.user} )
+        params.merge!(basic_auth: {:username => uri.user, :password => uri.password} )
       end
 
       response = HTTParty.post(hook.url, params)
