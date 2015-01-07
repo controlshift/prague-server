@@ -6,7 +6,8 @@ describe OrganizationUpdatedWorker do
 
   describe 'perform' do
     it 'should accept a request' do
-      expect(HTTParty).to receive(:post)
+      expect(HTTParty).to receive(:post).and_return(response = double)
+      response.stub(:body).and_return('OK')
       OrganizationUpdatedWorker.new.perform(organization.id)
     end
   end

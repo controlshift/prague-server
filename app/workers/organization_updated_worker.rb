@@ -8,7 +8,16 @@ class OrganizationUpdatedWorker
     event = { kind: KIND }
     organization.webhook_endpoints.each do |hook|
       Rails.logger.debug "Notifying #{hook.url} of #{KIND}"
-      response = HTTParty.post(hook.url, body: {event: event})
+
+      params = {body: {event: event}}
+
+      # parse the uri to get auth
+      uri = URI.parse(hook.url)
+      if uri.userinfo.present?
+        params.merge!(basic_auth: {:username => uri.password, :password => uri.user} )
+      end
+
+      response = HTTParty.post(hook.url, params)
       unless response.body =~ /OK/
         Rails.logger.warn "#{KIND} #{response.body}"
       end
