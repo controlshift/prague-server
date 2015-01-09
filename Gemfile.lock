@@ -215,6 +215,9 @@ GEM
     hike (1.2.3)
     honeybadger (1.16.5)
       json
+    httparty (0.13.3)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     httpclient (2.3.4.1)
     i18n (0.7.0)
     inherited_resources (1.4.1)
@@ -499,6 +502,7 @@ DEPENDENCIES
   guard-spring
   haml-rails
   honeybadger
+  httparty
   jbuilder
   jquery-rails
   launchy
