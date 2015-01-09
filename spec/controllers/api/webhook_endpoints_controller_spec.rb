@@ -21,8 +21,11 @@ describe Api::WebhookEndpointsController do
 
   describe '#create' do
     it 'should allow creation of webhook endpoints' do
-      post :create, webhook_endpoint: { name: 'foo', url: 'https://www.google.com/'}
+      post :create, webhook_endpoint: { name: 'foo', url: 'https://www.google.com/', username: 'u', password: 'p'}
       expect(assigns(:webhook).name).to eq('foo')
+      expect(assigns(:webhook).username).to eq('u')
+      expect(assigns(:webhook).password).to eq('p')
+
       expect(assigns(:webhook).url).to eq('https://www.google.com/')
     end
 

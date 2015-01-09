@@ -15,6 +15,6 @@ class Api::WebhookEndpointsController < Api::BaseController
   private
 
   def webhook_param
-    params.require(:webhook_endpoint).permit(:url, :name)
+    params.require(:webhook_endpoint).permit(:url, :name, :username, :password)
   end
 end
