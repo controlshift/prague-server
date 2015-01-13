@@ -2,7 +2,7 @@
   .col-lg-12
     = breadcrumbs [[current_organization.name, organization_path(current_organization)],
                    ['Charges', organization_charges_path(current_organization)],
-                   ['Namespaces', organizations_namespaces_path(current_organization)],
+                   ['Namespaces', organization_namespaces_path(current_organization)],
                    [@namespace.namespace]]
 
     = title "#{@namespace.namespace} Tags"
