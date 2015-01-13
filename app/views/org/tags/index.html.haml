@@ -17,3 +17,4 @@
           %td= link_to(tag.name, organization_tag_path(current_organization, tag.name))
           %td= tag.total_raised
           %td= tag.total_charges_count
+    = will_paginate @tags
