@@ -54,6 +54,7 @@ PragueServer::Application.routes.draw do
       resources :charges, only: [:index], controller: 'org/tags/charges'
     end
     resources :namespaces, controller: 'org/namespaces' do
+      resources :tags, controller: 'org/namespaces/tags'
       collection do
         get :raised
       end
