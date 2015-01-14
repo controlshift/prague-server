@@ -13,7 +13,7 @@
 
       - @namespaces.each do |namespace|
         %tr
-          %td= link_to namespace['namespace'], organizations_namespaces_tags_path(current_organization, namespace['namespace'])
+          %td= link_to namespace['namespace'], organization_namespace_tags_path(current_organization, namespace['namespace'])
           %td= namespace['raised']
 
     = will_paginate @namespaces
