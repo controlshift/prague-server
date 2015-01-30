@@ -14,7 +14,7 @@ describe Api::NamespacesController do
   describe 'show' do
     it 'responds with 200' do
       get :show, id: 'foo'
-      response.status.should eq(200)
+      expect(response.status).to eq(200)
       expect(assigns(:namespace)).to eq(namespace)
       expect(JSON.parse(response.body)['namespace']).to eq('foo')
     end
@@ -23,7 +23,7 @@ describe Api::NamespacesController do
   describe 'history' do
     it 'responds with 200' do
       get :history, id: 'foo', days: 7
-      response.status.should eq(200)
+      expect(response.status).to eq(200)
       expect(JSON.parse(response.body)['namespace']).to eq('foo')
     end
 
@@ -38,7 +38,7 @@ describe Api::NamespacesController do
   describe 'index' do
     it 'responds with 200' do
       get :index
-      response.status.should eq(200)
+      expect(response.status).to eq(200)
       expect(JSON.parse(response.body).first).to eq('foo')
     end
   end
@@ -46,7 +46,7 @@ describe Api::NamespacesController do
   describe 'raised' do
     it 'responds with 200' do
       get :raised, id: 'foo'
-      response.status.should eq(200)
+      expect(response.status).to eq(200)
       expect(JSON.parse(response.body)).to eq([])
     end
   end

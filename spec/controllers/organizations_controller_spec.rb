@@ -31,7 +31,7 @@ describe OrganizationsController do
 
       it 'should show an organization' do
         expect(response).to redirect_to(organization)
-        assigns(:organization).access_token.should be_nil
+        expect(assigns(:organization).access_token).to be_nil
       end
     end
 
@@ -43,7 +43,7 @@ describe OrganizationsController do
         end
 
         it 'should toggle to true' do
-          assigns(:organization).testmode.should be_true
+          expect(assigns(:organization).testmode).to be_truthy
         end
       end
     end

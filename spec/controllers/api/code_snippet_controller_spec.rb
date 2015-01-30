@@ -11,7 +11,7 @@ describe Api::CodeSnippetController do
   describe '#show' do
     it 'responds with 200' do
       get :show
-      response.status.should eq(200)
+      expect(response.status).to eq(200)
       expect(response.body).to eq(organization.code_snippet.to_html)
     end
 
@@ -30,7 +30,7 @@ describe Api::CodeSnippetController do
   describe '#parameters' do
     it 'responds with 200' do
       get :parameters
-      response.status.should eq(200)
+      expect(response.status).to eq(200)
       expect(response.body).to eq(JSON::dump(organization.code_snippet.params))
     end
 

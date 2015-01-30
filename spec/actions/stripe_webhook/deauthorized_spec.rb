@@ -39,6 +39,6 @@ describe StripeWebhook::Deauthorized do
   end
 
   it 'should show an organization' do
-    organization.reload.access_token.should be_nil
+    expect(organization.reload.access_token).to be_nil
   end
 end

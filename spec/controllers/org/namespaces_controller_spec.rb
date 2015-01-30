@@ -7,22 +7,22 @@ describe Org::NamespacesController do
   let!(:user) { create(:confirmed_user, organization: organization) }
 
   before(:each) do
-    controller.stub(:current_organization).and_return( organization )
+    allow(controller).to receive(:current_organization).and_return( organization )
     sign_in user
   end
 
   describe 'index' do
     it 'should render' do
       get :index, organization_id: organization
-      assigns(:namespaces).should_not be_nil
-      response.should be_success
+      expect(assigns(:namespaces)).not_to be_nil
+      expect(response).to be_success
     end
   end
 
   describe 'show' do
     it 'should render' do
       get :show, id: namespace.namespace, organization_id: organization
-      assigns(:namespace).should eq(namespace)
+      expect(assigns(:namespace)).to eq(namespace)
     end
   end
 end

@@ -8,6 +8,7 @@ require 'shoulda/matchers'
 require 'stripe_mock'
 require 'webmock/rspec'
 require 'support/features/user_helpers'
+require 'oauth2'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -31,12 +32,15 @@ RSpec.configure do |config|
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true
 
+  config.infer_spec_type_from_file_location!
+
   config.include Devise::TestHelpers, type: :controller
   config.include Features::UserHelpers, type: :feature
 
   config.before(:each) do
     Sidekiq::Testing.disable!
-    load "./spec/support/stubs.rb"
+
+    allow_any_instance_of(OAuth2::Client).to receive(:get_token).and_return(OAuth2::AccessToken.new(nil,nil,{'stripe_public_key' => 'xxx'}))
 
     stub_request(:post, /api.pusherapp.com/).
       with(headers: {'Accept'=>'*/*'}).

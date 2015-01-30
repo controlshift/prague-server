@@ -7,7 +7,7 @@ describe HomeController do
     end
 
     it 'should render success, even when not logged in' do
-      response.should be_success
+      expect(response).to be_success
     end
   end
 end

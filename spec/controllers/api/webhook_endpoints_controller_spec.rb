@@ -31,7 +31,7 @@ describe Api::WebhookEndpointsController do
 
     it 'should not allow creation of invalid webhook endpoints' do
       post :create, webhook_endpoint: { name: '', url: 'https://www.google.com/'}
-      expect(assigns(:webhook).persisted?).to be_false
+      expect(assigns(:webhook).persisted?).to be_falsey
     end
   end
 end

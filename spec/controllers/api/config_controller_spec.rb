@@ -9,7 +9,7 @@ describe Api::ConfigController do
 
     it 'responds with 200' do
       get :show, :format => :json
-      response.status.should eq(200)
+      expect(response.status).to eq(200)
       expect(JSON.parse(response.body)['slug']).to eq(organization.slug)
     end
   end

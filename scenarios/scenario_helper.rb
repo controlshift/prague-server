@@ -12,6 +12,7 @@ require 'sidekiq/testing'
 require 'shoulda/matchers'
 require 'stripe_mock'
 require 'webmock/rspec'
+require 'oauth2'
 
 require Rails.root.join("scenarios/support/helpers.rb")
 require Rails.root.join("scenarios/support/wait_for_ajax.rb")
@@ -43,7 +44,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     Sidekiq::Testing.disable!
-    load "./scenarios/support/stubs.rb"
+    allow_any_instance_of(OAuth2::Client).to receive(:get_token).and_return(OAuth2::AccessToken.new(nil,nil,{'stripe_public_key' => 'xxx'}))
   end
 
   config.before(:suite) do

@@ -5,7 +5,7 @@ describe ChargeNotificationMailer do
     subject{ ActionMailer::Base.deliveries.last }
 
     let(:charge) { create(:charge, customer: create(:customer), organization: create(:organization))}
-    
+
     before do
       charge
       charge.organization.update_attribute(:thank_you_text, "Thank yew")
@@ -17,9 +17,9 @@ describe ChargeNotificationMailer do
     its(:subject){ should == "Thanks for donating to #{charge.organization.name}"}
 
     it 'should give the thank you text and other useful info' do
-      subject.body.should have_content(charge.organization.thank_you_text)
-      subject.body.should have_content(charge.presentation_amount)
-      subject.subject.should have_content(charge.organization.name)
+      expect(subject.body).to have_content(charge.organization.thank_you_text)
+      expect(subject.body).to have_content(charge.presentation_amount)
+      expect(subject.subject).to have_content(charge.organization.name)
     end
   end
 end

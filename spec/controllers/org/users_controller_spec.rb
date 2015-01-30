@@ -5,7 +5,7 @@ describe Org::UsersController do
   let(:user) { create(:confirmed_user, organization: organization)}
 
   before(:each) do
-    controller.stub(:current_organization).and_return( organization )
+    allow(controller).to receive(:current_organization).and_return( organization )
     sign_in user
   end
 
@@ -22,13 +22,13 @@ describe Org::UsersController do
     it 'should be possible to destroy another user' do
       delete :destroy, organization_id: organization, id: other_user
       expect(response).to be_redirect
-      expect(assigns(:user).frozen?).to be_true
+      expect(assigns(:user).frozen?).to be_truthy
     end
 
     it 'should not be possible to delete the currently signed in user' do
       delete :destroy, organization_id: organization, id: user
       expect(response).to be_redirect
-      expect(assigns(:user).frozen?).to be_false
+      expect(assigns(:user).frozen?).to be_falsey
     end
   end
 end

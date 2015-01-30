@@ -5,7 +5,7 @@ describe Org::Settings::CrmController do
   let(:user) { create(:confirmed_user, organization: organization)}
 
   before(:each) do
-    controller.stub(:current_organization).and_return( organization )
+    allow(controller).to receive(:current_organization).and_return( organization )
     sign_in user
   end
 
