@@ -18,6 +18,7 @@
 /config/stripe.yml
 /config/pusher.yml
 .env
+.env.development
 .DS_Store
 GeoIP.dat
 .ultrahook
