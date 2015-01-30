@@ -49,6 +49,7 @@ FactoryGirl.define do
   end
 
   factory :tag do
+    name { "#{Faker::Lorem.word}:#{Faker::Lorem.word}" }
     organization
   end
 

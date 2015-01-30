@@ -27,4 +27,22 @@ describe BlueStateNotifier do
     end
     BlueStateNotifier.new.process(charge)
   end
+
+  it "should push all tags as sources into BSD" do
+    tag_names = ['takecharge']
+    (0...5).each do
+      charge.tags << (tag = create(:tag, organization: organization))
+      tag_names << "takecharge:#{tag.name}"
+    end
+    charge.save!
+
+    expect(BlueStateDigital::Contribution).to receive(:new) do |options|
+      sources = options[:source]
+      expect(sources.length).to eq tag_names.length
+      tag_names.each { |tag_name| expect(sources).to include(tag_name) }
+      double.as_null_object
+    end
+
+    BlueStateNotifier.new.process(charge)
+  end
 end

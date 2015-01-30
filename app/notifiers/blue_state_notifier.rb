@@ -13,7 +13,7 @@ class BlueStateNotifier
                                        transaction_amt: presentable_amount,
                                        cc_type_cd: CARD_MAPPING[charge.card['brand']],
                                        gateway_transaction_id: charge.stripe_id,
-                                       source: 'takecharge',
+                                       source: generate_sources(charge.tags),
                                        zip: charge.customer.zip,
                                        country: charge.customer.country,
                                        email: charge.customer.email,
@@ -21,5 +21,11 @@ class BlueStateNotifier
 
     Rails.logger.debug "Synchronizing #{charge.id} to BSD."
     contribution.save
+  end
+
+  private
+
+  def generate_sources(charge_tags)
+    ['takecharge'].concat(charge_tags.map {|tag| "takecharge:#{tag.name}" })
   end
 end
