@@ -9,7 +9,7 @@ describe BlueStateNotifier do
   before :each do
     mock_connection = double()
     allow(mock_connection).to receive(:perform_request).and_return('{"summary": {"missing_ids": 0, "failures": 0}}')
-    BlueStateDigital::Connection.stub(:new).and_return(mock_connection)
+    allow(BlueStateDigital::Connection).to receive(:new).and_return(mock_connection)
   end
 
   it 'should push the contribution into BSD' do
@@ -37,9 +37,7 @@ describe BlueStateNotifier do
     charge.save!
 
     expect(BlueStateDigital::Contribution).to receive(:new) do |options|
-      sources = options[:source]
-      expect(sources.length).to eq tag_names.length
-      tag_names.each { |tag_name| expect(sources).to include(tag_name) }
+      expect(options[:source]).to match_array(tag_names)
       double.as_null_object
     end
 

@@ -7,7 +7,7 @@ describe OrganizationUpdatedWorker do
   describe 'perform' do
     it 'should accept a request' do
       expect(HTTParty).to receive(:post).with('https://google.com/', {:body=>{:event=>{:kind=>"organization.updated"}}, :basic_auth=>{:username=>"foo", :password=>"bar"}}).and_return(response = double)
-      response.stub(:body).and_return('OK')
+      allow(response).to receive(:body).and_return('OK')
       OrganizationUpdatedWorker.new.perform(organization.id)
     end
   end

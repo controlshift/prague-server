@@ -19,7 +19,7 @@ describe CrmNotificationWorker do
       let!(:crm) { create(:crm, platform: 'actionkit', organization: organization) }
 
       specify 'should notify ActionKit' do
-        ActionKitNotifier.any_instance.should_receive(:process).with(charge)
+        expect_any_instance_of(ActionKitNotifier).to receive(:process).with(charge)
         CrmNotificationWorker.new.perform(charge.id)
       end
     end
@@ -28,7 +28,7 @@ describe CrmNotificationWorker do
       let!(:crm) { create(:crm, platform: 'bluestate', organization: organization) }
 
       it 'should notify bsd' do
-        BlueStateNotifier.any_instance.should_receive(:process).with(charge)
+        expect_any_instance_of(BlueStateNotifier).to receive(:process).with(charge)
         subject.perform(charge.id)
       end
     end

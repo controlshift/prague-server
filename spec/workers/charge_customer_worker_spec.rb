@@ -17,11 +17,13 @@ describe ChargeCustomerWorker do
     end
 
     specify 'it should request a charge from Stripe and push success' do
-      Pusher::Channel.any_instance.should_receive(:trigger).with('charge_completed', { status: 'success' })
-      CrmNotificationWorker.should_receive(:perform_async)
+      expect_any_instance_of(Pusher::Channel).to receive(:trigger).with('charge_completed', { status: 'success' })
+      expect(CrmNotificationWorker).to receive(:perform_async)
+
       ChargeCustomerWorker.perform_async(charge.id)
       charge.reload
-      expect(charge.paid?).to be_true
+
+      expect(charge.paid?).to be_truthy
       expect(charge.id).not_to be_nil
       expect(charge.card).not_to be_nil
       expect(charge.card['type']).to eq('Visa')
@@ -29,12 +31,12 @@ describe ChargeCustomerWorker do
 
     context 'mock id' do
       before(:each) do
-        Stripe::Token.any_instance.stub(:id).and_return('tok_test')
+        allow_any_instance_of(Stripe::Token).to receive(:id).and_return('tok_test')
       end
 
       specify 'it should push failure on card declined' do
         StripeMock.prepare_card_error(:card_declined)
-        Pusher::Channel.any_instance.should_receive(:trigger).with('charge_completed',
+        allow_any_instance_of(Pusher::Channel).to receive(:trigger).with('charge_completed',
                                                                    {
                                                                      status: 'failure',
                                                                      message: 'The card was declined'
@@ -46,7 +48,7 @@ describe ChargeCustomerWorker do
 
       specify 'it should push failure on something internal going wrong with Stripe' do
         StripeMock.prepare_error(Stripe::StripeError.new, :new_charge)
-        Pusher::Channel.any_instance.should_receive(:trigger).with('charge_completed',
+        allow_any_instance_of(Pusher::Channel).to receive(:trigger).with('charge_completed',
                                                                    {
                                                                      status: 'failure',
                                                                      message: 'Something went wrong, please try again.'
@@ -55,8 +57,8 @@ describe ChargeCustomerWorker do
       end
 
       specify 'it should push failure on something else going wrong with Stripe' do
-        Stripe::Charge.stub(:create).and_raise(StandardError.new("Blahblah"))
-        Pusher::Channel.any_instance.should_receive(:trigger).with('charge_completed',
+        allow(Stripe::Charge).to receive(:create).and_raise(StandardError.new("Blahblah"))
+        allow_any_instance_of(Pusher::Channel).to receive(:trigger).with('charge_completed',
                                                                    {
                                                                      status: 'failure',
                                                                      message: 'Something went wrong, please try again.'
@@ -70,7 +72,7 @@ describe ChargeCustomerWorker do
 
 
         it 'should return an error mesasge' do
-          Pusher::Channel.any_instance.should_receive(:trigger).with('charge_completed',
+          allow_any_instance_of(Pusher::Channel).to receive(:trigger).with('charge_completed',
                                                                      {
                                                                        status: 'failure',
                                                                        message: "#{organization.name} has not been connected to Stripe."

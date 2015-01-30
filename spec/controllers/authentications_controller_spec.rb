@@ -5,8 +5,8 @@ describe AuthenticationsController do
   let(:confirmed_user) { create(:confirmed_user, organization: organization)}
 
   before :each do
-    controller.stub(:current_organization).and_return(organization)
-    organization.stub(:apply_omniauth)
+    allow(controller).to receive(:current_organization).and_return(organization)
+    allow(organization).to receive(:apply_omniauth)
   end
 
   describe '#create' do

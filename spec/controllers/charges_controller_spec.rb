@@ -9,11 +9,11 @@ describe ChargesController do
 
   describe 'POST create' do
     context 'with valid card_token and customer parameters' do
-      let(:valid_customer_parameters) { 
-        { 'first_name' => 'Foo', 
-          'last_name' => 'Bar', 
+      let(:valid_customer_parameters) {
+        { 'first_name' => 'Foo',
+          'last_name' => 'Bar',
           'email' => generate(:email),
-          'country' => 'US', 
+          'country' => 'US',
           'zip' => '90004',
           'charges_attributes' => [
             'amount' => '1000',
@@ -26,26 +26,30 @@ describe ChargesController do
       let(:valid_card_token) { StripeMock.generate_card_token(last4: '9191', exp_year: 2015) }
 
       it 'should save and process the customer' do
-        CreateCustomerTokenWorker.should_receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
+        expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
+
         post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug
+
         customer = Customer.where(email: valid_customer_parameters['email']).first
-        Customer.count.should == 1
-        customer.should_not be_nil
-        customer.charges.should_not be_empty
-        customer.charges.first.organization.should == organization
-        customer.charges.first.status.should == 'test'
-        response.should be_success
+        expect(Customer.count).to eq 1
+        expect(customer).not_to be_nil
+        expect(customer.charges).not_to be_empty
+        expect(customer.charges.first.organization).to eq organization
+        expect(customer.charges.first.status).to eq 'test'
+        expect(response).to be_success
       end
 
       context 'with a pre-existing customer' do
         let!(:customer) { create(:customer, email: valid_customer_parameters['email'])}
 
         it 'should create a charge and link it properly' do
-          CreateCustomerTokenWorker.should_receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
+          expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
+
           post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug
-          response.should be_success
-          customer.charges.should_not be_empty
-          customer.charges.first.organization.should == organization
+
+          expect(response).to be_success
+          expect(customer.charges).not_to be_empty
+          expect(customer.charges.first.organization).to eq organization
         end
       end
 
@@ -53,42 +57,49 @@ describe ChargesController do
 
       it 'should allow me to pass arbitrary config parameters' do
         post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug, config: config_parameters
+
         customer = Customer.where(email: valid_customer_parameters['email']).first
         charge = customer.charges.first
-        charge.config['ak_test'].should == 'foo'
+        expect(charge.config['ak_test']).to eq 'foo'
       end
 
       it 'should complain if I do not give it a pusher token' do
         new_params = valid_customer_parameters['charges_attributes'].delete('pusher_channel_token')
+
         post :create, customer: new_params, card_token: valid_card_token, organization_slug: organization.slug, config: config_parameters
-        response.should_not be_success
+
+        expect(response).not_to be_success
       end
 
       it 'should complain if organization is invalid' do
         post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: 'zzz'
-        response.should_not be_success
-        response.body.should match(/does not exist/)
+
+        expect(response).not_to be_success
+        expect(response.body).to match(/does not exist/)
       end
 
       it 'should complain if the email address is missing' do
         valid_customer_parameters.delete('email')
+
         post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug, config: config_parameters
-        response.should_not be_success
-        response.body.should match(/blank/)
+
+        expect(response).not_to be_success
+        expect(response.body).to match(/blank/)
       end
 
       it 'should tag the charge' do
-        CreateCustomerTokenWorker.should_receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
-        post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug, tags: ['foo', 'bar']
-        customer = Customer.where(email: valid_customer_parameters['email']).first
-        Customer.count.should == 1
-        customer.should_not be_nil
-        customer.charges.should_not be_empty
-        customer.charges.first.organization.should == organization
-        customer.charges.first.status.should == 'test'
-        customer.charges.first.tags.collect{|t| t.name}.should == ['foo', 'bar']
-        response.should be_success
+        expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
 
+        post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug, tags: ['foo', 'bar']
+
+        customer = Customer.where(email: valid_customer_parameters['email']).first
+        expect(Customer.count).to eq 1
+        expect(customer).not_to be_nil
+        expect(customer.charges).not_to be_empty
+        expect(customer.charges.first.organization).to eq organization
+        expect(customer.charges.first.status).to eq 'test'
+        expect(customer.charges.first.tags.collect{|t| t.name}).to contain_exactly('foo', 'bar')
+        expect(response).to be_success
       end
     end
 
@@ -221,14 +232,16 @@ describe ChargesController do
       let(:valid_card_token) { StripeMock.generate_card_token(last4: '9191', exp_year: 2015) }
 
       it 'should save and process the customer' do
-        CreateCustomerTokenWorker.should_receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
+        expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
+
         post :create, params
-        response.should be_success
+
+        expect(response).to be_success
 
         customer = Customer.where(email: params['customer']['email']).first
-        customer.should_not be_nil
-        customer.charges.should_not be_empty
-        customer.charges.first.organization.should == organization
+        expect(customer).not_to be_nil
+        expect(customer.charges).not_to be_empty
+        expect(customer.charges.first.organization).to eq organization
       end
 
       context 'with a blank empty string tag' do
@@ -237,9 +250,11 @@ describe ChargesController do
         end
 
         it 'should save and process the customer' do
-          CreateCustomerTokenWorker.should_receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
+          expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
+
           post :create, params
-          response.should be_success
+
+          expect(response).to be_success
         end
       end
     end
@@ -247,8 +262,9 @@ describe ChargesController do
     context 'without the required parameters' do
       it 'should response with unprocessable entity' do
         post :create
-        response.should be_unprocessable
+
+        expect(response).to be_unprocessable
       end
-    end 
+    end
   end
 end

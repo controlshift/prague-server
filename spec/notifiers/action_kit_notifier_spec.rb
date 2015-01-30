@@ -9,13 +9,13 @@ describe ActionKitNotifier do
   let(:response_obj) { double }
 
   before(:each) do
-    response_obj.stub(:user).and_return('/rest/v1/user/39520/')
-    response_obj.stub(:id).and_return("123")
-    response_obj.stub(:created_user).and_return(true)
+    allow(response_obj).to receive(:user).and_return('/rest/v1/user/39520/')
+    allow(response_obj).to receive(:id).and_return("123")
+    allow(response_obj).to receive(:created_user).and_return(true)
   end
 
   it 'should push the contribution into AK' do
-    ActionKitRest::Action.any_instance.should_receive(:create).and_return(response_obj)
+    expect_any_instance_of(ActionKitRest::Action).to receive(:create).and_return(response_obj)
     ActionKitNotifier.new.process(charge)
   end
 
@@ -25,7 +25,7 @@ describe ActionKitNotifier do
 
     specify 'should be able to match an import stub to a currency' do
       charge.organization.crm.import_stubs.last.update_attribute(:donation_currency, 'GBP')
-      ActionKitRest::Action.any_instance.should_receive(:create).with(
+      expect_any_instance_of(ActionKitRest::Action).to receive(:create).with(
        ({
           page: crm.donation_page_name,
           email: charge.customer.email,

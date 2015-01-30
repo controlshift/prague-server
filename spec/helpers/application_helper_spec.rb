@@ -10,8 +10,8 @@ describe ApplicationHelper do
 
     it 'should use the current user if organization not set' do
       user = double
-      user.stub(:organization).and_return(organization)
-      helper.stub(:current_user).and_return(user)
+      allow(user).to receive(:organization).and_return(organization)
+      allow(helper).to receive(:current_user).and_return(user)
       expect(helper.current_organization).to eq(organization)
     end
   end

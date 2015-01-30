@@ -57,10 +57,10 @@ describe Organization do
         'info' => { 'stripe_publishable_key' => 'X' },
         'credentials' => { 'token' => 'X' }
         })
-      organization.should be_valid
-      organization.access_token.should == 'X'
-      organization.stripe_publishable_key.should == 'X'
-      organization.stripe_user_id.should == 'X'
+      expect(organization).to be_valid
+      expect(organization.access_token).to eq 'X'
+      expect(organization.stripe_publishable_key).to eq 'X'
+      expect(organization.stripe_user_id).to eq 'X'
     end
 
     specify 'invalid hash' do
@@ -98,19 +98,19 @@ describe Organization do
 
     it 'should not be in test mode if not specified' do
       organization.save!
-      expect(organization.code_snippet.testmode).to be_false
+      expect(organization.code_snippet.testmode).to be_falsey
     end
 
     it 'should not be in test mode if organization is not' do
       organization.testmode = false
       organization.save!
-      expect(organization.code_snippet.testmode).to be_false
+      expect(organization.code_snippet.testmode).to be_falsey
     end
 
     it 'should be in test mode if organization is' do
       organization.testmode = true
       organization.save!
-      expect(organization.code_snippet.testmode).to be_true
+      expect(organization.code_snippet.testmode).to be_truthy
     end
 
     it 'should default to no tags if none are specified' do
@@ -130,7 +130,7 @@ describe Organization do
     end
 
     it 'should delete the cache object on save' do
-      Rails.cache.should_receive(:delete).with("global_defaults_#{organization.slug.downcase}")
+      expect(Rails.cache).to receive(:delete).with("global_defaults_#{organization.slug.downcase}")
       organization.save!
     end
   end
@@ -143,7 +143,7 @@ describe Organization do
     let!(:organization) { create(:organization, slug: 'slug', global_defaults: { 'foo' => 'bar', currency: 'USD' }) }
 
     it 'should return a hash' do
-      Organization.global_defaults_for_slug('slug').to_json.should == { :foo => 'bar', currency: 'USD', :rates => { 'GBP' => 1.1234 }}.to_json
+      expect(Organization.global_defaults_for_slug('slug').to_json).to eq({ :foo => 'bar', currency: 'USD', :rates => { 'GBP' => 1.1234 }}.to_json)
     end
 
     context 'with a cached value' do
@@ -152,7 +152,7 @@ describe Organization do
       end
 
       it 'should return the cached value if present' do
-        Organization.global_defaults_for_slug('slug').should == 'foo'
+        expect(Organization.global_defaults_for_slug('slug')).to eq 'foo'
       end
     end
   end
@@ -162,7 +162,7 @@ describe Organization do
 
     it 'should set the slug' do
       organization.create_slug!
-      organization.slug.should == 'title'
+      expect(organization.slug).to eq 'title'
     end
 
     context 'slug already exits' do
@@ -170,7 +170,7 @@ describe Organization do
 
       it 'should not set the slug' do
         organization.create_slug!
-        organization.slug.should == 'foo'
+        expect(organization.slug).to eq 'foo'
       end
     end
 
@@ -181,7 +181,7 @@ describe Organization do
 
       it 'should set the slug' do
         organization.create_slug!
-        organization.slug.should == 'title-1'
+        expect(organization.slug).to eq 'title-1'
       end
     end
   end
@@ -222,12 +222,12 @@ describe Organization do
   describe 'testmode' do
     context 'in testmode' do
       subject { build(:organization, testmode: true ) }
-      specify { subject.status.should == 'test' }
+      specify { expect(subject.status).to eq 'test' }
     end
 
     context 'in live mode' do
       subject { build(:organization, testmode: false ) }
-      specify { subject.status.should == 'live' }
+      specify { expect(subject.status).to eq 'live' }
     end
   end
 
@@ -235,17 +235,17 @@ describe Organization do
     let(:organization) { create(:organization, global_defaults: { currency: 'USD'}) }
     it 'should be possible to track dirty hstore' do
       expect(organization.currency).to eq('USD')
-      expect(organization.currency_changed?).to be_false
+      expect(organization.currency_changed?).to be_falsey
       organization.currency = 'GBP'
-      expect(organization.currency_changed?).to be_true
+      expect(organization.currency_changed?).to be_truthy
       organization.save!
-      expect(organization.currency_changed?).to be_false
+      expect(organization.currency_changed?).to be_falsey
     end
 
     it 'should not be changed if the currency stays the same' do
-      expect(organization.currency_changed?).to be_false
+      expect(organization.currency_changed?).to be_falsey
       organization.currency = 'USD'
-      expect(organization.currency_changed?).to be_false
+      expect(organization.currency_changed?).to be_falsey
     end
   end
 
@@ -256,7 +256,7 @@ describe Organization do
     let!(:namespace) { create(:tag_namespace, organization: organization) }
 
     before(:each) do
-      Charge.any_instance.stub(:rate_conversion_hash).and_return('GBP' => 1, 'USD' => 2)
+      allow_any_instance_of(Charge).to receive(:rate_conversion_hash).and_return('GBP' => 1, 'USD' => 2)
 
       charge.tags << tag
       tag.incrby(charge.amount)

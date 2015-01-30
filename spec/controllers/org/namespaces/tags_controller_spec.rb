@@ -8,13 +8,13 @@ describe Org::Namespaces::TagsController do
   let(:user) { create(:confirmed_user, organization: organization)}
 
   before(:each) do
-    controller.stub(:current_organization).and_return( organization )
+    allow(controller).to receive(:current_organization).and_return( organization )
     sign_in user
   end
 
   it 'should get index' do
     get :index, namespace_id: namespace, organization_id: organization
-    response.should be_success
+    expect(response).to be_success
     expect(assigns(:tags)).to include(tag)
   end
 end

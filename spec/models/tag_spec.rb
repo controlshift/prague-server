@@ -23,13 +23,13 @@ describe Tag do
 
     it 'should allow tags to be created' do
       t = Tag.find_or_create!(organization, 'tag')
-      t.should be_a(Tag)
-      t.name.should eq('tag')
+      expect(t).to be_a(Tag)
+      expect(t.name).to eq('tag')
     end
 
     it 'should create a namespace for a tag with a new namespace' do
       t = Tag.find_or_create!(organization, 'novel-thing:tag')
-      t.name.should eq('novel-thing:tag')
+      expect(t.name).to eq('novel-thing:tag')
       expect(t.namespace).to be_a(TagNamespace)
       expect(t.namespace.namespace).to eq('novel-thing')
     end

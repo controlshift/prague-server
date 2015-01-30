@@ -48,22 +48,22 @@ describe Charge do
     let(:jpy_charge) { build(:charge, currency: 'jpy', amount: '1000') }
 
     it 'should display usd and sek as 10.00' do
-      usd_charge.presentation_amount.should == "10.00"
-      sek_charge.presentation_amount.should == "10.00"
+      expect(usd_charge.presentation_amount).to eq "10.00"
+      expect(sek_charge.presentation_amount).to eq "10.00"
     end
 
     it 'should display jpy as its original value' do
-      jpy_charge.presentation_amount.should == "1000"
+      expect(jpy_charge.presentation_amount).to eq "1000"
     end
   end
 
   describe '.presentation_amount' do
     it 'should display usd as 10.00' do
-      Charge.presentation_amount(1000, 'USD').should == '10.00'
+      expect(Charge.presentation_amount(1000, 'USD')).to eq '10.00'
     end
 
     it 'should accept strings as input' do
-      Charge.presentation_amount('1000', 'USD').should == '10.00'
+      expect(Charge.presentation_amount('1000', 'USD')).to eq '10.00'
     end
   end
 
@@ -151,12 +151,12 @@ describe Charge do
   describe 'application_fee' do
     subject { build_stubbed(:charge, amount: 100) }
     it 'should have a 1 percent application_fee' do
-      subject.application_fee.should == 1
+      expect(subject.application_fee).to eq 1
     end
 
     it 'should allow for string values of charge' do
       subject.amount = "100"
-      subject.application_fee.should == 1
+      expect(subject.application_fee).to eq 1
     end
   end
 
@@ -164,7 +164,7 @@ describe Charge do
     subject { build(:charge, config: { rates: "{\"BBD\"=>2, \"JPY\"=>101.7245}"}) }
 
     it "should read in the string to a ruby hash" do
-      subject.rate_conversion_hash['BBD'].should == '2'
+      expect(subject.rate_conversion_hash['BBD']).to eq '2'
     end
   end
 
@@ -172,23 +172,23 @@ describe Charge do
     subject { build(:charge, amount: 1000, currency: 'BBD', config: { rates: "{\"BBD\"=>2, \"JPY\"=>101.7245, \"USD\"=>1}"}) }
 
     it 'should convert the amount to usd by default' do
-      subject.converted_amount.should == 500
+      expect(subject.converted_amount).to eq 500
     end
 
     it 'should convert to another currency on request' do
-      subject.converted_amount("JPY").should == 50862
+      expect(subject.converted_amount("JPY")).to eq 50862
     end
 
     let(:weird_currency_charge) { build(:charge, amount: 1000, currency: 'DOESNOTEXIST') }
 
     it 'should convert the amount to usd by default' do
-      weird_currency_charge.converted_amount.should == 1000
+      expect(weird_currency_charge.converted_amount).to eq 1000
     end
 
     let(:usd_charge) { build(:charge, amount: 1000, currency: "USD") }
 
     it 'should be able to return the original amount' do
-      usd_charge.converted_amount.should == 1000
+      expect(usd_charge.converted_amount).to eq 1000
     end
   end
 

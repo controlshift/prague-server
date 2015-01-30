@@ -21,21 +21,21 @@ describe Crm do
 
   specify 'it should keep an encrypted password and be able to fetch it' do
     crm.save!
-    crm.encrypted_password.should be_present
-    crm.encrypted_password.should_not == 'password'
+    expect(crm.encrypted_password).to be_present
+    expect(crm.encrypted_password).not_to eq 'password'
     crm.password = nil
-    crm.password.should == nil
+    expect(crm.password).to be_nil
     crm.reload
-    crm.password.should == 'password'
+    expect(crm.password).to eq 'password'
   end
 
   specify 'it should ignore a blank password on update' do
     crm.save!
     crm.update_attribute(:password, "")
     crm.reload
-    crm.password.should == 'password'
+    expect(crm.password).to eq 'password'
     crm.update_attribute(:password, "password2")
     crm.reload
-    crm.password.should == 'password2'
+    expect(crm.password).to eq 'password2'
   end
 end

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe CreateCustomerTokenWorker do
-  
+
   let(:card_token) { StripeMock.generate_card_token(last4: "9191", exp_year: 2015) }
   let(:charge) { build(:charge) }
   let(:customer) { create(:customer, customer_token: nil, charges: [ charge ] ) }
@@ -16,7 +16,7 @@ describe CreateCustomerTokenWorker do
       allow(ChargeCustomerWorker).to receive(:perform_async)
       CreateCustomerTokenWorker.perform_async(customer.id, card_token, charge.id)
       customer.reload
-      customer.customer_token.should match(/cus_.*/)
+      expect(customer.customer_token).to match(/cus_.*/)
     end
 
     specify 'it should kick off ChargeCustomerWorker on a success' do
@@ -30,7 +30,7 @@ describe CreateCustomerTokenWorker do
       customer.save!
       CreateCustomerTokenWorker.perform_async(customer.id, card_token, charge.id)
       customer.reload
-      customer.customer_token.should match(/cus_.*/)
+      expect(customer.customer_token).to match(/cus_.*/)
     end
 
     specify 'it should succeed and kick off ChargeCustomerWorker for a repeat donater' do
@@ -41,9 +41,9 @@ describe CreateCustomerTokenWorker do
     end
 
     specify 'it should push failure on something else going wrong with Stripe' do
-      Stripe::Customer.stub(:create).and_raise(StandardError.new("Blahblah"))
-      Pusher::Channel.any_instance.should_receive(:trigger).with('charge_completed', 
-        { 
+      allow(Stripe::Customer).to receive(:create).and_raise(StandardError.new("Blahblah"))
+      expect_any_instance_of(Pusher::Channel).to receive(:trigger).with('charge_completed',
+        {
           status: 'failure',
           message: 'Blahblah'
         })
