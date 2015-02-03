@@ -9,7 +9,7 @@ class Api::NamespacesController < Api::BaseController
   end
 
   def raised
-    render json: @namespace.most_raised
+    @most_raised = @namespace.most_raised
   end
 
   def history

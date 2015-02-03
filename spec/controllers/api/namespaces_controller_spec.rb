@@ -62,11 +62,14 @@ describe Api::NamespacesController do
       get :raised, id: namespace
 
       most_raised_tags = JSON.parse(response.body)
+
       expect(most_raised_tags.count).to eq 2
       expect(most_raised_tags[0]['tag']).to eq most_raised_tag.name
       expect(most_raised_tags[0]['raised']).to eq most_raised_tag.total_raised
+      expect(most_raised_tags[0]['raised_display_amount']).to eq Charge.presentation_amount(most_raised_tag.total_raised, organization.currency)
       expect(most_raised_tags[1]['tag']).to eq second_most_raised_tag.name
       expect(most_raised_tags[1]['raised']).to eq second_most_raised_tag.total_raised
+      expect(most_raised_tags[1]['raised_display_amount']).to eq Charge.presentation_amount(second_most_raised_tag.total_raised, organization.currency)
     end
   end
 end
