@@ -39,6 +39,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     Sidekiq::Testing.disable!
+    PragueServer::Application.redis.flushdb
 
     allow_any_instance_of(OAuth2::Client).to receive(:get_token).and_return(OAuth2::AccessToken.new(nil,nil,{'stripe_public_key' => 'xxx'}))
 
