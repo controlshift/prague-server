@@ -44,10 +44,29 @@ describe Api::NamespacesController do
   end
 
   describe 'raised' do
+    let(:most_raised_tag) { create(:tag, organization: organization, namespace: namespace) }
+    let(:second_most_raised_tag) { create(:tag, organization: organization, namespace: namespace) }
+
+    before :each do
+      most_raised_tag.incrby(1000)
+      second_most_raised_tag.incrby(500)
+    end
+
     it 'responds with 200' do
-      get :raised, id: 'foo'
+      get :raised, id: namespace
+
       expect(response.status).to eq(200)
-      expect(JSON.parse(response.body)).to eq([])
+    end
+
+    it "returns top ranked tags" do
+      get :raised, id: namespace
+
+      most_raised_tags = JSON.parse(response.body)
+      expect(most_raised_tags.count).to eq 2
+      expect(most_raised_tags[0]['tag']).to eq most_raised_tag.name
+      expect(most_raised_tags[0]['raised']).to eq most_raised_tag.total_raised
+      expect(most_raised_tags[1]['tag']).to eq second_most_raised_tag.name
+      expect(most_raised_tags[1]['raised']).to eq second_most_raised_tag.total_raised
     end
   end
 end
