@@ -11,12 +11,9 @@ PragueServer::Application.routes.draw do
   namespace :api do
     resources :webhook_endpoints, controller: 'webhook_endpoints', only: [:index, :create]
     resources :namespaces, controller: 'namespaces', only: [:index, :show] do
-      collection do
-        get :raised
-      end
-
       member do
         get :history
+        get :raised
       end
 
       resources :charges, only: [:index], controller: 'namespaces/charges'
