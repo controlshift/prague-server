@@ -92,6 +92,7 @@ group :test do
   gem 'stripe-ruby-mock', git: 'https://github.com/controlshift/stripe-ruby-mock.git'
   gem 'database_cleaner'
   gem 'rspec-rails'
+  gem 'rspec-its'
   gem 'factory_girl_rails'
   gem 'launchy'
   gem 'capybara'
