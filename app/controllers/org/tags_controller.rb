@@ -6,6 +6,7 @@ class Org::TagsController < Org::OrgController
   end
 
   def show
+    @charges = @tag.charges.paginate(per_page: 100, page: params[:page])
   end
 
   private

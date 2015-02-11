@@ -22,4 +22,5 @@
         %li
           = link_to 'All tags', organization_tags_path(current_organization)
 
-    = render partial: 'org/charges/charges_table', locals: {charges: @tag.charges}
+    = render partial: 'org/charges/charges_table', locals: {charges: @charges}
+    = will_paginate @charges

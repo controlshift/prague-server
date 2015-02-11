@@ -25,7 +25,8 @@ describe Org::TagsController do
       get :show, id: tag.name, organization_id: organization
 
       expect(response).to be_success
-      expect(assigns(:tag)).to eq tag
+      expect(assigns(:tag)).to eq(tag)
+      expect(assigns(:charges)).to be_empty
     end
   end
 end
