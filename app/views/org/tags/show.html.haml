@@ -6,6 +6,15 @@
                    [@tag.name]]
     = title "Tag: #{@tag.name}"
 
+    .pull-left
+      %ul.horizontal-links
+        %li
+          Raised:
+          = @tag.total_raised
+        %li
+          Charges:
+          = @tag.total_charges_count
+
     .pull-right
       %ul.horizontal-links
         %li
