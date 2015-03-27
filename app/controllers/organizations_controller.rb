@@ -17,7 +17,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.new(organization_params)
     @organization.users << current_user
     if @organization.save
-      redirect_to @organization
+      redirect_to @organization, :organization_created => 'true'
     else
       render :new
     end

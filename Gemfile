@@ -61,6 +61,7 @@ gem 'activeadmin', github: 'gregbell/active_admin'
 
 gem 'going_postal'
 gem 'httparty'
+gem 'analytics-ruby'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

@@ -90,6 +90,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     addressable (2.3.5)
+    analytics-ruby (2.0.12)
     annotate (2.6.3)
       activerecord (>= 2.3.0)
       rake (>= 0.8.7)
@@ -486,6 +487,7 @@ PLATFORMS
 DEPENDENCIES
   action_kit_rest!
   activeadmin!
+  analytics-ruby
   annotate
   attr_encrypted
   blue_state_digital!

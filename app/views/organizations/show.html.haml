@@ -1,3 +1,7 @@
+- if params[:organization_created] == 'true'
+  :javascript
+    analytics.track('Sign Up');
+
 .row
   .col-lg-12
     / = title "#{h(@organization.name)} Dashboard"
