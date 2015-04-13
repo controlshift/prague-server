@@ -24,7 +24,7 @@ GIT
 
 GIT
   remote: https://github.com/controlshift/blue_state_digital.git
-  revision: 19dc16aa8e89a3889e146784e978a8c15785b393
+  revision: 45811cf9df5f429687fe350ba150dca1dd24daa1
   specs:
     blue_state_digital (0.5.4)
       activemodel
@@ -179,7 +179,7 @@ GEM
       railties (>= 3.0.0)
     faker (1.4.3)
       i18n (~> 0.5)
-    faraday (0.9.0)
+    faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.9.1)
       faraday (>= 0.7.4, < 0.10)
@@ -214,7 +214,7 @@ GEM
     has_scope (0.6.0.rc)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
-    hashie (3.3.2)
+    hashie (3.4.1)
     hike (1.2.3)
     honeybadger (1.16.5)
       json
@@ -270,7 +270,7 @@ GEM
     memcachier (0.0.2)
     method_source (0.8.2)
     mime-types (2.4.3)
-    mini_portile (0.6.1)
+    mini_portile (0.6.2)
     minitest (5.5.1)
     multi_json (1.10.1)
     multi_xml (0.5.5)
@@ -278,7 +278,7 @@ GEM
     netrc (0.9.0)
     newrelic_rpm (3.9.6.257)
     nio4r (1.0.0)
-    nokogiri (1.6.5)
+    nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     oauth2 (1.0.0)
       faraday (>= 0.8, < 0.10)
@@ -447,7 +447,7 @@ GEM
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
     thor (0.19.1)
-    thread_safe (0.3.4)
+    thread_safe (0.3.5)
     tilt (1.4.1)
     timers (1.1.0)
     turbolinks (2.1.0)
