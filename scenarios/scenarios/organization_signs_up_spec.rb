@@ -22,7 +22,7 @@ feature "Organization signs up" do
     it "redirects to new organization form" do
       OmniAuth.config.mock_auth[:stripe_connect] = :access_denied
       visit "/auth/stripe_connect/callback"
-      current_path.should == root_path
+      expect(current_path).to eq(root_path)
     end
   end
 
@@ -50,7 +50,7 @@ feature "Organization signs up" do
       current_email.click_link "Confirm my account"
       expect(page).to have_content(Organization.last.name)
       slug = Organization.last.slug
-      page.should have_text(slug)
+      expect(page).to have_text(slug)
       current_path.should == organization_path(slug)
     end
 
@@ -65,7 +65,7 @@ feature "Organization signs up" do
       current_path.should == organization_path(org.slug)
       page.find("#stripe-connect-modal-link").click
       org.reload
-      org.access_token.should == "X"
+      expect(org.access_token).to eq('X')
     end
   end
 end

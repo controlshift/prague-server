@@ -55,9 +55,9 @@ GIT
 
 GIT
   remote: https://github.com/plataformatec/simple_form.git
-  revision: d7306558665d38fe3a0c277ce263e99f635958de
+  revision: 7cb9d0252a8473e2e867e996b6194bf9c24f4ce1
   specs:
-    simple_form (3.1.0.rc1)
+    simple_form (3.1.0)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
 
@@ -130,15 +130,14 @@ GEM
     capybara-email (2.4.0)
       capybara (~> 2.4)
       mail
-    capybara-webkit (1.3.1)
-      capybara (>= 2.0.2, < 2.5.0)
+    capybara-webkit (1.5.2)
+      capybara (>= 2.3.0, < 2.5.0)
       json
     celluloid (0.16.0)
       timers (~> 4.0.0)
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
     chunky_png (1.3.4)
-    cliver (0.3.2)
     coderay (1.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -323,11 +322,6 @@ GEM
       omniauth-oauth2 (~> 1.2.0)
     orm_adapter (0.5.0)
     pg (0.17.1)
-    poltergeist (1.5.1)
-      capybara (~> 2.1)
-      cliver (~> 0.3.1)
-      multi_json (~> 1.0)
-      websocket-driver (>= 0.2.0)
     polyamorous (1.2.0)
       activerecord (>= 3.0)
     pry (0.9.12.6)
@@ -509,9 +503,6 @@ GEM
       addressable (>= 2.2.7)
       crack (>= 0.3.2)
     websocket (1.2.1)
-    websocket-driver (0.5.1)
-      websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.1)
     will_paginate (3.0.5)
     xpath (2.0.0)
       nokogiri (~> 1.3)
@@ -558,7 +549,6 @@ DEPENDENCIES
   omniauth
   omniauth-stripe-connect
   pg
-  poltergeist
   pry-byebug
   pusher
   quiet_assets

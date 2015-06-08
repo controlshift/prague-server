@@ -22,11 +22,11 @@ feature 'Organization adds CRM credentials' do
     fill_in 'organization_thank_you_text', with: "Thanks for contributing to our cause"
     first("#global-defaults-form").find("input[type='submit']").click
     wait_for_ajax
-    page.should have_selector('.global-defaults-success', visible: true)
+    expect(page).to have_selector('.global-defaults-success', visible: true)
     organization = Organization.last
-    organization.currency.should == 'AUD'
-    organization.seedamount.should == '10'
-    organization.seedvalues.should == '100,200,300'
-    organization.thank_you_text.should == "Thanks for contributing to our cause"
+    expect(organization.currency).to eq('AUD')
+    expect(organization.seedamount).to eq('10')
+    expect(organization.seedvalues).to eq('100,200,300')
+    expect(organization.thank_you_text).to eq('Thanks for contributing to our cause')
   end
 end

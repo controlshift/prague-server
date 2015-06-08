@@ -99,7 +99,6 @@ group :test do
   gem 'selenium-webdriver'
   gem "capybara-webkit", require: false
   gem "capybara-email"
-  gem "poltergeist"
   gem 'webmock'
 end
 
