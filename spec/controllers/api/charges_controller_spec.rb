@@ -14,7 +14,7 @@ describe Api::ChargesController do
     it 'responds with 200' do
       get :index
       expect(response.status).to eq(200)
-      expect(JSON.parse(response.body).first['amount']).to eq(charge.amount.to_s)
+      expect(JSON.parse(response.body).first['amount']).to eq(charge.amount)
     end
   end
 end

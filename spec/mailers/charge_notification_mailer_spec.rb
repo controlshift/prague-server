@@ -10,7 +10,7 @@ describe ChargeNotificationMailer do
     let!(:charge) { create(:charge, customer: customer, organization: organization)}
 
     before do
-      ChargeNotificationMailer.send_receipt(charge.id).deliver
+      ChargeNotificationMailer.send_receipt(charge.id).deliver_now
     end
 
     its(:to) { should == [charge.customer.email] }

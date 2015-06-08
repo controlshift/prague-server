@@ -12,7 +12,7 @@ describe MarkChargeAsPaidAction do
     end
 
     it 'updates charge id' do
-      expect(charge.stripe_id).to eq(1)
+      expect(charge.stripe_id).to eq('1')
     end
 
     it 'updates charge card' do

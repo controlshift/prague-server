@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
-ruby '2.1.5'
+ruby '2.2.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.9'
+gem 'rails', '4.2.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -16,7 +16,7 @@ gem 'honeybadger'
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails', '> 4.0.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -33,8 +33,7 @@ gem 'stripe'
 gem 'stripe_event', git: 'https://github.com/controlshift/stripe_event.git'
 gem 'haml-rails'
 gem 'doorkeeper'
-gem 'cancan'
-
+gem 'cancancan', '~> 1.10'
 
 gem 'pusher'
 
@@ -52,7 +51,7 @@ gem 'blue_state_digital', git: 'https://github.com/controlshift/blue_state_digit
 
 gem 'rack-cache'
 gem 'dalli'
-gem 'sprockets', '~> 2.11.0'
+gem 'sprockets'
 gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'
 gem 'geoip'
 gem 'will_paginate'
@@ -88,7 +87,6 @@ end
 
 group :test do
   gem 'guard'
-  gem 'guard-spring'
   gem 'guard-rspec', require: false
   gem 'stripe-ruby-mock', git: 'https://github.com/controlshift/stripe-ruby-mock.git'
   gem 'database_cleaner'
