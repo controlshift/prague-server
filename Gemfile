@@ -96,7 +96,6 @@ group :test do
   gem 'launchy'
   gem 'capybara'
   gem 'shoulda-matchers', require: false
-  gem 'selenium-webdriver'
   gem "capybara-webkit", require: false
   gem "capybara-email"
   gem 'webmock'

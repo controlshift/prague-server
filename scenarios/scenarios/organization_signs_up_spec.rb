@@ -51,7 +51,7 @@ feature "Organization signs up" do
       expect(page).to have_content(Organization.last.name)
       slug = Organization.last.slug
       expect(page).to have_text(slug)
-      current_path.should == organization_path(slug)
+      expect(current_path).to eq(organization_path(slug))
     end
 
     it "allows the organization to fill out credentials" do
@@ -62,7 +62,7 @@ feature "Organization signs up" do
       fill_in "user[password]", with: "password"
       click_button "Sign in"
       expect(page).to have_content(org.name)
-      current_path.should == organization_path(org.slug)
+      expect(current_path).to eq(organization_path(org.slug))
       page.find("#stripe-connect-modal-link").click
       org.reload
       expect(org.access_token).to eq('X')

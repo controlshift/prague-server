@@ -61,10 +61,6 @@ RSpec.configure do |config|
 
   WebMock.disable_net_connect!(:allow_localhost => true)
 
-  config.before(:each, :selenium=>true) do
-    Capybara.current_driver = :selenium
-  end
-
   config.include Capybara::DSL, :type => :request
 
   OmniAuth.config.test_mode = true

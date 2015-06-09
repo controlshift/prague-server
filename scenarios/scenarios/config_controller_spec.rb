@@ -13,7 +13,7 @@ feature ConfigController do
   it 'should respond with default settings for JSON request' do
     visit "/config/#{organization.slug}"
     expect(page.body).to eq(organization.global_defaults.merge(rates: { 'GBP' => 1.1234}, country: 'US').to_json)
-    page.response_headers['Content-Type'].should == 'application/javascript'
+    expect(page.response_headers['Content-Type']).to eq('application/javascript')
   end
 
   it 'should be able to handle a blank external request' do

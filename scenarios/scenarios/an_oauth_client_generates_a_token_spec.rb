@@ -35,7 +35,7 @@ feature 'OAuth Client Generates a token' do
 
       # we need to do this hack, because I'm not sure how to tell OAuth2::Client to use the rack adapter on this step.
       page.driver.post('/oauth/token', { :client_id => app.uid, client_secret: app.secret, code: code, grant_type: 'authorization_code', redirect_uri: redirect_uri  })
-      page.driver.status_code.should eql 200
+      expect(page.driver.status_code).to eql(200)
       token = JSON.parse(page.body)['access_token']
 
       # use the api token to get the organization's config
@@ -57,7 +57,7 @@ feature 'OAuth Client Generates a token' do
 
       # we need to do this hack, because I'm not sure how to tell OAuth2::Client to use the rack adapter on this step.
       page.driver.post('/oauth/token', { :client_id => app.uid, client_secret: app.secret, code: code, grant_type: 'authorization_code', redirect_uri: redirect_uri  })
-      page.driver.status_code.should eql 200
+      expect(page.driver.status_code).to eql(200)
       token = JSON.parse(page.body)['access_token']
 
       # use the api token to get the organization's config
