@@ -41,14 +41,6 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, alert: exception.to_s
   end
 
-  def stripe_access_token
-    if Rails.env.development?
-      current_organization.stripe_test_access_token
-    else
-      current_organization.stripe_access_token
-    end
-  end
-
   protected
 
   def current_organization
