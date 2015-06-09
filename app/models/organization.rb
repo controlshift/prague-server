@@ -70,10 +70,14 @@ class Organization < ActiveRecord::Base
     return if omniauth_hash.nil?
     logger.info "omniauth_hash #{omniauth_hash.inspect}"
     self.stripe_user_id = omniauth_hash['uid']
-    self.stripe_publishable_key = omniauth_hash['info'].try(:[], 'stripe_publishable_key')
-    self.access_token = omniauth_hash['credentials'].try(:[], 'token')
-    self.refresh_token = omniauth_hash['credentials'].try(:[], 'refresh_token')
-    self.stripe_live_mode = omniauth_hash['info'].try(:[], 'livemode')
+    self.stripe_publishable_key = omniauth_hash['info']['stripe_publishable_key']
+    self.access_token = omniauth_hash['credentials']['token']
+    self.refresh_token = omniauth_hash['credentials']['refresh_token']
+    self.stripe_live_mode = omniauth_hash['info']['livemode']
+
+    if ENV['STRIPE_SECRET'].blank? || ENV['STRIPE_TEST_SECRET'].blank?
+      raise "missing required configuration option"
+    end
 
     # retrieve test key
     client = OAuth2::Client.new self.stripe_user_id, ENV['STRIPE_SECRET'], site: 'https://connect.stripe.com/'
