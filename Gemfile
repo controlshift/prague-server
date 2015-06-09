@@ -56,7 +56,7 @@ gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'
 gem 'geoip'
 gem 'will_paginate'
 
-gem 'activeadmin', github: 'gregbell/active_admin'
+gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin.git'
 
 gem 'going_postal'
 gem 'httparty'
