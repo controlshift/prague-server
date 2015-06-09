@@ -40,6 +40,7 @@ PragueServer::Application.routes.draw do
     end
     resource  :settings, only: [:show], controller: 'org/settings' do
       resources :applications, only: [:index], controller: 'org/settings/applications'
+      resource :stripe, only: [:show], controller: 'org/settings/stripe'
       resource :crm, controller: 'org/settings/crm' do
         resources :import_stubs, controller: 'org/settings/crm/import_stubs'
       end

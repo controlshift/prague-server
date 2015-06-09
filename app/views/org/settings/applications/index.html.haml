@@ -13,6 +13,8 @@
       %li{role: 'presentation',  class: 'active'}
         %a{href:'#'}
           Applications
+      %li{role: 'presentation'}
+        = link_to 'Stripe', organization_settings_stripe_path(current_organization)
     - if @access_grants.any?
       %table.table
         %thead

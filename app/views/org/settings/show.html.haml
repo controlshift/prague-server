@@ -13,6 +13,7 @@
         = link_to 'CRM', organization_settings_crm_path(current_organization)
       %li{role: 'presentation'}
         = link_to 'Applications', organization_settings_applications_path(current_organization)
-
+      %li{role: 'presentation'}
+        = link_to 'Stripe', organization_settings_stripe_path(current_organization)
 
     = render partial: 'organizations/global_defaults_form', locals: { valid: false}
