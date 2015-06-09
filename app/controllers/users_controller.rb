@@ -26,7 +26,7 @@ class UsersController < Devise::RegistrationsController
       resource.email = @invitation.recipient_email
       @invitation.update_attribute(:invitation_accepted_at, Time.now)
       resource.skip_confirmation!
-      resource.confirm!
+      resource.confirm
     end
 
     resource_saved = resource.save
