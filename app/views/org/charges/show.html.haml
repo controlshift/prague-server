@@ -28,9 +28,14 @@
             = @charge.customer.email
         %tr
           %td
-            Amount
+            Raw Amount
           %td
             = @charge.amount
+        %tr
+          %td
+            Presentation Amount
+          %td
+            = @charge.presentation_amount
         %tr
           %td
             Currency
