@@ -49,6 +49,19 @@ class Org::Settings::CrmController < Org::OrgController
     end
   end
 
+  def test
+    @test = CrmTest.new(crm: @crm)
+    @test.test!
+
+    respond_to do |format|
+      if @test.errors.any?
+        format.js { render 'test_error' }
+      else
+        format.js { render 'test_success' }
+      end
+    end
+  end
+
   private
 
   def crm_param

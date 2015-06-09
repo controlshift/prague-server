@@ -18,7 +18,7 @@ GIT
 
 GIT
   remote: https://github.com/controlshift/action_kit_rest.git
-  revision: b35d5da6605933122bea0d1308b547e9633c1f32
+  revision: f2f1efffea05e58f4571dfaa00bf5e9083d469fe
   specs:
     action_kit_rest (0.2.2)
       vertebrae
@@ -228,7 +228,7 @@ GEM
     has_scope (0.6.0)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
-    hashie (3.4.1)
+    hashie (3.4.2)
     hike (1.2.3)
     hitimes (1.2.2)
     honeybadger (2.1.0)

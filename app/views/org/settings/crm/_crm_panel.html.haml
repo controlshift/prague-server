@@ -14,11 +14,15 @@
     .col-lg-2
 
   .col-lg-2.col-lg-offset-4
-    = link_to edit_organization_settings_crm_path(current_organization), class: 'btn', remote: true do
+    = link_to edit_organization_settings_crm_path(current_organization), class: 'btn btn-default', remote: true do
       %span.glyphicon.glyphicon-pencil{'aria-hidden' => "true"}
-    = link_to organization_settings_crm_path(current_organization), class: 'btn', remote: true, method: 'delete' do
+    = link_to organization_settings_crm_path(current_organization), class: 'btn btn-default', remote: true, method: 'delete' do
       %span.glyphicon.glyphicon-trash{'aria-hidden' => "true"}
-
+    - if @crm.action_kit?
+      = link_to test_organization_settings_crm_path(current_organization), class: 'btn btn-default', remote: true, method: 'get' do
+        Test
+.row
+  .col-lg-12#crm-test-status
 - if @crm.action_kit?
   .row
     .col-lg-12#import-stubs
