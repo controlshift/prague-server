@@ -50,7 +50,7 @@ PragueServer::Application.routes.draw do
     end
     resources :invitations, only: [:create], controller: 'org/invitations'
     resources :users, controller: 'org/users'
-    resources :charges, controller: 'org/charges'
+    resources :charges, controller: 'org/charges', only: [:show, :index]
     resources :tags, controller: 'org/tags' do
       resources :charges, only: [:index], controller: 'org/tags/charges'
     end

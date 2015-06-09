@@ -14,4 +14,8 @@ class Org::ChargesController < Org::OrgController
       end
     end
   end
+
+  def show
+    @charge = current_organization.charges.find(params[:id])
+  end
 end

@@ -7,7 +7,7 @@
 
   - charges.each do |charge|
     %tr
-      %td= charge.presentation_amount
+      %td= link_to charge.presentation_amount, organization_charge_path(current_organization, charge)
       %td= charge.currency
       %td= charge.customer.email
       %td= charge.tags.collect{ |t| link_to(t.name, organization_tag_path(current_organization, t.name)) }.join(', ').html_safe
