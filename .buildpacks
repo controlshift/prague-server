@@ -1,2 +1,2 @@
-https://github.com/controlshift/heroku-buildpack-geoip.git
+https://github.com/controlshift/heroku-buildpack-geoip.git#c27e5461b1da02050050ef17613f69e8c3416919
 https://github.com/heroku/heroku-buildpack-ruby.git
