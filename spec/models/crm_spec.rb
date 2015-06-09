@@ -42,6 +42,9 @@ describe Crm do
       crm.reload
       expect(crm.password).to eq 'password2'
     end
+
+    it { should allow_value('www.google.com').for(:host) }
+    it { should_not allow_value('https://www.google.com/').for(:host) }
   end
   it 'should validate the hostname' do
     expect_any_instance_of(Resolv::DNS).to receive(:getaddress).and_raise(Resolv::ResolvError.new "resolv error")

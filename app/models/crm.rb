@@ -20,7 +20,7 @@ class Crm < ActiveRecord::Base
   has_many :import_stubs, dependent: :destroy
 
   validates :username, presence: true
-  validates :host, presence: true, host_name: true
+  validates :host, presence: true, host_name: true, format: /\A(?!http(s?):\/\/).+\z/
   validates :platform, presence: true
   validates :default_currency, presence: true
   validates :donation_page_name, presence: true, if: :requires_donation_page?
