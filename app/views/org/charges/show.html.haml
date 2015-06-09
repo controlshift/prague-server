@@ -23,6 +23,21 @@
             = @charge.stripe_id
         %tr
           %td
+            Customer
+          %td
+            = @charge.customer.email
+        %tr
+          %td
+            Amount
+          %td
+            = @charge.amount
+        %tr
+          %td
+            Currency
+          %td
+            = @charge.currency
+        %tr
+          %td
             Created At
           %td
             = @charge.created_at
@@ -41,3 +56,23 @@
             External New Member
           %td
             = @charge.external_new_member
+        %tr
+          %td
+            Card
+          %td
+            = @charge.card
+        %tr
+          %td
+            Config for Charge
+          %td
+            = @charge.config
+        %tr
+          %td
+            Paid
+          %td
+            = @charge.paid
+        %tr
+          %td
+            Status
+          %td
+            = @charge.status
