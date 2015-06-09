@@ -31,9 +31,11 @@ class Charge < ActiveRecord::Base
   before_validation :downcase_currency
   before_validation :ensure_amount_is_number
 
-  validates :amount, :currency, :customer, :organization, :pusher_channel_token, presence: true
-  validates :amount, numericality: { greater_than: 0 }
-  validates :currency, inclusion: { in: Organization::CURRENCIES.collect{|c| c.downcase} }
+  validates :customer, presence: true
+  validates :organization, presence: true
+  validates :pusher_channel_token, presence: true
+  validates :amount, presence: true, numericality: { greater_than: 0, only_integer: true }
+  validates :currency, presence: true, inclusion: { in: Organization::CURRENCIES.collect{|c| c.downcase} }
 
   before_save :update_aggregates
 
@@ -43,7 +45,7 @@ class Charge < ActiveRecord::Base
     self.class.presentation_amount(amount, currency)
   end
 
-  def self.presentation_amount for_amount, for_currency
+  def self.presentation_amount(for_amount, for_currency)
     # zero_decimal means that the currency is not represented as XXX.XX, rather its integer amount
     zero_decimal = ['BIF', 'CLP', 'JPY', 'KRW', 'PYG', 'VUV', 'XOF', 'CLP', 'GNF', 'KMF', 'MGA', 'RWF', 'XAF', 'XPF'].include?(for_currency.upcase)
     # E.g.: If zero_decimal, 12345 => "12345". Else, 12345 => "123.45"

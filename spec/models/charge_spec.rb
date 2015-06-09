@@ -67,6 +67,8 @@ describe Charge do
     end
   end
 
+
+
   describe '#update_aggregates' do
     let!(:organization) { create(:organization) }
     let(:tag_namespace) { build(:tag_namespace, namespace: 'color') }
