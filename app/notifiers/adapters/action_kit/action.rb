@@ -4,7 +4,6 @@ module Adapters
       attr_accessor :import_stub
 
       def to_hash
-        crm = charge.organization.crm
         charge_amount = import_stub.present? ? charge.converted_amount(crm.default_currency) : charge.amount
 
         params = config_hash.merge({
@@ -20,7 +19,8 @@ module Adapters
           amount_other: Charge.presentation_amount(charge_amount, charge.currency.upcase),
           action_charge_id: charge.id,
           action_charge_status: charge.status,
-          action_charge_currency: charge.currency.upcase
+          action_charge_currency: charge.currency.upcase,
+          action_charge_raw_amount: charge.amount
         })
 
         if import_stub.present?
@@ -33,7 +33,14 @@ module Adapters
         params
       end
 
+      private
+
+      def crm
+        charge.organization.crm
+      end
+
       def config_hash
+        # if the charge has a stored config, retrieve the source and the original akid and insert it into the action.
         if charge.config.present?
           charge.config.select { |k,v| k.start_with? "action_" || k == "source" }.merge({ 'orig_akid' => charge.config['akid'] })
         else

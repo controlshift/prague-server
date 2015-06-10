@@ -40,6 +40,7 @@ describe ActionKitNotifier do
           action_charge_id: charge.id,
           action_charge_status: charge.status,
           action_charge_currency: charge.currency.upcase,
+          action_charge_raw_amount: charge.amount,
           payment_account: import_stub.payment_account,
           currency: import_stub.donation_currency
        })

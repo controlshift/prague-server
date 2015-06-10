@@ -6,7 +6,7 @@ describe Adapters::ActionKit::Action do
     subject { Adapters::ActionKit::Action.new charge: charge  }
 
     it 'should only return the key value pairs where the key starts with action_' do
-      expect(subject.config_hash).to eq({'action_foo' => 'bar', 'orig_akid' => 'XXX'})
+      expect(subject.send(:config_hash)).to eq({'action_foo' => 'bar', 'orig_akid' => 'XXX'})
     end
   end
 end
