@@ -49,7 +49,7 @@
                     = current_user.email
                     %span{class: 'caret'}
                   %ul{class:'dropdown-menu', role:'menu', 'aria-labelledby' => "userMenu"}
-                    %li= link_to 'Admin', admin_root_path if can? :manage, :all
+                    %li= link_to 'Admin', admin_path if can? :manage, :all
                     %li= link_to "Sign out", destroy_user_session_path, method: :delete
             - else
               %li= link_to 'Sign in', new_user_session_path
