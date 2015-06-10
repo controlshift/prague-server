@@ -38,8 +38,12 @@ gem 'cancancan', '~> 1.10'
 gem 'pusher'
 
 gem 'sidekiq'
-
+# required for sidekiq web
 gem 'sinatra', '>= 1.3.0', :require => nil
+
+# database admin
+gem 'pghero'
+gem 'blazer'
 
 gem 'rack-cors', :require => 'rack/cors'
 

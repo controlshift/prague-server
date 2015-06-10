@@ -69,7 +69,9 @@ PragueServer::Application.routes.draw do
   root 'home#index'
 
   authenticate :user, lambda { |u| u.admin? } do
-    mount Sidekiq::Web => '/sidekiq'
+    mount Sidekiq::Web, at: '/sidekiq'
+    mount Blazer::Engine, at: '/blazer'
+    mount PgHero::Engine, at: '/pghero'
   end
 
   mount StripeEvent::Engine => '/stripe/event'
