@@ -4,7 +4,7 @@ module Adapters
       attr_accessor :import_stub
 
       def to_hash
-        charge_amount = import_stub.present? ? charge.converted_amount(crm.default_currency) : charge.amount
+        charge_amount = import_stub.present? ? charge.amount : charge.converted_amount(crm.default_currency)
 
         params = config_hash.merge({
           page: charge.config.try(:[], 'page') || crm.donation_page_name,
