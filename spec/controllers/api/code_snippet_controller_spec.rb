@@ -23,7 +23,7 @@ describe Api::CodeSnippetController do
     it 'raises an error if passed invalid tags' do
       expect {
         get :show, tags: ['alert("I am doing something unsavoury!");\\\\']
-      }.to raise_error
+      }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
 
@@ -42,7 +42,7 @@ describe Api::CodeSnippetController do
     it 'raises an error if passed invalid tags' do
       expect {
         get :parameters, tags: ['alert("I am doing something unsavoury!");\\\\']
-      }.to raise_error
+      }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
 end
