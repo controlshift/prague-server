@@ -25,7 +25,7 @@ GIT
 
 GIT
   remote: https://github.com/controlshift/blue_state_digital.git
-  revision: 46e65f94b7a59b83e2e39ed9ba0881da2a9be550
+  revision: b10b259aeacefa2febd72337cfd855f1ba7ef494
   specs:
     blue_state_digital (0.5.4)
       activemodel
@@ -168,7 +168,7 @@ GEM
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
     daemons (1.2.2)
-    dalli (2.7.0)
+    dalli (2.7.4)
     dante (0.2.0)
     database_cleaner (1.2.0)
     devise (3.5.1)
