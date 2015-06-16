@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    return admin_admin_dashboard_path if resource.admin?
+    return admin_admin_root_path if resource.admin?
 
     stored_location = stored_location_for(resource)
     if stored_location && current_organization
