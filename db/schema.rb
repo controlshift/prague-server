@@ -11,19 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150610180735) do
+ActiveRecord::Schema.define(version: 20150622163042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
 
   create_table "active_admin_comments", force: :cascade do |t|
-    t.string   "namespace",     limit: 255
+    t.string   "namespace"
     t.text     "body"
-    t.string   "resource_id",   limit: 255, null: false
-    t.string   "resource_type", limit: 255, null: false
+    t.string   "resource_id",   null: false
+    t.string   "resource_type", null: false
     t.integer  "author_id"
-    t.string   "author_type",   limit: 255
+    t.string   "author_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -50,19 +50,19 @@ ActiveRecord::Schema.define(version: 20150610180735) do
 
   create_table "charges", force: :cascade do |t|
     t.integer  "amount"
-    t.string   "currency",             limit: 255
+    t.string   "currency"
     t.integer  "customer_id"
     t.integer  "organization_id"
     t.datetime "charged_back_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "pusher_channel_token", limit: 255
+    t.string   "pusher_channel_token"
     t.hstore   "config"
-    t.string   "status",               limit: 255, default: "live"
-    t.boolean  "paid",                             default: false,  null: false
-    t.string   "stripe_id",            limit: 255
+    t.string   "status",               default: "live"
+    t.boolean  "paid",                 default: false,  null: false
+    t.string   "stripe_id"
     t.hstore   "card"
-    t.string   "external_id",          limit: 255
+    t.string   "external_id"
     t.boolean  "external_new_member"
   end
 
@@ -78,36 +78,36 @@ ActiveRecord::Schema.define(version: 20150610180735) do
 
   create_table "crms", force: :cascade do |t|
     t.integer  "organization_id"
-    t.string   "donation_page_name", limit: 255
-    t.string   "host",               limit: 255
-    t.string   "username",           limit: 255
-    t.string   "encrypted_password", limit: 255
+    t.string   "donation_page_name"
+    t.string   "host"
+    t.string   "username"
+    t.string   "encrypted_password"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "platform",           limit: 255
-    t.string   "default_currency",   limit: 255, default: "USD"
+    t.string   "platform"
+    t.string   "default_currency",   default: "USD"
   end
 
   add_index "crms", ["organization_id"], name: "index_crms_on_organization_id", using: :btree
 
   create_table "customers", force: :cascade do |t|
-    t.string   "customer_token", limit: 255
-    t.string   "first_name",     limit: 255
-    t.string   "last_name",      limit: 255
-    t.string   "country",        limit: 255
-    t.string   "zip",            limit: 255
-    t.string   "email",          limit: 255
+    t.string   "customer_token"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "country"
+    t.string   "zip"
+    t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "status",         limit: 255, default: "live"
+    t.string   "status",         default: "live"
   end
 
   add_index "customers", ["email", "status"], name: "index_customers_on_email_and_status", unique: true, using: :btree
 
   create_table "import_stubs", force: :cascade do |t|
     t.integer  "crm_id"
-    t.string   "payment_account",   limit: 255
-    t.string   "donation_currency", limit: 255
+    t.string   "payment_account"
+    t.string   "donation_currency"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -115,11 +115,11 @@ ActiveRecord::Schema.define(version: 20150610180735) do
   add_index "import_stubs", ["crm_id"], name: "index_import_stubs_on_crm_id", using: :btree
 
   create_table "invitations", force: :cascade do |t|
-    t.integer  "sender_id",                          null: false
+    t.integer  "sender_id",              null: false
     t.integer  "recipient_id"
-    t.string   "recipient_email",        limit: 255, null: false
-    t.integer  "organization_id",                    null: false
-    t.string   "token",                  limit: 255
+    t.string   "recipient_email",        null: false
+    t.integer  "organization_id",        null: false
+    t.string   "token"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "invitation_accepted_at"
@@ -139,14 +139,14 @@ ActiveRecord::Schema.define(version: 20150610180735) do
   add_index "log_entries", ["charge_id"], name: "index_log_entries_on_charge_id", using: :btree
 
   create_table "oauth_access_grants", force: :cascade do |t|
-    t.integer  "resource_owner_id",             null: false
-    t.integer  "application_id",                null: false
-    t.string   "token",             limit: 255, null: false
-    t.integer  "expires_in",                    null: false
-    t.text     "redirect_uri",                  null: false
-    t.datetime "created_at",                    null: false
+    t.integer  "resource_owner_id", null: false
+    t.integer  "application_id",    null: false
+    t.string   "token",             null: false
+    t.integer  "expires_in",        null: false
+    t.text     "redirect_uri",      null: false
+    t.datetime "created_at",        null: false
     t.datetime "revoked_at"
-    t.string   "scopes",            limit: 255
+    t.string   "scopes"
   end
 
   add_index "oauth_access_grants", ["token"], name: "index_oauth_access_grants_on_token", unique: true, using: :btree
@@ -154,12 +154,12 @@ ActiveRecord::Schema.define(version: 20150610180735) do
   create_table "oauth_access_tokens", force: :cascade do |t|
     t.integer  "resource_owner_id"
     t.integer  "application_id"
-    t.string   "token",             limit: 255, null: false
-    t.string   "refresh_token",     limit: 255
+    t.string   "token",             null: false
+    t.string   "refresh_token"
     t.integer  "expires_in"
     t.datetime "revoked_at"
-    t.datetime "created_at",                    null: false
-    t.string   "scopes",            limit: 255
+    t.datetime "created_at",        null: false
+    t.string   "scopes"
   end
 
   add_index "oauth_access_tokens", ["refresh_token"], name: "index_oauth_access_tokens_on_refresh_token", unique: true, using: :btree
@@ -167,38 +167,39 @@ ActiveRecord::Schema.define(version: 20150610180735) do
   add_index "oauth_access_tokens", ["token"], name: "index_oauth_access_tokens_on_token", unique: true, using: :btree
 
   create_table "oauth_applications", force: :cascade do |t|
-    t.string   "name",         limit: 255,              null: false
-    t.string   "uid",          limit: 255,              null: false
-    t.string   "secret",       limit: 255,              null: false
-    t.text     "redirect_uri",                          null: false
+    t.string   "name",                      null: false
+    t.string   "uid",                       null: false
+    t.string   "secret",                    null: false
+    t.text     "redirect_uri",              null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "scopes",       limit: 255, default: "", null: false
+    t.string   "scopes",       default: "", null: false
   end
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
   create_table "organizations", force: :cascade do |t|
-    t.string   "access_token",                limit: 255
-    t.string   "stripe_publishable_key",      limit: 255
-    t.string   "stripe_user_id",              limit: 255
-    t.string   "name",                        limit: 255
+    t.string   "access_token"
+    t.string   "stripe_publishable_key"
+    t.string   "stripe_user_id"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "slug",                        limit: 255
+    t.string   "slug"
     t.hstore   "global_defaults"
     t.boolean  "testmode"
-    t.string   "refresh_token",               limit: 255
+    t.string   "refresh_token"
     t.boolean  "stripe_live_mode"
-    t.string   "stripe_publishable_test_key", limit: 255
-    t.string   "stripe_test_access_token",    limit: 255
+    t.string   "stripe_publishable_test_key"
+    t.string   "stripe_test_access_token"
   end
 
   add_index "organizations", ["slug"], name: "index_organizations_on_slug", unique: true, using: :btree
+  add_index "organizations", ["stripe_user_id"], name: "index_organizations_on_stripe_user_id", using: :btree
 
   create_table "tag_namespaces", force: :cascade do |t|
     t.integer  "organization_id"
-    t.string   "namespace",       limit: 255
+    t.string   "namespace"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -206,7 +207,7 @@ ActiveRecord::Schema.define(version: 20150610180735) do
   add_index "tag_namespaces", ["organization_id", "namespace"], name: "index_tag_namespaces_on_organization_id_and_namespace", using: :btree
 
   create_table "tags", force: :cascade do |t|
-    t.string   "name",            limit: 255
+    t.string   "name"
     t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -217,24 +218,24 @@ ActiveRecord::Schema.define(version: 20150610180735) do
   add_index "tags", ["organization_id", "namespace_id"], name: "index_tags_on_organization_id_and_namespace_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255, default: "",    null: false
-    t.string   "encrypted_password",     limit: 255, default: "",    null: false
-    t.string   "reset_password_token",   limit: 255
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0,     null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: 255
-    t.string   "last_sign_in_ip",        limit: 255
-    t.string   "confirmation_token",     limit: 255
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email",      limit: 255
+    t.string   "unconfirmed_email"
     t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "admin",                              default: false
+    t.boolean  "admin",                  default: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
@@ -245,11 +246,11 @@ ActiveRecord::Schema.define(version: 20150610180735) do
   create_table "webhook_endpoints", force: :cascade do |t|
     t.integer  "organization_id"
     t.text     "url"
-    t.string   "name",            limit: 255
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "username",        limit: 255
-    t.string   "password",        limit: 255
+    t.string   "username"
+    t.string   "password"
   end
 
 end
