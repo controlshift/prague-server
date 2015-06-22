@@ -69,6 +69,7 @@ PragueServer::Application.routes.draw do
 
   namespace :admin do
     get '/', to: 'admin#index'
+    get '/error', to: 'admin#error'
     authenticate :user, lambda { |u| u.admin? } do
       mount Sidekiq::Web, at: '/sidekiq'
       mount Blazer::Engine, at: '/blazer'

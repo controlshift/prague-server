@@ -24,7 +24,9 @@ class ChargesController < ApplicationController
         render json: { error: customer.errors }, status: :unprocessable_entity
       end
     else
-      render json: { error: "Organization: '#{organization_slug_param}' does not exist." }, status: :unprocessable_entity
+      error = "Organization: '#{organization_slug_param}' does not exist."
+      Airbrake.notify_or_ignore(error)
+      render json: { error: error }, status: :unprocessable_entity
     end
   rescue ActionController::ParameterMissing
     render json: { error: "You must provide all of the required parameters. Check the documentation." }, status: :unprocessable_entity
