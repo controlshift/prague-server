@@ -100,6 +100,9 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.8)
+    airbrake (4.2.1)
+      builder
+      multi_json
     analytics-ruby (2.0.12)
     annotate (2.6.10)
       activerecord (>= 3.2, <= 4.3)
@@ -239,7 +242,6 @@ GEM
     hashie (3.4.2)
     hike (1.2.3)
     hitimes (1.2.2)
-    honeybadger (2.1.0)
     httparty (0.13.3)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
@@ -512,6 +514,7 @@ PLATFORMS
 DEPENDENCIES
   action_kit_rest!
   activeadmin!
+  airbrake
   analytics-ruby
   annotate
   attr_encrypted
@@ -537,7 +540,6 @@ DEPENDENCIES
   guard
   guard-rspec
   haml-rails
-  honeybadger
   httparty
   jbuilder
   jquery-rails
@@ -580,4 +582,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   1.10.3
+   1.10.4

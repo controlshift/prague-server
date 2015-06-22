@@ -11,11 +11,6 @@ Sidekiq.configure_client do |config|
   config.redis = { :url => REDIS_URL, :namespace => REDIS_NAMESPACE }
 end
 
-unless Sidekiq::VERSION < '3'
-  Sidekiq.configure_server do |config|
-    config.error_handlers << Proc.new {|ex,context| Honeybadger.notify(ex, context: context) }
-  end
-end
 
 module PragueServer
   class Application < Rails::Application

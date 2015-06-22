@@ -28,7 +28,7 @@ class ChargeCustomerWorker
       ErrorAction.new(charge, e, "Stripe error while processing charge: #{e.message}").call
     rescue StandardError => e
       ErrorAction.new(charge, e, "Unknown error: #{e.message}").call
-      Honeybadger.notify(e, context: {charge_id: charge.id})
+      Airbrake.notify_or_ignore(e, params: {charge_id: charge.id})
     end
   end
 end
