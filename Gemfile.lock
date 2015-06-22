@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/activeadmin/activeadmin.git
-  revision: 0b4b22871fd332c94daec3c5138c0cf9a5b95451
+  revision: 1fb85de86e537f5a3e7b5692382b53819795ecc3
   specs:
     activeadmin (1.0.0.pre1)
       arbre (~> 1.0, >= 1.0.2)
@@ -343,7 +343,7 @@ GEM
       signature (~> 0.1.8)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
-    rack (1.6.2)
+    rack (1.6.4)
     rack-cache (1.2)
       rack (>= 0.4)
     rack-cors (0.4.0)
