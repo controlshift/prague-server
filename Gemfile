@@ -66,6 +66,15 @@ gem 'going_postal'
 gem 'httparty'
 gem 'analytics-ruby'
 
+source 'https://rails-assets.org' do
+  gem 'rails-assets-knockout'
+  gem 'rails-assets-knockout-validation'
+  gem 'rails-assets-pusher'
+  gem 'rails-assets-airbrake-js-client'
+  gem 'rails-assets-cleanslate'
+  gem 'rails-assets-jquery.payment'
+end
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -89,6 +98,8 @@ group :development, :test do
 end
 
 group :test do
+  gem 'jasmine-rails'
+  gem 'phantomjs', '~> 1.9.7.0'
   gem 'guard'
   gem 'guard-rspec', require: false
   gem 'stripe-ruby-mock', git: 'https://github.com/controlshift/stripe-ruby-mock.git'

@@ -1,5 +1,6 @@
 require 'sidekiq/web'
 PragueServer::Application.routes.draw do
+  mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
   devise_for :users, controllers: { registrations: :users, confirmations: :confirmations }
 
   use_doorkeeper do
