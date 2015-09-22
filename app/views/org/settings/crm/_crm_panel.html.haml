@@ -16,7 +16,7 @@
   .col-lg-2.col-lg-offset-4
     = link_to edit_organization_settings_crm_path(current_organization), class: 'btn btn-default', remote: true do
       %span.glyphicon.glyphicon-pencil{'aria-hidden' => "true"}
-    = link_to organization_settings_crm_path(current_organization), class: 'btn btn-default', remote: true, method: 'delete' do
+    = link_to organization_settings_crm_path(current_organization), class: 'btn btn-default', remote: true, method: 'delete', data: { confirm: 'Are you sure?'} do
       %span.glyphicon.glyphicon-trash{'aria-hidden' => "true"}
     - if @crm.action_kit?
       = link_to test_organization_settings_crm_path(current_organization), class: 'btn btn-default', remote: true, method: 'get' do
