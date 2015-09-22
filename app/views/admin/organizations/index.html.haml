@@ -1,0 +1,16 @@
+.row
+  .col-lg-12
+    = breadcrumbs [['Admin', admin_path],
+                   ['Organizations']]
+
+    = title 'Organizations'
+
+    %table.table
+      %thead
+        %th Organization
+        %th Charges
+
+      - @organizations.each do |organization|
+        %tr
+          %td= link_to organization.name, organization_path(current_organization)
+          %td= organization.charges.size

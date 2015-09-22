@@ -68,14 +68,13 @@ PragueServer::Application.routes.draw do
   root 'home#index'
 
   namespace :admin do
-    get '/', to: 'admin#index'
     get '/error', to: 'admin#error'
     authenticate :user, lambda { |u| u.admin? } do
+      get '/', to: 'admin#index'
       mount Sidekiq::Web, at: '/sidekiq'
       mount Blazer::Engine, at: '/blazer'
       mount PgHero::Engine, at: '/pghero'
-      ActiveAdmin.routes(self)
-
+      resources :organizations
     end
   end
 
