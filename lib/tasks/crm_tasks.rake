@@ -5,22 +5,14 @@ namespace :crm do
     organization = Organization.find_by_slug(ENV['ORGANIZATION_SLUG'])
     raise ArgumentError.new("Organization with slug #{ENV['ORGANIZATION_SLUG']} not found.") if organization.nil?
 
-    charges_scope = nil
+    charges_to_resync = nil
     case organization.crm.platform
     when 'actionkit'
-      charges_scope = organization.charges.paid.where('external_id IS NOT NULL')
+      charges_to_resync = organization.charges.paid.where('external_id IS NOT NULL')
     when 'bluestate'
-      charges_scope = organization.charges.paid
+      charges_to_resync = organization.charges.paid.where("(SELECT COUNT(*) FROM log_entries WHERE log_entries.charge_id = charges.id AND log_entries.message = 'Synchronized to Blue State Digital') = 0")
     else
       raise "No notifier for #{organization.crm.platform}"
-    end
-
-    charges_to_resync = nil
-    if ENV['FROM_DATE'].present?
-      from_date = Time.parse(ENV['FROM_DATE'])
-      charges_to_resync = charges_scope.where('created_at > ?', from_date)
-    else
-      charges_to_resync = charges_scope
     end
 
     charges_to_resync.select(:id).each do |charge_to_resync|

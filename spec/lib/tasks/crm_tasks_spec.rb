@@ -15,7 +15,6 @@ describe 'crm tasks' do
     before :each do
       Rake::Task['crm:resync_charges'].reenable
       ENV.delete('ORGANIZATION_SLUG')
-      ENV.delete('FROM_DATE')
 
       allow(Organization).to receive(:find_by_slug).with(organization_slug).and_return(organization)
     end
@@ -28,13 +27,6 @@ describe 'crm tasks' do
       ENV['ORGANIZATION_SLUG'] = 'inexistent_organization'
 
       expect { Rake.application.invoke_task 'crm:resync_charges' }.to raise_error(/inexistent_organization/)
-    end
-
-    it "should raise error if FROM_DATE parameter is not a valid date" do
-      ENV['ORGANIZATION_SLUG'] = organization_slug
-      ENV['FROM_DATE'] = 'not a valid date'
-
-      expect { Rake.application.invoke_task 'crm:resync_charges' }.to raise_error(ArgumentError, /not a valid date/)
     end
 
     context "Valid organization" do
@@ -50,6 +42,8 @@ describe 'crm tasks' do
       context "CRM is BSD" do
         before :each do
           crm.platform = 'bluestate'
+
+          expect(charges_relation).to receive(:where).with("(SELECT COUNT(*) FROM log_entries WHERE log_entries.charge_id = charges.id AND log_entries.message = 'Synchronized to Blue State Digital') = 0").and_return(charges_relation)
         end
 
         it "should enqueue jobs on CrmNotificationWorker for each charge" do
@@ -63,14 +57,6 @@ describe 'crm tasks' do
 
         it "should not filter by external_id" do
           expect(charges_relation).not_to receive(:where).with('external_id IS NOT NULL')
-          allow(charges_relation).to receive(:select).with(:id).and_return([])
-
-          Rake.application.invoke_task 'crm:resync_charges'
-        end
-
-        it "should filter by created_date if FROM_DATE argument set" do
-          ENV['FROM_DATE'] = '2014-12-31 11:59:00 pm'
-          expect(charges_relation).to receive(:where).with('created_at > ?', Time.parse('2014-12-31 11:59:00 pm')).and_return(charges_relation)
           allow(charges_relation).to receive(:select).with(:id).and_return([])
 
           Rake.application.invoke_task 'crm:resync_charges'
