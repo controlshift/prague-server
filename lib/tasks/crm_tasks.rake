@@ -8,7 +8,7 @@ namespace :crm do
     charges_to_resync = nil
     case organization.crm.platform
     when 'actionkit'
-      charges_to_resync = organization.charges.paid.where('external_id IS NOT NULL')
+      charges_to_resync = organization.charges.paid.where(external_id: nil)
     when 'bluestate'
       charges_to_resync = organization.charges.paid.where("(SELECT COUNT(*) FROM log_entries WHERE log_entries.charge_id = charges.id AND log_entries.message = 'Synchronized to Blue State Digital') = 0")
     else

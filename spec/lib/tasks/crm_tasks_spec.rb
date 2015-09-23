@@ -65,7 +65,7 @@ describe 'crm tasks' do
 
       context "CRM is AK" do
         it "should filter by external_id" do
-          expect(charges_relation).to receive(:where).with('external_id IS NOT NULL').and_return(charges_relation)
+          expect(charges_relation).to receive(:where).with(external_id: nil).and_return(charges_relation)
           allow(charges_relation).to receive(:select).with(:id).and_return([])
 
           Rake.application.invoke_task 'crm:resync_charges'
