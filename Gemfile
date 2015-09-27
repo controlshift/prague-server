@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.2.2'
+ruby '2.2.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.2'
 
@@ -59,8 +59,6 @@ gem 'sprockets'
 gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'
 gem 'geoip'
 gem 'will_paginate'
-
-gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin.git'
 
 gem 'going_postal'
 gem 'httparty'
