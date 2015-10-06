@@ -74,18 +74,28 @@ describe Invitation do
   end
 
   describe '#sender_is_member' do
-    let(:sender) {  create(:confirmed_user, organization: organization) }
+    let(:sender) { create(:confirmed_user, organization: organization) }
 
     it 'should add an error when sender is in another organization' do
-      invitation = build(:invitation)
+      invitation = build(:invitation, organization: create(:organization), sender: sender)
       invitation.send(:sender_is_member)
       expect(invitation.errors.messages[:sender_id]).to be_present
     end
 
+    context 'sender is admin' do
+      let(:sender) {  create(:confirmed_user, organization: organization, admin: true) }
+
+      it 'should not add an error when sender is in the same organization' do
+        invitation = build(:invitation, sender: sender)
+        invitation.send(:sender_is_member)
+        expect(invitation.errors.messages[:sender_id]).to_not be_present
+      end
+    end
+
     it 'should not add an error when sender is in the same organization' do
-      invitation = build(:invitation, organization: organization)
+      invitation = build(:invitation, organization: organization, sender: sender)
       invitation.send(:sender_is_member)
-      expect(invitation.errors.messages[:sender_id]).to be_present
+      expect(invitation.errors.messages[:sender_id]).to_not be_present
     end
   end
 end
