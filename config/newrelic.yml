@@ -54,6 +54,9 @@ common: &default_settings
   # development as it has very high overhead in memory.
   developer_mode: false
 
+  # Hide sensitive user data
+  high_security: true
+
   # The newrelic agent generates its own log file to keep its logging
   # information separate from that of your application. Specify its
   # log level here.
