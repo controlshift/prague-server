@@ -29,6 +29,6 @@ class CreateCustomerTokenWorker
     ErrorAction.new(charge, e, "An error occurred while creating customer: #{e.message}", e.message).call
   rescue StandardError => e
     ErrorAction.new(charge, e, "An unknown error occurred while creating customer: #{e.message}", e.message).call
-    Airbrake.notify_or_ignore(e, params: {charge_id: charge.id})
+    Raven.capture_exception(e)
   end
 end

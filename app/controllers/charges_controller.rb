@@ -25,7 +25,7 @@ class ChargesController < ApplicationController
       end
     else
       error = "Organization: '#{organization_slug_param}' does not exist."
-      Airbrake.notify_or_ignore(error)
+      Raven.capture_exception(error)
       render json: { error: error }, status: :unprocessable_entity
     end
   rescue ActionController::ParameterMissing

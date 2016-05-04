@@ -28,7 +28,7 @@ class ChargeCustomerWorker
       ErrorAction.new(charge, e, "Stripe error while processing charge: #{e.message}").call
     rescue StandardError => e
       ErrorAction.new(charge, e, "Unknown error: #{e.message}").call
-      Airbrake.notify_or_ignore(e, params: {charge_id: charge.id})
+      Raven.capture_exception(e)
     end
   end
 end
