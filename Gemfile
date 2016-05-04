@@ -10,7 +10,7 @@ gem 'pg'
 gem 'sass-rails'
 gem 'compass-rails'
 gem 'bootstrap-sass'
-gem 'airbrake'
+gem 'sentry-raven'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'

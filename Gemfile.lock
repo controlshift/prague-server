@@ -82,9 +82,6 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    airbrake (4.2.1)
-      builder
-      multi_json
     analytics-ruby (2.0.12)
     annotate (2.6.10)
       activerecord (>= 3.2, <= 4.3)
@@ -392,6 +389,8 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    sentry-raven (1.0.0)
+      faraday (>= 0.7.6)
     shellany (0.0.1)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
@@ -469,7 +468,6 @@ PLATFORMS
 
 DEPENDENCIES
   action_kit_rest!
-  airbrake
   analytics-ruby
   annotate
   attr_encrypted
@@ -518,6 +516,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails
   sdoc
+  sentry-raven
   shoulda-matchers
   sidekiq
   simple_form!
