@@ -94,7 +94,7 @@ GEM
       json
     bcrypt (3.1.10)
     blankslate (3.1.3)
-    blazer (1.2.1)
+    blazer (1.3.5)
       chartkick
       rails
     bootstrap-sass (3.3.5)
@@ -119,7 +119,7 @@ GEM
       json
     celluloid (0.16.0)
       timers (~> 4.0.0)
-    chartkick (1.5.0)
+    chartkick (1.5.2)
     chunky_png (1.3.4)
     coderay (1.1.0)
     coffee-rails (4.1.0)
@@ -255,10 +255,10 @@ GEM
       thin (~> 1.5.0)
     memcachier (0.0.2)
     method_source (0.8.2)
-    mime-types (2.99.1)
+    mime-types (2.99.2)
     mini_portile2 (2.0.0)
     minitest (5.9.0)
-    multi_json (1.11.3)
+    multi_json (1.12.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     nenv (0.2.0)
@@ -288,7 +288,7 @@ GEM
       omniauth-oauth2 (~> 1.2.0)
     orm_adapter (0.5.0)
     pg (0.18.2)
-    pghero (1.2.3)
+    pghero (1.2.4)
       activerecord
     pry (0.10.1)
       coderay (~> 1.1.0)
