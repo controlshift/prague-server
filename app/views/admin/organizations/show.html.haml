@@ -1,0 +1,18 @@
+.row
+  .col-lg-12
+    = breadcrumbs [['Admin', admin_path],
+                   ['Organizations']]
+
+    = title @organization.name
+
+    = link_to 'Customer Dashboard', organization_path(@organization)
+
+    %h4 Users
+
+    %table.table
+      %thead
+        %th Email
+
+      - @organization.users.each do |user|
+        %tr
+          %td= user.email

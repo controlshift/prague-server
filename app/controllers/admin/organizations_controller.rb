@@ -5,4 +5,8 @@ class Admin::OrganizationsController < ApplicationController
     @organizations = Organization.all
   end
 
+  def show
+    @organization = Organization.find_by_slug!(params[:id])
+  end
+
 end

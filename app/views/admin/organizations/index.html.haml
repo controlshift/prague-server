@@ -12,5 +12,5 @@
 
       - @organizations.each do |organization|
         %tr
-          %td= link_to organization.name, organization_path(current_organization)
+          %td= link_to organization.name, admin_organization_path(organization)
           %td= organization.charges.size
