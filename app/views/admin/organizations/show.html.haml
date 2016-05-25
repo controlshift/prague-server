@@ -12,7 +12,13 @@
     %table.table
       %thead
         %th Email
-
+        %th Action
       - @organization.users.each do |user|
         %tr
           %td= user.email
+          %td
+            - if user.confirmed?
+              Already Confirmed
+            - else
+              %div{id: "user-#{user.id}-confirmation"}
+                = button_to 'Send Confirmation Email', send_confirmation_instructions_admin_user_path(user), remote: true

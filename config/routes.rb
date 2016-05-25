@@ -74,7 +74,12 @@ PragueServer::Application.routes.draw do
       mount Sidekiq::Web, at: '/sidekiq'
       mount Blazer::Engine, at: '/blazer'
       mount PgHero::Engine, at: '/pghero'
-      resources :organizations
+      resources :organizations, only: [:index, :show]
+      resources :users, only: [:show] do
+        member do
+          post :send_confirmation_instructions
+        end
+      end
     end
   end
 
