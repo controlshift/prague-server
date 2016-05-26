@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe Org::Settings::StripeController do
-  let(:organization) { create(:organization)}
+  let(:organization) { create(:organization, stripe_user_id: account.id)}
   let(:user) { create(:confirmed_user, organization: organization)}
+  let(:account) { Stripe::Account.create }
 
   before(:each) do
     StripeMock.start

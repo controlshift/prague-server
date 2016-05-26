@@ -89,7 +89,7 @@ end
 group :test do
   gem 'guard'
   gem 'guard-rspec', require: false
-  gem 'stripe-ruby-mock', git: 'https://github.com/controlshift/stripe-ruby-mock.git'
+  gem 'stripe-ruby-mock', :require => 'stripe_mock'
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'rspec-its'

@@ -50,9 +50,12 @@ feature 'User signs up' do
   context 'after being invited to the organization' do
     let(:sender) { create(:user_with_organization) }
     let(:invitation) { create(:invitation, sender: sender, organization: sender.organization, recipient_email: 'rec@mail.com') }
+    let(:account) { Stripe::Account.create }
 
     before(:each) do
       StripeMock.start
+      sender.organization.stripe_user_id = account.id
+      sender.organization.save!
     end
 
     after(:each) do

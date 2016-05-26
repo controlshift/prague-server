@@ -39,9 +39,12 @@ feature 'User signs in' do
     context 'with organization' do
       let(:user) { create(:user_with_organization) }
       let(:organization) { user.organization }
+      let(:account) { Stripe::Account.create  }
 
       before(:each) do
         StripeMock.start
+        organization.stripe_user_id = account.id
+        organization.save!
       end
 
       after(:each) do

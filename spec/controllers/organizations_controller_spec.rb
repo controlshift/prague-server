@@ -3,6 +3,7 @@ require 'spec_helper'
 describe OrganizationsController do
   let(:organization) { create(:organization, global_defaults: { currency: 'AUD' }) }
   let(:user) { create(:confirmed_user, organization: organization)}
+  let(:account) { Stripe::Account.create }
 
   context 'while signed in as an org admin' do
     before(:each) do
@@ -12,6 +13,8 @@ describe OrganizationsController do
     describe 'GET show' do
       before(:each) do
         StripeMock.start
+        organization.stripe_user_id = account.id
+        organization.save!
         get :show, id: organization
       end
 

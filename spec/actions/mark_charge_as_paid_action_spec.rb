@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe MarkChargeAsPaidAction do
   let(:charge) { create(:charge, card: nil, paid: false)}
-  let(:stripe_charge) { { id: 1, card: JSON.parse('{"test": "test"}') }}
+  let(:stripe_charge) { { id: 1, source: JSON.parse('{"test": "test"}') }}
 
   describe '#call' do
     before(:each) { MarkChargeAsPaidAction.new(charge, stripe_charge).call }
@@ -16,7 +16,7 @@ describe MarkChargeAsPaidAction do
     end
 
     it 'updates charge card' do
-      expect(charge.card).to eq(stripe_charge[:card].to_hash)
+      expect(charge.card).to eq(stripe_charge[:source].to_hash)
     end
 
     it 'creates new log entry for charge' do

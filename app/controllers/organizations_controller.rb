@@ -3,7 +3,7 @@ class OrganizationsController < ApplicationController
 
   def show
     begin
-      @account = Stripe::Account.retrieve stripe_access_token if stripe_access_token.present?
+      @account = Stripe::Account.retrieve(current_organization.stripe_user_id) if current_organization.stripe_user_id.present?
     rescue SocketError, Stripe::AuthenticationError => e
       Rails.logger.warn e
     end

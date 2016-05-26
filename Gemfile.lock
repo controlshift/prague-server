@@ -19,15 +19,6 @@ GIT
       nokogiri
 
 GIT
-  remote: https://github.com/controlshift/stripe-ruby-mock.git
-  revision: cb7191a42a62207d399860b988bca663c3c94a5d
-  specs:
-    stripe-ruby-mock (1.10.1.7)
-      dante (>= 0.2.0)
-      jimson-temp
-      stripe (>= 1.10.1)
-
-GIT
   remote: https://github.com/controlshift/stripe_event.git
   revision: 8fc9c3db4c792c95a48efb34fee94af2f795f374
   specs:
@@ -114,7 +105,7 @@ GEM
     capybara-email (2.5.0)
       capybara (~> 2.4)
       mail
-    capybara-webkit (1.11.0)
+    capybara-webkit (1.11.1)
       capybara (>= 2.3.0, < 2.8.0)
       json
     celluloid (0.16.0)
@@ -149,7 +140,7 @@ GEM
     connection_pool (2.2.0)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
-    daemons (1.2.2)
+    daemons (1.2.3)
     dalli (2.7.4)
     dante (0.2.0)
     database_cleaner (1.5.3)
@@ -161,6 +152,8 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
+    domain_name (0.5.20160310)
+      unf (>= 0.0.5, < 1.0.0)
     doorkeeper (2.0.1)
       railties (>= 3.1)
     dotenv (0.10.0)
@@ -168,12 +161,12 @@ GEM
       dotenv (= 0.10.0)
     encryptor (1.3.0)
     erubis (2.7.0)
-    eventmachine (1.0.5)
+    eventmachine (1.0.9.1)
     execjs (2.5.2)
-    factory_girl (4.5.0)
+    factory_girl (4.7.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.5.0)
-      factory_girl (~> 4.5.0)
+    factory_girl_rails (4.7.0)
+      factory_girl (~> 4.7.0)
       railties (>= 3.0.0)
     faker (1.4.3)
       i18n (~> 0.5)
@@ -212,6 +205,8 @@ GEM
     hashie (3.4.4)
     hike (1.2.3)
     hitimes (1.2.2)
+    http-cookie (1.0.2)
+      domain_name (~> 0.5)
     httparty (0.13.3)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
@@ -245,10 +240,11 @@ GEM
     lumberjack (1.0.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
-    mailcatcher (0.6.1)
-      activesupport (>= 4.0.0, < 5)
-      eventmachine (~> 1.0.0, <= 1.0.5)
+    mailcatcher (0.6.4)
+      activesupport (~> 4.0)
+      eventmachine (= 1.0.9.1)
       mail (~> 2.3)
+      rack (~> 1.5)
       sinatra (~> 1.2)
       skinny (~> 0.2.3)
       sqlite3 (~> 1.3)
@@ -262,7 +258,7 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     nenv (0.2.0)
-    netrc (0.9.0)
+    netrc (0.11.0)
     newrelic_rpm (3.15.2.317)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
@@ -351,7 +347,8 @@ GEM
       redis (~> 3.0, >= 3.0.4)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
-    rest-client (1.7.2)
+    rest-client (1.8.0)
+      http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
     rspec (3.3.0)
@@ -401,13 +398,13 @@ GEM
       redis (>= 3.0.6)
       redis-namespace (>= 1.3.1)
     signature (0.1.8)
-    sinatra (1.4.6)
-      rack (~> 1.4)
+    sinatra (1.4.7)
+      rack (~> 1.5)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
-    skinny (0.2.3)
+    skinny (0.2.4)
       eventmachine (~> 1.0.0)
-      thin (~> 1.5.0)
+      thin (>= 1.5, < 1.7)
     slop (3.6.0)
     spring (1.7.1)
     spring-commands-rspec (1.0.4)
@@ -421,11 +418,13 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
-    sqlite3 (1.3.10)
-    stripe (1.16.0)
-      json (~> 1.8.1)
-      mime-types (>= 1.25, < 3.0)
+    sqlite3 (1.3.11)
+    stripe (1.41.0)
       rest-client (~> 1.4)
+    stripe-ruby-mock (2.2.4)
+      dante (>= 0.2.0)
+      jimson-temp
+      stripe (>= 1.31.0, < 1.42)
     thin (1.5.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -442,6 +441,9 @@ GEM
     uglifier (2.4.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.2)
     unicorn (4.8.3)
       kgio (~> 2.6)
       rack
@@ -455,7 +457,7 @@ GEM
       hashie
     warden (1.2.3)
       rack (>= 1.0)
-    webmock (2.0.1)
+    webmock (2.0.3)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
@@ -525,7 +527,7 @@ DEPENDENCIES
   spring-commands-rspec
   sprockets
   stripe
-  stripe-ruby-mock!
+  stripe-ruby-mock
   stripe_event!
   thin
   turbolinks

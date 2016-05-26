@@ -11,7 +11,7 @@ class CreateCustomerTokenWorker
       {
         email: customer.email,
         metadata: customer.to_hash,
-        card: card_token,
+        source: card_token,
         validate: false,
         description: customer.id
       },
