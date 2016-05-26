@@ -10,7 +10,8 @@ feature 'Organization adds CRM credentials' do
     StripeMock.stop
   end
 
-  let(:org) { create(:organization) }
+  let(:account) { Stripe::Account.create }
+  let(:org) { create(:organization, stripe_user_id: account.id) }
   let(:user) { create(:confirmed_user, organization: org)}
 
   it 'creates credentials for the first time', js: true do

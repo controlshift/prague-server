@@ -27,8 +27,9 @@ feature "Organization signs up" do
   end
 
   context "when organization fills out the form correctly" do
+    let(:account) { Stripe::Account.create }
     let(:auth_hash) { {
-      'uid' => 'X',
+      'uid' => account.id,
       'info' => { 'stripe_publishable_key' => 'X' },
       'credentials' => { 'token' => 'X' }
     } }
