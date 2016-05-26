@@ -56,7 +56,7 @@ gem 'blue_state_digital', git: 'https://github.com/controlshift/blue_state_digit
 gem 'rack-cache'
 gem 'dalli'
 gem 'sprockets'
-gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'
+gem 'simple_form'
 gem 'geoip'
 gem 'will_paginate'
 
