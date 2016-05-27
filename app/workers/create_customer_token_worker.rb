@@ -15,7 +15,7 @@ class CreateCustomerTokenWorker
         validate: false,
         description: customer.id
       },
-      charge.organization.live? ? ENV['STRIPE_SECRET'] : ENV['STRIPE_TEST_SECRET']
+      { api_key: charge.organization.live? ? ENV['STRIPE_SECRET'] : ENV['STRIPE_TEST_SECRET']}
     )
 
     # Store the Stripe customer ID on the prague customer.

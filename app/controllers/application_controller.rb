@@ -51,6 +51,10 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def access_token
+    current_organization.live? ? ENV['STRIPE_SECRET'] : ENV['STRIPE_TEST_SECRET']
+  end
+
   def current_organization
     current_user.organization if current_user
   end

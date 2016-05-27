@@ -16,7 +16,7 @@ feature 'OAuth Client Generates a token' do
   end
 
   before(:each) do
-    stub_request(:get, "https://api.stripe.com/v1/account").to_return(:status => 200, :body => fixture('account.json'), :headers => {})
+    stub_request(:get, "https://api.stripe.com/v1/accounts/x").to_return(:status => 200, :body => fixture('account.json'), :headers => {})
   end
 
   context 'while signed in' do
