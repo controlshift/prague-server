@@ -4,4 +4,4 @@ StripeEvent.configure do |events|
 end
 
 Stripe.api_version = '2016-03-07'
-Stripe.api_key = ENV['STRIPE_SECRET']
+Stripe.api_key = ENV['STRIPE_SECRET'] if ENV['STRIPE_SECRET']
