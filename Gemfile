@@ -75,6 +75,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'brakeman', :require => false
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'annotate'
