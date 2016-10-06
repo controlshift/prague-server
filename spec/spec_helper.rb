@@ -34,7 +34,7 @@ RSpec.configure do |config|
 
   config.infer_spec_type_from_file_location!
 
-  config.include Devise::TestHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Features::UserHelpers, type: :feature
 
   config.before(:each) do
