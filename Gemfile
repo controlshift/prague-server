@@ -37,7 +37,7 @@ gem 'cancancan', '~> 1.10'
 
 gem 'pusher'
 
-gem 'sidekiq'
+gem 'sidekiq', '< 4'
 # required for sidekiq web
 gem 'sinatra', '>= 1.3.0', :require => nil
 
