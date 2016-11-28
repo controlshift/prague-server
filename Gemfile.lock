@@ -476,7 +476,7 @@ DEPENDENCIES
   bootstrap-sass
   brakeman
   byebug
-  cancancan (~> 1.10)
+  cancancan
   capybara
   capybara-email
   capybara-webkit
