@@ -85,7 +85,7 @@ GEM
       sass (>= 3.3.4)
     brakeman (3.4.1)
     builder (3.2.2)
-    byebug (9.0.4)
+    byebug (9.0.6)
     cancancan (1.15.0)
     capybara (2.7.1)
       addressable
@@ -297,11 +297,11 @@ GEM
     pg (0.19.0)
     pghero (1.6.2)
       activerecord
-    pry (0.10.3)
+    pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    pry-byebug (3.4.0)
+    pry-byebug (3.4.1)
       byebug (~> 9.0)
       pry (~> 0.10)
     pusher (0.14.5)
