@@ -11,11 +11,14 @@ describe Api::WebhookEndpointsController do
   end
 
   describe '#index' do
-    let(:webhook_endpoint) { create(:webhook_endpoint, organization: organization) }
+    let!(:webhook_endpoint) { create(:webhook_endpoint, organization: organization) }
 
     it 'should let you get the webhooks' do
       get :index
       expect(response).to be_success
+
+      hsh_resp = JSON.parse(response.body)
+      expect(hsh_resp[0]['id']).to eq(webhook_endpoint.id)
     end
   end
 
@@ -32,6 +35,16 @@ describe Api::WebhookEndpointsController do
     it 'should not allow creation of invalid webhook endpoints' do
       post :create, webhook_endpoint: { name: '', url: 'https://www.google.com/'}
       expect(assigns(:webhook).persisted?).to be_falsey
+    end
+  end
+
+  describe '#destroy' do
+    let(:webhook_endpoint) { create(:webhook_endpoint, organization: organization) }
+
+    it 'should allow deletes of endpoints' do
+      delete :destroy, id: webhook_endpoint
+      expect(response).to be_success
+      expect(JSON.parse(response.body)).to eq({'status' => 'success'})
     end
   end
 end

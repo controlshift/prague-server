@@ -8,7 +8,7 @@ PragueServer::Application.routes.draw do
   get 'config/:id', to: ConfigController.action(:index)
 
   namespace :api do
-    resources :webhook_endpoints, controller: 'webhook_endpoints', only: [:index, :create]
+    resources :webhook_endpoints, controller: 'webhook_endpoints', only: [:index, :create, :destroy]
     resources :namespaces, controller: 'namespaces', only: [:index, :show] do
       member do
         get :history

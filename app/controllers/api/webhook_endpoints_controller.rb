@@ -12,6 +12,12 @@ class Api::WebhookEndpointsController < Api::BaseController
     end
   end
 
+  def destroy
+    @webhook = current_resource_owner.webhook_endpoints.find(params[:id])
+    @webhook.destroy!
+    render json: {'status' => 'success'}
+  end
+
   private
 
   def webhook_param
