@@ -98,8 +98,8 @@ group :test do
   gem 'launchy'
   gem 'capybara'
   gem 'shoulda-matchers', require: false
-  gem "capybara-webkit", require: false
-  gem "capybara-email"
+  gem 'capybara-webkit', require: false
+  gem 'capybara-email'
   gem 'webmock'
 end
 
