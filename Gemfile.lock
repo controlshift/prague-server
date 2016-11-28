@@ -339,6 +339,8 @@ GEM
     rdoc (4.2.2)
       json (~> 1.4)
     redis (3.3.2)
+    redis-namespace (1.5.2)
+      redis (~> 3.0, >= 3.0.4)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
     rest-client (1.8.0)
@@ -512,6 +514,7 @@ DEPENDENCIES
   rack-cors
   rails (= 4.2.7.1)
   rails_12factor
+  redis-namespace
   rspec-its
   rspec-rails
   sass-rails

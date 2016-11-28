@@ -38,6 +38,7 @@ gem 'cancancan', '~> 1.10'
 gem 'pusher'
 
 gem 'sidekiq'
+gem 'redis-namespace'
 
 # database admin
 gem 'pghero'
