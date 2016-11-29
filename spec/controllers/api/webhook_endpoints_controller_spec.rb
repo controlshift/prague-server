@@ -45,6 +45,7 @@ describe Api::WebhookEndpointsController do
       delete :destroy, id: webhook_endpoint
       expect(response).to be_success
       expect(JSON.parse(response.body)).to eq({'status' => 'success'})
+      expect { WebhookEndpoint.find(webhook_endpoint.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end
