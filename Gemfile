@@ -87,7 +87,6 @@ group :test do
   gem 'stripe-ruby-mock', :require => 'stripe_mock'
   gem 'database_cleaner'
   gem 'rspec-rails'
-  gem 'rspec-its'
   gem 'factory_girl_rails'
   gem 'launchy'
   gem 'capybara'

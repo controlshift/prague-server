@@ -1,9 +1,8 @@
 require 'spec_helper'
-require 'rspec/its'
 
 describe ChargeNotificationMailer do
   describe 'send_receipt' do
-    subject{ ActionMailer::Base.deliveries.last }
+    subject { ActionMailer::Base.deliveries.last }
 
     let(:customer) { create(:customer) }
     let(:organization) { create(:organization, thank_you_text: "Thank yew") }
@@ -13,9 +12,11 @@ describe ChargeNotificationMailer do
       ChargeNotificationMailer.send_receipt(charge.id).deliver_now
     end
 
-    its(:to) { should == [charge.customer.email] }
-    its(:from) { should == ['admin@localhost'] }
-    its(:subject) { should == "Thanks for donating to #{charge.organization.name}"}
+    it 'should send the email' do
+      expect(subject.to).to eq([charge.customer.email] )
+      expect(subject.from).to eq(['admin@localhost'])
+      expect(subject.subject).to eq("Thanks for donating to #{charge.organization.name}")
+    end
 
     it 'should give the thank you text and other useful info' do
       expect(subject.body).to have_content(charge.organization.thank_you_text)
@@ -25,7 +26,10 @@ describe ChargeNotificationMailer do
 
     context 'with a contact_email' do
       let(:organization) { create(:organization, contact_email: 'foo@bar.com') }
-      its(:from) { should == ['foo@bar.com'] }
+
+      it 'should send from the contact email' do
+        expect(subject.from).to eq(['foo@bar.com'] )
+      end
     end
   end
 end
