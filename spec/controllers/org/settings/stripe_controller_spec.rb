@@ -15,8 +15,20 @@ describe Org::Settings::StripeController do
     StripeMock.stop
   end
 
-  it 'should render show' do
-    get :show, organization_id: organization
-    expect(response).to be_success
+  describe '#show' do
+    it 'should render show' do
+      get :show, organization_id: organization
+      expect(response).to be_success
+    end
+
+    context 'without a stripe account' do
+      let(:organization) { create(:organization, stripe_user_id: nil) }
+      render_views
+
+      it 'should render without error' do
+        get :show, organization_id: organization
+        expect(response).to be_success
+      end
+    end
   end
 end

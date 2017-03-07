@@ -1,0 +1,16 @@
+%p To get started, you first must connect with Stripe, which we use to manage payments.
+= link_to("/auth/stripe_connect", class: 'stripe-connect') do
+  %span Connect with Stripe
+
+= content_for :end_of_body do
+  .modal.fade#stripe-connect-modal
+    .modal-dialog
+      .modal-content
+        .modal-header
+          Connect with Stripe
+          %button{type:"button", class: "close", 'data-dismiss' => "modal", 'aria-hidden' =>"true"}
+            &times;
+        .modal-body
+          %p To get started, you must first connect with Stripe, which we use to manage payments.
+          = link_to("/auth/stripe_connect", class: 'stripe-connect', id: 'stripe-connect-modal-link') do
+            %span Connect with Stripe

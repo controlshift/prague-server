@@ -15,37 +15,41 @@
       %li{role: 'presentation', class: 'active'}
         %a{href:'#'}
           Stripe
-.row
-  .col-lg-12
-    .row.mb30
-      .col-lg-6
-        %h3
-          Connected Account
-      .col-lg-6
-        = button_to 'Deauthorize', deauthorize_organization_path(@organization), method: 'put', class: 'btn btn-warning mt20'
 
-    %table.table
-      %thead
-        %th Name
-        %th Value
-      %tbody
-        %tr
-          %td
-            ID
-          %td
-            = @account.id
-        %tr
-          %td
-            Display Name
-          %td
-            = @account.display_name
-        %tr
-          %td
-            Email
-          %td
-            = @account.email
-        %tr
-          %td
-            Statement Descriptor
-          %td
-            = @account.statement_descriptor
+- if @account
+  .row
+    .col-lg-12
+      .row.mb30
+        .col-lg-6
+          %h3
+            Connected Account
+        .col-lg-6
+          = button_to 'Deauthorize', deauthorize_organization_path(@organization), method: 'put', class: 'btn btn-warning mt20'
+
+      %table.table
+        %thead
+          %th Name
+          %th Value
+        %tbody
+          %tr
+            %td
+              ID
+            %td
+              = @account.id
+          %tr
+            %td
+              Display Name
+            %td
+              = @account.display_name
+          %tr
+            %td
+              Email
+            %td
+              = @account.email
+          %tr
+            %td
+              Statement Descriptor
+            %td
+              = @account.statement_descriptor
+- else
+  = render partial: 'organizations/connect_with_stripe'
