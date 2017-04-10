@@ -16,8 +16,8 @@ describe "User" do
     context "when it belongs to an organization" do
       let(:user){ create(:user, organization: organization) }
 
-      it{ should be_able_to(:manage, organization) }
-      it{ should_not be_able_to(:manage, another_organization) }
+      it { should be_able_to(:manage, organization) }
+      it { should_not be_able_to(:manage, another_organization) }
     end
   end
 end
