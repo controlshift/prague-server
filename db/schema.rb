@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150622164437) do
+ActiveRecord::Schema.define(version: 20170507204504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,7 +85,8 @@ ActiveRecord::Schema.define(version: 20150622164437) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "platform"
-    t.string   "default_currency",   default: "USD"
+    t.string   "default_currency",      default: "USD"
+    t.string   "encrypted_password_iv"
   end
 
   add_index "crms", ["organization_id"], name: "index_crms_on_organization_id", using: :btree
