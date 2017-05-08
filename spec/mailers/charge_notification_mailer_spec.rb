@@ -9,7 +9,7 @@ describe ChargeNotificationMailer do
     let!(:charge) { create(:charge, customer: customer, organization: organization)}
 
     before do
-      ChargeNotificationMailer.send_receipt(charge.id).deliver_now
+      ChargeNotificationMailer.send_receipt(charge).deliver_now
     end
 
     it 'should send the email' do
