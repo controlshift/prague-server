@@ -249,10 +249,31 @@ describe Organization do
     end
   end
 
-  describe 'currency changes' do
+  describe 'recalculate totals' do
     let(:organization) { create(:organization) }
 
-    it 'should schedule job to recalculate totals' do
+    it 'should not recalculate if new organization' do
+      organization = build(:organization)
+      expect(CalculateOrganizationTotalsWorker).not_to receive(:perform_async)
+
+      expect(organization.save).to be_truthy
+    end
+
+    it 'should not recalculate if not valid' do
+      organization.name = nil
+      expect(CalculateOrganizationTotalsWorker).not_to receive(:perform_async)
+
+      expect(organization.save).to be_falsey
+    end
+
+    it 'should not recalculate if currency did not change' do
+      organization.contact_email = 'another@email.com'
+      expect(CalculateOrganizationTotalsWorker).not_to receive(:perform_async)
+
+      expect(organization.save).to be_truthy
+    end
+
+    it 'should schedule job to recalculate totals if currency changed' do
       expect(CalculateOrganizationTotalsWorker).to receive(:perform_async).with(organization.id)
 
       organization.update_attributes(currency: 'GBP')
