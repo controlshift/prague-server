@@ -1,8 +1,64 @@
-linked_columns:
-  # user_id: "/admin/users/{value}"
+# see https://github.com/ankane/blazer for more info
 
-smart_columns:
-  # user_id: "SELECT id, name FROM users WHERE id IN {value}"
+data_sources:
+  main:
+    # In production and staging we run against the agra replica database using a read only user.
+    #
+    # To create a read-only user for blazer in a rails console:
+    #
+    # > PgHero.create_user("blazer", readonly: true)
+    #
+    # ENV["BLAZER_DATABASE_URL"] = "postgres://user:password@hostname:5432/database"
+    #
+    # for production host a BLAZER_DATABASE_URL must be set for safe operation, otherwise the default connection used by the rails application will be used.
 
-smart_variables:
-  # zone_id: "SELECT id, name FROM zones ORDER BY name ASC"
+
+    url: <%= ENV["BLAZER_DATABASE_URL"] %>
+
+    # statement timeout, in seconds
+    # applies to PostgreSQL only
+    # none by default
+    timeout: 3600
+    cache:
+      mode: slow
+      expires_in: 30 # min
+      slow_threshold: 15 # seconds
+
+    # time to cache results, in minutes
+    # can greatly improve speed
+    # none by default
+    # cache: 60
+
+    # wrap queries in a transaction for safety
+    # not necessary if you use a read-only user
+    # true by default
+    # use_transaction: false
+
+    smart_variables:
+      organisation_id: "SELECT id, slug FROM organizations ORDER BY slug ASC"
+
+    linked_columns:
+      # user_id: "/admin/users/{value}"
+
+    smart_columns:
+      # user_id: "SELECT id, name FROM users WHERE id IN {value}"
+
+# create audits
+audit: true
+
+# change the time zone
+# time_zone: "Pacific Time (US & Canada)"
+
+# class name of the user model
+user_class: User
+
+# method name for the user model
+user_name: email
+
+# optional auth method to use as a before_action (default: nil)
+# before_action: :authenticate!
+
+# email to send checks from
+# from_email: blazer@example.org
+
+async: true

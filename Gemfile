@@ -43,6 +43,8 @@ gem 'redis-namespace'
 # database admin
 gem 'pghero'
 gem 'blazer'
+# required by blazer for background query processing.
+gem 'sucker_punch'
 
 gem 'rack-cors', :require => 'rack/cors'
 
