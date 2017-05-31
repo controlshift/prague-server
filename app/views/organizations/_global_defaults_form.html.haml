@@ -1,5 +1,5 @@
 = simple_form_for(@organization, html: { class: 'form-vertical', id: "global-defaults-form" }, wrapper: :vertical_form, remote: true) do |f|
-  = f.input :currency, collection: Organization::CURRENCIES, selected: current_user.organization.currency
+  = f.input :currency, collection: Organization::CURRENCIES, selected: f.object.currency
   = f.input :seedamount, input_html: {placeholder: "E.g. 10"}, label: 'Seed Amount'
   = f.input :seedvalues, input_html: {placeholder: "E.g. 100, 200, 300 ..."}, label: 'Seed Percentage Values'
   = f.input :redirectto, input_html: {placeholder: "https://example.com"}, label: 'Redirect to (optional)'
