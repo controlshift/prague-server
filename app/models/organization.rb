@@ -153,11 +153,7 @@ class Organization < ActiveRecord::Base
   end
 
   def flush_cache_key!
-    Rails.logger.info "**** Organization#flush_cache_key! **** flushing cache key 'global_defaults_#{slug}'"
-
     Rails.cache.delete "global_defaults_#{slug}"
     OrganizationUpdatedWorker.perform_async(id)
-
-    Rails.logger.info "**** Organization#flush_cache_key! **** cache key 'global_defaults_#{slug}' flushed"
   end
 end
