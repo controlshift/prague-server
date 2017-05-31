@@ -31,3 +31,4 @@ logfile
 /cookbooks
 /.vagrant
 
+.byebug_history
