@@ -3,20 +3,20 @@
 # Table name: charges
 #
 #  id                   :integer          not null, primary key
-#  amount               :string(255)
-#  currency             :string(255)
+#  amount               :integer
+#  currency             :string
 #  customer_id          :integer
 #  organization_id      :integer
 #  charged_back_at      :datetime
 #  created_at           :datetime
 #  updated_at           :datetime
-#  pusher_channel_token :string(255)
+#  pusher_channel_token :string
 #  config               :hstore
-#  status               :string(255)      default("live")
+#  status               :string           default("live")
 #  paid                 :boolean          default(FALSE), not null
-#  stripe_id            :string(255)
+#  stripe_id            :string
 #  card                 :hstore
-#  external_id          :string(255)
+#  external_id          :string
 #  external_new_member  :boolean
 #
 

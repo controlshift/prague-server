@@ -5,9 +5,9 @@
 #  id                     :integer          not null, primary key
 #  sender_id              :integer          not null
 #  recipient_id           :integer
-#  recipient_email        :string(255)      not null
+#  recipient_email        :string           not null
 #  organization_id        :integer          not null
-#  token                  :string(255)
+#  token                  :string
 #  created_at             :datetime
 #  updated_at             :datetime
 #  invitation_accepted_at :datetime

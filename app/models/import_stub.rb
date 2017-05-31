@@ -4,8 +4,8 @@
 #
 #  id                :integer          not null, primary key
 #  crm_id            :integer
-#  payment_account   :string(255)
-#  donation_currency :string(255)
+#  payment_account   :string
+#  donation_currency :string
 #  created_at        :datetime
 #  updated_at        :datetime
 #

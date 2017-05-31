@@ -4,7 +4,7 @@
 #
 #  id              :integer          not null, primary key
 #  organization_id :integer
-#  namespace       :string(255)
+#  namespace       :string
 #  created_at      :datetime
 #  updated_at      :datetime
 #

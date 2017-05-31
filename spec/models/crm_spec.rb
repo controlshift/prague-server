@@ -4,14 +4,14 @@
 #
 #  id                 :integer          not null, primary key
 #  organization_id    :integer
-#  donation_page_name :string(255)
-#  host               :string(255)
-#  username           :string(255)
-#  encrypted_password :string(255)
+#  donation_page_name :string
+#  host               :string
+#  username           :string
+#  encrypted_password :string
 #  created_at         :datetime
 #  updated_at         :datetime
-#  platform           :string(255)
-#  default_currency   :string(255)      default("USD")
+#  platform           :string
+#  default_currency   :string           default("USD")
 #
 
 require 'spec_helper'

@@ -3,15 +3,15 @@
 # Table name: customers
 #
 #  id             :integer          not null, primary key
-#  customer_token :string(255)
-#  first_name     :string(255)
-#  last_name      :string(255)
-#  country        :string(255)
-#  zip            :string(255)
-#  email          :string(255)
+#  customer_token :string
+#  first_name     :string
+#  last_name      :string
+#  country        :string
+#  zip            :string
+#  email          :string
 #  created_at     :datetime
 #  updated_at     :datetime
-#  status         :string(255)      default("live")
+#  status         :string           default("live")
 #
 
 class Customer < ActiveRecord::Base
