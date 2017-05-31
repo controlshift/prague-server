@@ -148,6 +148,8 @@ class Organization < ActiveRecord::Base
 
   def on_currency_change
     if self.persisted? && self.valid? && currency_changed?
+      Rails.logger.info "**** Organization#on_currency_change **** recalculating totals in redis"
+
       # recalculate all of the totals in redis.
       self.tags.find_each do |tag|
         tag.reset_redis_keys!
@@ -162,11 +164,17 @@ class Organization < ActiveRecord::Base
           tag.incrby(charge.converted_amount(self.currency), charge.status)
         end
       end
+
+      Rails.logger.info "**** Organization#on_currency_change **** totals recalculated in redis"
     end
   end
 
   def flush_cache_key!
+    Rails.logger.info "**** Organization#flush_cache_key! **** flushing cache key 'global_defaults_#{slug}'"
+
     Rails.cache.delete "global_defaults_#{slug}"
     OrganizationUpdatedWorker.perform_async(id)
+
+    Rails.logger.info "**** Organization#flush_cache_key! **** cache key 'global_defaults_#{slug}' flushed"
   end
 end

@@ -24,12 +24,15 @@ class OrganizationsController < ApplicationController
   end
 
   def update
+    Rails.logger.info "**** Updating #{current_organization.slug} with: #{global_defaults_param} ****"
     @organization = current_organization
     if @organization.update_attributes(global_defaults_param)
+      Rails.logger.info "**** Organisation #{current_organization.slug} successfully updated, rendering templates next ****"
       respond_to do |format|
         format.js
       end
     else
+      Rails.logger.info "**** Organisation #{current_organization.slug} failed to be updated, errors: #{current_organization.errors.full_messages} ****"
       respond_to do |format|
         format.js
       end
