@@ -250,50 +250,12 @@ describe Organization do
   end
 
   describe 'currency changes' do
-    let!(:organization) { create(:organization) }
-    let!(:charge) { create(:charge, organization: organization, amount: 100, paid: true, status: 'live') }
-    let!(:tag) { create(:tag, name: 'foo', organization: organization, namespace: namespace) }
-    let!(:namespace) { create(:tag_namespace, organization: organization) }
+    let(:organization) { create(:organization) }
 
-    before(:each) do
-      allow_any_instance_of(Charge).to receive(:rate_conversion_hash).and_return('GBP' => 1, 'USD' => 2)
-
-      charge.tags << tag
-      tag.incrby(charge.amount)
-    end
-
-    it 'should allow the reset of redis keys' do
-      organization.tags.find_each do |tag|
-        tag.reset_redis_keys!
-      end
-
-      organization.namespaces.find_each do |namespace|
-        namespace.reset_redis_keys!
-      end
-
-      expect(namespace.total_charges_count).to eq(0)
-      expect(namespace.total_raised).to eq(0)
-      expect(namespace.raised_for_tag(tag)).to eq(0)
-      expect(namespace.most_raised).to eq([])
-    end
-
-    it 'should recalculate aggregates in the new currency' do
-      expect(namespace.total_charges_count).to eq(1)
-      expect(namespace.total_raised).to eq(100)
-      expect(namespace.raised_for_tag(tag)).to eq(100)
-      expect(namespace.most_raised).to eq([{:tag=>"foo", :raised=>100}])
+    it 'should schedule job to recalculate totals' do
+      expect(CalculateOrganizationTotalsWorker).to receive(:perform_async).with(organization.id)
 
       organization.update_attributes(currency: 'GBP')
-      expect(organization.reload.currency).to eq('GBP')
-
-      expect(namespace.total_charges_count).to eq(1)
-      expect(namespace.total_raised).to eq(50)
-      expect(namespace.raised_for_tag(tag)).to eq(50)
-      expect(namespace.most_raised).to eq([{:tag=>"foo", :raised=>50}])
-    end
-
-    after(:each) do
-      PragueServer::Application.redis.flushall
     end
   end
 end

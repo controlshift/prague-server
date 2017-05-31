@@ -148,24 +148,7 @@ class Organization < ActiveRecord::Base
 
   def on_currency_change
     if self.persisted? && self.valid? && currency_changed?
-      Rails.logger.info "**** Organization#on_currency_change **** recalculating totals in redis"
-
-      # recalculate all of the totals in redis.
-      self.tags.find_each do |tag|
-        tag.reset_redis_keys!
-      end
-
-      self.namespaces.find_each do |namespace|
-        namespace.reset_redis_keys!
-      end
-
-      self.charges.paid.find_each do |charge|
-        charge.tags.find_each do |tag|
-          tag.incrby(charge.converted_amount(self.currency), charge.status)
-        end
-      end
-
-      Rails.logger.info "**** Organization#on_currency_change **** totals recalculated in redis"
+      CalculateOrganizationTotalsWorker.perform_async(id)
     end
   end
 
