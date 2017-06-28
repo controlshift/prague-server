@@ -88,10 +88,10 @@ class Charge < ActiveRecord::Base
       if paid_transition.first == false && paid_transition.last == true
         amt = self.converted_amount(self.organization.currency)
         # if a charge transitions to being paid, update the associated aggregate
-        DateAggregation.new(organization.total_raised_key).increment(amt)
-        DateAggregation.new(organization.total_charges_count_key).increment
+        DateAggregation.new(organization.total_raised_key).increment(amt, date: self.created_at)
+        DateAggregation.new(organization.total_charges_count_key).increment(date: self.created_at)
         self.tags.each do |tag|
-          tag.incrby(amt, self.status)
+          tag.incrby(amt, status: self.status, charge_date: self.created_at)
         end
       end
     end

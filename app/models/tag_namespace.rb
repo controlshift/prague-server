@@ -25,9 +25,9 @@ class TagNamespace < ActiveRecord::Base
     namespace
   end
 
-  def incrby(amount, name, status='live')
-    DateAggregation.new(total_charges_count_key(status)).increment
-    DateAggregation.new(total_raised_amount_key(status)).increment(amount)
+  def incrby(amount, name, status: 'live', charge_date: Time.zone.today)
+    DateAggregation.new(total_charges_count_key(status)).increment(date: charge_date)
+    DateAggregation.new(total_raised_amount_key(status)).increment(amount, date: charge_date)
     redis.zincrby(self.most_raised_key(status), amount, name)
     redis.incrby(self.total_raised_amount_key(status), amount)
     redis.incr(self.total_charges_count_key(status))
