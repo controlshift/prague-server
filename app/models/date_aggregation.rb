@@ -37,6 +37,12 @@ class DateAggregation
     redis.get(year_key).to_i
   end
 
+  def delete_all_redis_keys!
+    # Find and delete all redis keys that belong to DateAggregations on this stat
+    keys = redis.keys(year_key(''))
+    redis.del(*keys) unless keys.empty?
+  end
+
   private
 
   def year_key(year = Time.zone.now.year)

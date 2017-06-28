@@ -34,7 +34,11 @@ class TagNamespace < ActiveRecord::Base
   end
 
   def reset_redis_keys!
-    redis.del(total_raised_amount_key, total_charges_count_key, most_raised_key)
+    ['live', 'test'].each do |status|
+      DateAggregation.new(total_charges_count_key(status)).delete_all_redis_keys!
+      DateAggregation.new(total_raised_amount_key(status)).delete_all_redis_keys!
+      redis.del(total_raised_amount_key(status), total_charges_count_key(status), most_raised_key(status))
+    end
   end
 
   def total_raised(status='live')

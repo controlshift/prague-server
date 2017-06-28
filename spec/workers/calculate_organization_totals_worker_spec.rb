@@ -28,11 +28,16 @@ describe CalculateOrganizationTotalsWorker do
   end
 
   it 'should aggregate paid charges for all tags' do
+    allow(DateAggregation).to receive(:new).with(organization.total_raised_key).and_return(org_total_agg = double)
+    allow(DateAggregation).to receive(:new).with(organization.total_charges_count_key).and_return(org_count_agg = double)
+    expect(org_total_agg).to receive(:delete_all_redis_keys!)
+    expect(org_count_agg).to receive(:delete_all_redis_keys!)
+
     charges = build_stubbed_list(:charge, 3, paid: true, status: 'live')
     charge_amount = 0
     charges.each do |charge|
       charge_amount += 100.0
-      expect(charge).to receive(:converted_amount).with(organization.currency).exactly(2).times.and_return(charge_amount)
+      expect(charge).to receive(:converted_amount).with(organization.currency).once.and_return(charge_amount)
 
       tags = build_stubbed_list(:tag, 2, organization: organization)
       tags.each {|tag| expect(tag).to receive(:incrby).with(charge_amount, status: charge.status, charge_date: charge.created_at) }
@@ -41,6 +46,9 @@ describe CalculateOrganizationTotalsWorker do
         tags.each(&block)
       end
       expect(charge).to receive(:tags).and_return(tags_relation)
+
+      expect(org_total_agg).to receive(:increment).with(charge_amount, date: charge.created_at)
+      expect(org_count_agg).to receive(:increment).with(date: charge.created_at)
     end
     charges_relation = double
     expect(charges_relation).to receive(:paid).and_return(charges_relation)
