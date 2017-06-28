@@ -18,7 +18,7 @@ describe Tag do
   it { should belong_to(:organization) }
   it { should belong_to(:namespace)}
 
-  describe 'find_or_create!' do
+  describe '.find_or_create!' do
     let(:organization) { create(:organization) }
 
     it 'should allow tags to be created' do
@@ -48,62 +48,62 @@ describe Tag do
         expect(Tag.find_or_create!(organization, 'foo').name).to eq('foo')
       end
     end
+  end
 
-    describe 'incrby' do
-      let(:organization) { create(:organization) }
-      let(:tag) { create(:tag, name: 'foo', organization: organization) }
-      let(:amount) { 100 }
-      let(:tag_name) { 'foo' }
+  describe '#incrby' do
+    let(:organization) { create(:organization) }
+    let(:tag) { create(:tag, name: 'foo', organization: organization) }
+    let(:amount) { 100 }
+    let(:tag_name) { 'foo' }
 
-      context 'with one incrby' do
-        before(:each) do
-          tag.incrby(amount)
-        end
-
-        it 'should increment the amounts appropriately' do
-          expect(tag.total_charges_count).to eq(1)
-          expect(tag.total_raised).to eq(100)
-          expect(tag.average_charge_amount).to eq(100)
-        end
+    context 'with one incrby' do
+      before(:each) do
+        tag.incrby(amount)
       end
 
-      context 'with multiple increments and a namespace' do
-        let(:tag_namespace) { create(:tag_namespace, organization: organization)}
-        let(:tag) { create(:tag, name: 'foo', organization: organization, namespace: tag_namespace) }
-        let(:tag2) { create(:tag, name: 'bar', organization: organization, namespace: tag_namespace) }
+      it 'should increment the amounts appropriately' do
+        expect(tag.total_charges_count).to eq(1)
+        expect(tag.total_raised).to eq(100)
+        expect(tag.average_charge_amount).to eq(100)
+      end
+    end
 
-        before(:each) do
-          tag.incrby(amount)
-          tag.incrby(amount)
-          tag.incrby(amount)
-          tag2.incrby(50)
-        end
+    context 'with multiple increments and a namespace' do
+      let(:tag_namespace) { create(:tag_namespace, organization: organization)}
+      let(:tag) { create(:tag, name: 'foo', organization: organization, namespace: tag_namespace) }
+      let(:tag2) { create(:tag, name: 'bar', organization: organization, namespace: tag_namespace) }
 
-        it 'should increment the amounts appropriately' do
-          expect(tag_namespace.total_charges_count).to eq(4)
-          expect(tag_namespace.total_raised).to eq(350)
-          expect(tag_namespace.raised_for_tag(tag)).to eq(300)
-          expect(tag_namespace.raised_for_tag(tag2)).to eq(50)
-
-          expect(tag_namespace.charges_count_last_7_days.to_a.last[1]).to eq(4)
-          expect(tag_namespace.raised_last_7_days.to_a.last[1]).to eq(350)
-
-          expect(tag2.total_charges_count).to eq(1)
-          expect(tag2.total_raised).to eq(50)
-
-          expect(tag.total_charges_count).to eq(3)
-          expect(tag.total_raised).to eq(300)
-        end
-
-        it 'should have the correct average charge size' do
-          expect(tag.average_charge_amount).to eq(100)
-          expect(tag2.average_charge_amount).to eq(50)
-        end
+      before(:each) do
+        tag.incrby(amount)
+        tag.incrby(amount)
+        tag.incrby(amount)
+        tag2.incrby(50)
       end
 
-      after(:each) do
-        PragueServer::Application.redis.flushall
+      it 'should increment the amounts appropriately' do
+        expect(tag_namespace.total_charges_count).to eq(4)
+        expect(tag_namespace.total_raised).to eq(350)
+        expect(tag_namespace.raised_for_tag(tag)).to eq(300)
+        expect(tag_namespace.raised_for_tag(tag2)).to eq(50)
+
+        expect(tag_namespace.charges_count_last_7_days.to_a.last[1]).to eq(4)
+        expect(tag_namespace.raised_last_7_days.to_a.last[1]).to eq(350)
+
+        expect(tag2.total_charges_count).to eq(1)
+        expect(tag2.total_raised).to eq(50)
+
+        expect(tag.total_charges_count).to eq(3)
+        expect(tag.total_raised).to eq(300)
       end
+
+      it 'should have the correct average charge size' do
+        expect(tag.average_charge_amount).to eq(100)
+        expect(tag2.average_charge_amount).to eq(50)
+      end
+    end
+
+    after(:each) do
+      PragueServer::Application.redis.flushall
     end
   end
 end
