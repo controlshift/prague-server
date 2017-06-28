@@ -62,6 +62,20 @@ describe TagNamespace do
         expect(tag_namespace.total_raised).to eq(100)
         expect(tag_namespace.raised_for_tag(tag)).to eq(100)
         expect(tag_namespace.most_raised).to eq([{:tag=>"foo", :raised=>100}])
+        expect(tag_namespace.raised_last_7_days[Time.zone.today]).to eq 100
+      end
+    end
+
+    context 'with a date' do
+      let(:charge_date) { Time.zone.today - 5.days }
+
+      before :each do
+        tag_namespace.incrby(amount, tag_name, charge_date: charge_date)
+      end
+
+      it 'should increment the date aggregation for the charge date' do
+        expect(tag_namespace.raised_last_7_days[charge_date]).to eq 100
+        expect(tag_namespace.raised_last_7_days[Time.zone.today]).to eq 0
       end
     end
 

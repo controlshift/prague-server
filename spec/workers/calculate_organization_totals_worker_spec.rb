@@ -35,7 +35,7 @@ describe CalculateOrganizationTotalsWorker do
       expect(charge).to receive(:converted_amount).with(organization.currency).exactly(2).times.and_return(charge_amount)
 
       tags = build_stubbed_list(:tag, 2, organization: organization)
-      tags.each {|tag| expect(tag).to receive(:incrby).with(charge_amount, charge.status) }
+      tags.each {|tag| expect(tag).to receive(:incrby).with(charge_amount, charge.status, charge_date: charge.created_at) }
       tags_relation = double
       expect(tags_relation).to receive(:find_each) do |&block|
         tags.each(&block)

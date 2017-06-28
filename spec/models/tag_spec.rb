@@ -65,6 +65,20 @@ describe Tag do
         expect(tag.total_charges_count).to eq(1)
         expect(tag.total_raised).to eq(100)
         expect(tag.average_charge_amount).to eq(100)
+        expect(tag.raised_last_7_days[Time.zone.today]).to eq 100
+      end
+    end
+
+    context 'with a date' do
+      let(:charge_date) { Time.zone.today - 5.days }
+
+      before :each do
+        tag.incrby(amount, charge_date: charge_date)
+      end
+
+      it 'should increment the date aggregation for the charge date' do
+        expect(tag.raised_last_7_days[charge_date]).to eq 100
+        expect(tag.raised_last_7_days[Time.zone.today]).to eq 0
       end
     end
 

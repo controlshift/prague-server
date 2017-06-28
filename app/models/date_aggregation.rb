@@ -21,8 +21,8 @@ class DateAggregation
     stats
   end
 
-  def increment(amount = 1)
-    redis.multi { keys.each { |key| redis.incrby key, amount }}
+  def increment(amount = 1, date:)
+    redis.multi { keys(date).each { |key| redis.incrby key, amount }}
   end
 
   def today
@@ -51,7 +51,9 @@ class DateAggregation
     "#{month_key(month, year)}/day:#{day}"
   end
 
-  def keys
-    [year_key, month_key, day_key]
+  def keys(date)
+    [year_key(date.year),
+     month_key(date.month, date.year),
+     day_key(date.day, date.month, date.year)]
   end
 end

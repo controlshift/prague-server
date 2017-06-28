@@ -32,13 +32,13 @@ class Tag < ActiveRecord::Base
     name
   end
 
-  def incrby(amount, status='live')
-    DateAggregation.new(total_charges_count_key).increment
-    DateAggregation.new(total_raised_amount_key).increment(amount)
+  def incrby(amount, status='live', charge_date: Time.zone.today)
+    DateAggregation.new(total_charges_count_key).increment(date: charge_date)
+    DateAggregation.new(total_raised_amount_key).increment(amount, date: charge_date)
     redis.incr(total_charges_count_key(status))
     redis.incrby(total_raised_amount_key(status), amount)
     if namespace.present?
-      namespace.incrby(amount, name, status)
+      namespace.incrby(amount, name, status, charge_date: charge_date)
     end
   end
 
