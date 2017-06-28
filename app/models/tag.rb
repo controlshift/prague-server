@@ -43,7 +43,11 @@ class Tag < ActiveRecord::Base
   end
 
   def reset_redis_keys!
-    redis.del(total_raised_amount_key, total_charges_count_key)
+    DateAggregation.new(total_charges_count_key).delete_all_redis_keys!
+    DateAggregation.new(total_raised_amount_key).delete_all_redis_keys!
+    ['live', 'test'].each do |status|
+      redis.del(total_raised_amount_key(status), total_charges_count_key(status))
+    end
   end
 
   def total_raised(status='live')
