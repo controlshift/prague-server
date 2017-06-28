@@ -91,7 +91,7 @@ class Charge < ActiveRecord::Base
         DateAggregation.new(organization.total_raised_key).increment(amt, date: self.created_at)
         DateAggregation.new(organization.total_charges_count_key).increment(date: self.created_at)
         self.tags.each do |tag|
-          tag.incrby(amt, self.status, charge_date: self.created_at)
+          tag.incrby(amt, status: self.status, charge_date: self.created_at)
         end
       end
     end

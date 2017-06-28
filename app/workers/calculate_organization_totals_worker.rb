@@ -15,7 +15,7 @@ class CalculateOrganizationTotalsWorker
 
     organization.charges.paid.find_each do |charge|
       charge.tags.find_each do |tag|
-        tag.incrby(charge.converted_amount(organization.currency), charge.status, charge_date: charge.created_at)
+        tag.incrby(charge.converted_amount(organization.currency), status: charge.status, charge_date: charge.created_at)
       end
     end
   end
