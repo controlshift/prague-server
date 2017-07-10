@@ -148,6 +148,33 @@ describe Charge do
       expect(tag_namespace.raised_for_tag(tag)).to eq(charge.converted_amount)
       expect(tag_namespace.raised_for_tag(tag, 'test')).to eq(test_charge.converted_amount)
     end
+
+    it 'should expire daily aggregation key' do
+      total_raised = DateAggregation.new(organization.total_raised_key)
+      total_raised_day_key = total_raised.send(:day_key, charge.created_at.day, charge.created_at.month, charge.created_at.year)
+      total_raised_month_key = total_raised.send(:month_key, charge.created_at.month, charge.created_at.year)
+      total_raised_year_key = total_raised.send(:year_key, charge.created_at.year)
+      total_charges_count = DateAggregation.new(organization.total_charges_count_key)
+      total_charges_count_day_key = total_charges_count.send(:day_key, charge.created_at.day, charge.created_at.month, charge.created_at.year)
+      total_charges_count_month_key = total_charges_count.send(:month_key, charge.created_at.month, charge.created_at.year)
+      total_charges_count_year_key = total_charges_count.send(:year_key, charge.created_at.year)
+      expect(total_raised.redis.ttl(total_raised_day_key)).to be < 0
+      expect(total_raised.redis.ttl(total_raised_month_key)).to be < 0
+      expect(total_raised.redis.ttl(total_raised_year_key)).to be < 0
+      expect(total_raised.redis.ttl(total_charges_count_day_key)).to be < 0
+      expect(total_raised.redis.ttl(total_charges_count_month_key)).to be < 0
+      expect(total_raised.redis.ttl(total_charges_count_year_key)).to be < 0
+
+      charge.paid = true
+      charge.save!
+
+      expect(total_raised.redis.ttl(total_raised_day_key)).to be > 0
+      expect(total_raised.redis.ttl(total_raised_month_key)).to eq -1 # No expiration set
+      expect(total_raised.redis.ttl(total_raised_year_key)).to eq -1 # No expiration set
+      expect(total_raised.redis.ttl(total_charges_count_day_key)).to be > 0
+      expect(total_raised.redis.ttl(total_charges_count_month_key)).to eq -1 # No expiration set
+      expect(total_raised.redis.ttl(total_charges_count_year_key)).to eq -1 # No expiration set
+    end
   end
 
   describe 'application_fee' do
