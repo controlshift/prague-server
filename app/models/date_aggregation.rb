@@ -1,6 +1,8 @@
 class DateAggregation
   attr_accessor :stat
 
+  KEY_EXPIRATION_FOR_DAY_KEYS = 3.months.to_i
+
   def initialize(stat)
     self.stat = stat
   end
@@ -22,7 +24,14 @@ class DateAggregation
   end
 
   def increment(amount = 1, date:)
-    redis.multi { keys(date).each { |key| redis.incrby key, amount }}
+    redis.multi do
+      keys(date).each do |key, expiration|
+        redis.incrby(key, amount)
+        if expiration.present?
+          redis.expire(key, expiration)
+        end
+      end
+    end
   end
 
   def today
@@ -58,8 +67,10 @@ class DateAggregation
   end
 
   def keys(date)
-    [year_key(date.year),
-     month_key(date.month, date.year),
-     day_key(date.day, date.month, date.year)]
+    [
+      [year_key(date.year), nil],
+      [month_key(date.month, date.year), nil],
+      [day_key(date.day, date.month, date.year), KEY_EXPIRATION_FOR_DAY_KEYS]
+    ]
   end
 end
