@@ -74,7 +74,7 @@ PragueServer::Application.routes.draw do
       mount Blazer::Engine, at: '/blazer'
       mount PgHero::Engine, at: '/pghero'
       resources :organizations, only: [:index, :show]
-      resources :users, only: [:show, :index] do
+      resources :users, only: [:index, :edit, :update] do
         member do
           post :send_confirmation_instructions
         end

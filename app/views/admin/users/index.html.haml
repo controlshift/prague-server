@@ -18,6 +18,6 @@
 
       - @users.each do |user|
         %tr
-          %td= link_to user.email, admin_user_path(user)
+          %td= link_to user.email, edit_admin_user_path(user)
           %td= link_to user.organization.name, admin_organization_path(user.organization)
           %td= user.admin?

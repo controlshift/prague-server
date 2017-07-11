@@ -1,7 +1,7 @@
 class Admin::UsersController < ApplicationController
   before_filter { authorize! :manage, :all }
 
-  before_filter :load_user, only: [:send_confirmation_instructions]
+  before_filter :load_user, except: [:index]
 
   def index
     users_relation = if params[:admins].to_s == 'true'
@@ -13,6 +13,19 @@ class Admin::UsersController < ApplicationController
     @users = users_relation.paginate(per_page: 20, page: params[:page])
   end
 
+  def edit
+  end
+
+  def update
+    @user.assign_attributes(user_params)
+    if @user.save
+      redirect_to admin_users_path, notice: 'User successfully updated'
+    else
+      flash[:alert] = 'User not updated'
+      render :edit
+    end
+  end
+
   def send_confirmation_instructions
     @user.send_confirmation_instructions
   end
@@ -21,5 +34,9 @@ class Admin::UsersController < ApplicationController
 
   def load_user
     @user = User.find(params[:id])
+  end
+
+  def user_params
+    params.require(:user).permit(:admin)
   end
 end
