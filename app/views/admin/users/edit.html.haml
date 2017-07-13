@@ -1,0 +1,10 @@
+.row
+  .col-lg-12
+    = breadcrumbs [['Admin', admin_path],
+                   ['Users']]
+
+    = title @user.email
+
+    = simple_form_for @user, url: admin_user_path(@user) do |form|
+      = form.input :admin, as: :boolean
+      = form.button :submit, 'Save', data: { disable_with: 'Saving...' }

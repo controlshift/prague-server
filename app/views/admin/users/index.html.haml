@@ -1,0 +1,23 @@
+.row
+  .col-lg-12
+    = breadcrumbs [['Admin', admin_path],
+                   ['Users']]
+
+    = title 'Users'
+
+    .pull-right
+      %ul.nav.nav-pills
+        %li= link_to 'All', admin_users_path, class: "btn btn-default #{params[:admins].nil? ? 'active' : ''}"
+        %li= link_to 'Admins', admin_users_path(admins: true), class: "btn btn-default #{params[:admins].present? ? 'active' : ''}"
+
+    %table.table
+      %thead
+        %th Email
+        %th Organization
+        %th Admin
+
+      - @users.each do |user|
+        %tr
+          %td= link_to user.email, edit_admin_user_path(user)
+          %td= link_to user.organization.name, admin_organization_path(user.organization)
+          %td= user.admin?
