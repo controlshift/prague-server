@@ -8,6 +8,11 @@ class ChargeCustomerAction
   end
 
   def call
+    tags_metadata = {}
+    charge.tags.each_with_index do |tag, index|
+      tags_metadata["takecharge-tag-#{index}"] = tag.name
+    end
+
     Stripe::Charge.create({
       amount: charge.amount,
       currency: charge.currency,
@@ -17,7 +22,7 @@ class ChargeCustomerAction
         'charge_id' => charge.id,
         'name' => charge.customer.full_name,
         'email' => charge.customer.email
-      },
+      }.merge(tags_metadata),
       description: "#{Time.zone.now.to_s} - #{charge.customer.id} - #{charge.organization.slug}"
     }, {api_key: access_token, stripe_account: charge.organization.stripe_user_id})
   end
