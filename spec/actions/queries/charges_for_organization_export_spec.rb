@@ -39,7 +39,7 @@ describe Queries::ChargesForOrganizationExport do
 
         describe "header" do
           let(:header) { @parsed[0] }
-
+          specify{ expect(header).to include("id") }
           specify{ expect(header).to include("first_name") }
           specify{ expect(header).to include("last_name") }
           specify{ expect(header).to include("email") }
@@ -53,7 +53,7 @@ describe Queries::ChargesForOrganizationExport do
 
         describe "first row" do
           let(:first_row) { @parsed[1] }
-
+          specify{ expect(first_row).to include(charge.id.to_s) }
           specify{ expect(first_row).to include(charge.customer.first_name) }
           specify{ expect(first_row).to include(charge.customer.last_name) }
           specify{ expect(first_row).to include(charge.customer.email) }
