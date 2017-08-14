@@ -19,7 +19,7 @@ module Queries
         WHERE charges.organization_id = #{ActiveRecord::Base.sanitize(organization.id)}
         GROUP BY charges.id, customers.id
         )
-      SELECT customers.first_name, customers.last_name, customers.email, charges.amount, charges.currency, charges.config, charges.status, charges.created_at, charges_customers.tags
+      SELECT charges.id, customers.first_name, customers.last_name, customers.email, charges.amount, charges.currency, charges.config, charges.status, charges.created_at, charges_customers.tags
       FROM charges_customers
       JOIN charges ON charges.id = charges_customers.charge_id
       JOIN customers ON customers.id = charges_customers.customer_id
