@@ -13,14 +13,19 @@ describe Org::InvitationsController do
       email = double()
       expect(email).to receive(:deliver)
       expect(InvitationMailer).to receive(:invitation_email).and_return(email)
-      post :create, organization_id: organization, invitation: { recipient_email: 'foo@bar.com'}, format: 'json'
+      post :create, organization_id: organization, invitation: { recipient_email: 'foo@bar.com'}, format: 'js'
       expect(response).to be_success
+      expect(response).to render_template(:create_success)
+      expect(assigns(:invitation).recipient_email).to eq('foo@bar.com')
+      expect(assigns(:invitation)).to be_persisted
     end
 
     it 'should respond with an error status' do
       expect(InvitationMailer).to_not receive(:invitation_email)
-      post :create, organization_id: organization, invitation: { recipient_email: ''}, format: 'json'
-      expect(response).to_not be_success
+      post :create, organization_id: organization, invitation: { recipient_email: ''}, format: 'js'
+      expect(response).to be_success
+      expect(response).to render_template(:create_error)
+      expect(assigns(:invitation)).to_not be_persisted
     end
   end
 end

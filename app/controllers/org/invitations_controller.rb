@@ -6,12 +6,14 @@ class Org::InvitationsController < Org::OrgController
 
     respond_to do |format|
       if @invitation.save
-        format.json do
+        format.js do
           InvitationMailer.invitation_email(@invitation.id).deliver
-          render json: @invitation, status: :created
+          render :create_success
         end
       else
-        format.json { render json: @invitation.errors.full_messages, status: :unprocessable_entity }
+        format.js do
+          render :create_error
+        end
       end
     end
   end

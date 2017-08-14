@@ -1,0 +1,2 @@
+$('#invitation-status').html("<%= escape_javascript(render partial: 'error_message') %>");
+$("#invitation-form").html("<%= escape_javascript(render(:partial => 'form', locals: { invitation: @invitation})) %>");
