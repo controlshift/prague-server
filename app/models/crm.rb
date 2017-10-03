@@ -2,16 +2,17 @@
 #
 # Table name: crms
 #
-#  id                 :integer          not null, primary key
-#  organization_id    :integer
-#  donation_page_name :string
-#  host               :string
-#  username           :string
-#  encrypted_password :string
-#  created_at         :datetime
-#  updated_at         :datetime
-#  platform           :string
-#  default_currency   :string           default("USD")
+#  id                    :integer          not null, primary key
+#  organization_id       :integer
+#  donation_page_name    :string
+#  host                  :string
+#  username              :string
+#  created_at            :datetime
+#  updated_at            :datetime
+#  platform              :string
+#  default_currency      :string           default("USD")
+#  encrypted_password    :string
+#  encrypted_password_iv :string
 #
 
 class Crm < ActiveRecord::Base
@@ -29,7 +30,6 @@ class Crm < ActiveRecord::Base
   validates :platform, presence: true, inclusion: {in: ['actionkit', 'bluestate']}
   accepts_nested_attributes_for :import_stubs, allow_destroy: true
 
-  attr_encrypted :password_old, key: ENV["OLD_ENCRYPTOR_SECRET_KEY"], algorithm: 'aes-256-cbc', mode: :single_iv_and_salt, insecure_mode: true
   attr_encrypted :password, key: ENV["ENCRYPTOR_SECRET_KEY"]
 
   PLATFORMS = { 'actionkit' => 'ActionKit', 'bluestate' => 'Blue State Digital'}

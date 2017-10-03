@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171003162404) do
+ActiveRecord::Schema.define(version: 20171003182447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,11 +105,10 @@ ActiveRecord::Schema.define(version: 20171003162404) do
     t.string   "donation_page_name"
     t.string   "host"
     t.string   "username"
-    t.string   "encrypted_password_old"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "platform"
-    t.string   "default_currency",       default: "USD"
+    t.string   "default_currency",      default: "USD"
     t.string   "encrypted_password"
     t.string   "encrypted_password_iv"
   end
