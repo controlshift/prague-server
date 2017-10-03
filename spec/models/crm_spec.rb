@@ -2,16 +2,17 @@
 #
 # Table name: crms
 #
-#  id                 :integer          not null, primary key
-#  organization_id    :integer
-#  donation_page_name :string
-#  host               :string
-#  username           :string
-#  encrypted_password :string
-#  created_at         :datetime
-#  updated_at         :datetime
-#  platform           :string
-#  default_currency   :string           default("USD")
+#  id                    :integer          not null, primary key
+#  organization_id       :integer
+#  donation_page_name    :string
+#  host                  :string
+#  username              :string
+#  created_at            :datetime
+#  updated_at            :datetime
+#  platform              :string
+#  default_currency      :string           default("USD")
+#  encrypted_password    :string
+#  encrypted_password_iv :string
 #
 
 require 'spec_helper'
