@@ -49,7 +49,7 @@ gem 'sucker_punch'
 gem 'rack-cors', :require => 'rack/cors'
 
 gem 'devise'
-gem 'attr_encrypted'
+gem 'attr_encrypted', "~> 3.0.0"
 
 gem 'action_kit_rest', git: 'https://github.com/controlshift/action_kit_rest.git'
 gem 'blue_state_digital', git: 'https://github.com/controlshift/blue_state_digital.git'
