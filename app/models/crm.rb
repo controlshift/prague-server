@@ -29,7 +29,7 @@ class Crm < ActiveRecord::Base
   validates :platform, presence: true, inclusion: {in: ['actionkit', 'bluestate']}
   accepts_nested_attributes_for :import_stubs, allow_destroy: true
 
-  attr_encrypted :password_old, key: ENV["ENCRYPTOR_SECRET_KEY"], algorithm: 'aes-256-cbc', mode: :single_iv_and_salt, insecure_mode: true
+  attr_encrypted :password_old, key: ENV["OLD_ENCRYPTOR_SECRET_KEY"], algorithm: 'aes-256-cbc', mode: :single_iv_and_salt, insecure_mode: true
   attr_encrypted :password, key: ENV["ENCRYPTOR_SECRET_KEY"]
 
   PLATFORMS = { 'actionkit' => 'ActionKit', 'bluestate' => 'Blue State Digital'}
