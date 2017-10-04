@@ -17,7 +17,7 @@ describe Org::Settings::StripeController do
 
   describe '#show' do
     it 'should render show' do
-      get :show, organization_id: organization
+      get :show, params: { organization_id: organization }
       expect(response).to be_success
     end
 
@@ -26,7 +26,7 @@ describe Org::Settings::StripeController do
       render_views
 
       it 'should render without error' do
-        get :show, organization_id: organization
+        get :show, params: { organization_id: organization }
         expect(response).to be_success
       end
     end

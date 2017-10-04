@@ -11,7 +11,7 @@ describe Org::SettingsController do
     end
 
     it 'should show the settings page' do
-      get :show, organization_id: organization
+      get :show, params: { organization_id: organization }
       expect(response).to be_success
     end
   end

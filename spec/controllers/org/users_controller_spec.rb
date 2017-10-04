@@ -11,7 +11,7 @@ describe Org::UsersController do
 
   describe 'index' do
     it 'should successfully load' do
-      get :index, organization_id: organization.id
+      get :index, params: { organization_id: organization.id }
       expect(response).to be_success
     end
   end
@@ -20,13 +20,13 @@ describe Org::UsersController do
     let(:other_user) { create(:confirmed_user, organization: organization) }
 
     it 'should be possible to destroy another user' do
-      delete :destroy, organization_id: organization, id: other_user
+      delete :destroy, params: { organization_id: organization, id: other_user }
       expect(response).to be_redirect
       expect(assigns(:user).frozen?).to be_truthy
     end
 
     it 'should not be possible to delete the currently signed in user' do
-      delete :destroy, organization_id: organization, id: user
+      delete :destroy, params: { organization_id: organization, id: user }
       expect(response).to be_redirect
       expect(assigns(:user).frozen?).to be_falsey
     end

@@ -8,7 +8,7 @@ describe Org::ChargesController do
     before(:each) do
       allow(controller).to receive(:current_organization).and_return( organization )
       sign_in user
-      get :index, organization_id: organization
+      get :index, params: { organization_id: organization }
     end
 
     it 'should return a list of charges' do

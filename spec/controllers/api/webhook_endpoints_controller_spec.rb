@@ -24,7 +24,7 @@ describe Api::WebhookEndpointsController do
 
   describe '#create' do
     it 'should allow creation of webhook endpoints' do
-      post :create, webhook_endpoint: { name: 'foo', url: 'https://www.google.com/', username: 'u', password: 'p'}
+      post :create, params: { webhook_endpoint: { name: 'foo', url: 'https://www.google.com/', username: 'u', password: 'p'} }
       expect(assigns(:webhook).name).to eq('foo')
       expect(assigns(:webhook).username).to eq('u')
       expect(assigns(:webhook).password).to eq('p')
@@ -33,7 +33,7 @@ describe Api::WebhookEndpointsController do
     end
 
     it 'should not allow creation of invalid webhook endpoints' do
-      post :create, webhook_endpoint: { name: '', url: 'https://www.google.com/'}
+      post :create, params: { webhook_endpoint: { name: '', url: 'https://www.google.com/'} }
       expect(assigns(:webhook).persisted?).to be_falsey
     end
   end
@@ -42,7 +42,7 @@ describe Api::WebhookEndpointsController do
     let(:webhook_endpoint) { create(:webhook_endpoint, organization: organization) }
 
     it 'should allow deletes of endpoints' do
-      delete :destroy, id: webhook_endpoint
+      delete :destroy, params: { id: webhook_endpoint }
       expect(response).to be_success
       expect(JSON.parse(response.body)).to eq({'status' => 'success'})
       expect { WebhookEndpoint.find(webhook_endpoint.id) }.to raise_error(ActiveRecord::RecordNotFound)

@@ -13,7 +13,7 @@ describe Org::NamespacesController do
 
   describe 'index' do
     it 'should render' do
-      get :index, organization_id: organization
+      get :index, params: { organization_id: organization }
       expect(assigns(:namespaces)).not_to be_nil
       expect(response).to be_success
     end
@@ -21,7 +21,7 @@ describe Org::NamespacesController do
 
   describe 'show' do
     it 'should render' do
-      get :show, id: namespace.namespace, organization_id: organization
+      get :show, params: { id: namespace.namespace, organization_id: organization }
       expect(assigns(:namespace)).to eq(namespace)
     end
   end

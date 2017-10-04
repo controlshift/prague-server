@@ -13,7 +13,7 @@ describe Org::TagsController do
 
   describe 'index' do
     it 'should render' do
-      get :index, organization_id: organization
+      get :index, params: { organization_id: organization }
 
       expect(response).to be_success
       expect(assigns(:tags)).not_to be_nil
@@ -22,7 +22,7 @@ describe Org::TagsController do
 
   describe 'show' do
     it 'should render' do
-      get :show, id: tag.name, organization_id: organization
+      get :show, params: { id: tag.name, organization_id: organization }
 
       expect(response).to be_success
       expect(assigns(:tag)).to eq(tag)
