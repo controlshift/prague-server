@@ -40,7 +40,11 @@ module Queries
     end
 
     def sql_for_batch(batch_size, primary_key_offset)
-      "#{sql} AND #{klass.table_name}.id > #{ActiveRecord::Base.sanitize(primary_key_offset)} ORDER BY #{klass.table_name}.id LIMIT #{ActiveRecord::Base.sanitize(batch_size)}"
+      ActiveRecord::Base.send(:sanitize_sql_array,
+        ["#{sql} AND #{klass.table_name}.id > :primary_key_offset
+          ORDER BY #{klass.table_name}.id LIMIT :batch_size",
+          primary_key_offset: primary_key_offset, batch_size: batch_size
+        ])
     end
 
 
