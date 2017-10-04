@@ -30,9 +30,6 @@ module PragueServer
 
     config.assets.paths << "#{Rails.root}/vendor/assets/fonts"
 
-    # this is in prep for rails 5
-    config.active_record.raise_in_transactional_callbacks = true
-
     # This seems like it should be a temporary solution. Even
     # though this platform is an API, we should be using API keys
     # to verify the client if more functionality is added.

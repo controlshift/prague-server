@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.3.4'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.9'
+gem 'rails', '5.1.4'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -67,7 +67,6 @@ gem 'analytics-ruby'
 
 group :development do
   gem 'letter_opener'
-  gem 'quiet_assets'
 end
 
 group :development, :test do
@@ -78,7 +77,6 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-byebug'
   gem 'byebug'
-  gem 'mailcatcher'
   gem 'thin'
   gem 'faker'
 end
