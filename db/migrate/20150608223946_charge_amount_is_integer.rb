@@ -1,4 +1,4 @@
-class ChargeAmountIsInteger < ActiveRecord::Migration
+class ChargeAmountIsInteger < ActiveRecord::Migration[4.2]
   def up
     connection.execute(%q{
     alter table charges

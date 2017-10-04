@@ -1,4 +1,4 @@
-class RemoveAdminUsers < ActiveRecord::Migration
+class RemoveAdminUsers < ActiveRecord::Migration[4.2]
   def up
     drop_table :admin_users
     add_column :users, :admin, :boolean, default: false

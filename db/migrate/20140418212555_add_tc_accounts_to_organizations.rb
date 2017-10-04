@@ -1,4 +1,4 @@
-class AddTcAccountsToOrganizations < ActiveRecord::Migration
+class AddTcAccountsToOrganizations < ActiveRecord::Migration[4.2]
   def change
     change_table(:organizations) do |t|
       ## Database authenticatable

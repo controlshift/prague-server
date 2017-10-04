@@ -1,4 +1,4 @@
-class AddDeviseToOrganizations < ActiveRecord::Migration
+class AddDeviseToOrganizations < ActiveRecord::Migration[4.2]
   def self.up
     change_table(:organizations) do |t|
 
