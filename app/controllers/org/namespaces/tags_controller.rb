@@ -1,5 +1,5 @@
 class Org::Namespaces::TagsController < Org::OrgController
-  before_filter :load_namespace
+  before_action :load_namespace
 
   def index
     @tags = @namespace.tags.paginate(per_page: 100, page: params[:page])

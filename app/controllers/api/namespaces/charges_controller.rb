@@ -1,5 +1,5 @@
 class Api::Namespaces::ChargesController < Api::BaseController
-  before_filter :load_namespace
+  before_action :load_namespace
 
   def index
     render json: @namespace.charges.live.paid.order('created_at DESC').paginate(per_page: 100, page: params[:page])

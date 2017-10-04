@@ -1,7 +1,6 @@
 class Admin::UsersController < ApplicationController
-  before_filter { authorize! :manage, :all }
-
-  before_filter :load_user, except: [:index]
+  before_action { authorize! :manage, :all }
+  before_action :load_user, except: [:index]
 
   def index
     users_relation = if params[:admins].to_s == 'true'

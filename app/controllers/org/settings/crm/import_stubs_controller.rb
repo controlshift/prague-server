@@ -1,5 +1,5 @@
 class Org::Settings::Crm::ImportStubsController < Org::OrgController
-  before_filter :load_crm
+  before_action :load_crm
 
   def new
     @stub = @crm.import_stubs.build

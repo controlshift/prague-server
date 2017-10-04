@@ -1,5 +1,5 @@
 class Admin::OrganizationsController < ApplicationController
-  before_filter { authorize! :manage, :all }
+  before_action { authorize! :manage, :all }
 
   def index
     @organizations = Organization.all

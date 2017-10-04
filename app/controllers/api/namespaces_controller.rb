@@ -1,5 +1,5 @@
 class Api::NamespacesController < Api::BaseController
-  before_filter :load_namespace, only: [:show, :raised, :history]
+  before_action :load_namespace, only: [:show, :raised, :history]
 
   def index
     render json: current_resource_owner.namespaces.collect{|n| n.namespace}
