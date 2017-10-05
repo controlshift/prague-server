@@ -20,7 +20,7 @@
 #  external_new_member  :boolean
 #
 
-class Charge < ActiveRecord::Base
+class Charge < ApplicationRecord
   include LiveMode
 
   belongs_to :customer

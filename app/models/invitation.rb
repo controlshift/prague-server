@@ -13,7 +13,7 @@
 #  invitation_accepted_at :datetime
 #
 
-class Invitation < ActiveRecord::Base
+class Invitation < ApplicationRecord
   belongs_to :sender, class_name: 'User'
   belongs_to :organization
   has_one :recipient, class_name: 'User'

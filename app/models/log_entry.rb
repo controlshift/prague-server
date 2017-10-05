@@ -9,7 +9,7 @@
 #  updated_at :datetime
 #
 
-class LogEntry < ActiveRecord::Base
+class LogEntry < ApplicationRecord
   belongs_to :charge
 
   validates :message, presence: true

@@ -10,7 +10,7 @@
 #  updated_at        :datetime
 #
 
-class ImportStub < ActiveRecord::Base
+class ImportStub < ApplicationRecord
   belongs_to :crm
 
   validates :payment_account, presence: true

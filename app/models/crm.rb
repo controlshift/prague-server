@@ -15,7 +15,7 @@
 #  encrypted_password_iv :string
 #
 
-class Crm < ActiveRecord::Base
+class Crm < ApplicationRecord
   belongs_to :organization
 
   has_many :import_stubs, dependent: :destroy

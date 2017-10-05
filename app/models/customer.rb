@@ -14,7 +14,7 @@
 #  status         :string           default("live")
 #
 
-class Customer < ActiveRecord::Base
+class Customer < ApplicationRecord
   include LiveMode
 
   has_many :charges, inverse_of: :customer
@@ -34,7 +34,7 @@ class Customer < ActiveRecord::Base
 
   def self.find_or_initialize(customer_params, status: nil)
     customer = where(status: status, email: customer_params[:email].try(:downcase)).first
-    if customer.present? 
+    if customer.present?
       customer.assign_attributes(customer_params.except(:charges_attributes))
     else
       customer = Customer.new(customer_params.except(:charges_attributes))

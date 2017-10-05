@@ -9,7 +9,7 @@
 #  updated_at      :datetime
 #
 
-class TagNamespace < ActiveRecord::Base
+class TagNamespace < ApplicationRecord
   validates :namespace, presence: true, uniqueness: {scope: 'organization_id' }
   validates :organization, presence: true
 
