@@ -242,9 +242,7 @@ GEM
       mime-types (>= 1.16, < 4)
     memcachier (0.0.2)
     method_source (0.9.0)
-    mime-types (3.1)
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2016.0521)
+    mime-types (2.99.3)
     mini_portile2 (2.3.0)
     minitest (5.10.3)
     multi_json (1.12.2)
@@ -341,10 +339,10 @@ GEM
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
-    rest-client (2.0.2)
+    rest-client (1.8.0)
       http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 4.0)
-      netrc (~> 0.8)
+      mime-types (>= 1.16, < 3.0)
+      netrc (~> 0.7)
     rspec (3.6.0)
       rspec-core (~> 3.6.0)
       rspec-expectations (~> 3.6.0)
@@ -404,12 +402,12 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    stripe (1.58.0)
-      rest-client (>= 1.4, < 4.0)
-    stripe-ruby-mock (2.4.1)
+    stripe (1.41.0)
+      rest-client (~> 1.4)
+    stripe-ruby-mock (2.3.1)
       dante (>= 0.2.0)
       multi_json (~> 1.0)
-      stripe (>= 1.31.0, <= 1.58.0)
+      stripe (~> 1.31)
     sucker_punch (2.0.4)
       concurrent-ruby (~> 1.0.0)
     temple (0.8.0)
@@ -513,8 +511,8 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   sprockets
-  stripe
-  stripe-ruby-mock
+  stripe (= 1.41.0)
+  stripe-ruby-mock (= 2.3.1)
   stripe_event!
   sucker_punch
   thin

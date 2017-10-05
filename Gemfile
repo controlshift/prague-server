@@ -29,7 +29,7 @@ gem 'jbuilder'
 
 gem 'omniauth'
 gem 'omniauth-stripe-connect'
-gem 'stripe'
+gem 'stripe', '1.41.0'
 gem 'stripe_event', git: 'https://github.com/controlshift/stripe_event.git'
 gem 'haml-rails'
 gem 'doorkeeper'
@@ -84,7 +84,7 @@ end
 group :test do
   gem 'guard'
   gem 'guard-rspec', require: false
-  gem 'stripe-ruby-mock', :require => 'stripe_mock'
+  gem 'stripe-ruby-mock', '2.3.1', require: 'stripe_mock'
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'rails-controller-testing'
