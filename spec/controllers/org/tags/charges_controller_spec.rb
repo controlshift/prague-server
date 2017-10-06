@@ -12,7 +12,7 @@ describe Org::Tags::ChargesController do
   end
 
   it 'should get index' do
-    get :index, tag_id: tag, organization_id: organization, format: 'csv'
+    get :index, params: { tag_id: tag, organization_id: organization }, format: 'csv'
 
     expect(response).to be_success
   end

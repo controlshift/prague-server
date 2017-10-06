@@ -1,5 +1,5 @@
 class Org::NamespacesController < Org::OrgController
-  before_filter :load_namespace, only: [:show, :raised]
+  before_action :load_namespace, only: [:show, :raised]
 
   def index
     @namespaces = current_organization.namespaces.paginate(per_page: 100, page: params[:page])

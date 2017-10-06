@@ -15,7 +15,7 @@ describe OrganizationsController do
         StripeMock.start
         organization.stripe_user_id = account.id
         organization.save!
-        get :show, id: organization
+        get :show, params: { id: organization }
       end
 
       after(:each) { StripeMock.stop }
@@ -29,7 +29,7 @@ describe OrganizationsController do
     describe 'deauthorize' do
       let(:organization) { create(:organization, access_token: 'foo') }
       before(:each) do
-        put :deauthorize, id: organization
+        put :deauthorize, params: { id: organization }
       end
 
       it 'should show an organization' do
@@ -42,7 +42,7 @@ describe OrganizationsController do
       context 'test mode false' do
         let(:organization) { create(:organization, testmode: false) }
         before(:each) do
-          put :toggle, id: organization, organization: { testmode: true }, _method: 'PATCH', format: 'js'
+          patch :toggle, params: { id: organization, organization: { testmode: true } }, format: 'js'
         end
 
         it 'should toggle to true' do
@@ -58,7 +58,7 @@ describe OrganizationsController do
     end
 
     it 'should be unauthorized' do
-      get :show, id: organization
+      get :show, params: { id: organization }
       expect(response).to be_redirect
     end
   end

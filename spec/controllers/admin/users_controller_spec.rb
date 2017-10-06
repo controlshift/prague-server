@@ -20,7 +20,7 @@ describe Admin::UsersController do
     end
 
     it 'should only list admins if param present' do
-      get :index, admins: true
+      get :index, params: { admins: true }
 
       expect(response.status).to eq 200
       expect(assigns[:users]).to match_array([admin])
@@ -31,7 +31,7 @@ describe Admin::UsersController do
     let(:user) { create(:user) }
 
     it 'should assign user and render edit template' do
-      get :edit, id: user
+      get :edit, params: { id: user }
 
       expect(response).to render_template(:edit)
       expect(assigns[:user]).to eq user
@@ -42,7 +42,7 @@ describe Admin::UsersController do
     let(:user) { create(:user) }
 
     it 'should update user and redirect' do
-      patch :update, id: user, user: {admin: '1'}
+      patch :update, params: { id: user, user: {admin: '1'} }
 
       expect(response).to redirect_to(admin_users_path)
       expect(flash[:notice]).to eq 'User successfully updated'

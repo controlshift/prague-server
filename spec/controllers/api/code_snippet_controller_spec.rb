@@ -16,13 +16,13 @@ describe Api::CodeSnippetController do
     end
 
     it 'includes the specified tags in the code snippet' do
-      get :show, tags: 'foo,bar-1,baz-1-2-3'
+      get :show, params: { tags: 'foo,bar-1,baz-1-2-3' }
       expect(response.body).to eq(organization.code_snippet(tags: ['foo', 'bar-1', 'baz-1-2-3']).to_html)
     end
 
     it 'raises an error if passed invalid tags' do
       expect {
-        get :show, tags: ['alert("I am doing something unsavoury!");\\\\']
+        get :show, params: { tags: ['alert("I am doing something unsavoury!");\\\\'] }
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
@@ -35,13 +35,13 @@ describe Api::CodeSnippetController do
     end
 
     it 'includes the specified tags in the code snippet' do
-      get :parameters, tags: 'foo,bar-1,baz-1-2-3'
+      get :parameters, params: { tags: 'foo,bar-1,baz-1-2-3' }
       expect(JSON::load(response.body)['data-tags']).to eq('foo,bar-1,baz-1-2-3')
     end
 
     it 'raises an error if passed invalid tags' do
       expect {
-        get :parameters, tags: ['alert("I am doing something unsavoury!");\\\\']
+        get :parameters, params: { tags: ['alert("I am doing something unsavoury!");\\\\'] }
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end

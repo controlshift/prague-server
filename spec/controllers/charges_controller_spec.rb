@@ -28,7 +28,7 @@ describe ChargesController do
       it 'should save and process the customer' do
         expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
 
-        post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug
+        post :create, params: { customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug }
 
         customer = Customer.where(email: valid_customer_parameters['email']).first
         expect(Customer.count).to eq 1
@@ -45,7 +45,7 @@ describe ChargesController do
         it 'should create a charge and link it properly' do
           expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
 
-          post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug
+          post :create, params: { customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug }
 
           expect(response).to be_success
           expect(customer.charges).not_to be_empty
@@ -56,7 +56,7 @@ describe ChargesController do
       let(:config_parameters) { { 'ak_test' => 'foo' } }
 
       it 'should allow me to pass arbitrary config parameters' do
-        post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug, config: config_parameters
+        post :create, params: { customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug, config: config_parameters }
 
         customer = Customer.where(email: valid_customer_parameters['email']).first
         charge = customer.charges.first
@@ -66,13 +66,13 @@ describe ChargesController do
       it 'should complain if I do not give it a pusher token' do
         new_params = valid_customer_parameters['charges_attributes'].delete('pusher_channel_token')
 
-        post :create, customer: new_params, card_token: valid_card_token, organization_slug: organization.slug, config: config_parameters
+        post :create, params: { customer: new_params, card_token: valid_card_token, organization_slug: organization.slug, config: config_parameters }
 
         expect(response).not_to be_success
       end
 
       it 'should complain if organization is invalid' do
-        post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: 'zzz'
+        post :create, params: { customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: 'zzz' }
 
         expect(response).not_to be_success
         expect(response.body).to match(/does not exist/)
@@ -81,7 +81,7 @@ describe ChargesController do
       it 'should complain if the email address is missing' do
         valid_customer_parameters.delete('email')
 
-        post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug, config: config_parameters
+        post :create, params: { customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug, config: config_parameters }
 
         expect(response).not_to be_success
         expect(response.body).to match(/blank/)
@@ -90,7 +90,7 @@ describe ChargesController do
       it 'should tag the charge' do
         expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
 
-        post :create, customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug, tags: ['foo', 'bar']
+        post :create, params: { customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug, tags: ['foo', 'bar'] }
 
         customer = Customer.where(email: valid_customer_parameters['email']).first
         expect(Customer.count).to eq 1
@@ -234,7 +234,7 @@ describe ChargesController do
       it 'should save and process the customer' do
         expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
 
-        post :create, params
+        post :create, params: params
 
         expect(response).to be_success
 
@@ -252,7 +252,7 @@ describe ChargesController do
         it 'should save and process the customer' do
           expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
 
-          post :create, params
+          post :create, params: params
 
           expect(response).to be_success
         end

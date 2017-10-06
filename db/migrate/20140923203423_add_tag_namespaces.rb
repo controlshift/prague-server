@@ -1,4 +1,4 @@
-class AddTagNamespaces < ActiveRecord::Migration
+class AddTagNamespaces < ActiveRecord::Migration[4.2]
   def change
     create_table :tag_namespaces do |t|
       t.integer :organization_id

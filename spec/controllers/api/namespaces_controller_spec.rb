@@ -13,7 +13,7 @@ describe Api::NamespacesController do
 
   describe 'show' do
     it 'responds with 200' do
-      get :show, id: 'foo'
+      get :show, params: { id: 'foo' }
       expect(response.status).to eq(200)
       expect(assigns(:namespace)).to eq(namespace)
       expect(JSON.parse(response.body)['namespace']).to eq('foo')
@@ -22,13 +22,13 @@ describe Api::NamespacesController do
 
   describe 'history' do
     it 'responds with 200' do
-      get :history, id: 'foo', days: 7
+      get :history, params: { id: 'foo', days: 7 }
       expect(response.status).to eq(200)
       expect(JSON.parse(response.body)['namespace']).to eq('foo')
     end
 
     it 'should include historical data' do
-      get :history, id: 'foo'
+      get :history, params: { id: 'foo' }
       json = JSON.parse(response.body)
       expect(json).to have_key('charges_count')
       expect(json).to have_key('raised_amount')
@@ -53,13 +53,13 @@ describe Api::NamespacesController do
     end
 
     it 'responds with 200' do
-      get :raised, id: namespace
+      get :raised, params: { id: namespace }
 
       expect(response.status).to eq(200)
     end
 
     it "returns top ranked tags" do
-      get :raised, id: namespace
+      get :raised, params: { id: namespace }
 
       most_raised_tags = JSON.parse(response.body)
 

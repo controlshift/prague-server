@@ -1,5 +1,5 @@
 class Org::Tags::ChargesController < Org::OrgController
-  before_filter :load_tag
+  before_action :load_tag
 
   def index
     respond_to do |format|

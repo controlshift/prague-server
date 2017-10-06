@@ -20,7 +20,7 @@ describe Api::Namespaces::ChargesController do
     end
 
     it 'should get a list of charges in the namespace' do
-      get :index, namespace_id: namespace.namespace
+      get :index, params: { namespace_id: namespace.namespace }
       expect(response).to be_success
       expect(JSON.parse(response.body).first['amount'].to_i).to eq(charge.amount)
     end

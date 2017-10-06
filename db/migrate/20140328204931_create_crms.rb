@@ -1,4 +1,4 @@
-class CreateCrms < ActiveRecord::Migration
+class CreateCrms < ActiveRecord::Migration[4.2]
   def change
     create_table :crms do |t|
       t.belongs_to :organization, index: true

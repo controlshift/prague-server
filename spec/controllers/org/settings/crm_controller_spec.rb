@@ -10,18 +10,18 @@ describe Org::Settings::CrmController do
   end
 
   it 'should render new' do
-    xhr :get, :new, organization_id: organization, crm: {platform: 'actionkit'}
+    get :new, params: { organization_id: organization, crm: {platform: 'actionkit'} }, xhr: true
     expect(response).to be_success
     expect(assigns(:crm)).to_not be_nil
   end
 
   it 'should render edit' do
-    xhr :get, :edit, organization_id: organization
+    get :edit, params: { organization_id: organization }, xhr: true
     expect(response).to be_success
   end
 
   it 'should render show' do
-    xhr :get, :show, organization_id: organization
+    get :show, params: { organization_id: organization }, xhr: true
     expect(response).to be_success
   end
 end

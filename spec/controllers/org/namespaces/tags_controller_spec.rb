@@ -13,7 +13,7 @@ describe Org::Namespaces::TagsController do
   end
 
   it 'should get index' do
-    get :index, namespace_id: namespace, organization_id: organization
+    get :index, params: { namespace_id: namespace, organization_id: organization }
     expect(response).to be_success
     expect(assigns(:tags)).to include(tag)
   end

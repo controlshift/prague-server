@@ -9,6 +9,6 @@ class NotificationAction
 
   def call
     CrmNotificationWorker.perform_async(charge.id)
-    ChargeNotificationMailer.delay.send_receipt(charge.id)
+    ChargeNotificationMailer.send_receipt(charge.id).deliver_later
   end
 end

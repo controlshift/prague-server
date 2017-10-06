@@ -23,7 +23,7 @@
 #  admin                  :boolean          default(FALSE)
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   devise :rememberable, :trackable, :database_authenticatable, :validatable, :confirmable, :recoverable, :registerable
 
   belongs_to :organization

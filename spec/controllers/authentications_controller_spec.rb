@@ -16,13 +16,13 @@ describe AuthenticationsController do
       end
 
       it 'should redirect to the organization view path if there is no redirect set' do
-        get :create, provider: 'stripe'
+        get :create, params: { provider: 'stripe' }
         expect(response).to redirect_to(organization)
       end
 
       it 'should redirect to the a place specified in the session' do
         session['user_return_to'] = '/some/other/path'
-        get :create, provider: 'stripe'
+        get :create, params: { provider: 'stripe' }
         expect(response).to redirect_to('/some/other/path')
       end
     end

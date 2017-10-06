@@ -1,5 +1,5 @@
 class Org::Settings::CrmController < Org::OrgController
-  before_filter :load_crm
+  before_action :load_crm
 
   def show
   end

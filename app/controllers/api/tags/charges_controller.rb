@@ -1,5 +1,5 @@
 class Api::Tags::ChargesController < Api::BaseController
-  before_filter :load_tag
+  before_action :load_tag
 
   def index
     @charges = @tag.charges.live.paid.order('created_at DESC').paginate(per_page: 100, page: params[:page])

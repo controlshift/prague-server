@@ -10,7 +10,7 @@
 #  namespace_id    :integer
 #
 
-class Tag < ActiveRecord::Base
+class Tag < ApplicationRecord
   belongs_to :organization
   belongs_to :namespace, class_name: 'TagNamespace', foreign_key: 'namespace_id'
   has_and_belongs_to_many :charges

@@ -1,4 +1,4 @@
-class AddIndexOnEmailToCustomers < ActiveRecord::Migration
+class AddIndexOnEmailToCustomers < ActiveRecord::Migration[4.2]
   def change
     associations = [:has_one, :has_many].inject([]) do |names, assoc|
       names += Customer.reflect_on_all_associations(assoc).map(&:name)

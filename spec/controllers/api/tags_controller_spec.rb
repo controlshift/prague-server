@@ -22,18 +22,18 @@ describe Api::TagsController do
 
   describe 'show' do
     it 'responds with 200' do
-      get :show, id: 'foo'
+      get :show, params: { id: 'foo' }
       expect(response.status).to eq(200)
       expect(JSON.parse(response.body)['name']).to eq('foo')
     end
 
     it 'should include the display amount for the total' do
-      get :show, id: 'foo'
+      get :show, params: { id: 'foo' }
       expect(JSON.parse(response.body)).to have_key('total_raised_display_amount')
     end
 
     it 'should include the base and display average charge amount' do
-      get :show, id: 'foo'
+      get :show, params: { id: 'foo' }
       expect(JSON.parse(response.body)).to have_key('average_charge_amount')
       expect(JSON.parse(response.body)).to have_key('average_charge_display_amount')
     end
@@ -42,13 +42,13 @@ describe Api::TagsController do
 
   describe 'history' do
     it 'responds with 200' do
-      get :history, id: 'foo', days: 7
+      get :history, params: { id: 'foo', days: 7 }
       expect(response.status).to eq(200)
       expect(JSON.parse(response.body)['name']).to eq('foo')
     end
 
     it 'should include historical data' do
-      get :history, id: 'foo'
+      get :history, params: { id: 'foo' }
       json = JSON.parse(response.body)
       expect(json).to have_key('charges_count')
       expect(json).to have_key('raised_amount')

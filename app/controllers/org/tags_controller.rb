@@ -1,5 +1,5 @@
 class Org::TagsController < Org::OrgController
-  before_filter :load_tag, only: [:show]
+  before_action :load_tag, only: [:show]
 
   def index
     @tags = current_organization.tags.paginate(per_page: 100, page: params[:page])

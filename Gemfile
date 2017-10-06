@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.3.4'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.9'
+gem 'rails', '5.1.4'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -29,7 +29,7 @@ gem 'jbuilder'
 
 gem 'omniauth'
 gem 'omniauth-stripe-connect'
-gem 'stripe'
+gem 'stripe', '1.41.0'
 gem 'stripe_event', git: 'https://github.com/controlshift/stripe_event.git'
 gem 'haml-rails'
 gem 'doorkeeper'
@@ -67,7 +67,6 @@ gem 'analytics-ruby'
 
 group :development do
   gem 'letter_opener'
-  gem 'quiet_assets'
 end
 
 group :development, :test do
@@ -78,7 +77,6 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-byebug'
   gem 'byebug'
-  gem 'mailcatcher'
   gem 'thin'
   gem 'faker'
 end
@@ -86,9 +84,10 @@ end
 group :test do
   gem 'guard'
   gem 'guard-rspec', require: false
-  gem 'stripe-ruby-mock', :require => 'stripe_mock'
+  gem 'stripe-ruby-mock', '2.3.1', require: 'stripe_mock'
   gem 'database_cleaner'
   gem 'rspec-rails'
+  gem 'rails-controller-testing'
   gem 'factory_girl_rails'
   gem 'launchy'
   gem 'capybara'

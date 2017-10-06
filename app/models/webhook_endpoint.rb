@@ -12,7 +12,7 @@
 #  password        :string
 #
 
-class WebhookEndpoint < ActiveRecord::Base
+class WebhookEndpoint < ApplicationRecord
   belongs_to :organization
 
   validates :url, presence: true,  uniqueness: { :scope => :organization_id }, url: true

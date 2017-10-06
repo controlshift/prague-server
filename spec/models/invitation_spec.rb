@@ -19,9 +19,9 @@ describe Invitation do
   let(:organization) { create(:organization) }
   let(:user) { create(:confirmed_user, organization: organization) }
 
-  it { should validate_presence_of :sender }
-  it { should validate_presence_of :organization }
-  it { should validate_presence_of :recipient_email }
+  it { is_expected.to validate_presence_of :sender }
+  it { is_expected.to validate_presence_of :organization }
+  it { is_expected.to validate_presence_of :recipient_email }
 
   describe '#token' do
     it 'should not be nil after validation' do
@@ -48,9 +48,9 @@ describe Invitation do
   end
 
   describe "email addresses" do
-    it { should allow_value('george@washington.com').for(:recipient_email) }
-    it { should allow_value('george@ul.we.you.us').for(:recipient_email) }
-    it { should_not allow_value('fooooooo bar bar gooooof   fooooof fofofofoosd fooooooo bar bar gooooof   fooooof fofofofoosd fooooooo bar bar gooooof   fooooof fofofofoosd fooooooo bar bar gooooof   fooooof fofofofoosd').for(:recipient_email) }
+    it { is_expected.to allow_value('george@washington.com').for(:recipient_email) }
+    it { is_expected.to allow_value('george@ul.we.you.us').for(:recipient_email) }
+    it { is_expected.not_to allow_value('fooooooo bar bar gooooof   fooooof fofofofoosd fooooooo bar bar gooooof   fooooof fofofofoosd fooooooo bar bar gooooof   fooooof fofofofoosd fooooooo bar bar gooooof   fooooof fofofofoosd').for(:recipient_email) }
   end
 
   describe '#recipient_is_not_member' do
@@ -59,7 +59,7 @@ describe Invitation do
 
     it 'should not add an error without another organization' do
       invitation.send(:recipient_is_not_member)
-      expect(invitation.errors.messages[:recipient_email]).to be_nil
+      expect(invitation.errors.messages[:recipient_email]).to be_empty
     end
 
     context 'with an organization' do
@@ -68,7 +68,7 @@ describe Invitation do
 
       it 'should add an error without another organization' do
         invitation.send(:recipient_is_not_member)
-        expect(invitation.errors.messages[:recipient_email]).to be_present
+        expect(invitation.errors.messages[:recipient_email]).not_to be_empty
       end
     end
   end
@@ -79,7 +79,7 @@ describe Invitation do
     it 'should add an error when sender is in another organization' do
       invitation = build(:invitation, organization: create(:organization), sender: sender)
       invitation.send(:sender_is_member)
-      expect(invitation.errors.messages[:sender_id]).to be_present
+      expect(invitation.errors.messages[:sender_id]).not_to be_empty
     end
 
     context 'sender is admin' do
@@ -88,14 +88,14 @@ describe Invitation do
       it 'should not add an error when sender is in the same organization' do
         invitation = build(:invitation, sender: sender)
         invitation.send(:sender_is_member)
-        expect(invitation.errors.messages[:sender_id]).to_not be_present
+        expect(invitation.errors.messages[:sender_id]).to be_empty
       end
     end
 
     it 'should not add an error when sender is in the same organization' do
       invitation = build(:invitation, organization: organization, sender: sender)
       invitation.send(:sender_is_member)
-      expect(invitation.errors.messages[:sender_id]).to_not be_present
+      expect(invitation.errors.messages[:sender_id]).to be_empty
     end
   end
 end

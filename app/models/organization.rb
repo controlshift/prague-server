@@ -18,7 +18,7 @@
 #  stripe_test_access_token    :string
 #
 
-class Organization < ActiveRecord::Base
+class Organization < ApplicationRecord
   store_accessor :global_defaults, :currency, :seedamount, :seedvalues, :redirectto, :thank_you_text, :country, :contact_email
 
   CURRENCIES = ["USD", "EUR", "AUD", "CAN", "GBP", "NZD", "NOK", "DKK", "SEK", "CHF"]

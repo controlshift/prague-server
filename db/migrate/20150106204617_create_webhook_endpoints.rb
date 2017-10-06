@@ -1,4 +1,4 @@
-class CreateWebhookEndpoints < ActiveRecord::Migration
+class CreateWebhookEndpoints < ActiveRecord::Migration[4.2]
   def change
     create_table :webhook_endpoints do |t|
       t.integer :organization_id

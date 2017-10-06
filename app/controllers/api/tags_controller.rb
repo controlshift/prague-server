@@ -1,5 +1,5 @@
 class Api::TagsController < Api::BaseController
-  before_filter :load_tag, only: [:show, :history]
+  before_action :load_tag, only: [:show, :history]
 
   def index
     render json: current_resource_owner.tags.collect{|n| n.name }

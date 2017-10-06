@@ -1,4 +1,4 @@
-class RemoveFieldsFromOrganization < ActiveRecord::Migration
+class RemoveFieldsFromOrganization < ActiveRecord::Migration[4.2]
   def self.up
     remove_column :organizations, :email
     remove_column :organizations, :remember_created_at

@@ -1,4 +1,4 @@
-class MigrateEncryptedPasswordToNewAttrEncryptedVersion < ActiveRecord::Migration
+class MigrateEncryptedPasswordToNewAttrEncryptedVersion < ActiveRecord::Migration[4.2]
   def up
     rename_column :crms, :encrypted_password, :encrypted_password_old
 
