@@ -157,7 +157,7 @@ GEM
       railties (>= 3.2, < 5.2)
     encryptor (3.0.0)
     errbase (0.0.3)
-    erubi (1.6.1)
+    erubi (1.7.0)
     erubis (2.7.0)
     eventmachine (1.2.5)
     execjs (2.7.0)
@@ -441,7 +441,7 @@ GEM
       hashie
     warden (1.2.7)
       rack (>= 1.0)
-    webmock (3.0.1)
+    webmock (3.1.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
