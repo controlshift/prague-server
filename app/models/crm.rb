@@ -30,7 +30,7 @@ class Crm < ApplicationRecord
   validates :platform, presence: true, inclusion: {in: ['actionkit', 'bluestate']}
   accepts_nested_attributes_for :import_stubs, allow_destroy: true
 
-  attr_encrypted :password, key: ENV["ENCRYPTOR_SECRET_KEY"]
+  attr_encrypted :password, key: ENV["ENCRYPTOR_SECRET_KEY"][0..31]
 
   PLATFORMS = { 'actionkit' => 'ActionKit', 'bluestate' => 'Blue State Digital'}
 
