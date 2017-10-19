@@ -88,7 +88,7 @@ describe ChargesController do
       end
 
       it 'should tag the charge' do
-        expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Interger), an_instance_of(String), an_instance_of(Integer))
+        expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Integer), an_instance_of(String), an_instance_of(Integer))
 
         post :create, params: { customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug, tags: ['foo', 'bar'] }
 
