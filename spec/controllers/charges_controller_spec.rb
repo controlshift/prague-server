@@ -26,7 +26,7 @@ describe ChargesController do
       let(:valid_card_token) { StripeMock.generate_card_token(last4: '9191', exp_year: 2015) }
 
       it 'should save and process the customer' do
-        expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
+        expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Integer), an_instance_of(String), an_instance_of(Integer))
 
         post :create, params: { customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug }
 
@@ -43,7 +43,7 @@ describe ChargesController do
         let!(:customer) { create(:customer, email: valid_customer_parameters['email'])}
 
         it 'should create a charge and link it properly' do
-          expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
+          expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Integer), an_instance_of(String), an_instance_of(Integer))
 
           post :create, params: { customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug }
 
@@ -88,7 +88,7 @@ describe ChargesController do
       end
 
       it 'should tag the charge' do
-        expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
+        expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Interger), an_instance_of(String), an_instance_of(Integer))
 
         post :create, params: { customer: valid_customer_parameters, card_token: valid_card_token, organization_slug: organization.slug, tags: ['foo', 'bar'] }
 
@@ -232,7 +232,7 @@ describe ChargesController do
       let(:valid_card_token) { StripeMock.generate_card_token(last4: '9191', exp_year: 2015) }
 
       it 'should save and process the customer' do
-        expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
+        expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Integer), an_instance_of(String), an_instance_of(Integer))
 
         post :create, params: params
 
@@ -250,7 +250,7 @@ describe ChargesController do
         end
 
         it 'should save and process the customer' do
-          expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Fixnum), an_instance_of(String), an_instance_of(Fixnum))
+          expect(CreateCustomerTokenWorker).to receive(:perform_async).with(an_instance_of(Integer), an_instance_of(String), an_instance_of(Integer))
 
           post :create, params: params
 
