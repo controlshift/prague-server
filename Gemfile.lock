@@ -76,7 +76,7 @@ GEM
     arel (8.0.0)
     attr_encrypted (3.0.3)
       encryptor (~> 3.0.0)
-    autoprefixer-rails (7.1.5)
+    autoprefixer-rails (7.1.6)
       execjs
     bcrypt (3.1.11)
     blazer (1.8.0)
@@ -136,7 +136,7 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.2)
-    daemons (1.2.4)
+    daemons (1.2.5)
     dalli (2.7.6)
     dante (0.2.0)
     database_cleaner (1.6.1)
@@ -292,7 +292,7 @@ GEM
     rack (2.0.3)
     rack-cache (1.7.1)
       rack (>= 0.4)
-    rack-cors (1.0.1)
+    rack-cors (1.0.2)
     rack-protection (2.0.0)
       rack
     rack-test (0.7.0)
