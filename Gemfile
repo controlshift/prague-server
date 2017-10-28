@@ -64,6 +64,7 @@ gem 'will_paginate'
 gem 'going_postal'
 gem 'httparty'
 gem 'analytics-ruby'
+gem 'bootsnap', require: false
 
 group :development do
   gem 'letter_opener'
