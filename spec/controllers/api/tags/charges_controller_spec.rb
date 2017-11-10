@@ -39,5 +39,14 @@ describe Api::Tags::ChargesController do
       get :index, params: { tag_id: tag.name }
       expect(JSON.parse(response.body).first).to have_key('stripe_url')
     end
+
+    context 'charge is in a different currency' do
+      let!(:charge) { create(:charge, currency: 'GBP', organization: organization, paid: true)}
+
+      it 'should include the displayable converted amount in the org currency' do
+        get :index, params: { tag_id: tag.name }
+        expect(JSON.parse(response.body).first['display_amount_in_org_currency']).to eq Charge.presentation_amount(charge.converted_amount(organization.currency), organization.currency)
+      end
+    end
   end
 end
