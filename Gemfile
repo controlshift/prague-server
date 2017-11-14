@@ -29,7 +29,7 @@ gem 'jbuilder'
 
 gem 'omniauth'
 gem 'omniauth-stripe-connect'
-gem 'stripe', '1.41.0'
+gem 'stripe', '1.58.0'
 gem 'stripe_event', git: 'https://github.com/controlshift/stripe_event.git'
 gem 'haml-rails'
 gem 'doorkeeper'
