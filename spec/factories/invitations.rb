@@ -13,7 +13,7 @@
 #  invitation_accepted_at :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :invitation do
     recipient_email { Faker::Internet.email }
     association :sender, factory: :user
